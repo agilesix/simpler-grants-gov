@@ -673,9 +673,10 @@
       },
       "email": {
         "type": "string",
+        "minLength": 1,
         "maxLength": 60,
         "format": "email",
-        "description": "An email address.",
+        "description": "An email address.\n\n`globLib:EmailDataType` is minLength 1, maxLength 60, so both bounds are declared here.\n`format: email` already rejects the empty string, which makes the minimum redundant in\npractice -- but the constraint the Grants.gov type states should be stated, not left to\nfollow from another assertion that could be relaxed independently.",
         "title": "Email"
       }
     }

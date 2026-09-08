@@ -22,6 +22,6 @@ model QuestionOrganizationalUnit {
   /** Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity. */
   @UI.label("Division Name")
   @minLength(1)
-  @maxLength(100)
+  @maxLength(30)
   divisionName?: string;
 }

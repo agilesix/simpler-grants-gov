@@ -25,5 +25,7 @@ model QuestionSf424ApplicationType {
   /** Please specify the type of revision. This field is required if E. Other is checked. */
   @UI.label("Other Explanation")
   @Validation.requiredWhen(QuestionSf424ApplicationType.revisionType, Sf424RevisionType.E)
+  @minLength(1)
+  @maxLength(21)
   revisionOtherSpecify?: string;
 }
