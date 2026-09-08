@@ -18,6 +18,7 @@ from .project_performance_site_location import ProjectPerformanceSiteLocation_v4
 from .sf424 import SF424_v4_0
 from .sf424_portable import FORM as SF424Portable_v1_0
 from .sf424_short import SF424Short_v3_0
+from .sf424_short_portable import FORM as SF424ShortPortable_v1_0
 from .sf424a import SF424a_v1_0
 from .sf424b import SF424b_v1_1
 from .sf424c import SF424c_v2_0
@@ -52,6 +53,7 @@ _ALL_FORMS: list[Form] = [
     # the hand-written forms they mirror, with distinct ids, so the two can be
     # compared in one environment.
     SF424Portable_v1_0,
+    SF424ShortPortable_v1_0,
 ]
 
 
