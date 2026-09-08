@@ -9,9 +9,11 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "emit": "npm run build && tsp compile specs/main.tsp",
+    "emit": "npm run build && tsp compile specs/main.tsp && npm run sync",
     "check:types": "npm run check:types --workspaces --if-present",
-    "checks": "npm run build && npm run check:types"
+    "checks": "npm run build && npm run check:types",
+    "sync": "node scripts/sync.mjs",
+    "sync:check": "node scripts/sync.mjs --check"
   },
   "devDependencies": {
     "@typespec/compiler": "^1.13.0",
