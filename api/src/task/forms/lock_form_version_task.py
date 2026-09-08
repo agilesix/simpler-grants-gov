@@ -6,6 +6,7 @@ from pathlib import Path
 import click
 from grants_shared.util.local import error_if_not_local
 
+from src.form_schema.forms._loader import find_form_source
 from src.task.task_blueprint import task_blueprint
 
 logger = logging.getLogger(__name__)
@@ -14,20 +15,19 @@ FORMS_DIR = Path(__file__).parents[2] / "form_schema" / "forms"
 
 
 def compute_version_hash(form_dir: Path, version_dir: Path) -> str:
-    """Return the SHA-256 hex digest of form_json.py + config.py for a version directory.
+    """Return the SHA-256 hex digest of the form definition + config.py for a version directory.
 
-    Always hashes form_json.py first, then config.py, so the digest is stable.
+    The form definition is whichever of form_json.py or form.json the version declares.
+    Always hashes the form definition first, then config.py, so the digest is stable.
     """
-    form_json_path = version_dir / "form_json.py"
+    form_path = find_form_source(version_dir)
     config_path = form_dir / "config.py"
 
-    if not form_json_path.exists():
-        raise FileNotFoundError(f"form_json.py not found: {form_json_path}")
     if not config_path.exists():
         raise FileNotFoundError(f"config.py not found: {config_path}")
 
     h = hashlib.sha256()
-    h.update(form_json_path.read_bytes())
+    h.update(form_path.read_bytes())
     h.update(config_path.read_bytes())
     return h.hexdigest()
 
@@ -51,7 +51,7 @@ def get_version_dir(form_name: str, version: str) -> tuple[Path, Path]:
 
 @task_blueprint.cli.command(
     "lock-form-version",
-    help="Hash form_json.py + config.py for a form version and write to a checksum file.",
+    help="Hash the form definition + config.py for a form version and write to a checksum file.",
 )
 @click.option("--form", required=True, help="Form directory name, e.g. sf424")
 @click.option("--version", required=True, help="Version in MAJOR.MINOR format, e.g. 1.0")
