@@ -1,4 +1,18 @@
-"""XSD validation coverage for generated application XML."""
+"""XSD validation coverage for generated application XML.
+
+`test_generated_xml_validates_against_xsd` is parametrized over `VALID_APPLICATION` and
+five variants of it. Each variant changes one field to a value the SF-424 form accepts and
+`SF424_4_0-V4.0.xsd` rejects, and each is marked `xfail(strict=True)`: the check below
+fails on them as the form ships today.
+
+That the form accepts each value is asserted, not assumed --
+`tests/src/form_schema/form_spec/test_xml_defects.py` runs every variant through
+`validate_json_schema` first. They are here rather than in a separate module to
+make the point that nothing about this harness had to change -- only the fixture.
+
+`tests/src/form_schema/form_spec/test_xml_defects.py` covers the other half, where an
+answer is dropped and the document stays valid, which this check cannot see.
+"""
 
 from pathlib import Path
 
@@ -57,6 +71,61 @@ VALID_APPLICATION = {
 }
 
 
+# The form offers the straight apostrophe, U+0027; UniversalCodes-V2.0.xsd declares the
+# typographic one, U+2019. Nothing else about the two strings differs.
+FORM_IVOIRE = "CIV: CÔTE D'IVOIRE"
+
+
+def _application(**changes) -> dict:
+    return {**VALID_APPLICATION, **changes}
+
+
+DEFECTIVE_APPLICATIONS = [
+    pytest.param(
+        _application(applicant={**VALID_APPLICATION["applicant"], "country": FORM_IVOIRE}),
+        id="country-the-code-list-does-not-contain",
+        marks=pytest.mark.xfail(
+            strict=True,
+            reason="the form offers a CIV spelling that codes:CountryCodeDataTypeV3 does not",
+        ),
+    ),
+    pytest.param(
+        _application(federal_estimated_funding="-1000.00"),
+        id="negative-funding-amount",
+        marks=pytest.mark.xfail(
+            strict=True,
+            reason="the form's pattern permits a leading minus; the element's minimum is 0.00",
+        ),
+    ),
+    pytest.param(
+        _application(federal_estimated_funding="99999999999999"),
+        id="funding-amount-above-the-element-maximum",
+        marks=pytest.mark.xfail(
+            strict=True,
+            reason="the form caps the length at 14, not the value at 999999999999.99",
+        ),
+    ),
+    pytest.param(
+        _application(authorized_representative_email="a" * 52 + "@example.org"),
+        id="email-longer-than-the-element-carries",
+        marks=pytest.mark.xfail(
+            strict=True,
+            reason="globLib:EmailDataType caps at 60 characters and the form sets no maxLength",
+        ),
+    ),
+    pytest.param(
+        _application(
+            applicant={**VALID_APPLICATION["applicant"], "province": "Ontario"},
+        ),
+        id="state-and-province-together",
+        marks=pytest.mark.xfail(
+            strict=True,
+            reason="globLib:AddressDataTypeV3 models State and Province as an xs:choice",
+        ),
+    ),
+]
+
+
 @pytest.fixture(scope="module")
 def xsd_validator() -> XSDValidator:
     """Validator wired to the committed XSD directory."""
@@ -64,13 +133,19 @@ def xsd_validator() -> XSDValidator:
     return XSDValidator(XSD_DIR)
 
 
-def test_generated_xml_validates_against_xsd(xsd_validator: XSDValidator) -> None:
+@pytest.mark.parametrize(
+    "application",
+    [pytest.param(VALID_APPLICATION, id="valid"), *DEFECTIVE_APPLICATIONS],
+)
+def test_generated_xml_validates_against_xsd(
+    xsd_validator: XSDValidator, application: dict
+) -> None:
     """Generated XML validates against its committed Grants.gov XSD schema."""
     transform_config = _build_xml_form_map()["SF424_4_0"]
     response = XMLGenerationService().generate_xml(
         XMLGenerationRequest(
             transform_config=transform_config,
-            application_data=VALID_APPLICATION,
+            application_data=application,
             pretty_print=True,
         )
     )

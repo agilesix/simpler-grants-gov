@@ -19,6 +19,9 @@ other values and the same harness reports two kinds of defect:
 import pytest
 
 from src.form_schema.forms import init_form_registry
+from src.form_schema.forms.sf424 import FORM_JSON_SCHEMA as SF424_SCHEMA
+from src.form_schema.jsonschema_resolver import resolve_jsonschema
+from src.form_schema.jsonschema_validator import validate_json_schema
 from src.services.xml_generation.config import _build_xml_form_map
 from src.services.xml_generation.models import XMLGenerationRequest
 from src.services.xml_generation.service import XMLGenerationService
@@ -26,6 +29,9 @@ from src.services.xml_generation.validation.xsd_validator import XSDValidator
 from tests.src.form_schema.form_spec.xml.mappings import sf424 as sf424_record
 from tests.src.services.xml_generation.test_sf424_short_xml_generation import (
     _SNAPSHOT_DATA as SHORT_FIXTURE,
+)
+from tests.src.services.xml_generation.test_xml_validation_cases import (
+    DEFECTIVE_APPLICATIONS,
 )
 from tests.src.services.xml_generation.test_xml_validation_cases import (
     VALID_APPLICATION as SF424_FIXTURE,
@@ -57,16 +63,16 @@ ANSWERS_TO_DROPPED_FIELDS = {
     "contact_person": {
         "first_name": "Ada",
         "last_name": "Lovelace",
-        "prefix": "PREFIX-0001",
+        "prefix": "PREFIX-01",
         "middle_name": "MIDDLE-NAME-0001",
-        "suffix": "SUFFIX-0001",
+        "suffix": "SUFFIX-01",
     },
     "authorized_representative": {
         "first_name": "John",
         "last_name": "Doe",
-        "prefix": "AOR-PREFIX-0001",
+        "prefix": "AORPRFX-01",
         "middle_name": "AOR-MIDDLE-NAME-0001",
-        "suffix": "AOR-SUFFIX-0001",
+        "suffix": "AORSFX-01",
     },
 }
 
@@ -101,6 +107,32 @@ def sf424(**extra) -> dict:
 
 def short(**extra) -> dict:
     return {**SHORT_FIXTURE, **extra}
+
+
+def rejections(data: dict) -> set[tuple[str, str]]:
+    """What the API's own validator objects to in a response."""
+    schema = resolve_jsonschema(SF424_SCHEMA)
+    return {(str(issue.field), issue.message) for issue in validate_json_schema(data, schema)}
+
+
+@pytest.mark.parametrize(
+    "defective",
+    [param.values[0] for param in DEFECTIVE_APPLICATIONS],
+    ids=[param.id for param in DEFECTIVE_APPLICATIONS],
+)
+def test_every_defective_fixture_is_one_the_form_accepts(defective):
+    """The premise of all of this: an applicant could actually submit these values.
+
+    A value the form's own validator rejects can never reach `application_response`, so a
+    schema that will not carry it is a curiosity rather than a defect. Asserting this
+    caught two mistakes: an empty email, which `format: email` rejects, and prefix and
+    suffix answers longer than the form's ten characters.
+    """
+    assert not rejections(defective) - rejections(SF424_FIXTURE)
+
+
+def test_the_answers_to_the_dropped_fields_are_ones_the_form_accepts():
+    assert not rejections(sf424(**ANSWERS_TO_DROPPED_FIELDS)) - rejections(SF424_FIXTURE)
 
 
 def test_their_fixtures_still_validate(validator):
@@ -182,16 +214,6 @@ def test_a_funding_amount_the_form_accepts_cannot_be_submitted(validator, amount
     )
     assert not result["valid"], f"{amount} was accepted -- {why}"
     assert facet in result["error_message"]
-
-
-def test_an_empty_email_the_form_accepts_cannot_be_submitted(validator):
-    """globLib:EmailDataType demands one character, and the transformer excludes only None."""
-    result = validator.validate_xml_for_form(
-        submission("SF424_SHORT_3_0", short(authorized_representative_email="")),
-        "SF424_Short_3_0-V3.0",
-    )
-    assert not result["valid"]
-    assert "XsdMinLengthFacet" in result["error_message"]
 
 
 def test_a_state_and_a_province_together_cannot_be_submitted(validator):

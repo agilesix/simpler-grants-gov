@@ -7,7 +7,7 @@ validates either way.
 """
 
 from ..mapping import WireMapping
-from .constraints import CIV, EMPTY_EMAIL
+from .constraints import CIV, EMPTY_EMAIL, MAX_EMAIL
 
 _NO_RULE = "the mapping declares no rule for this field, so {} is never emitted; the XSD makes it optional, so the submission validates without it"
 
@@ -44,12 +44,7 @@ MAPPING = WireMapping(
         "Applicant.Country/enum": CIV,
         "Email/minLength": EMPTY_EMAIL.format(wire="globLib:EmailDataType"),
         "AuthorizedRepresentativeEmail/minLength": EMPTY_EMAIL.format(wire="globLib:EmailDataType"),
-        "AuthorizedRepresentativeEmail/maxLength": (
-            "globLib:EmailDataType restricts to maxLength 60 and the form sets no maximum, "
-            "so it accepts an address the element cannot carry. Note that box 8f's email is "
-            "capped at 60 on this form while box 21's is not -- the parity suite records the "
-            "same inconsistency from the form-to-form side."
-        ),
+        "AuthorizedRepresentativeEmail/maxLength": MAX_EMAIL,
         **{
             f"{element}/{bound}": (
                 f"SF424_4_0-V4.0.xsd restricts {element} to {low}..{high}, and the form "

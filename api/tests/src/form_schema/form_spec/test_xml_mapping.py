@@ -305,6 +305,26 @@ def test_every_field_can_become_the_type_its_element_expects(form):
 # --- the record itself -----------------------------------------------------
 
 
+def test_every_recorded_entry_gives_a_reason(form):
+    """A register entry without a real reason is an allow-list pretending to be evidence.
+
+    Added after a docstring edit replaced two shared citations with the text of the script
+    that was meant to write them. Nothing read the reasons, so it went unnoticed.
+    """
+    unusable = sorted(
+        f"{register}[{key!r}]: {reason!r}"
+        for register, entries in (
+            ("dropped", form.record.dropped),
+            ("misdirected", form.record.misdirected),
+            ("constraint_gaps", form.record.constraint_gaps),
+            ("unreadable", form.record.unreadable),
+        )
+        for key, reason in entries.items()
+        if len(reason.strip()) < 40 or "{" in reason or "repr(" in reason
+    )
+    assert not unusable, f"{form.record.module}: " + "; ".join(unusable)
+
+
 def test_recorded_gaps_still_exist(form):
     """A recorded gap cannot outlive the problem it describes."""
     _readable(form)
