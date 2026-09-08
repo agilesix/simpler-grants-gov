@@ -62,26 +62,27 @@ def pair(request):
 # --- structure -------------------------------------------------------------
 
 
-def test_mapping_names_only_real_inputs(pair):
-    """An entry naming a field neither form has makes the rest of the mapping meaningless."""
-    m, _, _, generated, handwritten = pair
-    stale = checks.stale_entries(m, generated, handwritten)
-    assert not stale, "mapping entries do not correspond to real inputs:\n" + "\n".join(
-        f"  {d}" for d in stale
-    )
+class TestStructuralParity:
+    """Does the mapping account for both forms, and do corresponding fields agree?"""
 
+    def test_mapping_names_only_real_inputs(self, pair):
+        """An entry naming a field neither form has makes the rest of the mapping meaningless."""
+        m, _, _, generated, handwritten = pair
+        stale = checks.stale_entries(m, generated, handwritten)
+        assert not stale, "mapping entries do not correspond to real inputs:\n" + "\n".join(
+            f"  {d}" for d in stale
+        )
 
-def test_every_input_appears_in_the_mapping(pair):
-    """A field on either side the mapping does not account for."""
-    m, _, _, generated, handwritten = pair
-    missing = checks.unmapped(m, generated, handwritten)
-    assert not missing, "inputs are unaccounted for:\n" + "\n".join(f"  {d}" for d in missing)
+    def test_every_input_appears_in_the_mapping(self, pair):
+        """A field on either side the mapping does not account for."""
+        m, _, _, generated, handwritten = pair
+        missing = checks.unmapped(m, generated, handwritten)
+        assert not missing, "inputs are unaccounted for:\n" + "\n".join(f"  {d}" for d in missing)
 
-
-def test_corresponding_inputs_are_governed_by_the_same_rules(pair):
-    """Every rule that can make a payload invalid, plus requiredness."""
-    m, _, _, generated, handwritten = pair
-    conflicts = checks.rule_conflicts(m, generated, handwritten)
-    assert not conflicts, "corresponding inputs are governed by different rules:\n" + "\n".join(
-        f"  {d}" for d in conflicts
-    )
+    def test_corresponding_inputs_are_governed_by_the_same_rules(self, pair):
+        """Every rule that can make a payload invalid, plus requiredness."""
+        m, _, _, generated, handwritten = pair
+        conflicts = checks.rule_conflicts(m, generated, handwritten)
+        assert not conflicts, "corresponding inputs are governed by different rules:\n" + "\n".join(
+            f"  {d}" for d in conflicts
+        )

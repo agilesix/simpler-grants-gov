@@ -27,69 +27,76 @@ def rendered(mapping, generated, handwritten) -> dict[str, str]:
     return {".".join(k): ".".join(v) for k, v in pairs(mapping, generated, handwritten).items()}
 
 
-def test_matching_paths_correspond_without_being_declared():
-    both = inputs("agency_name", "applicant.street1")
-    assert rendered(NOTHING_DECLARED, both, both) == {
-        "agency_name": "agency_name",
-        "applicant.street1": "applicant.street1",
-    }
-    assert not unmapped(NOTHING_DECLARED, both, both)
+class TestFieldPairing:
+    """Which fields the mapping treats as corresponding."""
+
+    def test_matching_paths_correspond_without_being_declared(self):
+        both = inputs("agency_name", "applicant.street1")
+        assert rendered(NOTHING_DECLARED, both, both) == {
+            "agency_name": "agency_name",
+            "applicant.street1": "applicant.street1",
+        }
+        assert not unmapped(NOTHING_DECLARED, both, both)
 
 
-@pytest.mark.parametrize(
-    ("generated", "handwritten", "expected"),
-    [
-        (inputs("a", "extra"), inputs("a"), "generated input is unmapped: extra"),
-        (inputs("a"), inputs("a", "legacy"), "handwritten input is unmapped: legacy"),
-    ],
-)
-def test_a_field_only_one_form_has_must_be_declared(generated, handwritten, expected):
-    """The check the identity default must not weaken."""
-    assert [str(d) for d in unmapped(NOTHING_DECLARED, generated, handwritten)] == [expected]
+class TestUndeclaredFieldDetection:
+    """A field only one form has must be declared to pass the totality checks."""
 
-
-def test_declaring_a_field_absent_accounts_for_it():
-    declared = FormMapping(
-        generated_module="g",
-        handwritten_module="h",
-        absent_from_handwritten={"extra": "the specification asks for it and the form does not"},
+    @pytest.mark.parametrize(
+        ("generated", "handwritten", "expected"),
+        [
+            (inputs("a", "extra"), inputs("a"), "generated input is unmapped: extra"),
+            (inputs("a"), inputs("a", "legacy"), "handwritten input is unmapped: legacy"),
+        ],
     )
-    assert not unmapped(declared, inputs("a", "extra"), inputs("a"))
+    def test_a_field_only_one_form_has_must_be_declared(self, generated, handwritten, expected):
+        """The check the identity default must not weaken."""
+        assert [str(d) for d in unmapped(NOTHING_DECLARED, generated, handwritten)] == [expected]
+
+    def test_declaring_a_field_absent_accounts_for_it(self):
+        declared = FormMapping(
+            generated_module="g",
+            handwritten_module="h",
+            absent_from_handwritten={
+                "extra": "the specification asks for it and the form does not"
+            },
+        )
+        assert not unmapped(declared, inputs("a", "extra"), inputs("a"))
+
+    def test_a_rename_pairs_two_different_names(self):
+        renamed = FormMapping(
+            generated_module="g", handwritten_module="h", renamed={"p.phone": "p.phone_number"}
+        )
+        generated, handwritten = inputs("p.phone"), inputs("p.phone_number")
+        assert rendered(renamed, generated, handwritten) == {"p.phone": "p.phone_number"}
+        assert not unmapped(renamed, generated, handwritten)
 
 
-def test_a_rename_pairs_two_different_names():
-    renamed = FormMapping(
-        generated_module="g", handwritten_module="h", renamed={"p.phone": "p.phone_number"}
-    )
-    generated, handwritten = inputs("p.phone"), inputs("p.phone_number")
-    assert rendered(renamed, generated, handwritten) == {"p.phone": "p.phone_number"}
-    assert not unmapped(renamed, generated, handwritten)
+class TestStaleMappingEntries:
+    """Entries that no longer describe a real difference."""
 
+    def test_a_rename_must_name_a_field_that_exists(self):
+        renamed = FormMapping(
+            generated_module="g", handwritten_module="h", renamed={"p.phone": "p.phone_number"}
+        )
+        assert [str(d) for d in stale_entries(renamed, inputs("p.phone"), inputs("p.other"))] == [
+            "no such handwritten input: p.phone_number"
+        ]
 
-def test_a_rename_must_name_a_field_that_exists():
-    renamed = FormMapping(
-        generated_module="g", handwritten_module="h", renamed={"p.phone": "p.phone_number"}
-    )
-    assert [str(d) for d in stale_entries(renamed, inputs("p.phone"), inputs("p.other"))] == [
-        "no such handwritten input: p.phone_number"
-    ]
+    def test_a_rename_to_the_same_path_is_rejected(self):
+        """A redundant entry would imply a difference that is not there."""
+        pointless = FormMapping(generated_module="g", handwritten_module="h", renamed={"a": "a"})
+        both = inputs("a")
+        assert [d.kind for d in stale_entries(pointless, both, both)] == ["rename to the same path"]
 
-
-def test_a_rename_to_the_same_path_is_rejected():
-    """A redundant entry would imply a difference that is not there."""
-    pointless = FormMapping(generated_module="g", handwritten_module="h", renamed={"a": "a"})
-    both = inputs("a")
-    assert [d.kind for d in stale_entries(pointless, both, both)] == ["rename to the same path"]
-
-
-def test_an_ambiguous_rename_is_left_unaccounted_for_rather_than_guessed():
-    """Both forms have `a` and `b` and the mapping renames `a` to `b`. Pairing `b` to
-    itself as well would map it two ways, so neither end is paired and the ambiguity has
-    to be declared."""
-    ambiguous = FormMapping(generated_module="g", handwritten_module="h", renamed={"a": "b"})
-    both = inputs("a", "b")
-    assert rendered(ambiguous, both, both) == {"a": "b"}
-    assert [str(d) for d in unmapped(ambiguous, both, both)] == [
-        "generated input is unmapped: b",
-        "handwritten input is unmapped: a",
-    ]
+    def test_an_ambiguous_rename_is_left_unaccounted_for_rather_than_guessed(self):
+        """Both forms have `a` and `b` and the mapping renames `a` to `b`. Pairing `b` to
+        itself as well would map it two ways, so neither end is paired and the ambiguity has
+        to be declared."""
+        ambiguous = FormMapping(generated_module="g", handwritten_module="h", renamed={"a": "b"})
+        both = inputs("a", "b")
+        assert rendered(ambiguous, both, both) == {"a": "b"}
+        assert [str(d) for d in unmapped(ambiguous, both, both)] == [
+            "generated input is unmapped: b",
+            "handwritten input is unmapped: a",
+        ]
