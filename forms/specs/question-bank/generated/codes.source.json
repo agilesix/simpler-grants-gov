@@ -1,0 +1,9 @@
+{
+  "contract": "generated-source-record/v1",
+  "artifact": "codes.tsp",
+  "artifact_sha256_before_source_header_update": "d1c49c34f2b270f50500cac2d086a435453b86c3fb3dc887d571b62dee94fe80",
+  "source": {
+    "uri": "https://apply07.grants.gov/apply/system/schemas/UniversalCodes-V2.0.xsd",
+    "sha256": "78f33338e9319ef31a052d1328b8984931a4380db2485493bcc78ab9e2c11f3a"
+  }
+}

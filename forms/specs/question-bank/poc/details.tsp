@@ -1,0 +1,39 @@
+import "simpler-forms";
+import "../index.tsp";
+import "../generics/index.tsp";
+
+using SimplerForms;
+using QuestionBank.Generics;
+
+namespace QuestionBank.Poc;
+
+/**
+ * The person to contact about the application.
+ *
+ * Structurally a contact plus an address, and distinct from the representative who signs:
+ * a point of contact answers questions, and forms routinely ask for both.
+ */
+@Meta.question(#{ id: "poc/details",
+  entity: EntityName.poc,
+})
+@Meta.tag(TagName.person, TagName.details)
+@UI.label("Point of Contact")
+@UI.order(
+  QuestionPocDetails.name,
+  QuestionPocDetails.title,
+  QuestionPocDetails.address,
+  QuestionPocDetails.phone,
+  QuestionPocDetails.fax,
+  QuestionPocDetails.email
+)
+model QuestionPocDetails extends QuestionContactDetails {
+  /** Enter the position title. */
+  @UI.label("Title")
+  title?: ContactTitle;
+
+  /** Enter the address. */
+  @Validation.requiredPaths("street1", "city", "country")
+  @Validation.requiredPathWhen("state", "country", CountryCode.USA)
+  @Validation.requiredPathWhen("zipCode", "country", CountryCode.USA)
+  address: QuestionAddress;
+}
