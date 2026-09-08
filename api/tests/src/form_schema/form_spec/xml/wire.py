@@ -1,0 +1,160 @@
+"""An XSD's elements and attributes as paths, so a mapping can be compared against it.
+
+The XSD counterpart of `parity/paths.py`. A path is a tuple of element names from the
+root's children down; an attribute is a step prefixed with `@`.
+
+Reads the XSDs the API already vendors under `src/services/xml_generation/xsds/`.
+`xmlschema` follows the imports into `GlobalLibrary` and `UniversalCodes`, so an element
+typed `globLib:AddressDataTypeV3` arrives with its children and facets resolved.
+"""
+
+import dataclasses
+from pathlib import Path as FilePath
+
+import xmlschema
+from xmlschema.validators import XsdGroup
+
+XSD_DIR = FilePath(__file__).parents[5] / "src/services/xml_generation/xsds"
+
+# A guard against a self-referential type, not a real bound.
+MAX_DEPTH = 8
+
+Path = tuple[str, ...]
+
+#: XSD facet -> the JSON Schema keyword meaning the same thing. `totalDigits`,
+#: `fractionDigits` and `whiteSpace` have no equivalent and are not carried.
+FACETS = {
+    "minLength": "minLength",
+    "maxLength": "maxLength",
+    "enumeration": "enum",
+    "minInclusive": "minimum",
+    "maxInclusive": "maximum",
+    "pattern": "pattern",
+}
+
+#: xs: primitive -> the JSON Schema type a form would declare for it.
+PRIMITIVES = {
+    "string": "string",
+    "anyURI": "string",
+    "token": "string",
+    "date": "string",
+    "dateTime": "string",
+    "boolean": "boolean",
+    "decimal": "number",
+    "double": "number",
+    "float": "number",
+    "int": "integer",
+    "integer": "integer",
+    "long": "integer",
+}
+
+
+@dataclasses.dataclass(frozen=True)
+class Element:
+    """One element or attribute declaration, and what the schema demands of it."""
+
+    required: bool
+    #: Place in the parent's sequence, or -1 for an attribute, which is unordered.
+    position: int
+    #: The xs: primitive the value reduces to, or None if the element has no simple content.
+    primitive: str | None = None
+    #: Restrictions keyed by JSON Schema keyword, to line up with `parity/paths.py`.
+    #: Lengths and bounds are numbers; `enum` is a frozenset.
+    rules: dict[str, object] = dataclasses.field(default_factory=dict)
+
+
+def render(path: Path) -> str:
+    return ".".join(path)
+
+
+def _constraints(declaration) -> tuple[str | None, dict[str, object]]:
+    """An element's primitive type and its restrictions, in JSON Schema vocabulary."""
+    xsd_type = declaration.type
+    primitive = getattr(getattr(xsd_type, "primitive_type", None), "local_name", None)
+
+    rules: dict[str, object] = {}
+    for key, facet in (getattr(xsd_type, "facets", None) or {}).items():
+        name = str(key).split("}")[-1]
+
+        # `length` fixes both ends at once; JSON Schema has no single keyword for it.
+        if name == "length":
+            rules["minLength"] = rules["maxLength"] = facet.value
+            continue
+
+        keyword = FACETS.get(name)
+        if keyword is None:
+            continue
+        rules[keyword] = frozenset(facet.enumeration) if keyword == "enum" else facet.value
+
+    return primitive, rules
+
+
+def _children(declaration) -> XsdGroup | None:
+    """The model group holding an element's children, or None if it has none.
+
+    An element carrying only text and attributes is a leaf here, even though XSD calls its
+    type complex.
+    """
+    content = getattr(declaration.type, "content", None)
+    return content if isinstance(content, XsdGroup) else None
+
+
+def _in_order(group: XsdGroup) -> list[tuple[object, bool]]:
+    """One content model flattened to `(declaration, individually_required)` in order.
+
+    A member of an `xs:choice` is never individually required: the schema asks for one of
+    the alternatives, not for that one. Refuses model groups nested more than one deep
+    rather than guessing; Grants.gov never nests further.
+    """
+    out: list[tuple[object, bool]] = []
+    for item in group.iter_model():
+        if not isinstance(item, XsdGroup):
+            out.append((item, item.min_occurs >= 1))
+            continue
+        for member in item.iter_model():
+            if isinstance(member, XsdGroup):
+                raise NotImplementedError(
+                    f"model group nested more than one level deep: {group.model} "
+                    f"containing {item.model} containing {member.model}"
+                )
+            out.append((member, False))
+    return out
+
+
+def elements(xsd_filename: str, root: str) -> dict[Path, Element]:
+    """Every element and attribute the schema declares, by path."""
+    path = XSD_DIR / xsd_filename
+    if not path.exists():
+        raise FileNotFoundError(f"{path} is not vendored under {XSD_DIR}")
+
+    schema = xmlschema.XMLSchema(str(path))
+    if root not in schema.elements:
+        declared = ", ".join(sorted(schema.elements))
+        raise KeyError(f"{xsd_filename} declares no root element {root!r}. Declared: {declared}")
+
+    out: dict[Path, Element] = {}
+    seen: set[Path] = set()
+
+    def descend(declaration, here: Path, depth: int) -> None:
+        if depth > MAX_DEPTH:
+            raise RecursionError(f"{xsd_filename}: nested past {MAX_DEPTH} levels at {here}")
+        if here in seen:
+            return
+        seen.add(here)
+
+        for name in declaration.attributes:
+            out[*here, "@" + name.split("}")[-1]] = Element(required=False, position=-1)
+
+        group = _children(declaration)
+        if group is None:
+            return
+
+        for position, (child, required) in enumerate(_in_order(group)):
+            primitive, rules = _constraints(child)
+            out[*here, child.local_name] = Element(
+                required=required, position=position, primitive=primitive, rules=rules
+            )
+            descend(child, (*here, child.local_name), depth + 1)
+
+    descend(schema.elements[root], (), 0)
+    return out
