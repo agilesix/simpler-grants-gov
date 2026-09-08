@@ -9,6 +9,8 @@ typed `globLib:AddressDataTypeV3` arrives with its children and facets resolved.
 """
 
 import dataclasses
+import re
+from decimal import Decimal
 from pathlib import Path as FilePath
 
 import xmlschema
@@ -61,6 +63,27 @@ class Element:
     #: Restrictions keyed by JSON Schema keyword, to line up with `parity/paths.py`.
     #: Lengths and bounds are numbers; `enum` is a frozenset.
     rules: dict[str, object] = dataclasses.field(default_factory=dict)
+
+
+#: A decimal held as a string, bounded by how many digits it may carry. Grants.gov types
+#: money as `xs:decimal` with `minInclusive`/`maxInclusive`, while a form holds it as a
+#: string so a cent is never lost to binary floating point -- which means the form cannot
+#: use `minimum`/`maximum` at all and has to carry the range in its pattern instead.
+DIGIT_BOUNDED = re.compile(r"^\^\\d\{1,(\d+)\}\(\[\.\]\\d\{2\}\)\?\$$")
+
+
+def implied_range(pattern: str) -> tuple[Decimal, Decimal] | None:
+    """The range a money pattern permits, or None if it is not a shape we can read.
+
+    Returning None matters as much as returning a range: it is the difference between "the
+    form is within the element's bounds" and "nobody has checked", and the caller reports
+    the second rather than passing over it.
+    """
+    match = DIGIT_BOUNDED.match(pattern)
+    if match is None:
+        return None
+    digits = int(match.group(1))
+    return Decimal(0), Decimal(10) ** digits - Decimal("0.01")
 
 
 def render(path: Path) -> str:
