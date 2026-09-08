@@ -19,6 +19,10 @@ import { projectRuleSchema, projectSchema, projectUiSchema, toSggName } from "./
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const canonicalDir = resolve(root, "dist/canonical/forms");
+// Hand-written for now. The XML mapping is the one artifact still authored by hand rather
+// than emitted: it is a transcription of the form's Grants.gov XSD, and until there is a
+// wire model to compile it from, it lives here and is installed like the rest.
+const xmlDir = resolve(root, "specs/xml");
 const sggDir = resolve(root, "dist/sgg/forms");
 const apiFormsDir = resolve(root, "../api/src/form_schema/forms");
 const check = process.argv.includes("--check");
@@ -147,6 +151,13 @@ async function buildForm(id) {
   );
   const uiSchema = await readJson(resolve(sggDir, id, "ui-schema.json"));
 
+  let xmlMapping = null;
+  try {
+    xmlMapping = await readJson(resolve(xmlDir, `${id}.json`));
+  } catch {
+    // A form with no mapping yet generates no XML, which is how it behaves today.
+  }
+
   let ruleSchema = null;
   try {
     ruleSchema = await readJson(resolve(sggDir, id, "rule-schema.json"));
@@ -158,7 +169,10 @@ async function buildForm(id) {
   const form = {
     form_id: uuid5(`simpler-forms:${m.id}`),
     form_name: m.formName,
-    short_form_name: m.shortFormName,
+    // Distinct from the form it mirrors. `_build_xml_form_map` keys on this, so sharing it
+    // would mean one form's XML mapping silently replacing the other's, depending on the
+    // order the registry happened to be built in.
+    short_form_name: `${m.shortFormName}_Portable`,
     form_version: m.formVersion,
     form_json_schema: projectSchema(schema),
     form_ui_schema: projectUiSchema(uiSchema),
@@ -167,6 +181,8 @@ async function buildForm(id) {
   if (m.ombNumber) form.omb_number = m.ombNumber;
   if (m.legacyFormId !== undefined) form.legacy_form_id = m.legacyFormId;
   if (ruleSchema) form.form_rule_schema = projectRuleSchema(ruleSchema);
+  // Already keyed by response field name, so the naming projection does not apply.
+  if (xmlMapping) form.json_to_xml_schema = xmlMapping;
   // A parallel directory, so a specification-authored form registers alongside the
   // hand-written one it mirrors instead of replacing it. Both appear in the registry
   // with distinct ids, which is what makes a side-by-side comparison possible.

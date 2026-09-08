@@ -1,7 +1,7 @@
 {
   "form_id": "cc8629d5-1ab5-5da2-87a4-214509f8af39",
   "form_name": "Application for Federal Assistance (SF-424)",
-  "short_form_name": "SF424_4_0",
+  "short_form_name": "SF424_4_0_Portable",
   "form_version": "4.0",
   "form_json_schema": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",

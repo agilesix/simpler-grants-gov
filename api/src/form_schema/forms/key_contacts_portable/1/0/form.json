@@ -1,7 +1,7 @@
 {
   "form_id": "051d808e-62d7-58a4-933d-38c54652f1fe",
   "form_name": "KEY CONTACTS",
-  "short_form_name": "Key_Contacts",
+  "short_form_name": "Key_Contacts_Portable",
   "form_version": "2.0",
   "form_json_schema": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",

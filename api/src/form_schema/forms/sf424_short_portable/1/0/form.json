@@ -1,7 +1,7 @@
 {
   "form_id": "ad4f20f4-87af-5ac1-8ef7-cf7a35e96526",
   "form_name": "Application for Federal Domestic Assistance-Short Organizational (SF-424)",
-  "short_form_name": "SF424_Short_3_0",
+  "short_form_name": "SF424_Short_3_0_Portable",
   "form_version": "3.0",
   "form_json_schema": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
