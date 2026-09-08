@@ -266,32 +266,32 @@ model SF424 {
   /** Enter the dollar amount. */
   @UI.label("Federal Estimated Funding")
   @UI.section(Sf424Section.estimatedFunding)
-  federalEstimatedFunding: MonetaryAmount;
+  federalEstimatedFunding: MonetaryAmountMax12Digits;
 
   /** Enter the dollar amount. */
   @UI.label("Applicant Estimated Funding")
   @UI.section(Sf424Section.estimatedFunding)
-  applicantEstimatedFunding: MonetaryAmount;
+  applicantEstimatedFunding: MonetaryAmountMax12Digits;
 
   /** Enter the dollar amount. */
   @UI.label("State Estimated Funding")
   @UI.section(Sf424Section.estimatedFunding)
-  stateEstimatedFunding: MonetaryAmount;
+  stateEstimatedFunding: MonetaryAmountMax12Digits;
 
   /** Enter the dollar amount. */
   @UI.label("Local Estimated Funding")
   @UI.section(Sf424Section.estimatedFunding)
-  localEstimatedFunding: MonetaryAmount;
+  localEstimatedFunding: MonetaryAmountMax12Digits;
 
   /** Enter the dollar amount. */
   @UI.label("Other Estimated Funding")
   @UI.section(Sf424Section.estimatedFunding)
-  otherEstimatedFunding: MonetaryAmount;
+  otherEstimatedFunding: MonetaryAmountMax12Digits;
 
   /** Enter the dollar amount. */
   @UI.label("Program Income Estimated Funding")
   @UI.section(Sf424Section.estimatedFunding)
-  programIncomeEstimatedFunding: MonetaryAmount;
+  programIncomeEstimatedFunding: MonetaryAmountMax12Digits;
 
   /** This field is automatically calculated by Grants.gov */
   @UI.label("Total Estimated Funding")
@@ -307,7 +307,7 @@ model SF424 {
     SF424.otherEstimatedFunding,
     SF424.programIncomeEstimatedFunding
   )
-  totalEstimatedFunding: MonetaryAmount;
+  totalEstimatedFunding: MonetaryAmountMax13Digits;
 
   ...QuestionSf424StateReview;
 
