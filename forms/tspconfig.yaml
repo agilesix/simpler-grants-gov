@@ -1,0 +1,18 @@
+# Two emitters run against the same program.
+#
+#   simpler-forms      writes the canonical, target-independent artifacts --
+#                      schema.json, ui.json, index.json, manifest.json
+#   simpler-forms-sgg  writes what this application's form registry consumes --
+#                      ui-schema.json and rule-schema.json
+#
+# The canonical artifacts are committed alongside as evidence for the portability
+# claim, but nothing at runtime reads them.
+emit:
+  - simpler-forms
+  - simpler-forms-sgg
+
+options:
+  simpler-forms:
+    emitter-output-dir: "{project-root}/dist/canonical"
+  simpler-forms-sgg:
+    emitter-output-dir: "{project-root}/dist/sgg"

@@ -1,0 +1,27 @@
+{
+  "name": "simpler-forms-sgg",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Emits this application's form UI schema and rule schema from a SimplerForms specification.",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "exports": {
+    ".": {
+      "typespec": "./lib/main.tsp",
+      "default": "./dist/src/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "check:types": "tsc -p . --noEmit"
+  },
+  "peerDependencies": {
+    "@typespec/compiler": "^1.13.0",
+    "simpler-forms": "*"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "^1.13.0",
+    "simpler-forms": "file:../../../../form-spec",
+    "typescript": "^5.6.0"
+  }
+}

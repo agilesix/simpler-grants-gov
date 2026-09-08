@@ -1,0 +1,10 @@
+node_modules/
+dist/
+tsp-output/
+*.tsbuildinfo
+
+# The repository root ignores `lib/` at any depth. A TypeSpec library keeps its .tsp
+# entry point in lib/ by convention, and that file has to be committed, so the
+# directory is re-included here. Re-including the directory itself is required --
+# git will not descend into an excluded directory to un-exclude files within it.
+!lib/

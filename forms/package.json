@@ -1,0 +1,21 @@
+{
+  "name": "simpler-grants-forms",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Form specifications and the emitters that turn them into this application's form artifacts.",
+  "type": "module",
+  "workspaces": [
+    "emitters/sgg"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "emit": "npm run build && tsp compile specs/main.tsp",
+    "check:types": "npm run check:types --workspaces --if-present",
+    "checks": "npm run build && npm run check:types"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "^1.13.0",
+    "@typespec/json-schema": "^1.13.0",
+    "simpler-forms": "file:../../../form-spec"
+  }
+}
