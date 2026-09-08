@@ -8,100 +8,176 @@
     "type": "object",
     "properties": {
       "agency_name": {
-        "$ref": "#/$defs/agency_name",
+        "allOf": [
+          {
+            "$ref": "#/$defs/agency_name"
+          }
+        ],
         "description": "Pre-populated from the Application cover sheet.",
         "title": "Name of Federal Agency"
       },
       "assistance_listing_number": {
-        "$ref": "#/$defs/assistance_listing_number",
+        "allOf": [
+          {
+            "$ref": "#/$defs/assistance_listing_number"
+          }
+        ],
         "description": "Pre-populated from the Application cover sheet.",
         "title": "Assistance Listing Number"
       },
       "assistance_listing_program_title": {
-        "$ref": "#/$defs/assistance_listing_title",
+        "allOf": [
+          {
+            "$ref": "#/$defs/assistance_listing_title"
+          }
+        ],
         "description": "Pre-populated from the Application cover sheet.",
         "title": "Assistance Listing Title"
       },
       "date_received": {
-        "$ref": "#/$defs/date_received",
+        "allOf": [
+          {
+            "$ref": "#/$defs/date_received"
+          }
+        ],
         "description": "Completed by Grants.gov upon submission.",
         "title": "Date Received",
         "readOnly": true
       },
       "funding_opportunity_number": {
-        "$ref": "#/$defs/number",
+        "allOf": [
+          {
+            "$ref": "#/$defs/number"
+          }
+        ],
         "description": "Pre-populated from the Application cover sheet.",
         "title": "Funding Opportunity Number"
       },
       "funding_opportunity_title": {
-        "$ref": "#/$defs/title",
+        "allOf": [
+          {
+            "$ref": "#/$defs/title"
+          }
+        ],
         "description": "Pre-populated from the Application cover sheet.",
         "title": "Funding Opportunity Title"
       },
       "organization_name": {
-        "$ref": "#/$defs/legal_name",
+        "allOf": [
+          {
+            "$ref": "#/$defs/legal_name"
+          }
+        ],
         "description": "Enter the legal name of applicant that will undertake the assistance activity. This is the name that the organization has registered with the System for Award Management (SAM.gov). Information on registering with SAM may be obtained by visiting the Grants.gov website.",
         "title": "Legal Name"
       },
       "applicant": {
-        "$ref": "#/$defs/address",
+        "allOf": [
+          {
+            "$ref": "#/$defs/address"
+          }
+        ],
         "description": "Enter the address of the applicant.",
         "title": "Address"
       },
       "applicant_web_address": {
-        "$ref": "#/$defs/website",
+        "allOf": [
+          {
+            "$ref": "#/$defs/website"
+          }
+        ],
         "description": "Enter the applicant's web address, if applicable.",
         "title": "Web Address",
         "maxLength": 250
       },
       "applicant_type_code": {
-        "$ref": "#/$defs/applicant_type",
+        "allOf": [
+          {
+            "$ref": "#/$defs/applicant_type"
+          }
+        ],
         "description": "Select a minimum of one applicant type or select up to three applicant types in accordance with agency instructions. If “Other” is selected, then specify Other Type of Applicant in text box.",
         "title": "Type of Applicant"
       },
       "applicant_type_other_specify": {
-        "$ref": "#/$defs/applicant_type_other",
+        "allOf": [
+          {
+            "$ref": "#/$defs/applicant_type_other"
+          }
+        ],
         "description": "Enter the applicant type here if you selected \"Other (specify)\" for Type of applicant.",
         "title": "Type of Applicant Other Explanation"
       },
       "employer_taxpayer_identification_number": {
-        "$ref": "#/$defs/ein",
+        "allOf": [
+          {
+            "$ref": "#/$defs/ein"
+          }
+        ],
         "description": "Enter either TIN or EIN as assigned by the Internal Revenue Service.  If your organization is not in the US, enter 44-4444444.",
         "title": "EIN/TIN"
       },
       "sam_uei": {
-        "$ref": "#/$defs/uei",
+        "allOf": [
+          {
+            "$ref": "#/$defs/uei"
+          }
+        ],
         "description": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet.",
         "title": "SAM UEI"
       },
       "congressional_district_applicant": {
-        "$ref": "#/$defs/congressional_district",
+        "allOf": [
+          {
+            "$ref": "#/$defs/congressional_district"
+          }
+        ],
         "description": "Congressional District of Applicant is required: Enter the Congressional District in the format: 2 character State Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th District, CA-012 for California's 12th District, NC-103 for North Carolina's 103rd District. If outside the U.S., enter 00-000.",
         "title": "Congressional District of Applicant"
       },
       "project_title": {
-        "$ref": "#/$defs/title_2",
+        "allOf": [
+          {
+            "$ref": "#/$defs/title_2"
+          }
+        ],
         "description": "Enter a brief, descriptive title of the project.",
         "title": "Project Title",
         "maxLength": 200
       },
       "project_description": {
-        "$ref": "#/$defs/description",
+        "allOf": [
+          {
+            "$ref": "#/$defs/description"
+          }
+        ],
         "description": "Enter a brief description of the project.",
         "title": "Project Description"
       },
       "project_start_date": {
-        "$ref": "#/$defs/start_date",
+        "allOf": [
+          {
+            "$ref": "#/$defs/start_date"
+          }
+        ],
         "description": "Enter the date in the format MM/DD/YYYY.",
         "title": "Project Start Date"
       },
       "project_end_date": {
-        "$ref": "#/$defs/end_date",
+        "allOf": [
+          {
+            "$ref": "#/$defs/end_date"
+          }
+        ],
         "description": "Enter the date in the format MM/DD/YYYY.",
         "title": "Project End Date"
       },
       "project_director": {
-        "$ref": "#/$defs/Sf424ShortContact",
+        "allOf": [
+          {
+            "$ref": "#/$defs/Sf424ShortContact"
+          }
+        ],
         "title": "Project Director"
       },
       "same_as_project_director": {
@@ -109,7 +185,11 @@
         "title": "Same as Project Director (if checked, fill in information same as Project Director above)"
       },
       "contact_person": {
-        "$ref": "#/$defs/Sf424ShortContact",
+        "allOf": [
+          {
+            "$ref": "#/$defs/Sf424ShortContact"
+          }
+        ],
         "title": "Primary Contact/Grants Administrator"
       },
       "application_certification": {
@@ -118,7 +198,11 @@
         "title": "** I Agree"
       },
       "authorized_representative": {
-        "$ref": "#/$defs/name",
+        "allOf": [
+          {
+            "$ref": "#/$defs/name"
+          }
+        ],
         "description": "Enter the name of the authorized representative.",
         "title": "Authorized Representative",
         "required": [
@@ -127,33 +211,57 @@
         ]
       },
       "authorized_representative_title": {
-        "$ref": "#/$defs/title_3",
+        "allOf": [
+          {
+            "$ref": "#/$defs/title_3"
+          }
+        ],
         "description": "Enter the position title.",
         "title": "Title"
       },
       "authorized_representative_email": {
-        "$ref": "#/$defs/email",
+        "allOf": [
+          {
+            "$ref": "#/$defs/email"
+          }
+        ],
         "description": "Enter a valid email Address.",
         "title": "Email"
       },
       "authorized_representative_phone_number": {
-        "$ref": "#/$defs/phone",
+        "allOf": [
+          {
+            "$ref": "#/$defs/phone"
+          }
+        ],
         "description": "Enter the daytime Telephone Number.",
         "title": "Telephone Number"
       },
       "authorized_representative_fax": {
-        "$ref": "#/$defs/fax",
+        "allOf": [
+          {
+            "$ref": "#/$defs/fax"
+          }
+        ],
         "description": "Enter the Fax Number.",
         "title": "Fax Number"
       },
       "aor_signature": {
-        "$ref": "#/$defs/signature",
+        "allOf": [
+          {
+            "$ref": "#/$defs/signature"
+          }
+        ],
         "description": "Completed by Grants.gov upon submission.",
         "title": "Signature of Authorized Representative",
         "readOnly": true
       },
       "authorized_representative_date_signed": {
-        "$ref": "#/$defs/date_signed",
+        "allOf": [
+          {
+            "$ref": "#/$defs/date_signed"
+          }
+        ],
         "description": "Completed by Grants.gov upon submission.",
         "title": "Date Signed",
         "readOnly": true
@@ -208,7 +316,11 @@
         "type": "object",
         "properties": {
           "title": {
-            "$ref": "#/$defs/contact_title",
+            "allOf": [
+              {
+                "$ref": "#/$defs/contact_title"
+              }
+            ],
             "description": "Enter the position title.",
             "title": "Title"
           }
@@ -354,7 +466,11 @@
             "title": "County/Parish"
           },
           "state": {
-            "$ref": "#/$defs/StateCode",
+            "allOf": [
+              {
+                "$ref": "#/$defs/StateCode"
+              }
+            ],
             "description": "Enter the state.",
             "title": "State"
           },
@@ -366,7 +482,11 @@
             "title": "Province"
           },
           "country": {
-            "$ref": "#/$defs/CountryCode",
+            "allOf": [
+              {
+                "$ref": "#/$defs/CountryCode"
+              }
+            ],
             "description": "Enter the country.",
             "title": "Country"
           },
@@ -932,19 +1052,19 @@
         "type": "object",
         "properties": {
           "title": {
-            "$ref": "#/$defs/contact_title_2",
+            "allOf": [
+              {
+                "$ref": "#/$defs/contact_title_2"
+              }
+            ],
             "description": "Enter the position title.",
             "title": "Title"
           },
           "address": {
-            "$ref": "#/$defs/address_2",
-            "description": "Enter the address.",
-            "required": [
-              "street1",
-              "city",
-              "country"
-            ],
             "allOf": [
+              {
+                "$ref": "#/$defs/address_2"
+              },
               {
                 "if": {
                   "properties": {
@@ -979,6 +1099,12 @@
                   ]
                 }
               }
+            ],
+            "description": "Enter the address.",
+            "required": [
+              "street1",
+              "city",
+              "country"
             ]
           }
         },
@@ -1004,7 +1130,11 @@
         "type": "object",
         "properties": {
           "name": {
-            "$ref": "#/$defs/person_name",
+            "allOf": [
+              {
+                "$ref": "#/$defs/person_name"
+              }
+            ],
             "description": "Enter the name.",
             "title": "Name",
             "required": [
@@ -1013,17 +1143,29 @@
             ]
           },
           "phone": {
-            "$ref": "#/$defs/phone_2",
+            "allOf": [
+              {
+                "$ref": "#/$defs/phone_2"
+              }
+            ],
             "description": "Enter the daytime Telephone Number.",
             "title": "Telephone Number"
           },
           "fax": {
-            "$ref": "#/$defs/phone_2",
+            "allOf": [
+              {
+                "$ref": "#/$defs/phone_2"
+              }
+            ],
             "description": "Enter the Fax Number.",
             "title": "Fax Number"
           },
           "email": {
-            "$ref": "#/$defs/email_2",
+            "allOf": [
+              {
+                "$ref": "#/$defs/email_2"
+              }
+            ],
             "description": "Enter a valid email Address.",
             "title": "Email"
           }

@@ -8,7 +8,11 @@
     "type": "object",
     "properties": {
       "applicant_organization_name": {
-        "$ref": "#/$defs/organization_name",
+        "allOf": [
+          {
+            "$ref": "#/$defs/organization_name"
+          }
+        ],
         "description": "Enter the legal name of the applicant that will undertake the assistance activity. This field is required.",
         "title": "Applicant Organization Name"
       },
@@ -33,12 +37,20 @@
         "type": "object",
         "properties": {
           "project_role": {
-            "$ref": "#/$defs/project_role",
+            "allOf": [
+              {
+                "$ref": "#/$defs/project_role"
+              }
+            ],
             "description": "Enter the individual's role on the project (e.g., project manager, fiscal contact).",
             "title": "Project Role"
           },
           "organizational_affiliation": {
-            "$ref": "#/$defs/organization_name",
+            "allOf": [
+              {
+                "$ref": "#/$defs/organization_name"
+              }
+            ],
             "description": "Enter the contact's organizational affiliation.",
             "title": "Organizational Affiliation"
           }
@@ -72,19 +84,19 @@
         "type": "object",
         "properties": {
           "title": {
-            "$ref": "#/$defs/contact_title",
+            "allOf": [
+              {
+                "$ref": "#/$defs/contact_title"
+              }
+            ],
             "description": "Enter the position title.",
             "title": "Title"
           },
           "address": {
-            "$ref": "#/$defs/address",
-            "description": "Enter the address.",
-            "required": [
-              "street1",
-              "city",
-              "country"
-            ],
             "allOf": [
+              {
+                "$ref": "#/$defs/address"
+              },
               {
                 "if": {
                   "properties": {
@@ -119,6 +131,12 @@
                   ]
                 }
               }
+            ],
+            "description": "Enter the address.",
+            "required": [
+              "street1",
+              "city",
+              "country"
             ]
           }
         },
@@ -172,7 +190,11 @@
             "title": "County/Parish"
           },
           "state": {
-            "$ref": "#/$defs/StateCode",
+            "allOf": [
+              {
+                "$ref": "#/$defs/StateCode"
+              }
+            ],
             "description": "Enter the state.",
             "title": "State"
           },
@@ -184,7 +206,11 @@
             "title": "Province"
           },
           "country": {
-            "$ref": "#/$defs/CountryCode",
+            "allOf": [
+              {
+                "$ref": "#/$defs/CountryCode"
+              }
+            ],
             "description": "Enter the country.",
             "title": "Country"
           },
@@ -549,7 +575,11 @@
         "type": "object",
         "properties": {
           "name": {
-            "$ref": "#/$defs/person_name",
+            "allOf": [
+              {
+                "$ref": "#/$defs/person_name"
+              }
+            ],
             "description": "Enter the name.",
             "title": "Name",
             "required": [
@@ -558,17 +588,29 @@
             ]
           },
           "phone": {
-            "$ref": "#/$defs/phone",
+            "allOf": [
+              {
+                "$ref": "#/$defs/phone"
+              }
+            ],
             "description": "Enter the daytime Telephone Number.",
             "title": "Telephone Number"
           },
           "fax": {
-            "$ref": "#/$defs/phone",
+            "allOf": [
+              {
+                "$ref": "#/$defs/phone"
+              }
+            ],
             "description": "Enter the Fax Number.",
             "title": "Fax Number"
           },
           "email": {
-            "$ref": "#/$defs/email",
+            "allOf": [
+              {
+                "$ref": "#/$defs/email"
+              }
+            ],
             "description": "Enter a valid email Address.",
             "title": "Email"
           }

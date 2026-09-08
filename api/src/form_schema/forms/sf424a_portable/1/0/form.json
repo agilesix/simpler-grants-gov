@@ -10,7 +10,11 @@
       "activity_line_items": {
         "type": "array",
         "items": {
-          "$ref": "#/$defs/ActivityLineItem",
+          "allOf": [
+            {
+              "$ref": "#/$defs/ActivityLineItem"
+            }
+          ],
           "properties": {
             "activity_title": {
               "description": "Enter the Assistance Listing title, notice of funding opportunity number, program code, or grant number."
@@ -43,7 +47,11 @@
         "maxItems": 4
       },
       "total_budget_summary": {
-        "$ref": "#/$defs/summary",
+        "allOf": [
+          {
+            "$ref": "#/$defs/summary"
+          }
+        ],
         "properties": {
           "federal_estimated_unobligated_amount": {
             "description": "Federal funds authorized under an award that have not yet been obligated. Enter an amount only when the application instructions require it."
@@ -75,17 +83,29 @@
         "$ref": "#/$defs/federal_fund_estimates"
       },
       "direct_charges_explanation": {
-        "$ref": "#/$defs/direct_charges_explanation",
+        "allOf": [
+          {
+            "$ref": "#/$defs/direct_charges_explanation"
+          }
+        ],
         "description": "Use this space to explain amounts for individual direct object class cost categories that may appear to be out of the ordinary or to explain the details as required by the Federal grantor agency.",
         "title": "Direct Charges"
       },
       "indirect_charges_explanation": {
-        "$ref": "#/$defs/indirect_charges_explanation",
+        "allOf": [
+          {
+            "$ref": "#/$defs/indirect_charges_explanation"
+          }
+        ],
         "description": "Enter the type of indirect rate (provisional, predetermined, final or fixed) that will be in effect during the funding period, the estimated amount of the base to which the rate is applied, and the total indirect expense.",
         "title": "Indirect Charges"
       },
       "remarks": {
-        "$ref": "#/$defs/remarks",
+        "allOf": [
+          {
+            "$ref": "#/$defs/remarks"
+          }
+        ],
         "description": "Provide any other explanations or comments deemed necessary.",
         "title": "Remarks"
       },
@@ -106,17 +126,29 @@
         "type": "object",
         "properties": {
           "activity_title": {
-            "$ref": "#/$defs/activity_title",
+            "allOf": [
+              {
+                "$ref": "#/$defs/activity_title"
+              }
+            ],
             "title": "Grant program, function, or activity",
             "description": "Enter the Assistance Listing title, notice of funding opportunity number, program code, or grant number."
           },
           "assistance_listing_number": {
-            "$ref": "#/$defs/activity_assistance_listing_number",
+            "allOf": [
+              {
+                "$ref": "#/$defs/activity_assistance_listing_number"
+              }
+            ],
             "title": "Assistance Listing number",
             "description": "Enter the Assistance Listing number in ##.### format."
           },
           "budget_summary": {
-            "$ref": "#/$defs/summary",
+            "allOf": [
+              {
+                "$ref": "#/$defs/summary"
+              }
+            ],
             "properties": {
               "federal_estimated_unobligated_amount": {
                 "description": "Federal funds authorized under an award that have not yet been obligated. Enter an amount only when the application instructions require it."
@@ -167,27 +199,47 @@
         "type": "object",
         "properties": {
           "federal_estimated_unobligated_amount": {
-            "$ref": "#/$defs/monetary_amount",
+            "allOf": [
+              {
+                "$ref": "#/$defs/monetary_amount"
+              }
+            ],
             "title": "Estimated unobligated federal funds",
             "description": "Federal funds authorized under an award that have not yet been obligated. Enter an amount only when the application instructions require it."
           },
           "non_federal_estimated_unobligated_amount": {
-            "$ref": "#/$defs/monetary_amount",
+            "allOf": [
+              {
+                "$ref": "#/$defs/monetary_amount"
+              }
+            ],
             "title": "Estimated unobligated non-federal funds",
             "description": "Non-federal funds required under an award that have not yet been obligated or used. Enter an amount only when the application instructions require it."
           },
           "federal_new_or_revised_amount": {
-            "$ref": "#/$defs/monetary_amount",
+            "allOf": [
+              {
+                "$ref": "#/$defs/monetary_amount"
+              }
+            ],
             "title": "New or revised federal budget",
             "description": "Enter federal funds needed for the upcoming period. For a supplemental application, enter the additional amount requested. For a change, enter the increase or decrease."
           },
           "non_federal_new_or_revised_amount": {
-            "$ref": "#/$defs/monetary_amount",
+            "allOf": [
+              {
+                "$ref": "#/$defs/monetary_amount"
+              }
+            ],
             "title": "New or revised non-federal budget",
             "description": "Enter the non-federal share for the upcoming period. For a supplemental application, enter the additional contribution. For a change, enter the increase or decrease."
           },
           "total_amount": {
-            "$ref": "#/$defs/monetary_amount",
+            "allOf": [
+              {
+                "$ref": "#/$defs/monetary_amount"
+              }
+            ],
             "title": "Total",
             "description": "Enter the total budgeted amount for this row. This value is not calculated automatically."
           }

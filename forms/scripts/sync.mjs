@@ -41,6 +41,33 @@ function uuid5(name) {
 const readJson = async (path) => JSON.parse(await readFile(path, "utf8"));
 
 /**
+ * Move a `$ref`'s siblings inside an `allOf`, so resolution cannot discard them.
+ *
+ * `{$ref, title, required}` is valid 2020-12 and means "that schema, plus these", but
+ * jsonref -- which the registry resolves with -- returns only the referenced schema and
+ * drops everything beside it. A form composing a question and then adding to it therefore
+ * loses the addition: a label, a read-only flag, a tighter maxLength, or the requiredness
+ * a form declares over a shared question's members.
+ *
+ * `{allOf: [{$ref}], title, required}` says the same thing and survives, which is why the
+ * hand-written forms are shaped that way.
+ */
+function wrapRefSiblings(node) {
+  if (Array.isArray(node)) return node.map(wrapRefSiblings);
+  if (node === null || typeof node !== "object") return node;
+
+  const walked = Object.fromEntries(
+    Object.entries(node).map(([k, v]) => [k, wrapRefSiblings(v)]),
+  );
+  const { $ref, ...siblings } = walked;
+  if ($ref === undefined || Object.keys(siblings).length === 0) return walked;
+
+  // An existing allOf keeps its branches; the ref joins them.
+  const { allOf = [], ...rest } = siblings;
+  return { allOf: [{ $ref }, ...allOf], ...rest };
+}
+
+/**
  * Inline every question a form references, so the form.json stands alone.
  *
  * The canonical schema points at sibling question files -- a relative $ref such as
@@ -105,11 +132,11 @@ async function bundle(schema, formDir) {
   // published questions too, so they are walked rather than merged through untouched.
   const walkedExisting = existing ? await walk(existing, formDir) : {};
   const merged = { ...walkedExisting, ...defs };
-  return {
+  return wrapRefSiblings({
     ...($schema ? { $schema } : {}),
     ...bundled,
     ...(Object.keys(merged).length ? { $defs: merged } : {}),
-  };
+  });
 }
 
 async function buildForm(id) {
