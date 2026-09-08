@@ -15,6 +15,14 @@ MAPPING = FormMapping(
     # Grants to fix; recording it keeps the suite green meanwhile, and stale_entries
     # fails if the input it names stops existing.
     upstream_rule_defects={
+        "key_contacts.[].email/minLength": (
+            "GlobalLibrary-V2.0.xsd defines globLib:EmailDataType as minLength 1, maxLength "
+            "60, and the hand-written form declares neither bound on this field. The generated "
+            "form declares both. `format: email` already rejects the empty string, so the "
+            "minimum changes no verdict today -- it is declared because the Grants.gov type "
+            "states it, and a constraint that holds only as a side effect of another assertion "
+            "is one nobody notices losing."
+        ),
         "key_contacts.[].address.country/enum": (
             "UniversalCodes-V2.0.xsd (sha256 78f33338e9319ef3...) declares two entries for CIV: "
             "one with no accent and a straight apostrophe, one with an accented O and a curly "
