@@ -18,6 +18,6 @@
   "devDependencies": {
     "@typespec/compiler": "^1.13.0",
     "@typespec/json-schema": "^1.13.0",
-    "simpler-forms": "file:../../../form-spec"
+    "simpler-forms": "0.1.0-alpha.0"
   }
 }
