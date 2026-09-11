@@ -1,0 +1,1549 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "submission_type": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/Sf424SubmissionType"
+        }
+      ],
+      "description": "Select one type of submission in accordance with agency instructions.",
+      "title": "Submission Type"
+    },
+    "application_type": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/Sf424ApplicationType"
+        }
+      ],
+      "description": "Select one type of application in accordance with agency instructions.",
+      "title": "Application Type"
+    },
+    "revision_type": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/Sf424RevisionType"
+        }
+      ],
+      "description": "Select a revision type from the list provided. A selection is required if Type of Application is Revision.",
+      "title": "Revision Type"
+    },
+    "revision_other_specify": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 21,
+      "description": "Please specify the type of revision. This field is required if E. Other is checked.",
+      "title": "Other Explanation"
+    },
+    "date_received": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/date_received"
+        }
+      ],
+      "description": "Completed by Grants.gov upon submission.",
+      "title": "Date Received",
+      "readOnly": true
+    },
+    "applicant_id": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/standard_applicant_control_identifier"
+        }
+      ],
+      "description": "Enter the applicant's control number, if applicable.",
+      "title": "Applicant Identifier"
+    },
+    "federal_entity_identifier": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/federal_entity_identifier"
+        }
+      ],
+      "description": "Enter the number assigned to your organization by the Federal agency.",
+      "title": "Federal Entity Identifier"
+    },
+    "federal_award_identifier": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/federal_award_identifier"
+        }
+      ],
+      "description": "For new applications leave blank. For a continuation or revision to an existing award, enter the previously assigned Federal award identifier number. If a changed/corrected application, enter the Federal Identifier in accordance with agency instructions.",
+      "title": "Federal Award Identifier"
+    },
+    "state_receive_date": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/state_received_date"
+        }
+      ],
+      "description": "Leave blank, to be filled out by state.",
+      "title": "Date Received By State",
+      "readOnly": true
+    },
+    "state_application_id": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/state_application_identifier"
+        }
+      ],
+      "minLength": 0,
+      "maxLength": 30,
+      "description": "Leave blank, to be filled out by state.",
+      "title": "State Application Identifier",
+      "readOnly": true
+    },
+    "organization_name": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/legal_name"
+        }
+      ],
+      "description": "Enter the legal name of the applicant that will undertake the assistance activity. This is the organization that has registered with the System for Award Management (SAM). Information on registering with SAM may be obtained by visiting SAM.gov.",
+      "title": "Legal Name"
+    },
+    "employer_taxpayer_identification_number": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/ein"
+        }
+      ],
+      "description": "Enter either TIN or EIN as assigned by the Internal Revenue Service.  If your organization is not in the US, enter 44-4444444.",
+      "title": "EIN/TIN"
+    },
+    "sam_uei": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/uei"
+        }
+      ],
+      "description": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet.",
+      "title": "SAM UEI"
+    },
+    "applicant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/address"
+        }
+      ],
+      "description": "Enter information about the applicant.",
+      "title": "Applicant"
+    },
+    "department_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30,
+      "description": "Enter the name of primary organizational department, service, laboratory, or equivalent level within the organization which will undertake the assistance activity.",
+      "title": "Department Name"
+    },
+    "division_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30,
+      "description": "Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity.",
+      "title": "Division Name"
+    },
+    "contact_person": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/person_name"
+        }
+      ],
+      "description": "Enter information about the contact person.",
+      "title": "Contact Person",
+      "required": [
+        "first_name",
+        "last_name"
+      ]
+    },
+    "contact_person_title": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/contact_title"
+        }
+      ],
+      "description": "Enter the position title.",
+      "title": "Title"
+    },
+    "organization_affiliation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/organization_affiliation"
+        }
+      ],
+      "description": "Enter the organization if different from the applicant organization.",
+      "title": "Organizational Affiliation"
+    },
+    "phone_number": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/phone"
+        }
+      ],
+      "description": "Enter the daytime Telephone Number.",
+      "title": "Telephone Number"
+    },
+    "fax": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/phone"
+        }
+      ],
+      "description": "Enter the fax Number.",
+      "title": "Fax Number"
+    },
+    "email": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/email"
+        }
+      ],
+      "description": "Enter a valid email Address.",
+      "title": "Email"
+    },
+    "applicant_type_code": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/applicant_type"
+        }
+      ],
+      "description": "Select the appropriate applicant types.",
+      "title": "Type of Applicant"
+    },
+    "applicant_type_other_specify": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/applicant_type_other"
+        }
+      ],
+      "description": "Enter the applicant type here if you selected \"Other (specify)\" for Type of applicant.",
+      "title": "Type of Applicant Other Explanation"
+    },
+    "agency_name": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/agency_name"
+        }
+      ],
+      "description": "Pre-populated from the Application cover sheet.",
+      "title": "Agency Name"
+    },
+    "assistance_listing_number": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/assistance_listing_number"
+        }
+      ],
+      "description": "Pre-populated from the Application cover sheet.",
+      "title": "Assistance Listing Number"
+    },
+    "assistance_listing_program_title": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/assistance_listing_title"
+        }
+      ],
+      "description": "Pre-populated from the Application cover sheet.",
+      "title": "Assistance Listing Title"
+    },
+    "funding_opportunity_number": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/number"
+        }
+      ],
+      "description": "Pre-populated from the Application cover sheet.",
+      "title": "Opportunity Number"
+    },
+    "funding_opportunity_title": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/title"
+        }
+      ],
+      "description": "Pre-populated from the Application cover sheet.",
+      "title": "Opportunity title"
+    },
+    "competition_identification_number": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/competition_number"
+        }
+      ],
+      "description": "Pre-populated from the Application cover sheet.",
+      "title": "Competition Number"
+    },
+    "competition_identification_title": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/competition_title"
+        }
+      ],
+      "description": "Pre-populated from the Application cover sheet.",
+      "title": "Competition Title"
+    },
+    "areas_affected": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/areas_affected"
+        }
+      ],
+      "description": "List the areas or entities using the categories (e.g., cities, counties, states, etc.) specified in agency instructions.",
+      "title": "Areas Affected"
+    },
+    "project_title": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/title_2"
+        }
+      ],
+      "description": "Enter a brief, descriptive title of the project.",
+      "title": "Project Title",
+      "maxLength": 200
+    },
+    "additional_project_title": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/additional_titles"
+      },
+      "maxItems": 100,
+      "description": "Attach file(s) using the appropriate buttons.",
+      "title": "Additional Project Title"
+    },
+    "congressional_district_applicant": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/congressional_district"
+        }
+      ],
+      "description": "Enter the Congressional District in the format: 2 character state Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th district, CA-012 for California's 12th district.If outside the US, enter 00-000.",
+      "title": "Applicant District"
+    },
+    "congressional_district_program_project": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/congressional_district"
+        }
+      ],
+      "description": "Enter the Congressional District in the format: 2 character state Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th district, CA-012 for California's 12th district.If all districts in a state are affected, enter \"all\" for the district number. Example: MD-all for all congressional districts in Maryland.If nationwide (all districts in all states), enter US-all.If the program/project is outside the US, enter 00-000.",
+      "title": "Program District"
+    },
+    "additional_congressional_districts": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/additional_congressional_districts"
+        }
+      ],
+      "description": "Attach an additional list of Program/Project Congressional Districts if needed.",
+      "title": "Additional Congressional Districts"
+    },
+    "project_start_date": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/start_date"
+        }
+      ],
+      "description": "Enter the date in the format MM/DD/YYYY.",
+      "title": "Project Start Date"
+    },
+    "project_end_date": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/end_date"
+        }
+      ],
+      "description": "Enter the date in the format MM/DD/YYYY.",
+      "title": "Project End Date"
+    },
+    "federal_estimated_funding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/monetary_amount_max_12_digits"
+        }
+      ],
+      "description": "Enter the dollar amount.",
+      "title": "Federal Estimated Funding"
+    },
+    "applicant_estimated_funding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/monetary_amount_max_12_digits"
+        }
+      ],
+      "description": "Enter the dollar amount.",
+      "title": "Applicant Estimated Funding"
+    },
+    "state_estimated_funding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/monetary_amount_max_12_digits"
+        }
+      ],
+      "description": "Enter the dollar amount.",
+      "title": "State Estimated Funding"
+    },
+    "local_estimated_funding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/monetary_amount_max_12_digits"
+        }
+      ],
+      "description": "Enter the dollar amount.",
+      "title": "Local Estimated Funding"
+    },
+    "other_estimated_funding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/monetary_amount_max_12_digits"
+        }
+      ],
+      "description": "Enter the dollar amount.",
+      "title": "Other Estimated Funding"
+    },
+    "program_income_estimated_funding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/monetary_amount_max_12_digits"
+        }
+      ],
+      "description": "Enter the dollar amount.",
+      "title": "Program Income Estimated Funding"
+    },
+    "total_estimated_funding": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/monetary_amount_max_13_digits"
+        }
+      ],
+      "description": "This field is automatically calculated by Grants.gov",
+      "title": "Total Estimated Funding",
+      "readOnly": true
+    },
+    "state_review": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/Sf424StateReviewCode"
+        }
+      ],
+      "description": "One selection is required.",
+      "title": "Is Application Subject to Review By State Under Executive Order 12372 Process?"
+    },
+    "state_review_available_date": {
+      "type": "string",
+      "format": "date",
+      "description": "If 'a' is selected, enter the date the application was submitted to the State.",
+      "title": "State Review Date"
+    },
+    "delinquent_federal_debt": {
+      "type": "boolean",
+      "description": "If 'Yes,' provide explanation in attachment.",
+      "title": "Applicant Delinquent on Federal Debt"
+    },
+    "debt_explanation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/federal_debt_explanation"
+        }
+      ],
+      "title": "Debt Explanation"
+    },
+    "certification_agree": {
+      "type": "boolean",
+      "description": "By signing this application, I certify (1) to the statements contained in the list of certifications* and (2) that the statements herein are true, complete and accurate to the best of my knowledge. I also provide the required assurances** and agree to comply with any resulting terms if I accept an award. I am aware that any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties. (U.S. Code, Title 18, Section 1001)",
+      "title": "Certification Agree"
+    },
+    "authorized_representative": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/name"
+        }
+      ],
+      "title": "Authorized Representative",
+      "required": [
+        "first_name",
+        "last_name"
+      ]
+    },
+    "authorized_representative_title": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/title_3"
+        }
+      ],
+      "description": "Enter the position title.",
+      "title": "Title"
+    },
+    "authorized_representative_phone_number": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/phone_2"
+        }
+      ],
+      "description": "Enter the daytime Telephone Number.",
+      "title": "AOR Telephone Number"
+    },
+    "authorized_representative_fax": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/fax"
+        }
+      ],
+      "description": "Enter the fax Number.",
+      "title": "AOR fax Number"
+    },
+    "authorized_representative_email": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/email_2"
+        }
+      ],
+      "description": "Enter a valid email Address.",
+      "title": "AOR email"
+    },
+    "aor_signature": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/signature"
+        }
+      ],
+      "title": "AOR Signature",
+      "readOnly": true
+    },
+    "date_signed": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/date_signed"
+        }
+      ],
+      "title": "Date Signed",
+      "readOnly": true
+    }
+  },
+  "required": [
+    "submission_type",
+    "application_type",
+    "organization_name",
+    "employer_taxpayer_identification_number",
+    "sam_uei",
+    "applicant",
+    "contact_person",
+    "phone_number",
+    "email",
+    "applicant_type_code",
+    "agency_name",
+    "funding_opportunity_number",
+    "funding_opportunity_title",
+    "project_title",
+    "congressional_district_applicant",
+    "congressional_district_program_project",
+    "project_start_date",
+    "project_end_date",
+    "federal_estimated_funding",
+    "applicant_estimated_funding",
+    "state_estimated_funding",
+    "local_estimated_funding",
+    "other_estimated_funding",
+    "program_income_estimated_funding",
+    "total_estimated_funding",
+    "state_review",
+    "delinquent_federal_debt",
+    "certification_agree",
+    "authorized_representative",
+    "authorized_representative_title",
+    "authorized_representative_phone_number",
+    "authorized_representative_email"
+  ],
+  "description": "APPLICATION FOR FEDERAL ASSISTANCE (SF-424)",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "application_type": {
+            "const": "Revision"
+          }
+        },
+        "required": [
+          "application_type"
+        ]
+      },
+      "then": {
+        "required": [
+          "revision_type",
+          "federal_award_identifier"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "revision_type": {
+            "const": "E: Other (specify)"
+          }
+        },
+        "required": [
+          "revision_type"
+        ]
+      },
+      "then": {
+        "required": [
+          "revision_other_specify"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "application_type": {
+            "const": "Continuation"
+          }
+        },
+        "required": [
+          "application_type"
+        ]
+      },
+      "then": {
+        "required": [
+          "federal_award_identifier"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "applicant_type_code": {
+            "contains": {
+              "const": "X: Other (specify)"
+            }
+          }
+        },
+        "required": [
+          "applicant_type_code"
+        ]
+      },
+      "then": {
+        "required": [
+          "applicant_type_other_specify"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state_review": {
+            "const": "a. This application was made available to the state under the Executive Order 12372 Process for review on"
+          }
+        },
+        "required": [
+          "state_review"
+        ]
+      },
+      "then": {
+        "required": [
+          "state_review_available_date"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "delinquent_federal_debt": {
+            "const": true
+          }
+        },
+        "required": [
+          "delinquent_federal_debt"
+        ]
+      },
+      "then": {
+        "required": [
+          "debt_explanation"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "Sf424SubmissionType": {
+      "type": "string",
+      "enum": [
+        "Preapplication",
+        "Application",
+        "Changed/Corrected Application"
+      ],
+      "description": "SF-424's exact submission vocabulary."
+    },
+    "Sf424ApplicationType": {
+      "type": "string",
+      "enum": [
+        "New",
+        "Continuation",
+        "Revision"
+      ],
+      "description": "SF-424's application lifecycle vocabulary."
+    },
+    "Sf424RevisionType": {
+      "type": "string",
+      "enum": [
+        "A: Increase Award",
+        "B: Decrease Award",
+        "C: Increase Duration",
+        "D: Decrease Duration",
+        "E: Other (specify)",
+        "AC: Increase Award, Increase Duration",
+        "AD: Increase Award, Decrease Duration",
+        "BC: Decrease Award, Increase Duration",
+        "BD: Decrease Award, Decrease Duration"
+      ],
+      "description": "SF-424's encoded revision choices."
+    },
+    "Sf424StateReviewCode": {
+      "type": "string",
+      "enum": [
+        "a. This application was made available to the state under the Executive Order 12372 Process for review on",
+        "b. Program is subject to E.O. 12372 but has not been selected by the state for review.",
+        "c. Program is not covered by E.O. 12372."
+      ],
+      "description": "SF-424's exact Executive Order 12372 response vocabulary."
+    },
+    "date_received": {
+      "type": "string",
+      "format": "date",
+      "description": "Completed by Grants.gov upon submission.",
+      "title": "Date Received"
+    },
+    "standard_applicant_control_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30,
+      "description": "Enter the applicant's control number, if applicable, on the SF-424."
+    },
+    "federal_entity_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 30,
+      "description": "Enter the Federal entity identifier assigned to the applicant organization."
+    },
+    "federal_award_identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 25,
+      "description": "Enter the previously assigned Federal award identifier on the SF-424."
+    },
+    "state_received_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date on which a State received an application.",
+      "title": "State Received Date"
+    },
+    "state_application_identifier": {
+      "type": "string",
+      "description": "The identifier assigned by a State to an application.",
+      "title": "State Application Identifier"
+    },
+    "legal_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "Enter the legal name of the applicant that will undertake the assistance activity.",
+      "title": "Legal Name"
+    },
+    "ein": {
+      "type": "string",
+      "minLength": 9,
+      "maxLength": 30,
+      "description": "Enter either TIN or EIN as assigned by the Internal Revenue Service.",
+      "title": "EIN/TIN"
+    },
+    "uei": {
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 12,
+      "description": "UEI of the applicant organization.",
+      "title": "SAM UEI"
+    },
+    "address": {
+      "type": "object",
+      "properties": {},
+      "allOf": [
+        {
+          "$ref": "#/$defs/address_2"
+        },
+        {
+          "if": {
+            "properties": {
+              "country": {
+                "const": "USA: UNITED STATES"
+              }
+            },
+            "required": [
+              "country"
+            ]
+          },
+          "then": {
+            "required": [
+              "zip_code"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "country": {
+                "const": "USA: UNITED STATES"
+              }
+            },
+            "required": [
+              "country"
+            ]
+          },
+          "then": {
+            "required": [
+              "state"
+            ]
+          }
+        }
+      ],
+      "description": "Enter the address of the applicant.",
+      "title": "Address",
+      "required": [
+        "street1",
+        "city",
+        "country"
+      ]
+    },
+    "address_2": {
+      "type": "object",
+      "properties": {
+        "street1": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 55,
+          "description": "Enter the first line of the Street Address.",
+          "title": "Street 1"
+        },
+        "street2": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 55,
+          "description": "Enter the second line of the Street Address.",
+          "title": "Street 2"
+        },
+        "city": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35,
+          "description": "Enter the city.",
+          "title": "City"
+        },
+        "county": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "Enter the County or Parish.",
+          "title": "County/Parish"
+        },
+        "state": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/StateCode"
+            }
+          ],
+          "description": "Enter the state.",
+          "title": "State"
+        },
+        "province": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "Enter the province.",
+          "title": "Province"
+        },
+        "country": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/CountryCode"
+            }
+          ],
+          "description": "Enter the country.",
+          "title": "Country"
+        },
+        "zip_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+          "title": "Zip / Postal Code"
+        }
+      },
+      "description": "Enter an address.",
+      "title": "Address"
+    },
+    "StateCode": {
+      "type": "string",
+      "enum": [
+        "AL: Alabama",
+        "AK: Alaska",
+        "AZ: Arizona",
+        "AR: Arkansas",
+        "CA: California",
+        "CO: Colorado",
+        "CT: Connecticut",
+        "DE: Delaware",
+        "DC: District of Columbia",
+        "FL: Florida",
+        "GA: Georgia",
+        "HI: Hawaii",
+        "ID: Idaho",
+        "IL: Illinois",
+        "IN: Indiana",
+        "IA: Iowa",
+        "KS: Kansas",
+        "KY: Kentucky",
+        "LA: Louisiana",
+        "ME: Maine",
+        "MD: Maryland",
+        "MA: Massachusetts",
+        "MI: Michigan",
+        "MN: Minnesota",
+        "MS: Mississippi",
+        "MO: Missouri",
+        "MT: Montana",
+        "NE: Nebraska",
+        "NV: Nevada",
+        "NH: New Hampshire",
+        "NJ: New Jersey",
+        "NM: New Mexico",
+        "NY: New York",
+        "NC: North Carolina",
+        "ND: North Dakota",
+        "OH: Ohio",
+        "OK: Oklahoma",
+        "OR: Oregon",
+        "PA: Pennsylvania",
+        "RI: Rhode Island",
+        "SC: South Carolina",
+        "SD: South Dakota",
+        "TN: Tennessee",
+        "TX: Texas",
+        "UT: Utah",
+        "VT: Vermont",
+        "VA: Virginia",
+        "WA: Washington",
+        "WV: West Virginia",
+        "WI: Wisconsin",
+        "WY: Wyoming",
+        "AS: American Samoa",
+        "FM: Federated States of Micronesia",
+        "GU: Guam",
+        "MH: Marshall Islands",
+        "MP: Northern Mariana Islands",
+        "PW: Palau",
+        "PR: Puerto Rico",
+        "VI: Virgin Islands",
+        "FQ: Baker Island",
+        "HQ: Howland Island",
+        "DQ: Jarvis Island",
+        "JQ: Johnston Atoll",
+        "KQ: Kingman Reef",
+        "MQ: Midway Islands",
+        "BQ: Navassa Island",
+        "LQ: Palmyra Atoll",
+        "WQ: Wake Island",
+        "AA: Armed Forces Americas (except Canada)",
+        "AE: Armed Forces Europe, the Middle East, and Canada",
+        "AP: Armed Forces Pacific"
+      ],
+      "description": "US State or Territory Code",
+      "title": "State"
+    },
+    "CountryCode": {
+      "type": "string",
+      "enum": [
+        "AFG: AFGHANISTAN",
+        "XQZ: AKROTIRI",
+        "ALB: ALBANIA",
+        "DZA: ALGERIA",
+        "AND: ANDORRA",
+        "AGO: ANGOLA",
+        "AIA: ANGUILLA",
+        "ATA: ANTARCTICA",
+        "ATG: ANTIGUA AND BARBUDA",
+        "ARG: ARGENTINA",
+        "ARM: ARMENIA",
+        "ABW: ARUBA",
+        "XAC: ASHMORE AND CARTIER ISLANDS",
+        "AUS: AUSTRALIA",
+        "AUT: AUSTRIA",
+        "AZE: AZERBAIJAN",
+        "BHS: BAHAMAS, THE",
+        "BHR: BAHRAIN",
+        "BGD: BANGLADESH",
+        "BRB: BARBADOS",
+        "XBI: BASSAS DA INDIA",
+        "BLR: BELARUS",
+        "BEL: BELGIUM",
+        "BLZ: BELIZE",
+        "BEN: BENIN",
+        "BMU: BERMUDA",
+        "BTN: BHUTAN",
+        "BOL: BOLIVIA",
+        "BES: BONAIRE, SINT EUSTATIUS, AND SABA",
+        "BIH: BOSNIA AND HERZEGOVINA",
+        "BWA: BOTSWANA",
+        "BVT: BOUVET ISLAND",
+        "BRA: BRAZIL",
+        "IOT: BRITISH INDIAN OCEAN TERRITORY",
+        "BRN: BRUNEI",
+        "BGR: BULGARIA",
+        "BFA: BURKINA FASO",
+        "MMR: BURMA",
+        "BDI: BURUNDI",
+        "CPV: CABO VERDE",
+        "KHM: CAMBODIA",
+        "CMR: CAMEROON",
+        "CAN: CANADA",
+        "CYM: CAYMAN ISLANDS",
+        "CAF: CENTRAL AFRICAN REPUBLIC",
+        "TCD: CHAD",
+        "CHL: CHILE",
+        "CHN: CHINA",
+        "CXR: CHRISTMAS ISLAND",
+        "CPT: CLIPPERTON ISLAND",
+        "CCK: COCOS (KEELING) ISLANDS",
+        "COL: COLOMBIA",
+        "COM: COMOROS",
+        "COG: CONGO (BRAZZAVILLE)",
+        "COD: CONGO (KINSHASA)",
+        "COK: COOK ISLANDS",
+        "XCS: CORAL SEA ISLANDS",
+        "CRI: COSTA RICA",
+        "CIV: CÔTE D’IVOIRE",
+        "HRV: CROATIA",
+        "CUB: CUBA",
+        "CUW: CURAÇAO",
+        "CYP: CYPRUS",
+        "CZE: CZECHIA",
+        "DNK: DENMARK",
+        "XXD: DHEKELIA",
+        "DGA: DIEGO GARCIA",
+        "DJI: DJIBOUTI",
+        "DMA: DOMINICA",
+        "DOM: DOMINICAN REPUBLIC",
+        "ECU: ECUADOR",
+        "EGY: EGYPT",
+        "SLV: EL SALVADOR",
+        "XAZ: ENTITY 1",
+        "XCR: ENTITY 2",
+        "XCY: ENTITY 3",
+        "XKM: ENTITY 4",
+        "XKN: ENTITY 5",
+        "AX3: ENTITY 6",
+        "GNQ: EQUATORIAL GUINEA",
+        "ERI: ERITREA",
+        "EST: ESTONIA",
+        "SWZ: ESWATINI",
+        "ETH: ETHIOPIA",
+        "XEU: EUROPA ISLAND",
+        "FLK: FALKLAND ISLANDS (ISLAS MALVINAS)",
+        "FRO: FAROE ISLANDS",
+        "FJI: FIJI",
+        "FIN: FINLAND",
+        "FRA: FRANCE",
+        "GUF: FRENCH GUIANA",
+        "PYF: FRENCH POLYNESIA",
+        "ATF: FRENCH SOUTHERN AND ANTARCTIC LANDS",
+        "GAB: GABON",
+        "GMB: GAMBIA, THE",
+        "XGZ: GAZA STRIP",
+        "GEO: GEORGIA",
+        "DEU: GERMANY",
+        "GHA: GHANA",
+        "GIB: GIBRALTAR",
+        "XGL: GLORIOSO ISLANDS",
+        "GRC: GREECE",
+        "GRL: GREENLAND",
+        "GRD: GRENADA",
+        "GLP: GUADELOUPE",
+        "GTM: GUATEMALA",
+        "GGY: GUERNSEY",
+        "GIN: GUINEA",
+        "GNB: GUINEA-BISSAU",
+        "GUY: GUYANA",
+        "HTI: HAITI",
+        "HMD: HEARD ISLAND AND MCDONALD ISLANDS",
+        "HND: HONDURAS",
+        "HKG: HONG KONG",
+        "HUN: HUNGARY",
+        "ISL: ICELAND",
+        "IND: INDIA",
+        "IDN: INDONESIA",
+        "IRN: IRAN",
+        "IRQ: IRAQ",
+        "IRL: IRELAND",
+        "IMN: ISLE OF MAN",
+        "ISR: ISRAEL",
+        "ITA: ITALY",
+        "JAM: JAMAICA",
+        "XJM: JAN MAYEN",
+        "JPN: JAPAN",
+        "JEY: JERSEY",
+        "JOR: JORDAN",
+        "XJN: JUAN DE NOVA ISLAND",
+        "KAZ: KAZAKHSTAN",
+        "KEN: KENYA",
+        "KIR: KIRIBATI",
+        "PRK: KOREA, NORTH",
+        "KOR: KOREA, SOUTH",
+        "XKS: KOSOVO",
+        "KWT: KUWAIT",
+        "KGZ: KYRGYZSTAN",
+        "LAO: LAOS",
+        "LVA: LATVIA",
+        "LBN: LEBANON",
+        "LSO: LESOTHO",
+        "LBR: LIBERIA",
+        "LBY: LIBYA",
+        "LIE: LIECHTENSTEIN",
+        "LTU: LITHUANIA",
+        "LUX: LUXEMBOURG",
+        "MAC: MACAU",
+        "MDG: MADAGASCAR",
+        "MWI: MALAWI",
+        "MYS: MALAYSIA",
+        "MDV: MALDIVES",
+        "MLI: MALI",
+        "MLT: MALTA",
+        "MTQ: MARTINIQUE",
+        "MRT: MAURITANIA",
+        "MUS: MAURITIUS",
+        "MYT: MAYOTTE",
+        "MEX: MEXICO",
+        "MDA: MOLDOVA",
+        "MCO: MONACO",
+        "MNG: MONGOLIA",
+        "MNE: MONTENEGRO",
+        "MSR: MONTSERRAT",
+        "MAR: MOROCCO",
+        "MOZ: MOZAMBIQUE",
+        "NAM: NAMIBIA",
+        "NRU: NAURU",
+        "NPL: NEPAL",
+        "NLD: NETHERLANDS",
+        "NCL: NEW CALEDONIA",
+        "NZL: NEW ZEALAND",
+        "NIC: NICARAGUA",
+        "NER: NIGER",
+        "NGA: NIGERIA",
+        "NIU: NIUE",
+        "NFK: NORFOLK ISLAND",
+        "MKD: NORTH MACEDONIA",
+        "NOR: NORWAY",
+        "OMN: OMAN",
+        "PAK: PAKISTAN",
+        "PAN: PANAMA",
+        "PNG: PAPUA NEW GUINEA",
+        "XPR: PARACEL ISLANDS",
+        "PRY: PARAGUAY",
+        "PER: PERU",
+        "PHL: PHILIPPINES",
+        "PCN: PITCAIRN ISLANDS",
+        "POL: POLAND",
+        "PRT: PORTUGAL",
+        "QAT: QATAR",
+        "REU: REUNION",
+        "ROU: ROMANIA",
+        "RUS: RUSSIA",
+        "RWA: RWANDA",
+        "BLM: SAINT BARTHELEMY",
+        "SHN: SAINT HELENA, ASCENSION, AND TRISTAN DA CUNHA",
+        "KNA: SAINT KITTS AND NEVIS",
+        "LCA: SAINT LUCIA",
+        "MAF: SAINT MARTIN",
+        "SPM: SAINT PIERRE AND MIQUELON",
+        "VCT: SAINT VINCENT AND THE GRENADINES",
+        "WSM: SAMOA",
+        "SMR: SAN MARINO",
+        "STP: SAO TOME AND PRINCIPE",
+        "SAU: SAUDI ARABIA",
+        "SEN: SENEGAL",
+        "SRB: SERBIA",
+        "SYC: SEYCHELLES",
+        "SLE: SIERRA LEONE",
+        "SGP: SINGAPORE",
+        "SXM: SINT MAARTEN",
+        "SVK: SLOVAKIA",
+        "SVN: SLOVENIA",
+        "SLB: SOLOMON ISLANDS",
+        "SOM: SOMALIA",
+        "ZAF: SOUTH AFRICA",
+        "SGS: SOUTH GEORGIA AND SOUTH SANDWICH ISLANDS",
+        "SSD: SOUTH SUDAN",
+        "ESP: SPAIN",
+        "XSP: SPRATLY ISLANDS",
+        "LKA: SRI LANKA",
+        "SDN: SUDAN",
+        "SUR: SURINAME",
+        "XSV: SVALBARD",
+        "SWE: SWEDEN",
+        "CHE: SWITZERLAND",
+        "SYR: SYRIA",
+        "TWN: TAIWAN",
+        "TJK: TAJIKISTAN",
+        "TZA: TANZANIA",
+        "THA: THAILAND",
+        "TLS: TIMOR-LESTE",
+        "TGO: TOGO",
+        "TKL: TOKELAU",
+        "TON: TONGA",
+        "TTO: TRINIDAD AND TOBAGO",
+        "XTR: TROMELIN ISLAND",
+        "TUN: TUNISIA",
+        "TUR: TURKEY",
+        "TKM: TURKMENISTAN",
+        "TCA: TURKS AND CAICOS ISLANDS",
+        "TUV: TUVALU",
+        "UGA: UGANDA",
+        "UKR: UKRAINE",
+        "ARE: UNITED ARAB EMIRATES",
+        "GBR: UNITED KINGDOM",
+        "USA: UNITED STATES",
+        "URY: URUGUAY",
+        "UZB: UZBEKISTAN",
+        "VUT: VANUATU",
+        "VAT: VATICAN CITY",
+        "VEN: VENEZUELA",
+        "VNM: VIETNAM",
+        "VGB: VIRGIN ISLANDS, BRITISH",
+        "WLF: WALLIS AND FUTUNA",
+        "XWB: WEST BANK",
+        "ESH: WESTERN SAHARA",
+        "YEM: YEMEN",
+        "ZMB: ZAMBIA",
+        "ZWE: ZIMBABWE"
+      ],
+      "description": "Country Code",
+      "title": "Country"
+    },
+    "person_name": {
+      "type": "object",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "description": "Enter the Prefix.",
+          "title": "Prefix"
+        },
+        "first_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35,
+          "description": "Enter the First Name.",
+          "title": "First Name"
+        },
+        "middle_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 25,
+          "description": "Enter the Middle Name.",
+          "title": "Middle Name"
+        },
+        "last_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "description": "Enter the Last Name.",
+          "title": "Last Name"
+        },
+        "suffix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "description": "Enter the Suffix.",
+          "title": "Suffix"
+        }
+      },
+      "description": "A person's name, in five parts.",
+      "title": "Name"
+    },
+    "contact_title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45,
+      "description": "Enter the position title.",
+      "title": "Title"
+    },
+    "organization_affiliation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "Enter the contact person's organization when it differs from the applicant organization.",
+      "title": "Organizational Affiliation"
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 25,
+      "description": "A telephone or fax number."
+    },
+    "email": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "format": "email",
+      "description": "An email address.\n\n`globLib:EmailDataType` is minLength 1, maxLength 60, so both bounds are declared here.\n`format: email` already rejects the empty string, which makes the minimum redundant in\npractice -- but the constraint the Grants.gov type states should be stated, not left to\nfollow from another assertion that could be relaxed independently.",
+      "title": "Email"
+    },
+    "applicant_type": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ApplicantTypeCode"
+      },
+      "minItems": 1,
+      "maxItems": 3,
+      "description": "The applicant's category or categories.",
+      "title": "Type of Applicant"
+    },
+    "ApplicantTypeCode": {
+      "type": "string",
+      "enum": [
+        "A: State Government",
+        "B: County Government",
+        "C: City or Township Government",
+        "D: Special District Government",
+        "E: Regional Organization",
+        "F: U.S. Territory or Possession",
+        "G: Independent School District",
+        "H: Public/state Controlled Institution of Higher Education",
+        "I: Indian/Native American Tribal Government (Federally Recognized)",
+        "J: Indian/Native American Tribal Government (Other than Federally Recognized)",
+        "K: Indian/Native American Tribally Designated Organization",
+        "L: Public/Indian Housing Authority",
+        "M: Nonprofit with 501C3 IRS Status (Other than Institution of Higher Education)",
+        "N: Nonprofit without 501C3 IRS Status (Other than Institution of Higher Education)",
+        "O: Private Institution of Higher Education",
+        "P: Individual",
+        "Q: For-Profit Organization (Other than Small Business)",
+        "R: Small Business",
+        "S: Hispanic-serving Institution",
+        "T: Historically Black Colleges and Universities (HBCUs)",
+        "U: Tribally Controlled Colleges and Universities (TCCUs)",
+        "V: Alaska Native and Native Hawaiian Serving Institutions",
+        "W: Non-domestic (non-US) Entity",
+        "X: Other (specify)"
+      ],
+      "description": "The applicant's category, from the Executive Order 12372 list.",
+      "title": "Type of Applicant"
+    },
+    "applicant_type_other": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 30,
+      "description": "Enter the applicant type here if you selected \"Other (specify)\" for Type of applicant.",
+      "title": "Type of Applicant Other Explanation"
+    },
+    "agency_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "The awarding federal agency.",
+      "title": "Agency Name"
+    },
+    "assistance_listing_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 15,
+      "description": "The Assistance Listing (formerly CFDA) number.",
+      "title": "Assistance Listing Number"
+    },
+    "assistance_listing_title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "The Assistance Listing program title.",
+      "title": "Assistance Listing Title"
+    },
+    "number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "description": "The funding opportunity number.",
+      "title": "Opportunity Number"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "The funding opportunity title.",
+      "title": "Opportunity title"
+    },
+    "competition_number": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "description": "The competition number within the opportunity.",
+      "title": "Competition Number"
+    },
+    "competition_title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "The competition title within the opportunity.",
+      "title": "Competition Title"
+    },
+    "areas_affected": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Provide the geographic areas affected by the proposed project."
+    },
+    "title_2": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Enter a brief, descriptive title of the project.",
+      "title": "Project Title"
+    },
+    "additional_titles": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Provide additional project titles when the application needs more than one."
+    },
+    "congressional_district": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 6,
+      "description": "A congressional district, as a two-character state abbreviation and a three-character\ndistrict number: `CA-005`."
+    },
+    "additional_congressional_districts": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Provide additional congressional districts affected by the proposed project."
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Enter the date in the format MM/DD/YYYY.",
+      "title": "Project Start Date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Enter the date in the format MM/DD/YYYY.",
+      "title": "Project End Date"
+    },
+    "monetary_amount_max_12_digits": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 15,
+      "pattern": "^\\d{1,12}([.]\\d{2})?$",
+      "description": "A dollar amount that cannot be negative, up to 999,999,999,999.99.\n\nA separate question rather than a constraint on `MonetaryAmount` because the two ask\ndifferent things, which is how Simpler Grants already models it -- `common_shared.py`\ncarries `budget_monetary_amount` alongside two non-negative siblings.\n\nNamed for its range rather than for the kind of cell it appears in. The bound that\nmatters comes from the Grants.gov element a field maps to, so a question named for its\nrange can be reused by anything mapping to an element with that maximum, while one named\nfor its role needs a new sibling whenever a form's XSD caps it differently."
+    },
+    "monetary_amount_max_13_digits": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16,
+      "pattern": "^\\d{1,13}([.]\\d{2})?$",
+      "description": "A dollar amount that cannot be negative, up to 9,999,999,999,999.99.\n\nOne digit wider than `MonetaryAmountMax12Digits`, for a total that has to hold the sum of\nfields constrained to that."
+    },
+    "federal_debt_explanation": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Explain any delinquent federal debt reported by the applicant."
+    },
+    "name": {
+      "type": "object",
+      "properties": {},
+      "allOf": [
+        {
+          "$ref": "#/$defs/person_name_2"
+        }
+      ],
+      "description": "Enter the name of the authorized representative.",
+      "title": "Authorized Representative"
+    },
+    "person_name_2": {
+      "type": "object",
+      "properties": {
+        "prefix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "description": "Enter the Prefix.",
+          "title": "Prefix"
+        },
+        "first_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35,
+          "description": "Enter the First Name.",
+          "title": "First Name"
+        },
+        "middle_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 25,
+          "description": "Enter the Middle Name.",
+          "title": "Middle Name"
+        },
+        "last_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "description": "Enter the Last Name.",
+          "title": "Last Name"
+        },
+        "suffix": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "description": "Enter the Suffix.",
+          "title": "Suffix"
+        }
+      },
+      "description": "A person's name, in five parts.",
+      "title": "Name"
+    },
+    "title_3": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 45,
+      "description": "Enter the position title.",
+      "title": "Title"
+    },
+    "phone_2": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 25,
+      "description": "Enter the daytime Telephone Number.",
+      "title": "Telephone Number"
+    },
+    "fax": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 25,
+      "description": "Enter the Fax Number.",
+      "title": "Fax Number"
+    },
+    "email_2": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "format": "email",
+      "description": "Enter a valid email Address.",
+      "title": "Email"
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 144,
+      "description": "Completed by Grants.gov upon submission.",
+      "title": "Signature of Authorized Representative"
+    },
+    "date_signed": {
+      "type": "string",
+      "format": "date",
+      "description": "Completed by Grants.gov upon submission.",
+      "title": "Date Signed"
+    }
+  }
+}
