@@ -3,6 +3,10 @@
 Form specifications, and the emitter that turns them into the artifacts this
 application's form registry consumes.
 
+`ARCHITECTURE.md` covers the model behind them -- the question bank, how a form
+composes questions into the schemas the API loads, and what the parity suites check.
+This file covers the mechanics.
+
 ## Why there are two emitters
 
 A specification is written once and compiled by two emitters against the same program:
