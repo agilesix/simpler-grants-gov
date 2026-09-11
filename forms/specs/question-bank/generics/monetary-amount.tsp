@@ -4,16 +4,13 @@ import "../generated/codes.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 /**
  * A dollar amount. Held as a string rather than a number so that a cent is never lost to
  * binary floating point.
  */
-@Meta.question(#{ id: "generics/monetary-amount",
-  entity: EntityName.generic,
-})
+@Meta.question(#{ id: "generics/monetary-amount", entity: EntityName.generic })
 @Meta.tag(TagName.money)
 @pattern("^(-)?\\d*([.]\\d{2})?$")
 @minLength(1)
@@ -32,7 +29,8 @@ scalar MonetaryAmount extends string;
  * range can be reused by anything mapping to an element with that maximum, while one named
  * for its role needs a new sibling whenever a form's XSD caps it differently.
  */
-@Meta.question(#{ id: "generics/monetary-amount-max-12-digits",
+@Meta.question(#{
+  id: "generics/monetary-amount-max-12-digits",
   entity: EntityName.generic,
 })
 @Meta.tag(TagName.money)
@@ -47,7 +45,8 @@ scalar MonetaryAmountMax12Digits extends string;
  * One digit wider than `MonetaryAmountMax12Digits`, for a total that has to hold the sum of
  * fields constrained to that.
  */
-@Meta.question(#{ id: "generics/monetary-amount-max-13-digits",
+@Meta.question(#{
+  id: "generics/monetary-amount-max-13-digits",
   entity: EntityName.generic,
 })
 @Meta.tag(TagName.money)

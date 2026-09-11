@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** Select the kind of SF-424 submission being made. */
-@Meta.question(#{ id: "application/standard-submission-type", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/standard-submission-type",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.details)
 model QuestionSf424SubmissionType {

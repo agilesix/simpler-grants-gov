@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** The previous Grants.gov tracking number for a changed or corrected application. */
-@Meta.question(#{ id: "application/previous-grants-gov-tracking-number", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/previous-grants-gov-tracking-number",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.identifier)
 @UI.label("Grants.gov Identifier")

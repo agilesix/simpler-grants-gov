@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.PrimaryOrg;
 
 /** Identify the applicant organizational unit undertaking the assistance activity. */
-@Meta.question(#{ id: "primary-org/organizational-unit", entity: EntityName.primaryOrg })
+@Meta.question(#{
+  id: "primary-org/organizational-unit",
+  entity: EntityName.primaryOrg,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.organization, TagName.name)
 model QuestionOrganizationalUnit {

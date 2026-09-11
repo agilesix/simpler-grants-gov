@@ -17,7 +17,8 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Federal funds needed for the balance of the project, by year. */
-@Meta.question(#{ id: "budget/federal-fund-estimates",
+@Meta.question(#{
+  id: "budget/federal-fund-estimates",
   entity: EntityName.project,
 })
 @Meta.tag(TagName.money)

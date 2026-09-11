@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** Provide other narrative information requested for the application. */
-@Meta.question(#{ id: "application/other-narrative", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/other-narrative",
+  entity: EntityName.application,
+})
 @Meta.tag(TagName.narrative, TagName.attachment)
 @UI.label("Other Narrative")
 scalar OtherNarrative extends AttachmentRef;

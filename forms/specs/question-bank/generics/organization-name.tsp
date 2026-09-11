@@ -4,11 +4,11 @@ import "../generated/codes.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 /** Enter the legal name of the organization. */
-@Meta.question(#{ id: "generics/organization-name",
+@Meta.question(#{
+  id: "generics/organization-name",
   entity: EntityName.generic,
 })
 @Meta.tag(TagName.organization, TagName.name)

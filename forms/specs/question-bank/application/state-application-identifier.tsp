@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** The identifier assigned by a State to an application. */
-@Meta.question(#{ id: "application/state-application-identifier", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/state-application-identifier",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.systemValue)
 @Meta.tag(TagName.identifier)
 @UI.label("State Application Identifier")

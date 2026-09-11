@@ -7,7 +7,6 @@ import "./phone.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 /**
@@ -21,9 +20,7 @@ namespace QuestionBank.Generics;
  * representative authorized to bind the organization does, because their title is how you
  * know they are authorized. So each of those declares it, with the optionality it has.
  */
-@Meta.question(#{ id: "generics/contact-details",
-  entity: EntityName.generic,
-})
+@Meta.question(#{ id: "generics/contact-details", entity: EntityName.generic })
 @Meta.tag(TagName.person, TagName.details)
 @UI.label("Contact")
 model QuestionContactDetails {

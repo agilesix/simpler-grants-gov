@@ -5,7 +5,6 @@ import "./attachment.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 /** One optional position in a source-defined ordered attachment sequence. */

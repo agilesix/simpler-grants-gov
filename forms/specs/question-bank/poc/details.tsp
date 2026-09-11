@@ -13,9 +13,7 @@ namespace QuestionBank.Poc;
  * Structurally a contact plus an address, and distinct from the representative who signs:
  * a point of contact answers questions, and forms routinely ask for both.
  */
-@Meta.question(#{ id: "poc/details",
-  entity: EntityName.poc,
-})
+@Meta.question(#{ id: "poc/details", entity: EntityName.poc })
 @Meta.tag(TagName.person, TagName.details)
 @UI.label("Point of Contact")
 @UI.order(

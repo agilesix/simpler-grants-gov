@@ -17,8 +17,6 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Provide the detailed justification supporting the proposed budget. */
-@Meta.question(#{ id: "budget/justification",
-  entity: EntityName.project,
-})
+@Meta.question(#{ id: "budget/justification", entity: EntityName.project })
 @Meta.tag(TagName.money, TagName.attachment)
 scalar BudgetJustification extends AttachmentRef;
