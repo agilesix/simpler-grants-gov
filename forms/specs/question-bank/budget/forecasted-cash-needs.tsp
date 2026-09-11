@@ -17,7 +17,8 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Cash needed by quarter for the first year. */
-@Meta.question(#{ id: "budget/forecasted-cash-needs",
+@Meta.question(#{
+  id: "budget/forecasted-cash-needs",
   entity: EntityName.project,
 })
 @Meta.tag(TagName.money)

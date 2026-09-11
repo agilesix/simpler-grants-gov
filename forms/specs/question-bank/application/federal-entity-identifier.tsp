@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** Enter the Federal entity identifier assigned to the applicant organization. */
-@Meta.question(#{ id: "application/federal-entity-identifier", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/federal-entity-identifier",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.identifier)
 @minLength(1)

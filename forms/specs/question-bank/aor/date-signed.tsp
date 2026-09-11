@@ -20,7 +20,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Aor;
 
 /** Completed by Grants.gov upon submission. */
-@Meta.question(#{ id: "aor/date-signed", entity: EntityName.authorizedRepresentative })
+@Meta.question(#{
+  id: "aor/date-signed",
+  entity: EntityName.authorizedRepresentative,
+})
 @Meta.role(ResponseRole.systemValue)
 @Meta.tag(TagName.date)
 @UI.label("Date Signed")

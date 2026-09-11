@@ -67,14 +67,14 @@ model Sf424ShortContact extends QuestionPocDetails {
 })
 @UI.sections(Sf424ShortSection)
 // Box 9's certification is long, and the paper form prints it in full beneath the checkbox.
-@UI.overrides(#{ `applicationCertification`: #{ printDescription: true } })
+@UI.overrides(#{ applicationCertification: #{ printDescription: true } })
 @Sgg.prePopulate(#{
-  `agencyName`: SggPrePop.agencyName,
-  `assistanceListingNumber`: SggPrePop.assistanceListingNumber,
-  `assistanceListingProgramTitle`: SggPrePop.assistanceListingProgramTitle,
-  `fundingOpportunityNumber`: SggPrePop.opportunityNumber,
-  `fundingOpportunityTitle`: SggPrePop.opportunityTitle,
-  `samUei`: SggPrePop.uei,
+  agencyName: SggPrePop.agencyName,
+  assistanceListingNumber: SggPrePop.assistanceListingNumber,
+  assistanceListingProgramTitle: SggPrePop.assistanceListingProgramTitle,
+  fundingOpportunityNumber: SggPrePop.opportunityNumber,
+  fundingOpportunityTitle: SggPrePop.opportunityTitle,
+  samUei: SggPrePop.uei,
 })
 model SF424Short {
   /** Pre-populated from the Application cover sheet. */

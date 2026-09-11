@@ -68,18 +68,17 @@ enum Sf424Section {
 // Everything the runtime fills in before the applicant sees the form, in one place, keyed by
 // the path an answer takes. Every path is checked against the form.
 @Sgg.prePopulate(#{
-  `samUei`: SggPrePop.uei,
-  `agencyName`: SggPrePop.agencyName,
-  `assistanceListingNumber`: SggPrePop.assistanceListingNumber,
-  `assistanceListingProgramTitle`: SggPrePop.assistanceListingProgramTitle,
-  `fundingOpportunityNumber`: SggPrePop.opportunityNumber,
-  `fundingOpportunityTitle`: SggPrePop.opportunityTitle,
-  `competitionIdentificationNumber`: SggPrePop.publicCompetitionId,
-  `competitionIdentificationTitle`: SggPrePop.competitionTitle,
+  samUei: SggPrePop.uei,
+  agencyName: SggPrePop.agencyName,
+  assistanceListingNumber: SggPrePop.assistanceListingNumber,
+  assistanceListingProgramTitle: SggPrePop.assistanceListingProgramTitle,
+  fundingOpportunityNumber: SggPrePop.opportunityNumber,
+  fundingOpportunityTitle: SggPrePop.opportunityTitle,
+  competitionIdentificationNumber: SggPrePop.publicCompetitionId,
+  competitionIdentificationTitle: SggPrePop.competitionTitle,
 })
 model SF424 {
   ...QuestionSf424SubmissionType;
-
   ...QuestionSf424ApplicationType;
 
   /** Completed by Grants.gov upon submission. */
@@ -102,7 +101,10 @@ model SF424 {
   @UI.label("Federal Award Identifier")
   @UI.section(Sf424Section.federalAward)
   @Validation.requiredWhen(SF424.applicationType, Sf424ApplicationType.revision)
-  @Validation.requiredWhen(SF424.applicationType, Sf424ApplicationType.continuation)
+  @Validation.requiredWhen(
+    SF424.applicationType,
+    Sf424ApplicationType.continuation
+  )
   federalAwardIdentifier?: Sf424FederalAwardIdentifier;
 
   /** Leave blank, to be filled out by state. */
@@ -253,12 +255,12 @@ model SF424 {
   @UI.widget(WidgetName.Attachment)
   additionalCongressionalDistricts?: AdditionalCongressionalDistricts;
 
-  /** Enter the date in the format MM/DD/YYYY.  */
+  /** Enter the date in the format MM/DD/YYYY. */
   @UI.label("Project Start Date")
   @UI.section(Sf424Section.projectDates)
   projectStartDate: ProjectStartDate;
 
-  /** Enter the date in the format MM/DD/YYYY.  */
+  /** Enter the date in the format MM/DD/YYYY. */
   @UI.label("Project End Date")
   @UI.section(Sf424Section.projectDates)
   projectEndDate: ProjectEndDate;
@@ -310,7 +312,6 @@ model SF424 {
   totalEstimatedFunding: MonetaryAmountMax13Digits;
 
   ...QuestionSf424StateReview;
-
   ...QuestionFederalDebtStatus;
 
   @UI.label("Debt Explanation")
@@ -364,7 +365,10 @@ model SF424 {
 @@UI.section(SF424.submissionType, Sf424Section.submissionType);
 @@UI.section(SF424.applicationType, Sf424Section.applicationTypeAndRevision);
 @@UI.section(SF424.revisionType, Sf424Section.applicationTypeAndRevision);
-@@UI.section(SF424.revisionOtherSpecify, Sf424Section.applicationTypeAndRevision);
+@@UI.section(
+  SF424.revisionOtherSpecify,
+  Sf424Section.applicationTypeAndRevision
+);
 @@UI.section(SF424.departmentName, Sf424Section.organizationalUnit);
 @@UI.section(SF424.divisionName, Sf424Section.organizationalUnit);
 @@UI.section(SF424.stateReview, Sf424Section.stateReview);

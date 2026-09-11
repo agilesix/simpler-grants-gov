@@ -7,7 +7,6 @@ using QuestionBank.Generics;
 
 namespace QuestionBank.PrimaryOrg;
 
-
 // Declarations that support this entity's questions without being questions
 // themselves -- shared enums, and base models the questions extend.
 

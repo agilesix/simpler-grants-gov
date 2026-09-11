@@ -20,7 +20,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Aor;
 
 /** Enter the daytime Telephone Number. */
-@Meta.question(#{ id: "aor/phone", entity: EntityName.authorizedRepresentative })
+@Meta.question(#{
+  id: "aor/phone",
+  entity: EntityName.authorizedRepresentative,
+})
 @Meta.tag(TagName.phone)
 @UI.label("Telephone Number")
 scalar AorPhone extends PhoneNumber;

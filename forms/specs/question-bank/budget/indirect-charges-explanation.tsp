@@ -17,7 +17,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Explain the indirect rate, its base, and the resulting indirect expense. */
-@Meta.question(#{ id: "budget/indirect-charges-explanation", entity: EntityName.project })
+@Meta.question(#{
+  id: "budget/indirect-charges-explanation",
+  entity: EntityName.project,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.money, TagName.narrative)
 @UI.label("Indirect Charges")

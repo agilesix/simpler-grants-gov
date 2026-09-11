@@ -17,9 +17,7 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Provide the narrative explaining and supporting the proposed budget. */
-@Meta.question(#{ id: "budget/narrative",
-  entity: EntityName.project,
-})
+@Meta.question(#{ id: "budget/narrative", entity: EntityName.project })
 @Meta.tag(TagName.narrative, TagName.money, TagName.attachment)
 @UI.label("Budget Narrative")
 scalar BudgetNarrative extends AttachmentRef;

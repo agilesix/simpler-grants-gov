@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** Enter the applicant's control number, if applicable, on the SF-424. */
-@Meta.question(#{ id: "application/standard-applicant-control-identifier", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/standard-applicant-control-identifier",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.identifier)
 @minLength(1)

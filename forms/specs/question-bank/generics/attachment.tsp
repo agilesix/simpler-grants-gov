@@ -4,7 +4,6 @@ import "../generated/codes.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 // The answer to an attachment question is the uploaded file's id, not the file itself. A

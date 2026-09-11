@@ -17,7 +17,8 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Enter the Assistance Listing number associated with this budget activity, when applicable. */
-@Meta.question(#{ id: "budget/activity-assistance-listing-number",
+@Meta.question(#{
+  id: "budget/activity-assistance-listing-number",
   entity: EntityName.project,
 })
 @Meta.tag(TagName.identifier)

@@ -17,9 +17,7 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Funds required for each object class category. */
-@Meta.question(#{ id: "budget/categories",
-  entity: EntityName.project,
-})
+@Meta.question(#{ id: "budget/categories", entity: EntityName.project })
 @Meta.tag(TagName.money)
 @UI.label("Budget Categories")
 model QuestionBudgetCategories {

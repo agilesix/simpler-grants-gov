@@ -20,7 +20,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Aor;
 
 /** Enter the position title. */
-@Meta.question(#{ id: "aor/title", entity: EntityName.authorizedRepresentative })
+@Meta.question(#{
+  id: "aor/title",
+  entity: EntityName.authorizedRepresentative,
+})
 @Meta.tag(TagName.title)
 @UI.label("Title")
 scalar AorTitle extends ContactTitle;

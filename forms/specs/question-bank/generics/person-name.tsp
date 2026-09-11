@@ -4,13 +4,10 @@ import "../generated/codes.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 /** A person's name, in five parts. */
-@Meta.question(#{ id: "generics/person-name",
-  entity: EntityName.generic,
-})
+@Meta.question(#{ id: "generics/person-name", entity: EntityName.generic })
 @Meta.tag(TagName.person, TagName.name)
 @UI.label("Name")
 model QuestionPersonName {

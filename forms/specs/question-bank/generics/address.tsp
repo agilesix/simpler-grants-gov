@@ -4,13 +4,10 @@ import "../generated/codes.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 /** Enter an address. */
-@Meta.question(#{ id: "generics/address",
-  entity: EntityName.generic,
-})
+@Meta.question(#{ id: "generics/address", entity: EntityName.generic })
 @Meta.tag(TagName.address)
 @UI.label("Address")
 model QuestionAddress {

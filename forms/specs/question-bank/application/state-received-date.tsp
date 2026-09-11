@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** The date on which a State received an application. */
-@Meta.question(#{ id: "application/state-received-date", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/state-received-date",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.systemValue)
 @Meta.tag(TagName.date)
 @UI.label("State Received Date")

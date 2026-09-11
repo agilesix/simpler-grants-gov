@@ -20,7 +20,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Aor;
 
 /** Completed by Grants.gov upon submission. */
-@Meta.question(#{ id: "aor/signature", entity: EntityName.authorizedRepresentative })
+@Meta.question(#{
+  id: "aor/signature",
+  entity: EntityName.authorizedRepresentative,
+})
 @Meta.role(ResponseRole.systemValue)
 @Meta.tag(TagName.person, TagName.name)
 @UI.label("Signature of Authorized Representative")

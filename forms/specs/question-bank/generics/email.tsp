@@ -4,7 +4,6 @@ import "../generated/codes.tsp";
 
 using SimplerForms;
 
-
 namespace QuestionBank.Generics;
 
 /**
@@ -15,9 +14,7 @@ namespace QuestionBank.Generics;
  * practice -- but the constraint the Grants.gov type states should be stated, not left to
  * follow from another assertion that could be relaxed independently.
  */
-@Meta.question(#{ id: "generics/email",
-  entity: EntityName.generic,
-})
+@Meta.question(#{ id: "generics/email", entity: EntityName.generic })
 @Meta.tag(TagName.email)
 @UI.label("Email")
 @format("email")

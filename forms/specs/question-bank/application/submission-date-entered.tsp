@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** Enter the date the application is submitted to the Federal agency or State. */
-@Meta.question(#{ id: "application/submission-date-entered", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/submission-date-entered",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.date)
 @UI.label("Date Submitted")

@@ -17,7 +17,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Explain direct-charge amounts that need additional context. */
-@Meta.question(#{ id: "budget/direct-charges-explanation", entity: EntityName.project })
+@Meta.question(#{
+  id: "budget/direct-charges-explanation",
+  entity: EntityName.project,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.money, TagName.narrative)
 @UI.label("Direct Charges")

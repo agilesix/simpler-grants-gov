@@ -17,9 +17,7 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Estimated unobligated and new or revised funds, federal and non-federal. */
-@Meta.question(#{ id: "budget/summary",
-  entity: EntityName.project,
-})
+@Meta.question(#{ id: "budget/summary", entity: EntityName.project })
 @Meta.tag(TagName.money)
 @UI.label("Budget Summary")
 model QuestionBudgetSummary {

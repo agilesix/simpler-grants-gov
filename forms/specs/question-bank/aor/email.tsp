@@ -20,7 +20,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Aor;
 
 /** Enter a valid email Address. */
-@Meta.question(#{ id: "aor/email", entity: EntityName.authorizedRepresentative })
+@Meta.question(#{
+  id: "aor/email",
+  entity: EntityName.authorizedRepresentative,
+})
 @Meta.tag(TagName.email)
 @UI.label("Email")
 scalar AorEmail extends EmailAddress;

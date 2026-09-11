@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.Application;
 
 /** Report whether the SF-424 applicant is delinquent on Federal debt. */
-@Meta.question(#{ id: "application/delinquent-federal-debt-status", entity: EntityName.application })
+@Meta.question(#{
+  id: "application/delinquent-federal-debt-status",
+  entity: EntityName.application,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.details)
 model QuestionFederalDebtStatus {

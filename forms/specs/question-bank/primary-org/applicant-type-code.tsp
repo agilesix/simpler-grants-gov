@@ -9,7 +9,10 @@ using QuestionBank.Generics;
 namespace QuestionBank.PrimaryOrg;
 
 /** Select the applicant's single primary category. */
-@Meta.question(#{ id: "primary-org/applicant-type-code", entity: EntityName.primaryOrg })
+@Meta.question(#{
+  id: "primary-org/applicant-type-code",
+  entity: EntityName.primaryOrg,
+})
 @Meta.role(ResponseRole.applicantInput)
 @Meta.tag(TagName.organization, TagName.role)
 model QuestionApplicantTypeCode {

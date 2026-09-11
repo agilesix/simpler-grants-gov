@@ -17,7 +17,8 @@ using QuestionBank.Generics;
 namespace QuestionBank.Budget;
 
 /** Resources provided by the applicant, the state, or other sources. */
-@Meta.question(#{ id: "budget/non-federal-resources",
+@Meta.question(#{
+  id: "budget/non-federal-resources",
   entity: EntityName.project,
 })
 @Meta.tag(TagName.money)
