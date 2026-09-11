@@ -29,6 +29,7 @@ from tests.src.form_schema.form_spec.xml.mappings import (
     sf424,
     sf424_portable,
     sf424_short,
+    sf424_short_portable,
     sf424a,
 )
 
@@ -39,6 +40,7 @@ MAPPINGS = [
     sf424a.MAPPING,
     key_contacts.MAPPING,
     key_contacts_portable.MAPPING,
+    sf424_short_portable.MAPPING,
 ]
 
 
