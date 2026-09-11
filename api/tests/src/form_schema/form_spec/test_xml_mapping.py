@@ -25,6 +25,7 @@ from tests.src.form_schema.form_spec.parity import paths
 from tests.src.form_schema.form_spec.xml import rules, wire
 from tests.src.form_schema.form_spec.xml.mappings import (
     key_contacts,
+    key_contacts_portable,
     sf424,
     sf424_portable,
     sf424_short,
@@ -37,6 +38,7 @@ MAPPINGS = [
     sf424_short.MAPPING,
     sf424a.MAPPING,
     key_contacts.MAPPING,
+    key_contacts_portable.MAPPING,
 ]
 
 
