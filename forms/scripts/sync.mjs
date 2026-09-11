@@ -5,14 +5,14 @@
  * that layout is this repository's convention and has changed once already -- so they
  * write to their own stable output directories and this step installs from there.
  *
- * It also applies the snake_case projection (see naming.mjs) and assembles the three
- * artifacts into the single form.json that _loader.py reads.
+ * It also applies the snake_case projection (see naming.mjs) and lays the artifacts out
+ * as the form.json plus sibling schema files that _loader.py reads.
  *
  *   node scripts/sync.mjs            write the files
  *   node scripts/sync.mjs --check    fail if what is committed differs (drift gate)
  */
 import { createHash } from "node:crypto";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { projectRuleSchema, projectSchema, projectUiSchema, toSggName } from "./naming.mjs";
@@ -195,29 +195,87 @@ const ids = (await readdir(canonicalDir, { withFileTypes: true }))
   .map((e) => e.name)
   .sort();
 
+/**
+ * Split a form into the files a version directory holds.
+ *
+ * The four large documents are written beside form.json rather than inside it, so a
+ * change to the UI schema shows up as a diff in ui-schema-sized file instead of inside a
+ * form.json dominated by the JSON schema. _loader.py folds them back in on load, and a
+ * field is written to exactly one place so the two can never disagree.
+ *
+ * These filenames are the ones _SCHEMA_DOCUMENTS in _loader.py reads; a document renamed
+ * here has to be renamed there too, or the loader stops folding it in.
+ */
+const SCHEMA_FILENAMES = {
+  form_json_schema: "json_schema.json",
+  form_ui_schema: "ui_schema.json",
+  form_rule_schema: "rule_schema.json",
+  json_to_xml_schema: "xml_transform.json",
+};
+
+function splitForm(form) {
+  const serialize = (value) => `${JSON.stringify(value, null, 2)}\n`;
+  const envelope = { ...form };
+  const files = {};
+
+  for (const [field, filename] of Object.entries(SCHEMA_FILENAMES)) {
+    if (!(field in envelope)) continue; // an absent optional field stays absent
+    files[filename] = serialize(envelope[field]);
+    delete envelope[field];
+  }
+
+  // Written last so the metadata file is keyed in declaration order, with the schemas
+  // removed rather than left as holes.
+  files["form.json"] = serialize(envelope);
+  return files;
+}
+
+/**
+ * Schema files on disk that this emit no longer produces.
+ *
+ * A dropped rule schema has to be deleted rather than simply left unwritten, because the
+ * loader folds in whatever schema files it finds -- a stale one would keep being applied.
+ */
+async function staleSchemaFiles(dir, files) {
+  const present = await readdir(dir).catch(() => []); // a new directory holds nothing stale
+  const emitted = new Set(Object.values(SCHEMA_FILENAMES));
+  return present.filter((name) => emitted.has(name) && !(name in files));
+}
+
 let drifted = 0;
 for (const id of ids) {
   const { form, dirName, major, minor } = await buildForm(id);
   const dir = resolve(apiFormsDir, dirName, String(major), String(minor));
-  const path = resolve(dir, "form.json");
-  const content = `${JSON.stringify(form, null, 2)}\n`;
+  const files = splitForm(form);
 
   if (check) {
-    let existing = null;
-    try {
-      existing = await readFile(path, "utf8");
-    } catch {
-      /* missing counts as drift */
+    for (const [filename, content] of Object.entries(files)) {
+      let existing = null;
+      try {
+        existing = await readFile(resolve(dir, filename), "utf8");
+      } catch {
+        /* missing counts as drift */
+      }
+      if (existing !== content) {
+        console.error(
+          `drift: ${dirName}/${major}/${minor}/${filename} differs from the emitted artifacts`,
+        );
+        drifted += 1;
+      }
     }
-    if (existing !== content) {
-      console.error(`drift: ${dirName}/${major}/${minor}/form.json differs from the emitted artifacts`);
+    for (const name of await staleSchemaFiles(dir, files)) {
+      console.error(`drift: ${dirName}/${major}/${minor}/${name} is no longer emitted`);
       drifted += 1;
     }
     continue;
   }
 
   await mkdir(dir, { recursive: true });
-  await writeFile(path, content);
+  await Promise.all(
+    Object.entries(files).map(([filename, content]) => writeFile(resolve(dir, filename), content)),
+  );
+  const pruned = await staleSchemaFiles(dir, files);
+  await Promise.all(pruned.map((name) => rm(resolve(dir, name))));
 
   // The two Python files every form directory carries. Generated rather than
   // hand-written because both are fully determined by the specification, and
@@ -253,7 +311,9 @@ for (const id of ids) {
       "",
     ].join("\n"),
   );
-  console.log(`  ${dirName}/  form.json + config.py + __init__.py  (${form.form_id})`);
+  const written = [...Object.keys(files).sort(), "config.py", "__init__.py"].join(", ");
+  const removed = pruned.length ? `  (removed ${pruned.join(", ")})` : "";
+  console.log(`  ${dirName}/  ${written}  ${form.form_id}${removed}`);
 }
 
 if (check && drifted) {

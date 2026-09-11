@@ -30,7 +30,7 @@ this application.
 forms/
   specs/                  form specifications and the shared question bank
   scripts/naming.mjs      camelCase -> snake_case projection
-  scripts/sync.mjs        bundles refs, assembles form.json, installs it
+  scripts/sync.mjs        bundles refs, splits the form into files, installs them
   emitters/sgg/
     lib/main.tsp            the @Sgg.* vocabulary and SggPrePop
     src/lib.ts              diagnostics and state keys
@@ -76,12 +76,30 @@ referenced question is inlined into `$defs` — including the `$defs` a question
 of its own, such as a shared `StateCode` enum, which are hoisted so their internal
 pointers still resolve.
 
-**It assembles.** The three artifacts become the single `form.json` that `_loader.py`
-reads, with `config.py` and `__init__.py` generated alongside because both are fully
-determined by the specification and `test_form_structure.py` requires them.
+**It installs.** Each form becomes a version directory that `_loader.py` reads:
+
+```
+<form_name>_portable/1/0/
+  form.json           the scalars -- ids, names, version, agency code, OMB number
+  json_schema.json    form_json_schema
+  ui_schema.json      form_ui_schema
+  rule_schema.json    form_rule_schema      (omitted when the form declares no rules)
+  xml_transform.json  json_to_xml_schema    (omitted when the form has no mapping yet)
+```
+
+The four large documents are written beside `form.json` rather than inside it, so a
+change to the UI schema shows up as a diff in `ui_schema.json` alone instead of inside a
+`form.json` dominated by the JSON schema. `_loader.py` folds them back in on load; a
+field is written to exactly one place, and declaring it twice is an error rather than a
+precedence rule. A schema file a form stops emitting is deleted, because the loader
+applies whatever it finds and a stale one would keep being folded in.
+
+`config.py` and `__init__.py` are generated alongside because both are fully determined
+by the specification and `test_form_structure.py` requires them.
 
 `sync:check` is the drift gate: edit a specification without re-emitting and it fails,
-the same shape as the existing `openapi.generated.yml` check.
+the same shape as the existing `openapi.generated.yml` check. It reports the specific
+file that differs, and flags a schema file left behind by an earlier emit.
 
 ## Specifications
 

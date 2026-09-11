@@ -14,6 +14,7 @@ from src.db.models.competition_models import Form, FormInstruction
 from src.form_schema.forms._loader import (
     JSON_FORM_FILENAME,
     PYTHON_FORM_FILENAME,
+    _SCHEMA_DOCUMENTS,
     build_form_from_dict,
     find_form_source,
     load_versioned_form,
@@ -53,6 +54,23 @@ def _write_version(
     version_dir = tmp_path / form_name / "1" / "0"
     version_dir.mkdir(parents=True, exist_ok=True)
     (version_dir / filename).write_text(contents)
+    return tmp_path / form_name
+
+
+def _write_split_version(
+    tmp_path: Path, payload: dict[str, Any], form_name: str = "my_form"
+) -> Path:
+    """Write a form the way the emitter does: an envelope plus one file per schema."""
+    version_dir = tmp_path / form_name / "1" / "0"
+    version_dir.mkdir(parents=True, exist_ok=True)
+
+    envelope = dict(payload)
+    for field, document in _SCHEMA_DOCUMENTS.items():
+        if field not in envelope:
+            continue
+        (version_dir / document.filename).write_text(json.dumps(envelope.pop(field)))
+    (version_dir / JSON_FORM_FILENAME).write_text(json.dumps(envelope))
+
     return tmp_path / form_name
 
 
@@ -99,6 +117,95 @@ class TestJsonFormEquivalence:
         assert module.FORM_UI_SCHEMA == SF424_v4_0.form_ui_schema
         assert module.FORM_RULE_SCHEMA == SF424_v4_0.form_rule_schema
         assert module.FORM_XML_TRANSFORM_RULES == SF424_v4_0.json_to_xml_schema
+
+
+class TestSchemaFiles:
+    """A form.json may hold its large schemas in sibling files instead of inline."""
+
+    def test_split_form_matches_the_inline_form_it_was_split_from(self, tmp_path: Path) -> None:
+        """The split is a layout choice, so it must not change the Form that comes out."""
+        payload = _form_to_json_dict(SF424_v4_0)
+
+        inline_dir = _write_version(
+            tmp_path, JSON_FORM_FILENAME, json.dumps(payload), form_name="inline"
+        )
+        split_dir = _write_split_version(tmp_path, payload, form_name="split")
+
+        inline = load_versioned_form(inline_dir, "1.0")
+        split = load_versioned_form(split_dir, "1.0")
+
+        assert _without_runtime_state(split.FORM) == _without_runtime_state(inline.FORM)
+        assert _without_runtime_state(split.FORM) == _without_runtime_state(SF424_v4_0)
+
+    def test_a_real_form_is_split_into_the_expected_files(self, tmp_path: Path) -> None:
+        """The envelope keeps the scalars; each schema present becomes its own file."""
+        payload = _form_to_json_dict(SF424_v4_0)
+        form_dir = _write_split_version(tmp_path, payload)
+        version_dir = form_dir / "1" / "0"
+
+        envelope = json.loads((version_dir / JSON_FORM_FILENAME).read_text())
+        assert not set(envelope) & set(_SCHEMA_DOCUMENTS)
+        assert envelope["form_name"] == SF424_v4_0.form_name
+
+        assert json.loads((version_dir / "json_schema.json").read_text()) == (
+            SF424_v4_0.form_json_schema
+        )
+        assert json.loads((version_dir / "ui_schema.json").read_text()) == SF424_v4_0.form_ui_schema
+
+    def test_an_absent_schema_file_leaves_its_field_unset(self, tmp_path: Path) -> None:
+        """A form with no rules writes no rule_schema.json, and must still load."""
+        payload = {
+            "form_id": "1623b310-85be-496a-b84b-34bdee22a68a",
+            "form_name": "Example",
+            "short_form_name": "Example_1_0",
+            "form_version": "1.0",
+            "agency_code": "SGG",
+            "form_json_schema": {"type": "object"},
+            "form_ui_schema": [],
+        }
+        form_dir = _write_split_version(tmp_path, payload)
+
+        assert not (form_dir / "1" / "0" / "rule_schema.json").exists()
+
+        module = load_versioned_form(form_dir, "1.0")
+
+        assert module.FORM_JSON_SCHEMA == {"type": "object"}
+        assert module.FORM_RULE_SCHEMA is None
+        assert module.FORM_XML_TRANSFORM_RULES is None
+
+    def test_declaring_a_field_both_inline_and_in_a_schema_file_is_rejected(
+        self, tmp_path: Path
+    ) -> None:
+        """Two declarations drift; preferring one silently would hide the stale other."""
+        payload = {
+            "form_id": "1623b310-85be-496a-b84b-34bdee22a68a",
+            "form_name": "Example",
+            "short_form_name": "Example_1_0",
+            "form_version": "1.0",
+            "agency_code": "SGG",
+            "form_json_schema": {"type": "object"},
+            "form_ui_schema": [],
+        }
+        form_dir = _write_version(tmp_path, JSON_FORM_FILENAME, json.dumps(payload))
+        (form_dir / "1" / "0" / "json_schema.json").write_text('{"type": "string"}')
+
+        with pytest.raises(ValueError, match="declared both inline"):
+            load_versioned_form(form_dir, "1.0")
+
+    def test_a_malformed_schema_file_names_the_file(self, tmp_path: Path) -> None:
+        payload = {
+            "form_id": "1623b310-85be-496a-b84b-34bdee22a68a",
+            "form_name": "Example",
+            "short_form_name": "Example_1_0",
+            "form_version": "1.0",
+            "agency_code": "SGG",
+            "form_ui_schema": [],
+        }
+        form_dir = _write_version(tmp_path, JSON_FORM_FILENAME, json.dumps(payload))
+        (form_dir / "1" / "0" / "json_schema.json").write_text("{not json")
+
+        with pytest.raises(ValueError, match=r"json_schema\.json: invalid JSON"):
+            load_versioned_form(form_dir, "1.0")
 
 
 class TestJsonCoercion:
