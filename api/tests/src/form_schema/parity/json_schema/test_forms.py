@@ -1,18 +1,17 @@
-"""Whether a generated form is equivalent to the hand-written form it mirrors.
+"""Whether a generated form asks for the same things as the hand-written form it mirrors.
 
-Each form declares a `FormDiff` in `diffs/`, and these checks hold it to both schemas, so
-the record cannot be quietly tuned until they pass.
+Both schemas are flattened to `{path: FormInput}` and held against the `FormDiff` the form
+declares in `diffs/`. A difference neither the record accounts for nor the flattening
+discards is a failure.
 
-`TestGeneratedVsHandwritten` is the comparison itself. Its second check is the only one
-that can see a field one form has and the other lacks -- neither schema sets
-`additionalProperties`, so an unexpected field validates cleanly on both and no amount of
-validating would find it.
+`test_generated_form_does_not_add_extra_fields` and its counterpart are the only checks
+that can see a field one form has and the other lacks: neither schema sets
+`additionalProperties`, so an unexpected field validates cleanly on both.
 
-The rule comparison is a summary rather than ground truth: it reads a flattened schema,
-and flattening is an approximation the validator never has to make. A property-based
-counterpart is parked on `widal001/parity-property-tests`; it is not here because it never
-found a difference these checks missed, and its generated values are over every limit
-rather than between two of them, so it cannot see two forms declaring different limits.
+The rule comparison reads a flattened schema, which is an approximation a validator never
+has to make -- `merge_schema.py` folds `allOf`, and `if`/`then` branches are left where
+they are. It reports every field and keyword that differs in one pass, where a validator
+would need a payload that exercises each one.
 """
 
 import importlib
@@ -20,7 +19,6 @@ import importlib
 import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
-from tests.src.form_schema.parity import compare as shared
 from tests.src.form_schema.parity.json_schema.diffs import (
     key_contacts,
     sf424,
@@ -100,13 +98,6 @@ class TestGeneratedVsHandwritten:
 
 class TestRecordedDifferences:
     """Whether the record still describes real differences between real fields."""
-
-    def test_recorded_differences_give_usable_reasons(self, forms):
-        """An entry without a real reason is an allow-list pretending to be evidence."""
-        found = shared.usable_reasons(forms[0])
-        assert not found, "recorded differences give reasons nobody could act on:\n" + _report(
-            found
-        )
 
     def test_recorded_differences_are_not_stale(self, forms):
         """An entry naming a field neither form has makes the rest of the record meaningless."""

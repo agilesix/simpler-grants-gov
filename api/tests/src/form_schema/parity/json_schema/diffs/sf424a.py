@@ -1,8 +1,12 @@
 """How SF-424A's inputs correspond to the hand-written form's.
 
-The naming projection is mechanical -- camelCase to snake_case -- so all but a handful of
-fields land where you would expect. Every path here is checked against both schemas, so an
-entry naming a field either form lacks fails, and any input this file leaves out fails too.
+Naming is mechanical -- camelCase to snake_case -- so a field lands where you would expect
+unless `renamed` says otherwise.
+Only `differing_rules`, all `minLength`. Four cite `Global-V1.0.xsd` types that require at
+least one character where the hand-written form permits an empty string. The fifth,
+`activity_line_items.[].activity_title/minLength`, is not backed by the XSD: SF424A
+declares no element for an activity title, so neither form's bound can be checked against
+a source.
 """
 
 from ..harness.form_diff import FormDiff

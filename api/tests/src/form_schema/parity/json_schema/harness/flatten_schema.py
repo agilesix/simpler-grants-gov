@@ -1,8 +1,39 @@
-"""A form's JSON Schema flattened into the inputs an applicant can fill in.
+"""Reads a form's JSON Schema into `{path: FormInput}`.
 
-Every path the schema reaches, with the rules that govern what may be submitted for it.
-The XSD counterpart is `../xml/flatten_xsd.py`, which produces the same shape over element
-names instead, so the two can be compared step for step.
+Two forms that ask for the same things can be written as very different documents. The
+generated SF-424 hoists every shared question into `$defs` and composes with `allOf`; the
+hand-written one inlines everything and carries titles and descriptions. They share no
+`$defs` name and differ 1153 nodes to 436, so a structural diff of the two is all noise.
+
+Flattening keeps only the path an answer lives at and the rules that decide whether it is
+valid, which makes the two comparable. These produce the same result:
+
+    # hoisted behind a $ref, composed with allOf
+    {"$defs": {"Email": {"type": "string", "format": "email", "maxLength": 60}},
+     "properties": {"contact": {"allOf": [
+         {"type": "object", "properties": {"email": {"$ref": "#/$defs/Email"}}},
+         {"required": ["email"]}]}}}
+
+    # inlined, and annotated
+    {"properties": {"contact": {
+         "type": "object",
+         "required": ["email"],
+         "properties": {"email": {"title": "Email address",
+                                  "description": "Where we will reach you.",
+                                  "type": "string", "format": "email", "maxLength": 60}}}}}
+
+    both -> {("contact", "email"): FormInput(
+                 required=True,
+                 rules={"format": "email", "maxLength": 60, "type": "string"})}
+
+`$ref` is resolved upstream by `src.form_schema.jsonschema_resolver`; `allOf` is folded by
+`merge_schema.py`; titles and descriptions are dropped because they change what an
+applicant reads, not what they may submit.
+
+Where two forms spell one field differently -- `p.phone` against `p.phone_number` -- the
+`FormInput` values match and only the path differs. `FormDiff.renamed` pairs those up.
+
+`../../xml/harness/flatten_xsd.py` produces the same shape over element names.
 """
 
 import dataclasses
@@ -11,9 +42,9 @@ from typing import Any
 from ...paths import ARRAY, Path
 from .merge_schema import merge_allof
 
-# Every keyword that can make a payload invalid. Anything else a schema carries -- title,
-# description, examples, $comment -- changes what an applicant reads, not what they may
-# submit, and is compared by the UI checks rather than here.
+# Every keyword that can make a payload invalid. Anything else a schema carries (title,
+# description, examples, $comment) changes what an applicant reads, not what they may
+# submit, and belongs to the UI checks.
 VALIDATION_KEYWORDS = frozenset({
     "type",
     "enum",
@@ -37,30 +68,31 @@ VALIDATION_KEYWORDS = frozenset({
 
 
 @dataclasses.dataclass(frozen=True)
-class Input:
-    """One input, and every rule that governs what may be submitted for it."""
+class FormInput:
+    """One field an applicant can fill in, and the rules deciding what they may put in it.
+
+        FormInput(required=True, rules={"maxLength": 60, "type": "string"})
+
+    `rules` holds `VALIDATION_KEYWORDS` with their values canonicalised, so two fields
+    declared differently but permitting the same values compare with `==`. Same shape as
+    `flatten_xsd.Element.rules` on the other side.
+    """
 
     required: bool
-    rules: tuple[tuple[str, str], ...]
-
-    @property
-    def as_dict(self) -> dict[str, str]:
-        return dict(self.rules)
-
-    @property
-    def json_type(self) -> str | None:
-        return self.as_dict.get("type")
+    rules: dict[str, Any]
 
 
-def _rules(node: dict[str, Any]) -> tuple[tuple[str, str], ...]:
-    """A node's validation keywords, ordered and stringified so two are comparable.
+def _rules(node: dict[str, Any]) -> dict[str, Any]:
+    """A node's validation keywords, canonicalised so two equivalent nodes compare equal.
 
-    Values are rendered rather than compared raw because an enum is a list whose order
-    carries no meaning, and comparing the lists directly would report a difference where
-    there is none.
+        {"enum": ["Y", "X"]}   -> {"enum": ["X", "Y"]}
+        {"const": "X"}         -> {"enum": ["X"]}
+        {"title": "Email"}     -> {}
+
+    Enum members are sorted because their order permits the same payloads, and `const` is
+    rewritten as a single-member enum because the two spellings do too. Anything outside
+    `VALIDATION_KEYWORDS` is dropped.
     """
-    import json
-
     node = dict(node)
     # `const: x` and `enum: [x]` permit exactly one value and reject the same payloads.
     # Simpler Grants writes the enum form because their validator names the keyword that
@@ -70,24 +102,19 @@ def _rules(node: dict[str, Any]) -> tuple[tuple[str, str], ...]:
         node.setdefault("enum", [node.pop("const")])
         node.pop("const", None)
 
-    out = []
-    for key in sorted(VALIDATION_KEYWORDS & set(node)):
-        value = node[key]
-        if isinstance(value, list):
-            rendered = json.dumps(sorted(value, key=repr))
-        else:
-            rendered = json.dumps(value, sort_keys=True)
-        out.append((key, rendered))
-    return tuple(out)
+    return {
+        key: sorted(node[key], key=repr) if isinstance(node[key], list) else node[key]
+        for key in sorted(VALIDATION_KEYWORDS & set(node))
+    }
 
 
-def inputs(schema: dict[str, Any]) -> dict[Path, Input]:
+def inputs(schema: dict[str, Any]) -> dict[Path, FormInput]:
     """Every input a form has, with the rules that govern it.
 
     Expects a resolved schema -- every `$ref` already replaced -- because a path can only
     be followed through a schema that has no indirection left in it.
     """
-    out: dict[Path, Input] = {}
+    out: dict[Path, FormInput] = {}
 
     def walk(node: dict[str, Any], prefix: Path, required: bool) -> None:
         merged = merge_allof(node)
@@ -103,7 +130,7 @@ def inputs(schema: dict[str, Any]) -> dict[Path, Input]:
             walk(items, (*prefix, ARRAY), bool(merged.get("minItems")))
             return
         if prefix:
-            out[prefix] = Input(required=required, rules=_rules(merged))
+            out[prefix] = FormInput(required=required, rules=_rules(merged))
 
     walk(schema, (), False)
     return out

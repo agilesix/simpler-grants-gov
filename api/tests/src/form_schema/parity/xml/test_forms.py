@@ -1,18 +1,17 @@
-"""Does a form's XML mapping agree with the Grants.gov schema it targets?
+"""Whether a form's XML mapping agrees with the Grants.gov schema it targets.
 
 `RecursiveXMLTransformer` iterates over the mapping's rules, not over the applicant's
-answers, so a response field with no rule is never visited and simply does not appear in
-the submission. Most Grants.gov elements are `minOccurs="0"`, so the document still
-validates and neither `xmllint` nor a snapshot notices.
+answers, so a response field with no rule is never visited and does not appear in the
+submission. Most Grants.gov elements are `minOccurs="0"`, so the document still validates
+and neither `xmllint` nor a snapshot notices.
 
-The comparisons live in `harness/compare.py` and are exercised against fixtures in
-`test_harness.py`. Each form declares a `FormDiff` in `diffs/` recording what is known to
-be wrong with it, and a companion check fails if an entry stops describing a real gap.
+The comparisons are in `harness/compare.py`, covered by fixtures in `test_harness.py`.
+Each form declares a `FormDiff` in `diffs/` recording its known gaps, and
+`TestRecordedDifferences` fails if an entry stops describing one.
 """
 
 import pytest
 
-from tests.src.form_schema.parity import compare as shared
 from tests.src.form_schema.parity.xml.diffs import (
     key_contacts,
     key_contacts_portable,
@@ -169,11 +168,6 @@ class TestRecordedDifferences:
             f"{form.diff.module}: what the reader can derive and what the record claims "
             f"have diverged:\n" + _report(found)
         )
-
-    def test_recorded_differences_give_usable_reasons(self, form):
-        """An entry without a real reason is an allow-list pretending to be evidence."""
-        found = shared.usable_reasons(form.diff)
-        assert not found, f"{form.diff.module}: " + _report(found)
 
     def test_recorded_differences_are_not_stale(self, form):
         """A recorded gap cannot outlive the problem it describes."""

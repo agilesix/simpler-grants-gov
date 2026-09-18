@@ -1,18 +1,18 @@
-"""Reproduces the defects `test_forms.py` finds, using Simpler Grants' own harness.
+"""Reproduces the defects `test_forms.py` reports, through the API's own XML generation.
 
-Every test here takes a fixture that already exists in
-`tests/src/services/xml_generation/`, adds the values the mapping checks flagged, and runs
-it through the same `XMLGenerationService` and `XSDValidator` calls their XSD tests use.
-Nothing is reimplemented, so a failure cannot be blamed on a parallel code path.
+Each test takes a fixture from `tests/src/services/xml_generation/`, adds the values the
+mapping checks flagged, and runs it through the same `XMLGenerationService` and
+`XSDValidator` calls that suite uses. Nothing is reimplemented, so a failure here cannot be
+blamed on a parallel code path.
 
-These tests pass while the defects exist. Fixing one turns its test red, which is the
-signal to retire the reproduction along with the entry in `diffs/`.
+These pass while the defects exist. Fixing one turns its test red, which is the signal to
+retire the reproduction along with the entry in `diffs/`.
 
-The point is what the fixtures do not contain. Their suite is green because its fixtures
-answer the fields whose rules work and choose the enum members the schema accepts. Add the
-other values and the same harness reports two kinds of defect:
+What matters is what the existing fixtures leave out. That suite is green because its
+fixtures answer the fields whose rules work and choose the enum members the schema accepts.
+Adding the other values produces two kinds of defect:
 
-- answers that vanish from a submission the schema still calls valid
+- answers absent from a submission the schema still calls valid
 - answers the form accepts that make the submission invalid
 """
 

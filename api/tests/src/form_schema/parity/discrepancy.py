@@ -1,11 +1,17 @@
-"""One thing a check found, in a form both sides report the same way."""
+"""The finding type every check returns."""
 
 import dataclasses
 
 
 @dataclasses.dataclass(frozen=True)
 class Discrepancy:
-    """What disagrees, where, and -- where it helps -- the two readings side by side."""
+    """One finding.
+
+        Discrepancy("maxLength differs", "applicant.email", "generated 60, handwritten (absent)")
+        str(...) -> "maxLength differs: applicant.email -- generated 60, handwritten (absent)"
+
+    `kind` is what tests filter on, so keep it stable; `detail` is free text.
+    """
 
     kind: str
     path: str

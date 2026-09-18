@@ -1,11 +1,17 @@
-"""An XSD's elements and attributes as paths, so a mapping can be compared against it.
+"""Reads a Grants.gov XSD into `{path: Element}`.
 
-The XSD counterpart of `../json_schema/flatten_schema.py`. A path here is a tuple of
-element names from the root's children down; an attribute is a step prefixed with `@`.
+    SF424_4_0-V4.0.xsd
+    -> {("Applicant", "Street1"): Element(required=True, position=0, primitive="string",
+                                          rules={"maxLength": 55}),
+        ("@formVersion",):        Element(required=False, position=-1)}
 
-Reads the XSDs the API already vendors under `src/services/xml_generation/xsds/`.
-`xmlschema` follows the imports into `GlobalLibrary` and `UniversalCodes`, so an element
-typed `globLib:AddressDataTypeV3` arrives with its children and facets resolved.
+A path is element names from the root's children down; an attribute is a step prefixed
+`@` and carries position -1, since attributes are unordered. The counterpart over JSON
+Schema is `../../json_schema/harness/flatten_schema.py`.
+
+Reads the XSDs the API vendors under `src/services/xml_generation/xsds/`. `xmlschema`
+follows imports into `GlobalLibrary` and `UniversalCodes`, so an element typed
+`globLib:AddressDataTypeV3` arrives with its children and facets resolved.
 """
 
 import dataclasses
@@ -20,7 +26,7 @@ from ...paths import Path
 
 XSD_DIR = FilePath(__file__).parents[6] / "src/services/xml_generation/xsds"
 
-# A guard against a self-referential type, not a real bound.
+# Guards against a self-referential type; Grants.gov nests nowhere near this deep.
 MAX_DEPTH = 8
 
 #: XSD facet -> the JSON Schema keyword meaning the same thing. `totalDigits`,
@@ -122,8 +128,10 @@ def _in_order(group: XsdGroup) -> list[tuple[object, bool]]:
     """One content model flattened to `(declaration, individually_required)` in order.
 
     A member of an `xs:choice` is never individually required: the schema asks for one of
-    the alternatives, not for that one. Refuses model groups nested more than one deep
-    rather than guessing; Grants.gov never nests further.
+    the alternatives, not for that one.
+
+    Raises on a model group nested more than one level deep. No Grants.gov schema nests
+    further, so the case has no known correct handling to implement.
     """
     out: list[tuple[object, bool]] = []
     for item in group.iter_model():

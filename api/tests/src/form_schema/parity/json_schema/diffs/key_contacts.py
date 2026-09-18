@@ -1,8 +1,9 @@
 """How Key Contacts's inputs correspond to the hand-written form's.
 
-The naming projection is mechanical -- camelCase to snake_case -- so all but a handful of
-fields land where you would expect. Every path here is checked against both schemas, so an
-entry naming a field either form lacks fails, and any input this file leaves out fails too.
+Naming is mechanical -- camelCase to snake_case -- so a field lands where you would expect
+unless `renamed` says otherwise.
+Only `differing_rules`: a country enum and an email `minLength`, both in shared
+global-library types, both recorded against the hand-written form.
 """
 
 from ..harness.form_diff import FormDiff

@@ -1,32 +1,28 @@
-"""Holding a form's XML mapping against the two documents it has to agree with.
+"""Compares a form's XML mapping against the XSD it targets and the form's own schema.
 
-The mapping is read into `{element path: response field}`, the Grants.gov XSD into
-`{element path: Element}`, and the form's own schema into `{field path: Input}`. Every
-check below is then a dictionary comparison, so no fixture has to happen to populate the
-right field for a mistake to surface.
+`flatten()` reads all three documents into paths, so every check below is a dictionary
+comparison and no fixture has to populate the right field for a mistake to surface.
 
-Three comparisons, in the order a reader should meet them:
+    mapping vs XSD    undeclared_targets, unsourced_elements, out_of_order_elements
+    mapping vs form   unmatched_fields
+    form vs XSD       rule_differences
+    the record        stale_entries, unrecorded_skips
 
-    mapping against the XSD          undeclared_targets, unsourced_elements,
-                                     out_of_order_elements
-    mapping against the form         unmatched_fields
-    the form against the XSD         rule_differences
-
-and `stale_entries`, which holds the record against all three. The XSD comparison takes no
-exceptions: a target naming an element the schema does not declare, or a required element
-nothing feeds, fails with nothing to record against it.
+Every function takes a `FlatForm`; `xml/test_harness.py` builds them by hand. Only the
+`mapping vs form` and `form vs XSD` comparisons consult the record -- a target naming an
+undeclared element, or a required element nothing feeds, fails with no way to record an
+exception.
 """
 
 import dataclasses
 import importlib
 import itertools
-import json
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
 from tests.src.form_schema.parity import paths
 from tests.src.form_schema.parity.discrepancy import Discrepancy
 from tests.src.form_schema.parity.json_schema.harness import flatten_schema
-from tests.src.form_schema.parity.json_schema.harness.flatten_schema import Input
+from tests.src.form_schema.parity.json_schema.harness.flatten_schema import FormInput
 from tests.src.form_schema.parity.paths import Path
 from tests.src.form_schema.parity.xml.harness import flatten_transform, flatten_xsd
 from tests.src.form_schema.parity.xml.harness.form_diff import FormDiff
@@ -59,7 +55,7 @@ class FlatForm:
     attachments: frozenset[str]
 
     #: The form's own fields, for reading the rules that govern one.
-    by_path: dict[Path, Input]
+    by_path: dict[Path, FormInput]
 
     #: The same fields rendered as dotted strings, for comparing against rule sources.
     inputs: frozenset[str]
@@ -108,11 +104,14 @@ def _reaches(field: str, sources: set[str]) -> bool:
 
 
 def _governed(flat: FlatForm):
-    """Yields `(element path, response field, form rules, element)` for each element fed by
-    exactly one field.
+    """Yields `(element path, response field, form rules, element)` per element.
 
-    Skips containers, and sources naming a subtree rather than one input -- an attachment
-    field, or the array behind a `one_to_many` expansion.
+        ("Applicant", "Street1"), "applicant.street1",
+        {"type": "string", "maxLength": 55}, Element(...)
+
+    Only elements fed by exactly one field. Skips containers, and skips a source naming a
+    subtree rather than one input -- an attachment field, or the array behind a
+    `one_to_many` expansion.
     """
     for path, source in flat.targets.items():
         if source is None:
@@ -121,17 +120,22 @@ def _governed(flat: FlatForm):
         element = flat.declared.get(path)
         if governed is None or element is None:
             continue
-        yield path, source, {k: json.loads(v) for k, v in governed.rules}, element
+        yield path, source, governed.rules, element
 
 
 def _reconciled(flat: FlatForm, path: Path, keyword: str) -> bool:
-    """Whether a declared `value_transform` could account for a difference in `keyword`."""
+    """Whether a `value_transform` on this element could account for a `keyword` difference.
+
+    `boolean_to_yes_no` accounts for a type difference, `truncate_string` for `maxLength`.
+    `flatten_transform.RECONCILED_BY` holds the mapping; nothing accounts for a numeric
+    bound.
+    """
     declared = flat.transformed.get(path, frozenset())
     return bool(declared & flatten_transform.RECONCILED_BY.get(keyword, frozenset()))
 
 
 def _recorded(flat: FlatForm, path: Path, keyword: str) -> bool:
-    """Whether this difference is already recorded, so the check should pass over it."""
+    """Whether `differing_rules` holds an entry for this element and keyword."""
     return f"{paths.render(path)}/{keyword}" in flat.diff.differing_rules
 
 
@@ -201,11 +205,14 @@ def out_of_order_elements(flat: FlatForm) -> list[Discrepancy]:
 
 
 def unmatched_fields(flat: FlatForm) -> list[Discrepancy]:
-    """Fields the mapping never reads, and rules reading fields the form does not have.
+    """Fields no rule reads, and rules reading fields the form does not have.
 
-    A field no rule reads is an answer that simply does not appear in the submission. A
-    rule reading a field that does not exist targets an element that *is* mapped, so the
-    schema-side checks see nothing.
+    Returns kind `"form field is unmapped"` or `"rule source is unknown"`; the callers in
+    `test_forms.py` filter on which. A field no rule reads is an answer that never appears
+    in the submission. A rule reading a field that does not exist still targets an element
+    that is mapped, so the XSD-side checks see nothing.
+
+    Suppressed by `absent_from_definition` and `absent_from_source` respectively.
     """
     out = [
         Discrepancy("form field is unmapped", field)
@@ -227,9 +234,16 @@ def unmatched_fields(flat: FlatForm) -> list[Discrepancy]:
 def rule_differences(flat: FlatForm) -> list[Discrepancy]:
     """Where the form permits something the element it feeds cannot carry.
 
-    Containment, not equality: a form stricter than the wire is fine. Declaring nothing
-    where the element declares a bound counts as looser. A difference a declared
-    `value_transform` could account for is not reported.
+    Returns kinds `"enum differs"`, `"<bound> differs"`, `"range unreadable"` and
+    `"type differs"`, so a caller can report the three comparisons separately.
+
+    Containment, not equality -- a form stricter than the wire passes. Declaring no bound
+    where the element declares one counts as looser. A money field is a string, so its
+    range comes from its pattern; a pattern `flatten_xsd.implied_range` cannot parse is
+    reported as `range unreadable`, since nothing then checks it.
+
+    Suppressed per keyword by `differing_rules`, or by a `value_transform` that could
+    account for the difference.
     """
     out = []
     for path, source, governed, element in _governed(flat):
@@ -307,7 +321,11 @@ def rule_differences(flat: FlatForm) -> list[Discrepancy]:
 
 
 def stale_entries(flat: FlatForm) -> list[Discrepancy]:
-    """Record entries that no longer describe a real difference."""
+    """Record entries that no longer describe a real difference.
+
+    A field now mapped or gone from the form, a source that now resolves or is no longer
+    read, and a `differing_rules` key naming an element or keyword the XSD no longer has.
+    """
     out = [
         Discrepancy("now mapped", field, "remove from `absent_from_definition`")
         for field in sorted(flat.diff.absent_from_definition)
@@ -353,9 +371,11 @@ def stale_entries(flat: FlatForm) -> list[Discrepancy]:
 
 
 def unrecorded_skips(flat: FlatForm) -> list[Discrepancy]:
-    """Rules the reader cannot derive that the record does not claim, and the reverse.
+    """Disagreements between what `flatten_transform.read` could not derive and what
+    `unreadable` claims, in both directions.
 
-    A form is skipped for the reasons its record gives, and no others.
+    Keeps the skip honest: a form cannot quietly become unreadable and skip every
+    structural check, and a record cannot keep claiming a rule that now reads fine.
     """
     out = [
         Discrepancy("underivable and unrecorded", rule, why)

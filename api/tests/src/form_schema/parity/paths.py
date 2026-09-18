@@ -1,13 +1,10 @@
-"""How both sides address the things they compare.
+"""Path vocabulary shared by both sides.
 
-A path is a tuple of steps, rendered as a dotted string for humans. `[]` is one step,
-standing for every item of a repeatable section: a form declares one shape for the items,
-so one path describes them all.
+A path is a tuple of steps. `json_schema/` steps are response field names, `xml/` steps
+are element names, and both spell a repeated item `[]` so the two can be compared.
 
-The steps mean different things on either side -- response fields under `json_schema/`,
-element names under `xml/` -- but the shape and the spelling are shared, which is what lets
-one side's output be compared against the other's. `xml/flatten_transform.py` renders an
-array step with this `ARRAY` for exactly that reason.
+    ("applicant", "street1")                  applicant.street1
+    ("activity_line_items", "[]", "title")    activity_line_items.[].title
 """
 
 from typing import Any
@@ -23,11 +20,22 @@ def render(path: Path) -> str:
 
 
 def parse(text: str) -> Path:
+    """`"applicant.street1"` -> `("applicant", "street1")`."""
     return tuple(text.split("."))
 
 
 def value_at(data: Any, path: Path) -> Any:
-    """The value at `path`, or None if any step is absent. `[]` takes the first item."""
+    """The value at `path`, or None if any step is absent.
+
+        value_at({"applicant": {"street1": "1 Main St"}}, ("applicant", "street1"))
+        -> "1 Main St"
+
+        value_at({"items": [{"title": "A"}]}, ("items", ARRAY, "title"))
+        -> "A"
+
+    An `[]` step takes the first item, so this reports the shape of a repeated section
+    rather than every value in it.
+    """
     for step in path:
         if data is None:
             return None

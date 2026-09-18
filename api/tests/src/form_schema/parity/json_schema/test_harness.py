@@ -1,20 +1,17 @@
-"""Whether the machinery that compares two forms behaves the way the checks assume.
+"""Fixture tests for the functions in `harness/`.
 
-`test_forms.py` reads real forms, where almost everything lines up. These exercise each
-function against made-up inputs chosen to break it, so every case is visible on its own
-and a maintainer can see what the harness does before trusting what it says about a form.
+`test_forms.py` runs these functions over real forms, where almost everything lines up.
+These run them over hand-built `FormInput` dictionaries chosen to break them, so each rule
+is visible on its own.
 
-One class per function under test. `TestInputRules` is the exception only in that it
-covers how `flatten_schema.inputs()` renders a rule, which is what `rule_differences()`
-ends up comparing -- get that wrong and two identical forms look different.
+One class per function under test. `TestInputRules` covers `flatten_schema.inputs()`
+instead, since the way it canonicalises a rule decides what `rule_differences()` sees.
 """
-
-import json
 
 import pytest
 
 from tests.src.form_schema.parity.json_schema.harness import compare, flatten_schema
-from tests.src.form_schema.parity.json_schema.harness.flatten_schema import Input
+from tests.src.form_schema.parity.json_schema.harness.flatten_schema import FormInput
 from tests.src.form_schema.parity.json_schema.harness.form_diff import FormDiff
 
 NOTHING_DECLARED = FormDiff(generated_module="g", handwritten_module="h")
@@ -24,17 +21,14 @@ def declaring(**registers) -> FormDiff:
     return FormDiff(generated_module="g", handwritten_module="h", **registers)
 
 
-def inputs(*names: str) -> dict[tuple[str, ...], Input]:
+def inputs(*names: str) -> dict[tuple[str, ...], FormInput]:
     """Fields with no rules, for the checks that only care which fields exist."""
-    return {tuple(name.split(".")): Input(required=False, rules=()) for name in names}
+    return {tuple(name.split(".")): FormInput(required=False, rules={}) for name in names}
 
 
-def field(required: bool = False, **rules) -> Input:
-    """One field, with its rules spelled the way `flatten_schema` renders them."""
-    return Input(
-        required=required,
-        rules=tuple(sorted((k, json.dumps(v, sort_keys=True)) for k, v in rules.items())),
-    )
+def field(required: bool = False, **rules) -> FormInput:
+    """One field and its rules. `field(type="string", maxLength=60)`."""
+    return FormInput(required=required, rules=rules)
 
 
 def matched(diff, generated, handwritten) -> dict[str, str]:

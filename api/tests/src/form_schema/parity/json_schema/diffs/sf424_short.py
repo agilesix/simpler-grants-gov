@@ -1,8 +1,11 @@
 """How SF-424 Short's inputs correspond to the hand-written form's.
 
-The naming projection is mechanical -- camelCase to snake_case -- so all but a handful of
-fields land where you would expect. Every path here is checked against both schemas, so an
-entry naming a field either form lacks fails, and any input this file leaves out fails too.
+Naming is mechanical -- camelCase to snake_case -- so a field lands where you would expect
+unless `renamed` says otherwise.
+Two renames -- the generated form calls the project director's and contact person's
+telephone `phone`, the hand-written form `phone_number`. The rest lines up by name, and
+`differing_rules` records rules where the Grants.gov schema shows the hand-written form is
+the one that is wrong.
 """
 
 from ..harness.form_diff import FormDiff

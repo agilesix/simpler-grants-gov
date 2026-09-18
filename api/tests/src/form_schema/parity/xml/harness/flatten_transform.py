@@ -1,16 +1,16 @@
-"""An XML mapping flattened the same way `flatten_xsd.py` flattens an XSD.
+"""Reads a form's `json_to_xml_schema` into `{element path: response field}`.
 
-A form's `json_to_xml_schema` nests response fields the way the wire nests elements, so it
-reads into `{element path: response field}` and the checks become dictionary comparison.
+    {"applicant": {"xml_transform": {"type": "nested_object", "target": "Applicant"},
+                   "street1": {"xml_transform": {"target": "Street1"}}}}
+    -> ({("Applicant",): None, ("Applicant", "Street1"): "applicant.street1"}, {})
 
-Three details the format carries:
+Three details of the format:
 
-- Attachments are named twice. `xml_transform.target` holds a lowercase placeholder that
+- A container takes no value, so `nested_object`, `array` and `static_value` map to None.
+- An attachment is named twice. `xml_transform.target` holds a lowercase placeholder that
   only fixes sequence position; the element emitted is in `_xml_config.attachment_fields`.
-- Containers carry no value. A `nested_object`, `array` or `static_value` element maps to
-  no response field.
-- Not every mapping is tree-shaped. SF-424A's synthesises structure from data at run time,
-  so those nodes land in `unreadable` and the checks skip the form.
+- Not every mapping is tree-shaped. SF-424A builds structure from data at run time, so
+  those rules come back in the second return value and the checks skip the form.
 """
 
 from typing import Any
@@ -20,8 +20,8 @@ from ...paths import ARRAY, Path
 #: `xml_transform.type` values whose wire structure follows from the declaration.
 READABLE = frozenset({"nested_object", "array", "attribute", "conditional"})
 
-#: The one `conditional_transform` shape that is derivable: the count is declared. The
-#: others synthesise from data.
+#: The one `conditional_transform` shape whose element count is declared rather than
+#: derived from the applicant's data.
 READABLE_CONDITIONALS = frozenset({"one_to_many"})
 
 #: Which of the five registered transforms can reconcile a difference in which rule.

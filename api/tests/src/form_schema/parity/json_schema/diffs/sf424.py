@@ -1,8 +1,11 @@
 """How SF-424's inputs correspond to the hand-written form's.
 
-The naming projection is mechanical -- camelCase to snake_case -- so all but a handful of
-fields land where you would expect. Every path here is checked against both schemas, so an
-entry naming a field either form lacks fails, and any input this file leaves out fails too.
+Naming is mechanical -- camelCase to snake_case -- so a field lands where you would expect
+unless `renamed` says otherwise.
+Only `differing_rules`: every field lines up by name, and the entries record rules where
+the Grants.gov schema shows the hand-written form is the one that is wrong -- a country
+enum it offers that the code list does not contain, and money fields whose pattern permits
+more than the element carries.
 """
 
 from ..harness.form_diff import FormDiff

@@ -1,46 +1,36 @@
-"""What a maintainer has declared about one form, and every departure they accepted.
+"""The per-form record of accepted differences.
 
-Each side compares a form definition against a source and reports what disagrees. Almost
-everything lines up; the rest is declared here, by hand, and the three registers below
-cover the ways two documents can differ:
+Each side compares a form definition against a source. Fields that correspond and agree
+need no declaration; everything else goes in one of three registers, keyed by path with a
+reason as the value.
 
-- the definition has something the source does not
-- the source has something the definition does not reach
-- both have it, and they govern it by different rules
+    absent_from_source      the definition has it, the source does not
+    absent_from_definition  the source has it, the definition does not reach it
+    differing_rules         both have it, under different rules
 
-A register is `path -> reason`, and the reason is the point. The checks hold each entry to
-both documents, so a register cannot outlive the problem it describes, and an entry whose
-reason a maintainer could not act on is an allow-list pretending to be evidence.
+`compare.stale_entries` on each side holds every entry to both documents, so an entry that
+stops describing a real difference fails the suite. An entry records a defect to fix, not
+an exemption from fixing it.
 
-Declaring a departure is never permission for it to exist. Each entry is a defect for
-someone to fix, recorded so the suite stays green while they do.
-
-Each side extends this with how it names the documents it reads, and with whatever it
-alone needs: `json_schema/` adds `renamed`, `xml/` adds `unreadable`.
+Each side subclasses this to name the documents it reads and add what it alone needs:
+`json_schema/` adds `renamed`, `xml/` adds `unreadable`.
 """
 
 import dataclasses
 
-#: Marks a field as a `path -> reason` register, whose every entry has to justify itself.
-#:
-#: Declared rather than inferred from the type: a record may hold other dictionaries --
-#: `renamed` maps one path to another -- whose values are not reasons and which
-#: `compare.usable_reasons` must not hold to a reason's standard.
-REGISTER = {"register": True}
-
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class FormDiff:
-    """The departures one form's definition is allowed to have from its source."""
+    """One form's accepted differences from the source it is compared against."""
 
-    #: Path in the definition -> why nothing in the source corresponds to it.
-    absent_from_source: dict[str, str] = dataclasses.field(default_factory=dict, metadata=REGISTER)
+    #: Path in the definition -> why the source has nothing corresponding.
+    #: e.g. {"fax_number": "no such field on this form -- it is `fax`"}
+    absent_from_source: dict[str, str] = dataclasses.field(default_factory=dict)
 
     #: Path in the source -> why the definition reaches nothing corresponding.
-    absent_from_definition: dict[str, str] = dataclasses.field(
-        default_factory=dict, metadata=REGISTER
-    )
+    #: e.g. {"applicant_id": "no rule targets ApplicantID"}
+    absent_from_definition: dict[str, str] = dataclasses.field(default_factory=dict)
 
-    #: `"path/keyword"` -> the citation showing which side is wrong, for a rule the two
-    #: declare differently.
-    differing_rules: dict[str, str] = dataclasses.field(default_factory=dict, metadata=REGISTER)
+    #: "path/keyword" -> the citation showing which side is wrong.
+    #: e.g. {"Applicant.Country/enum": "UniversalCodes-V2.0.xsd spells CIV with U+2019"}
+    differing_rules: dict[str, str] = dataclasses.field(default_factory=dict)

@@ -1,8 +1,8 @@
 """SF-424 Short's XML mapping against SF424_Short_3_0-V3.0.xsd.
 
-The mapping is complete: all eighty-two elements mapped in sequence order, every rule
-reading a real field, every field reaching an element. Six constraint gaps, all in the
-shared global-library country and email types.
+Complete: every element mapped in sequence order, every rule reading a real field, every
+field reaching an element. The six `differing_rules` entries are all in shared
+global-library types -- three country enums and three email bounds.
 """
 
 from ..harness.form_diff import FormDiff

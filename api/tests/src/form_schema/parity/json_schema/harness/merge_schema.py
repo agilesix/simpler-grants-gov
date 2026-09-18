@@ -1,18 +1,20 @@
-"""Flattening `allOf`, and refusing to guess when it cannot be done exactly.
+"""Folds `allOf` branches into one schema, or raises.
 
-A validator never needs this. `allOf` is a conjunction, so it applies every branch and the
-effective constraint is whatever survives all of them -- with a payload in hand, nothing
-has to be decided. Flattening has no payload, so it has to produce one schema correct for
-every possible input, and that is where the ambiguity lives.
+    {"allOf": [{"type": "string"}, {"maxLength": 60}]}
+    -> {"type": "string", "maxLength": 60}
 
-Two branches declaring `maxLength` 60 and 200 validate as 60. A flattener that picks 200
-accepts values the original rejected, silently. Rather than implement precedence and hope
-it matches, this raises: the merge is exact for every schema it accepts and refuses the
-rest. Across SF-424 and SF-424A there is nothing to refuse -- no keyword is declared twice
--- so the exactness is not theoretical.
+    {"allOf": [{"maxLength": 60}, {"maxLength": 200}]}
+    -> AmbiguousComposition
 
-Conditional branches are left where they are. `if`/`then` cannot be flattened at all,
-because which branch applies depends on the payload.
+A validator applies every branch, so two `maxLength` values behave as the smaller. A
+flattener has no payload and would have to pick one; picking 200 silently accepts values
+the schema rejects. Rather than implement precedence, this raises. No form in `diffs/`
+declares a keyword twice, so nothing currently raises.
+
+`if`/`then`/`else` branches are left in place, since which applies depends on the payload.
+
+`allof-merge` and `json-schema-merge-allof` do this off the shelf. They resolve a conflict
+by choosing a winner, which is the behaviour this cannot have.
 """
 
 from typing import Any
@@ -22,9 +24,8 @@ CONDITIONAL = frozenset({"if", "then", "else"})
 # Keywords whose values combine rather than collide, so seeing them twice is not ambiguous.
 COMBINING = frozenset({"properties", "required", "allOf", "$defs", "definitions"})
 
-# Keywords that describe rather than constrain. They cannot make a payload invalid, so two
-# values are not a contradiction -- a form overriding a shared question's label is the
-# ordinary case, and the form's own wins, which is what the renderer shows.
+# Keywords that describe rather than constrain, so two values are not a contradiction.
+# The node's own wins: a form overriding a shared question's label is the ordinary case.
 ANNOTATION = frozenset({
     "title",
     "description",
@@ -38,7 +39,7 @@ ANNOTATION = frozenset({
 
 
 class AmbiguousComposition(Exception):
-    """Two branches declare the same keyword, and choosing between them would be a guess."""
+    """Two branches declare the same constraining keyword with different values."""
 
 
 def _is_conditional(branch: Any) -> bool:
@@ -46,7 +47,9 @@ def _is_conditional(branch: Any) -> bool:
 
 
 def merge_allof(schema: Any, path: str = "") -> Any:
-    """A schema with its composable `allOf` branches folded in, recursively.
+    """The schema with its non-conditional `allOf` branches folded in, recursively.
+
+    `path` is used only to locate a conflict in the raised message.
 
     Raises `AmbiguousComposition` if two branches, or a branch and the node itself, declare
     the same constraining keyword with different values.

@@ -1,32 +1,43 @@
-"""Holding a generated form's inputs against the hand-written form's.
+"""Compares a generated form's inputs against the hand-written form's.
 
-Four functions, in the order a reader should meet them. `match_fields` decides which
-generated field *is* which hand-written field; the other three each report one way the
-two can disagree, every one of them suppressible only by an entry in the `FormDiff`.
+    match_fields       which generated field is which hand-written field
+    unmatched_fields   fields on either side matching nothing
+    rule_differences   matched fields governed by different rules
+    stale_entries      FormDiff entries no longer describing a real difference
 
-    match_fields       which generated field corresponds to which hand-written field
-    unmatched_fields   fields on either side that correspond to nothing
-    rule_differences   corresponding fields governed by different rules
-    stale_entries      FormDiff entries that no longer describe anything real
+`match_fields` runs first and the other three build on its result. Each takes the same
+three arguments -- the record, and both sides flattened by `flatten_schema.inputs` -- and
+returns `Discrepancy` objects that a `FormDiff` entry can suppress.
 """
+
+from typing import Any
 
 from ... import paths
 from ...discrepancy import Discrepancy
 from ...paths import Path
-from .flatten_schema import Input
+from .flatten_schema import FormInput
 from .form_diff import FormDiff
+
+
+def _shown(rules: dict[str, Any], keyword: str) -> str:
+    """How a keyword's value reads in a failure message, or `(absent)` if unset."""
+    return repr(rules[keyword]) if keyword in rules else "(absent)"
 
 
 def match_fields(
     diff: FormDiff,
-    generated: dict[Path, Input],
-    handwritten: dict[Path, Input],
+    generated: dict[Path, FormInput],
+    handwritten: dict[Path, FormInput],
 ) -> dict[Path, Path]:
     """Generated path -> handwritten path, for every input that corresponds.
 
-    A declared rename wins; otherwise a shared path corresponds to itself. A path already
-    used as a rename's target is not also matched to itself, so an ambiguous declaration
-    leaves both ends unaccounted for rather than matching one field two ways.
+        both have `agency_name`              -> {("agency_name",): ("agency_name",)}
+        renamed={"p.phone": "p.phone_number"} -> {("p", "phone"): ("p", "phone_number")}
+
+    A declared rename wins over the identity match. A path already used as a rename's
+    target is not also matched to itself: with `renamed={"a": "b"}` and both forms holding
+    `a` and `b`, only `a -> b` is returned, and generated `b` and handwritten `a` are left
+    for `unmatched_fields` to report.
     """
     renamed = {paths.parse(k): paths.parse(v) for k, v in diff.renamed.items()}
     taken = set(renamed.values())
@@ -41,13 +52,14 @@ def match_fields(
 
 def unmatched_fields(
     diff: FormDiff,
-    generated: dict[Path, Input],
-    handwritten: dict[Path, Input],
+    generated: dict[Path, FormInput],
+    handwritten: dict[Path, FormInput],
 ) -> list[Discrepancy]:
-    """Inputs the record accounts for on neither side.
+    """Inputs matching nothing and not declared absent.
 
-    An unaccounted handwritten input is a field an applicant can fill in on the form that
-    ships and cannot on the generated one.
+    Returns kind `"generated input is unmapped"` or `"handwritten input is unmapped"`; the
+    callers in `test_forms.py` filter on which. An unaccounted handwritten input is a field
+    an applicant can fill in on the form that ships and cannot on the generated one.
     """
     declared_generated = {paths.parse(p) for p in diff.absent_from_source}
     declared_handwritten = {paths.parse(p) for p in diff.absent_from_definition}
@@ -65,13 +77,17 @@ def unmatched_fields(
 
 def rule_differences(
     diff: FormDiff,
-    generated: dict[Path, Input],
-    handwritten: dict[Path, Input],
+    generated: dict[Path, FormInput],
+    handwritten: dict[Path, FormInput],
 ) -> list[Discrepancy]:
-    """Corresponding inputs governed by different rules.
+    """Matched inputs governed by different rules, one Discrepancy per keyword.
 
-    Every keyword that can make a payload invalid, plus requiredness, reported keyword by
-    keyword. Presentation is not compared: that belongs to the UI checks.
+    Returns kind `"requiredness differs"` or `"<keyword> differs"`, so a caller can report
+    the two separately. A keyword one side omits counts as a difference: `maxLength` 60
+    against none is reported as `generated 60, handwritten (absent)`.
+
+    Suppressed per keyword by `differing_rules`, keyed `"path/keyword"`. Presentation is
+    not compared -- that belongs to the UI checks.
     """
     recorded = diff.differing_rules
     out = []
@@ -95,7 +111,7 @@ def rule_differences(
                 )
             )
 
-        a, b = generated_rules.as_dict, handwritten_rules.as_dict
+        a, b = generated_rules.rules, handwritten_rules.rules
         for keyword in sorted(set(a) | set(b)):
             if a.get(keyword) == b.get(keyword):
                 continue
@@ -105,7 +121,7 @@ def rule_differences(
                 Discrepancy(
                     f"{keyword} differs",
                     where,
-                    f"generated {a.get(keyword, '(absent)')}, handwritten {b.get(keyword, '(absent)')}",
+                    f"generated {_shown(a, keyword)}, handwritten {_shown(b, keyword)}",
                 )
             )
     return out
@@ -113,10 +129,15 @@ def rule_differences(
 
 def stale_entries(
     diff: FormDiff,
-    generated: dict[Path, Input],
-    handwritten: dict[Path, Input],
+    generated: dict[Path, FormInput],
+    handwritten: dict[Path, FormInput],
 ) -> list[Discrepancy]:
-    """Record entries naming a field that does not exist on the side they claim."""
+    """Record entries naming a field that does not exist on the side they claim.
+
+    Covers all four registers: a `renamed` target the handwritten form lacks, a rename to
+    the same path (which the identity match already handles), an `absent_from_*` key
+    neither form has, and a `differing_rules` key whose path is gone.
+    """
     out = []
     for generated_path, handwritten_path in match_fields(diff, generated, handwritten).items():
         if generated_path not in generated:

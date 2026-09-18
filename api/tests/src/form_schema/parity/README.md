@@ -33,25 +33,22 @@ From the hand-written record in `diffs/`:
 
 The second is the only check that can see a field one form has and the other lacks.
 Neither schema sets `additionalProperties`, so an unexpected field validates cleanly on
-both, and no amount of validating will find it. That is why parity cannot be established
-by running payloads through a validator alone.
+both. Parity therefore cannot be established by running payloads through a validator.
 
-The third is a summary rather than ground truth: it reads a flattened schema, and
-flattening is an approximation the validator itself never has to make. What it gives up in
-exactness it repays in coverage -- it names every field and keyword that differs, in one
-pass, instead of waiting for a payload to exercise one.
+The third reads a flattened schema, which is an approximation a validator never has to
+make. In exchange it names every field and keyword that differs in one pass, where a
+validator needs a payload that exercises each one.
 
 ## The property-based check, and why it is not here
 
-A counterpart that generates payloads and requires the API's own validator to reach the
-same verdict against both schemas is parked on `widal001/parity-property-tests`.
+A counterpart would generate payloads and require the API's own validator to reach the
+same verdict against both schemas. It is not here for two reasons.
 
-It is not in this suite for two reasons. It has never found a difference the checks above
-missed -- every one of the recorded differences came from the rule comparison. And it
-cannot find the most common kind: its generated values are over *every* limit rather than
-between two of them, so a field capped at 60 on one side and 200 on the other rejects them
-on both and the difference stays invisible. Catching that needs values derived from each
-field's declared facets, which is what a future version should do.
+It finds nothing the rule comparison does not -- every recorded difference came from the
+rule comparison. And it misses the most common kind: generated values land over *every*
+limit rather than between two, so a field capped at 60 on one side and 200 on the other
+rejects them on both and the difference stays invisible. Catching that needs values drawn
+from each field's declared facets.
 
 ## Adding a form
 

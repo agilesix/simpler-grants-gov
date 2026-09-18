@@ -1,9 +1,12 @@
 """SF-424's XML mapping against SF424_4_0-V4.0.xsd.
 
-Nineteen response fields do not reach the submission: eighteen target an element the
-mapping never mentions, and `fax` targets `Fax` from a rule keyed `fax_number`, which is
-not a field this form has. Every one of the elements is `minOccurs="0"`, so the document
-validates either way.
+Nineteen response fields do not reach the submission. Eighteen have no rule at all; `fax`
+has one keyed `fax_number`, which is not a field this form has, so `Fax` is fed by nothing.
+Every element involved is `minOccurs="0"`, so the document validates either way and XSD
+checking cannot see any of it.
+
+`tests/src/form_schema/parity/xml/test_conflicts.py` reproduces both kinds through the
+API's own transformer.
 """
 
 from ..harness.form_diff import FormDiff

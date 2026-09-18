@@ -1,17 +1,15 @@
-"""Whether the machinery that checks an XML mapping behaves the way the checks assume.
+"""Fixture tests for the functions in `harness/compare.py`.
 
-`test_forms.py` reads real forms, where a check either passes or reports a defect nobody
-can reproduce by hand. These build a `FlatForm` directly -- a few elements, a few fields,
-one record -- so every rule the comparison follows is visible on its own, and a maintainer
-can see what the harness does before trusting what it says about a form.
+`test_forms.py` runs these functions over real forms, where a check either passes or
+reports a defect that takes a Grants.gov schema to interpret. These build a `FlatForm`
+directly -- a few elements, a few fields, one record -- so each rule is visible on its own.
 
 One class per function under test.
 """
 
-import json
 from decimal import Decimal
 
-from tests.src.form_schema.parity.json_schema.harness.flatten_schema import Input
+from tests.src.form_schema.parity.json_schema.harness.flatten_schema import FormInput
 from tests.src.form_schema.parity.xml.harness import compare, flatten_xsd
 from tests.src.form_schema.parity.xml.harness.form_diff import FormDiff
 
@@ -46,12 +44,9 @@ def element(required=False, position=0, primitive=None, **rules) -> flatten_xsd.
     )
 
 
-def field(required: bool = False, **rules) -> Input:
-    """One form field, with its rules spelled the way `flatten_schema` renders them."""
-    return Input(
-        required=required,
-        rules=tuple(sorted((k, json.dumps(v, sort_keys=True)) for k, v in rules.items())),
-    )
+def field(required: bool = False, **rules) -> FormInput:
+    """One form field and its rules. `field(type="string", maxLength=60)`."""
+    return FormInput(required=required, rules=rules)
 
 
 def kinds(found) -> list[str]:
