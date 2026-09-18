@@ -15,11 +15,12 @@ failure with no way to record an exception, which is deliberate.
 
 import dataclasses
 
-from ... import form_diff as shared
+from ...form_diff import FormDiff as _Base
+from ...form_diff import REGISTER
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class FormDiff(shared.FormDiff):
+class FormDiff(_Base):
     """One form's mapping, and the gaps between it and the schema it targets.
 
     `absent_from_definition` is a response field no XML element carries: a field an
@@ -40,4 +41,4 @@ class FormDiff(shared.FormDiff):
 
     #: Rule key -> why the reader will not derive its wire structure. A form with any of
     #: these is skipped by the structural checks.
-    unreadable: dict[str, str] = dataclasses.field(default_factory=dict)
+    unreadable: dict[str, str] = dataclasses.field(default_factory=dict, metadata=REGISTER)

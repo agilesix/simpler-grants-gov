@@ -10,22 +10,11 @@ two can disagree, every one of them suppressible only by an entry in the `FormDi
     stale_entries      FormDiff entries that no longer describe anything real
 """
 
-import dataclasses
-
 from ... import paths
+from ...discrepancy import Discrepancy
 from ...paths import Path
 from .flatten_schema import Input
 from .form_diff import FormDiff
-
-
-@dataclasses.dataclass(frozen=True)
-class Discrepancy:
-    kind: str
-    path: str
-    detail: str = ""
-
-    def __str__(self) -> str:
-        return f"{self.kind}: {self.path}{f' -- {self.detail}' if self.detail else ''}"
 
 
 def match_fields(

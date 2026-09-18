@@ -5,25 +5,14 @@ answers, so a response field with no rule is never visited and simply does not a
 the submission. Most Grants.gov elements are `minOccurs="0"`, so the document still
 validates and neither `xmllint` nor a snapshot notices.
 
-These checks compare the mapping against the schema directly, so no fixture has to happen
-to populate the right field for a mistake to surface. Three sources, all keyed by path:
-`flatten_xsd.elements()`, `flatten_transform.read()`, and `flatten_schema.inputs()` from the parity suite.
-
-Known gaps are recorded per form in `diffs/` with a reason, and a companion check
-fails if an entry stops describing a real gap.
+The comparisons live in `harness/compare.py` and are exercised against fixtures in
+`test_harness.py`. Each form declares a `FormDiff` in `diffs/` recording what is known to
+be wrong with it, and a companion check fails if an entry stops describing a real gap.
 """
-
-import importlib
-import itertools
-import json
-from types import SimpleNamespace
 
 import pytest
 
-from src.form_schema.jsonschema_resolver import resolve_jsonschema
-from tests.src.form_schema.parity import paths
-from tests.src.form_schema.parity.json_schema.harness import flatten_schema
-from tests.src.form_schema.parity.xml.harness import flatten_transform, flatten_xsd
+from tests.src.form_schema.parity import compare as shared
 from tests.src.form_schema.parity.xml.diffs import (
     key_contacts,
     key_contacts_portable,
@@ -33,6 +22,7 @@ from tests.src.form_schema.parity.xml.diffs import (
     sf424_short_portable,
     sf424a,
 )
+from tests.src.form_schema.parity.xml.harness import compare
 
 DIFFS = [
     sf424.DIFF,
@@ -47,38 +37,11 @@ DIFFS = [
 
 @pytest.fixture(scope="module", params=DIFFS, ids=lambda d: d.module)
 def form(request):
-    """One form: its record, its mapping, its schema, and its own inputs."""
-    diff = request.param
-    module = importlib.import_module(f"src.form_schema.forms.{diff.module}")
-    # A hand-written form exports module-level constants; a generated one exports the Form
-    # the loader built from its form.json.
-    generated = getattr(module, "FORM", None)
-    mapping = generated.json_to_xml_schema if generated else module.FORM_XML_TRANSFORM_RULES
-    targets, unreadable = flatten_transform.read(mapping)
-
-    return SimpleNamespace(
-        diff=diff,
-        targets=targets,
-        unreadable=unreadable,
-        declared=flatten_xsd.elements(
-            flatten_transform.xsd_of(mapping), flatten_transform.root_of(mapping)
-        ),
-        attachments=flatten_transform.attachment_elements(mapping),
-        by_path=flatten_schema.inputs(resolve_jsonschema(module.FORM_JSON_SCHEMA)),
-        inputs={
-            paths.render(p)
-            for p in flatten_schema.inputs(
-                resolve_jsonschema(
-                    generated.form_json_schema if generated else module.FORM_JSON_SCHEMA
-                )
-            )
-        },
-        sources={source for source in targets.values() if source},
-        transformed=flatten_transform.transformed(mapping),
-    )
+    """One form's mapping, flattened beside the two documents it is held against."""
+    return compare.flatten(request.param)
 
 
-def _readable(form) -> None:
+def _skip_unreadable(form) -> None:
     """Skip a form whose mapping builds its structure at run time rather than declaring it."""
     if form.diff.unreadable:
         pytest.skip(
@@ -87,109 +50,41 @@ def _readable(form) -> None:
         )
 
 
-def _reaches(field: str, sources: set[str]) -> bool:
-    """Whether some rule reads `field`, or reads a field that contains it."""
-    return any(field == s or field.startswith(s + ".") for s in sources)
-
-
-def _governed(form):
-    """Yields `(element path, response field, form rules, element)` for each element fed by
-    exactly one field.
-
-    Skips containers, and sources naming a subtree rather than one input -- an attachment
-    field, or the array behind a `one_to_many` expansion.
-    """
-    for path, source in form.targets.items():
-        if source is None:
-            continue
-        governed = form.by_path.get(paths.parse(source))
-        element = form.declared.get(path)
-        if governed is None or element is None:
-            continue
-        yield path, source, {k: json.loads(v) for k, v in governed.rules}, element
-
-
-def _reconciled(form, path: paths.Path, keyword: str) -> bool:
-    """Whether a declared `value_transform` could account for a difference in `keyword`."""
-    declared = form.transformed.get(path, frozenset())
-    return bool(declared & flatten_transform.RECONCILED_BY.get(keyword, frozenset()))
-
-
-def _gap(form, path: paths.Path, keyword: str) -> bool:
-    """Whether this difference is already recorded, so the check should pass over it."""
-    return f"{paths.render(path)}/{keyword}" in form.diff.differing_rules
-
-
-def _from_attachment(path: paths.Path, attachments: frozenset[str]) -> bool:
-    """Whether an element's value comes from an uploaded file rather than the mapping."""
-    return bool(path) and path[0] in attachments and len(path) > 1
-
-
-# --- mapping against schema ------------------------------------------------
+def _report(found) -> str:
+    return "\n".join(f"  {d}" for d in found)
 
 
 class TestMappingVsXsd:
     """Every element the XSD declares, sourced and in sequence order."""
 
     def test_xml_mapping_does_not_emit_undeclared_elements(self, form):
-        """Catches a misspelled target, one at the wrong nesting level, or an element a schema
-        revision renamed or removed."""
-        _readable(form)
+        """An element Grants.gov never declared would make the whole document invalid."""
+        _skip_unreadable(form)
 
-        unknown = sorted(paths.render(path) for path in form.targets if path not in form.declared)
-        assert not unknown, (
-            f"{form.diff.module}: {len(unknown)} target(s) name nothing in "
-            f"{form.diff.module}'s schema: {unknown}"
+        found = compare.undeclared_targets(form)
+        assert not found, (
+            f"{form.diff.module}: {len(found)} target(s) name nothing in this form's "
+            f"schema:\n" + _report(found)
         )
 
     def test_xml_mapping_not_missing_required_elements(self, form):
-        """Nothing Grants.gov demands is left without a source.
+        """Nothing Grants.gov demands is left without a source."""
+        _skip_unreadable(form)
 
-        Attachment subtrees are exempt: they come from the uploaded file, not the mapping.
-        """
-        _readable(form)
-
-        missing = sorted(
-            paths.render(path)
-            for path, element in form.declared.items()
-            if element.required
-            and path not in form.targets
-            and not _from_attachment(path, form.attachments)
-        )
-        assert not missing, (
-            f"{form.diff.module}: {len(missing)} required element(s) have no source, so a "
-            f"submission would omit them: {missing}"
+        found = compare.unsourced_elements(form)
+        assert not found, (
+            f"{form.diff.module}: {len(found)} required element(s) have no source, so a "
+            f"submission would omit them:\n" + _report(found)
         )
 
     def test_xml_mapping_follows_xsd_element_order(self, form):
-        """Within each parent, the mapping declares elements in schema sequence order.
+        """Grants.gov declares `xs:sequence`, so order is load-bearing."""
+        _skip_unreadable(form)
 
-        The transformer emits in mapping order and Grants.gov declares `xs:sequence`, so this
-        is load-bearing -- and maintained only as key order in a Python dictionary.
-        """
-        _readable(form)
-
-        ordered = [
-            path
-            for path in form.targets
-            if path in form.declared and form.declared[path].position >= 0
-        ]
-        out_of_order = []
-        for parent, group in itertools.groupby(
-            sorted(ordered, key=lambda p: p[:-1]), lambda p: p[:-1]
-        ):
-            siblings = set(group)
-            as_mapped = [p for p in ordered if p in siblings]
-            as_declared = sorted(siblings, key=lambda p: form.declared[p].position)
-            if as_mapped != as_declared:
-                out_of_order.append(
-                    f"{paths.render(parent) or '(root)'}: mapped "
-                    f"{[p[-1] for p in as_mapped]}, schema declares {[p[-1] for p in as_declared]}"
-                )
-        assert not out_of_order, f"{form.diff.module}: " + "; ".join(out_of_order)
-
-
-# --- mapping against the form ----------------------------------------------
+        found = compare.out_of_order_elements(form)
+        assert not found, f"{form.diff.module}: elements are emitted out of order:\n" + _report(
+            found
+        )
 
 
 class TestMappingVsFormSchema:
@@ -197,46 +92,23 @@ class TestMappingVsFormSchema:
 
     def test_no_form_field_is_missing_from_xml_mapping(self, form):
         """Everything an applicant can fill in ends up somewhere in the submission."""
-        _readable(form)
+        _skip_unreadable(form)
 
-        dropped = sorted(
-            field
-            for field in form.inputs
-            if not _reaches(field, form.sources) and field not in form.diff.absent_from_definition
-        )
-        assert not dropped, (
-            f"{form.diff.module}: {len(dropped)} response field(s) reach no XML element, so "
-            f"an applicant's answer would not be submitted: {dropped}"
+        found = [d for d in compare.unmatched_fields(form) if d.kind == "form field is unmapped"]
+        assert not found, (
+            f"{form.diff.module}: {len(found)} response field(s) reach no XML element, so "
+            f"an applicant's answer would not be submitted:\n" + _report(found)
         )
 
     def test_xml_mapping_does_not_read_unknown_form_fields(self, form):
-        """No rule reads a response field that does not exist.
+        """A rule reading a field that does not exist contributes nothing, silently."""
+        _skip_unreadable(form)
 
-        The element such a rule targets *is* mapped, so the schema-side checks see nothing.
-        """
-        _readable(form)
-
-        misdirected = sorted(
-            source
-            for source in form.sources
-            if not any(field == source or field.startswith(source + ".") for field in form.inputs)
-            and source not in form.diff.absent_from_source
+        found = [d for d in compare.unmatched_fields(form) if d.kind == "rule source is unknown"]
+        assert not found, (
+            f"{form.diff.module}: {len(found)} rule(s) read a field this form does not "
+            f"have:\n" + _report(found)
         )
-        assert not misdirected, (
-            f"{form.diff.module}: {len(misdirected)} rule(s) read a field this form does not "
-            f"have: {misdirected}"
-        )
-
-
-# --- form constraints against wire constraints -----------------------------
-
-#: For each bound, which direction makes the form the looser of the two.
-LOOSER = {"maxLength": "above", "maximum": "above", "minLength": "below", "minimum": "below"}
-
-#: `minimum`/`maximum` say nothing about a string, so a form holding a decimal as text --
-#: which every money field does, to keep a cent off binary floating point -- carries the
-#: range in its pattern instead. These are read from the pattern rather than looked up.
-FROM_PATTERN = ("minimum", "maximum")
 
 
 class TestFormSchemaVsXsd:
@@ -248,96 +120,43 @@ class TestFormSchemaVsXsd:
         Set comparison settles a 261-member code list at once, where sampling would need
         hundreds of draws to reach any particular member.
         """
-        _readable(form)
+        _skip_unreadable(form)
 
-        offered = []
-        for path, source, governed, element in _governed(form):
-            listed = element.rules.get("enum")
-            if "enum" not in governed or not isinstance(listed, frozenset):
-                continue
-            if _reconciled(form, path, "enum") or _gap(form, path, "enum"):
-                continue
-            extra = sorted(set(governed["enum"]) - listed)
-            if extra:
-                offered.append(f"{paths.render(path)} <- {source}: {extra}")
-        assert not offered, (
-            f"{form.diff.module}: {len(offered)} field(s) offer a value the element does not "
-            f"list, so choosing it would produce a submission Grants.gov rejects: {offered}"
+        found = [d for d in compare.rule_differences(form) if d.kind == "enum differs"]
+        assert not found, (
+            f"{form.diff.module}: {len(found)} field(s) offer a value the element does not "
+            f"list, so choosing it would produce a submission Grants.gov rejects:\n"
+            + _report(found)
         )
 
     def test_form_does_not_accept_values_outside_xsd_bounds(self, form):
-        """A form is at least as strict as the element it feeds.
+        """Containment, not equality: a form stricter than the wire is fine.
 
-        Containment, not equality: a form stricter than the wire is fine. Declaring nothing
-        where the element declares a bound counts as looser.
+        A money field holds a decimal as a string, so its range comes from its pattern; a
+        pattern the reader cannot parse is reported too, since nothing then checks it.
         """
-        _readable(form)
+        _skip_unreadable(form)
 
-        looser = []
-        for path, source, governed, element in _governed(form):
-            for keyword, direction in LOOSER.items():
-                limit = element.rules.get(keyword)
-                if limit is None:
-                    continue
-                # A `minLength` of 0 asks nothing of anyone -- a string is never shorter than
-                # that -- so a form declaring no minimum is not looser than it.
-                if keyword == "minLength" and limit == 0:
-                    continue
-                if _reconciled(form, path, keyword) or _gap(form, path, keyword):
-                    continue
-                declared = governed.get(keyword)
-                if keyword in FROM_PATTERN and governed.get("type") == "string":
-                    permitted = flatten_xsd.implied_range(governed.get("pattern", ""))
-                    if permitted is None:
-                        looser.append(
-                            f"{paths.render(path)} <- {source}: the element bounds {keyword} at "
-                            f"{limit}, the field is a string, and its pattern "
-                            f"{governed.get('pattern', '(none)')!r} does not say what range it "
-                            f"permits -- so nothing checks it"
-                        )
-                        continue
-                    declared = permitted[0] if keyword == "minimum" else permitted[1]
-
-                if declared is None:
-                    looser.append(
-                        f"{paths.render(path)} <- {source}: no {keyword}, element {limit}"
-                    )
-                elif (declared > limit) if direction == "above" else (declared < limit):
-                    looser.append(
-                        f"{paths.render(path)} <- {source}: {keyword} {declared} against element {limit}"
-                    )
-        assert not looser, (
-            f"{form.diff.module}: {len(looser)} field(s) accept more than the element carries, "
-            f"so an applicant could fill in something unsubmittable: {looser}"
+        bounds = {f"{keyword} differs" for keyword in compare.LOOSER} | {"range unreadable"}
+        found = [d for d in compare.rule_differences(form) if d.kind in bounds]
+        assert not found, (
+            f"{form.diff.module}: {len(found)} field(s) accept more than the element "
+            f"carries, so an applicant could fill in something unsubmittable:\n" + _report(found)
         )
 
     def test_form_field_types_match_xsd_element_types(self, form):
         """Where a field's JSON type differs from its element's, a transform is declared.
 
-        A boolean reaching a `YesNoDataType` string needs `boolean_to_yes_no`; omitting it is
-        invisible until a document is generated with that field populated.
+        A boolean reaching a `YesNoDataType` string needs `boolean_to_yes_no`; omitting it
+        is invisible until a document is generated with that field populated.
         """
-        _readable(form)
+        _skip_unreadable(form)
 
-        mismatched = []
-        for path, source, governed, element in _governed(form):
-            expected = flatten_xsd.PRIMITIVES.get(element.primitive or "")
-            declared = governed.get("type")
-            if not expected or not declared or declared == expected:
-                continue
-            if _reconciled(form, path, "type") or _gap(form, path, "type"):
-                continue
-            mismatched.append(
-                f"{paths.render(path)} <- {source}: form {declared}, element "
-                f"xs:{element.primitive}, no value_transform declared"
-            )
-        assert not mismatched, (
-            f"{form.diff.module}: {len(mismatched)} field(s) would reach serialisation as the "
-            f"wrong type: {mismatched}"
+        found = [d for d in compare.rule_differences(form) if d.kind == "type differs"]
+        assert not found, (
+            f"{form.diff.module}: {len(found)} field(s) would reach serialisation as the "
+            f"wrong type:\n" + _report(found)
         )
-
-
-# --- the record itself -----------------------------------------------------
 
 
 class TestRecordedDifferences:
@@ -345,82 +164,23 @@ class TestRecordedDifferences:
 
     def test_skipped_forms_match_recorded_reasons(self, form):
         """A form is skipped for the reasons its record gives, and no others."""
-        assert set(form.unreadable) == set(form.diff.unreadable), (
-            f"{form.diff.module}: the reader cannot derive "
-            f"{sorted(set(form.unreadable) - set(form.diff.unreadable))} and the record does "
-            f"not say so; the record claims "
-            f"{sorted(set(form.diff.unreadable) - set(form.unreadable))} which now reads fine"
+        found = compare.unrecorded_skips(form)
+        assert not found, (
+            f"{form.diff.module}: what the reader can derive and what the record claims "
+            f"have diverged:\n" + _report(found)
         )
 
     def test_recorded_differences_give_usable_reasons(self, form):
-        """A register entry without a real reason is an allow-list pretending to be evidence.
-
-        Added after a docstring edit replaced two shared citations with the text of the script
-        that was meant to write them. Nothing read the reasons, so it went unnoticed.
-        """
-        unusable = sorted(
-            f"{register}[{key!r}]: {reason!r}"
-            for register, entries in (
-                ("absent_from_definition", form.diff.absent_from_definition),
-                ("absent_from_source", form.diff.absent_from_source),
-                ("differing_rules", form.diff.differing_rules),
-                ("unreadable", form.diff.unreadable),
-            )
-            for key, reason in entries.items()
-            if len(reason.strip()) < 40 or "{" in reason or "repr(" in reason
-        )
-        assert not unusable, f"{form.diff.module}: " + "; ".join(unusable)
+        """An entry without a real reason is an allow-list pretending to be evidence."""
+        found = shared.usable_reasons(form.diff)
+        assert not found, f"{form.diff.module}: " + _report(found)
 
     def test_recorded_differences_are_not_stale(self, form):
         """A recorded gap cannot outlive the problem it describes."""
-        _readable(form)
+        _skip_unreadable(form)
 
-        fixed = sorted(
-            field for field in form.diff.absent_from_definition if _reaches(field, form.sources)
+        found = compare.stale_entries(form)
+        assert not found, (
+            f"{form.diff.module}: recorded differences no longer describe real ones:\n"
+            + _report(found)
         )
-        gone = sorted(
-            field for field in form.diff.absent_from_definition if field not in form.inputs
-        )
-        resolved = sorted(
-            source
-            for source in form.diff.absent_from_source
-            if any(field == source or field.startswith(source + ".") for field in form.inputs)
-        )
-        unused = sorted(
-            source for source in form.diff.absent_from_source if source not in form.sources
-        )
-
-        # A constraint gap has to still name a mapped element and a rule that element declares.
-        by_element = {paths.render(path): element for path, element in form.declared.items()}
-        stale_gaps = []
-        for entry in form.diff.differing_rules:
-            element, _, keyword = entry.rpartition("/")
-            declared = by_element.get(element)
-            if declared is None:
-                stale_gaps.append(f"{entry} (no such element)")
-            elif keyword == "type":
-                if declared.primitive is None:
-                    stale_gaps.append(f"{entry} (element has no simple type)")
-            elif keyword not in declared.rules:
-                stale_gaps.append(f"{entry} (element declares no {keyword})")
-
-        complaints = []
-        if fixed:
-            complaints.append(f"now mapped, so remove from `absent_from_definition`: {fixed}")
-        if gone:
-            complaints.append(
-                f"no longer fields on this form, so remove from `absent_from_definition`: {gone}"
-            )
-        if resolved:
-            complaints.append(
-                f"now name real fields, so remove from `absent_from_source`: {resolved}"
-            )
-        if unused:
-            complaints.append(
-                f"no longer rule sources, so remove from `absent_from_source`: {unused}"
-            )
-        if stale_gaps:
-            complaints.append(
-                f"no longer describe a real restriction, so remove from `differing_rules`: {stale_gaps}"
-            )
-        assert not complaints, f"{form.diff.module}: " + "; ".join(complaints)

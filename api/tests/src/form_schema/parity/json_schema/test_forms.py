@@ -20,6 +20,7 @@ import importlib
 import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
+from tests.src.form_schema.parity import compare as shared
 from tests.src.form_schema.parity.json_schema.diffs import (
     key_contacts,
     sf424,
@@ -99,6 +100,13 @@ class TestGeneratedVsHandwritten:
 
 class TestRecordedDifferences:
     """Whether the record still describes real differences between real fields."""
+
+    def test_recorded_differences_give_usable_reasons(self, forms):
+        """An entry without a real reason is an allow-list pretending to be evidence."""
+        found = shared.usable_reasons(forms[0])
+        assert not found, "recorded differences give reasons nobody could act on:\n" + _report(
+            found
+        )
 
     def test_recorded_differences_are_not_stale(self, forms):
         """An entry naming a field neither form has makes the rest of the record meaningless."""

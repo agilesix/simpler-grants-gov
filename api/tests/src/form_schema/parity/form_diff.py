@@ -21,17 +21,26 @@ alone needs: `json_schema/` adds `renamed`, `xml/` adds `unreadable`.
 
 import dataclasses
 
+#: Marks a field as a `path -> reason` register, whose every entry has to justify itself.
+#:
+#: Declared rather than inferred from the type: a record may hold other dictionaries --
+#: `renamed` maps one path to another -- whose values are not reasons and which
+#: `compare.usable_reasons` must not hold to a reason's standard.
+REGISTER = {"register": True}
+
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class FormDiff:
     """The departures one form's definition is allowed to have from its source."""
 
     #: Path in the definition -> why nothing in the source corresponds to it.
-    absent_from_source: dict[str, str] = dataclasses.field(default_factory=dict)
+    absent_from_source: dict[str, str] = dataclasses.field(default_factory=dict, metadata=REGISTER)
 
     #: Path in the source -> why the definition reaches nothing corresponding.
-    absent_from_definition: dict[str, str] = dataclasses.field(default_factory=dict)
+    absent_from_definition: dict[str, str] = dataclasses.field(
+        default_factory=dict, metadata=REGISTER
+    )
 
     #: `"path/keyword"` -> the citation showing which side is wrong, for a rule the two
     #: declare differently.
-    differing_rules: dict[str, str] = dataclasses.field(default_factory=dict)
+    differing_rules: dict[str, str] = dataclasses.field(default_factory=dict, metadata=REGISTER)
