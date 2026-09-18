@@ -1,6 +1,6 @@
 """What is known to be wrong with one form's XML mapping.
 
-The counterpart of `../json_schema/form_mapping.py`, over the same three registers: hand
+The counterpart of `../json_schema/harness/form_diff.py`, over the same three registers: hand
 written, a reason per entry, and checked for staleness so an entry cannot outlive the
 problem it describes.
 
@@ -15,11 +15,11 @@ failure with no way to record an exception, which is deliberate.
 
 import dataclasses
 
-from .. import form_mapping as shared
+from ... import form_diff as shared
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class FormMapping(shared.FormMapping):
+class FormDiff(shared.FormDiff):
     """One form's mapping, and the gaps between it and the schema it targets.
 
     `absent_from_definition` is a response field no XML element carries: a field an
@@ -30,7 +30,7 @@ class FormMapping(shared.FormMapping):
     `absent_from_source` is a rule source naming no response field. Such a rule
     contributes nothing and the element it targets is silently absent.
 
-    `recorded_differences` is keyed by `"element path/keyword"`, and cites the form
+    `differing_rules` is keyed by `"element path/keyword"`, and cites the form
     permitting something the element cannot carry.
     """
 

@@ -21,6 +21,6 @@ The registers are empty because there is nothing to explain, and the checks fail
 than pass if that stops being true.
 """
 
-from ..form_mapping import FormMapping
+from ..harness.form_diff import FormDiff
 
-MAPPING = FormMapping(module="sf424_short_portable")
+DIFF = FormDiff(module="sf424_short_portable")

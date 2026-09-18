@@ -23,7 +23,7 @@ import dataclasses
 
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
-class FormMapping:
+class FormDiff:
     """The departures one form's definition is allowed to have from its source."""
 
     #: Path in the definition -> why nothing in the source corresponds to it.
@@ -34,4 +34,4 @@ class FormMapping:
 
     #: `"path/keyword"` -> the citation showing which side is wrong, for a rule the two
     #: declare differently.
-    recorded_differences: dict[str, str] = dataclasses.field(default_factory=dict)
+    differing_rules: dict[str, str] = dataclasses.field(default_factory=dict)

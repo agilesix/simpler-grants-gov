@@ -5,12 +5,12 @@ reading a real field, every field reaching an element. Six constraint gaps, all 
 shared global-library country and email types.
 """
 
-from ..form_mapping import FormMapping
+from ..harness.form_diff import FormDiff
 from .shared_conflicts import CIV, EMPTY_EMAIL
 
-MAPPING = FormMapping(
+DIFF = FormDiff(
     module="sf424_short",
-    recorded_differences={
+    differing_rules={
         "Address.Country/enum": CIV,
         "ProjectDirectorGroup.Address.Country/enum": CIV,
         "ContactPersonGroup.Address.Country/enum": CIV,

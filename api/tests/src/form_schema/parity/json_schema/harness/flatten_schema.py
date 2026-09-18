@@ -8,7 +8,7 @@ names instead, so the two can be compared step for step.
 import dataclasses
 from typing import Any
 
-from ..paths import ARRAY, Path
+from ...paths import ARRAY, Path
 from .merge_schema import merge_allof
 
 # Every keyword that can make a payload invalid. Anything else a schema carries -- title,

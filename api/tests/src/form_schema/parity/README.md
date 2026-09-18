@@ -25,7 +25,7 @@ uv run pytest tests/src/form_schema/parity
 
 ## What is checked
 
-From the hand-written mapping in `mappings/`:
+From the hand-written record in `diffs/`:
 
 - every mapping entry names a field both forms actually have
 - every input on both sides appears in the mapping
@@ -56,8 +56,8 @@ field's declared facets, which is what a future version should do.
 ## Adding a form
 
 A form contributes a mapping and nothing else -- no test code, no fixture, no seed. Write
-`mappings/<form>.py` naming the two modules and the paths that correspond, add it to
-`MAPPINGS` in `test_parity.py`, and it inherits every check. The mapping is deliberately
+`diffs/<form>.py` naming the two modules and the paths that correspond, add it to
+`DIFFS` in `test_forms.py`, and it inherits every check. The mapping is deliberately
 hand-written: it is a claim about two forms that someone should have to defend, and the
 checks then hold it to both schemas so it cannot be quietly tuned until they pass.
 
@@ -73,6 +73,6 @@ Anything else is ours to fix.
 
 ## The XML mapping checks
 
-`xml/test_parity.py` asks a different question of the same forms -- whether each one's
+`xml/test_forms.py` asks a different question of the same forms -- whether each one's
 `json_to_xml_schema` agrees with the Grants.gov XSD it targets. Its module docstring
 explains what it compares.

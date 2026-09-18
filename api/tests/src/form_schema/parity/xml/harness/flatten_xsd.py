@@ -16,9 +16,9 @@ from pathlib import Path as FilePath
 import xmlschema
 from xmlschema.validators import XsdGroup
 
-from ..paths import Path
+from ...paths import Path
 
-XSD_DIR = FilePath(__file__).parents[5] / "src/services/xml_generation/xsds"
+XSD_DIR = FilePath(__file__).parents[6] / "src/services/xml_generation/xsds"
 
 # A guard against a self-referential type, not a real bound.
 MAX_DEPTH = 8

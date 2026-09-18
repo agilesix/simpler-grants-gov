@@ -15,7 +15,7 @@ Three details the format carries:
 
 from typing import Any
 
-from ..paths import ARRAY, Path
+from ...paths import ARRAY, Path
 
 #: `xml_transform.type` values whose wire structure follows from the declaration.
 READABLE = frozenset({"nested_object", "array", "attribute", "conditional"})

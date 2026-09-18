@@ -9,7 +9,7 @@ These checks compare the mapping against the schema directly, so no fixture has 
 to populate the right field for a mistake to surface. Three sources, all keyed by path:
 `flatten_xsd.elements()`, `flatten_transform.read()`, and `flatten_schema.inputs()` from the parity suite.
 
-Known gaps are recorded per form in `mappings/` with a reason, and a companion check
+Known gaps are recorded per form in `diffs/` with a reason, and a companion check
 fails if an entry stops describing a real gap.
 """
 
@@ -22,9 +22,9 @@ import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
 from tests.src.form_schema.parity import paths
-from tests.src.form_schema.parity.json_schema import flatten_schema
-from tests.src.form_schema.parity.xml import flatten_transform, flatten_xsd
-from tests.src.form_schema.parity.xml.mappings import (
+from tests.src.form_schema.parity.json_schema.harness import flatten_schema
+from tests.src.form_schema.parity.xml.harness import flatten_transform, flatten_xsd
+from tests.src.form_schema.parity.xml.diffs import (
     key_contacts,
     key_contacts_portable,
     sf424,
@@ -34,22 +34,22 @@ from tests.src.form_schema.parity.xml.mappings import (
     sf424a,
 )
 
-MAPPINGS = [
-    sf424.MAPPING,
-    sf424_portable.MAPPING,
-    sf424_short.MAPPING,
-    sf424a.MAPPING,
-    key_contacts.MAPPING,
-    key_contacts_portable.MAPPING,
-    sf424_short_portable.MAPPING,
+DIFFS = [
+    sf424.DIFF,
+    sf424_portable.DIFF,
+    sf424_short.DIFF,
+    sf424a.DIFF,
+    key_contacts.DIFF,
+    key_contacts_portable.DIFF,
+    sf424_short_portable.DIFF,
 ]
 
 
-@pytest.fixture(scope="module", params=MAPPINGS, ids=lambda m: m.module)
+@pytest.fixture(scope="module", params=DIFFS, ids=lambda d: d.module)
 def form(request):
     """One form: its record, its mapping, its schema, and its own inputs."""
-    record = request.param
-    module = importlib.import_module(f"src.form_schema.forms.{record.module}")
+    diff = request.param
+    module = importlib.import_module(f"src.form_schema.forms.{diff.module}")
     # A hand-written form exports module-level constants; a generated one exports the Form
     # the loader built from its form.json.
     generated = getattr(module, "FORM", None)
@@ -57,7 +57,7 @@ def form(request):
     targets, unreadable = flatten_transform.read(mapping)
 
     return SimpleNamespace(
-        record=record,
+        diff=diff,
         targets=targets,
         unreadable=unreadable,
         declared=flatten_xsd.elements(
@@ -80,10 +80,10 @@ def form(request):
 
 def _readable(form) -> None:
     """Skip a form whose mapping builds its structure at run time rather than declaring it."""
-    if form.record.unreadable:
+    if form.diff.unreadable:
         pytest.skip(
-            f"{form.record.module}: mapping is not read structurally -- "
-            + "; ".join(f"{k}: {why}" for k, why in sorted(form.record.unreadable.items()))
+            f"{form.diff.module}: mapping is not read structurally -- "
+            + "; ".join(f"{k}: {why}" for k, why in sorted(form.diff.unreadable.items()))
         )
 
 
@@ -117,7 +117,7 @@ def _reconciled(form, path: paths.Path, keyword: str) -> bool:
 
 def _gap(form, path: paths.Path, keyword: str) -> bool:
     """Whether this difference is already recorded, so the check should pass over it."""
-    return f"{paths.render(path)}/{keyword}" in form.record.recorded_differences
+    return f"{paths.render(path)}/{keyword}" in form.diff.differing_rules
 
 
 def _from_attachment(path: paths.Path, attachments: frozenset[str]) -> bool:
@@ -125,40 +125,24 @@ def _from_attachment(path: paths.Path, attachments: frozenset[str]) -> bool:
     return bool(path) and path[0] in attachments and len(path) > 1
 
 
-# --- the reader's own preconditions ----------------------------------------
-
-
-class TestMappingReadability:
-    """Whether a mapping's wire structure can be derived from its declaration."""
-
-    def test_the_record_agrees_with_what_can_actually_be_read(self, form):
-        """A form is skipped for the reasons its record gives, and no others."""
-        assert set(form.unreadable) == set(form.record.unreadable), (
-            f"{form.record.module}: the reader cannot derive "
-            f"{sorted(set(form.unreadable) - set(form.record.unreadable))} and the record does "
-            f"not say so; the record claims "
-            f"{sorted(set(form.record.unreadable) - set(form.unreadable))} which now reads fine"
-        )
-
-
 # --- mapping against schema ------------------------------------------------
 
 
-class TestXsdElementCoverage:
+class TestMappingVsXsd:
     """Every element the XSD declares, sourced and in sequence order."""
 
-    def test_every_target_names_an_element_the_schema_declares(self, form):
+    def test_xml_mapping_does_not_emit_undeclared_elements(self, form):
         """Catches a misspelled target, one at the wrong nesting level, or an element a schema
         revision renamed or removed."""
         _readable(form)
 
         unknown = sorted(paths.render(path) for path in form.targets if path not in form.declared)
         assert not unknown, (
-            f"{form.record.module}: {len(unknown)} target(s) name nothing in "
-            f"{form.record.module}'s schema: {unknown}"
+            f"{form.diff.module}: {len(unknown)} target(s) name nothing in "
+            f"{form.diff.module}'s schema: {unknown}"
         )
 
-    def test_every_element_the_schema_requires_is_mapped(self, form):
+    def test_xml_mapping_not_missing_required_elements(self, form):
         """Nothing Grants.gov demands is left without a source.
 
         Attachment subtrees are exempt: they come from the uploaded file, not the mapping.
@@ -173,11 +157,11 @@ class TestXsdElementCoverage:
             and not _from_attachment(path, form.attachments)
         )
         assert not missing, (
-            f"{form.record.module}: {len(missing)} required element(s) have no source, so a "
+            f"{form.diff.module}: {len(missing)} required element(s) have no source, so a "
             f"submission would omit them: {missing}"
         )
 
-    def test_mapped_elements_follow_the_schema_sequence(self, form):
+    def test_xml_mapping_follows_xsd_element_order(self, form):
         """Within each parent, the mapping declares elements in schema sequence order.
 
         The transformer emits in mapping order and Grants.gov declares `xs:sequence`, so this
@@ -202,30 +186,30 @@ class TestXsdElementCoverage:
                     f"{paths.render(parent) or '(root)'}: mapped "
                     f"{[p[-1] for p in as_mapped]}, schema declares {[p[-1] for p in as_declared]}"
                 )
-        assert not out_of_order, f"{form.record.module}: " + "; ".join(out_of_order)
+        assert not out_of_order, f"{form.diff.module}: " + "; ".join(out_of_order)
 
 
 # --- mapping against the form ----------------------------------------------
 
 
-class TestResponseFieldCoverage:
+class TestMappingVsFormSchema:
     """Every response field mapped to an element, and every rule reading a real field."""
 
-    def test_every_response_field_reaches_an_element(self, form):
+    def test_no_form_field_is_missing_from_xml_mapping(self, form):
         """Everything an applicant can fill in ends up somewhere in the submission."""
         _readable(form)
 
         dropped = sorted(
             field
             for field in form.inputs
-            if not _reaches(field, form.sources) and field not in form.record.absent_from_definition
+            if not _reaches(field, form.sources) and field not in form.diff.absent_from_definition
         )
         assert not dropped, (
-            f"{form.record.module}: {len(dropped)} response field(s) reach no XML element, so "
+            f"{form.diff.module}: {len(dropped)} response field(s) reach no XML element, so "
             f"an applicant's answer would not be submitted: {dropped}"
         )
 
-    def test_every_rule_reads_a_field_the_form_has(self, form):
+    def test_xml_mapping_does_not_read_unknown_form_fields(self, form):
         """No rule reads a response field that does not exist.
 
         The element such a rule targets *is* mapped, so the schema-side checks see nothing.
@@ -236,10 +220,10 @@ class TestResponseFieldCoverage:
             source
             for source in form.sources
             if not any(field == source or field.startswith(source + ".") for field in form.inputs)
-            and source not in form.record.absent_from_source
+            and source not in form.diff.absent_from_source
         )
         assert not misdirected, (
-            f"{form.record.module}: {len(misdirected)} rule(s) read a field this form does not "
+            f"{form.diff.module}: {len(misdirected)} rule(s) read a field this form does not "
             f"have: {misdirected}"
         )
 
@@ -255,10 +239,10 @@ LOOSER = {"maxLength": "above", "maximum": "above", "minLength": "below", "minim
 FROM_PATTERN = ("minimum", "maximum")
 
 
-class TestFormConstraintContainment:
+class TestFormSchemaVsXsd:
     """Whether the form is at least as strict as the elements it feeds."""
 
-    def test_no_field_offers_a_value_its_element_rejects(self, form):
+    def test_form_does_not_offer_values_outside_xsd_enums(self, form):
         """Every option a form lists is a member of the element's enumeration.
 
         Set comparison settles a 261-member code list at once, where sampling would need
@@ -277,11 +261,11 @@ class TestFormConstraintContainment:
             if extra:
                 offered.append(f"{paths.render(path)} <- {source}: {extra}")
         assert not offered, (
-            f"{form.record.module}: {len(offered)} field(s) offer a value the element does not "
+            f"{form.diff.module}: {len(offered)} field(s) offer a value the element does not "
             f"list, so choosing it would produce a submission Grants.gov rejects: {offered}"
         )
 
-    def test_no_field_accepts_a_value_its_element_cannot_carry(self, form):
+    def test_form_does_not_accept_values_outside_xsd_bounds(self, form):
         """A form is at least as strict as the element it feeds.
 
         Containment, not equality: a form stricter than the wire is fine. Declaring nothing
@@ -323,11 +307,11 @@ class TestFormConstraintContainment:
                         f"{paths.render(path)} <- {source}: {keyword} {declared} against element {limit}"
                     )
         assert not looser, (
-            f"{form.record.module}: {len(looser)} field(s) accept more than the element carries, "
+            f"{form.diff.module}: {len(looser)} field(s) accept more than the element carries, "
             f"so an applicant could fill in something unsubmittable: {looser}"
         )
 
-    def test_every_field_can_become_the_type_its_element_expects(self, form):
+    def test_form_field_types_match_xsd_element_types(self, form):
         """Where a field's JSON type differs from its element's, a transform is declared.
 
         A boolean reaching a `YesNoDataType` string needs `boolean_to_yes_no`; omitting it is
@@ -348,7 +332,7 @@ class TestFormConstraintContainment:
                 f"xs:{element.primitive}, no value_transform declared"
             )
         assert not mismatched, (
-            f"{form.record.module}: {len(mismatched)} field(s) would reach serialisation as the "
+            f"{form.diff.module}: {len(mismatched)} field(s) would reach serialisation as the "
             f"wrong type: {mismatched}"
         )
 
@@ -356,10 +340,19 @@ class TestFormConstraintContainment:
 # --- the record itself -----------------------------------------------------
 
 
-class TestGapRecordIntegrity:
-    """Whether a recorded gap is usable and still describes something real."""
+class TestRecordedDifferences:
+    """Whether every register entry is usable and still describes something real."""
 
-    def test_every_recorded_entry_gives_a_reason(self, form):
+    def test_skipped_forms_match_recorded_reasons(self, form):
+        """A form is skipped for the reasons its record gives, and no others."""
+        assert set(form.unreadable) == set(form.diff.unreadable), (
+            f"{form.diff.module}: the reader cannot derive "
+            f"{sorted(set(form.unreadable) - set(form.diff.unreadable))} and the record does "
+            f"not say so; the record claims "
+            f"{sorted(set(form.diff.unreadable) - set(form.unreadable))} which now reads fine"
+        )
+
+    def test_recorded_differences_give_usable_reasons(self, form):
         """A register entry without a real reason is an allow-list pretending to be evidence.
 
         Added after a docstring edit replaced two shared citations with the text of the script
@@ -368,39 +361,39 @@ class TestGapRecordIntegrity:
         unusable = sorted(
             f"{register}[{key!r}]: {reason!r}"
             for register, entries in (
-                ("absent_from_definition", form.record.absent_from_definition),
-                ("absent_from_source", form.record.absent_from_source),
-                ("recorded_differences", form.record.recorded_differences),
-                ("unreadable", form.record.unreadable),
+                ("absent_from_definition", form.diff.absent_from_definition),
+                ("absent_from_source", form.diff.absent_from_source),
+                ("differing_rules", form.diff.differing_rules),
+                ("unreadable", form.diff.unreadable),
             )
             for key, reason in entries.items()
             if len(reason.strip()) < 40 or "{" in reason or "repr(" in reason
         )
-        assert not unusable, f"{form.record.module}: " + "; ".join(unusable)
+        assert not unusable, f"{form.diff.module}: " + "; ".join(unusable)
 
-    def test_recorded_gaps_still_exist(self, form):
+    def test_recorded_differences_are_not_stale(self, form):
         """A recorded gap cannot outlive the problem it describes."""
         _readable(form)
 
         fixed = sorted(
-            field for field in form.record.absent_from_definition if _reaches(field, form.sources)
+            field for field in form.diff.absent_from_definition if _reaches(field, form.sources)
         )
         gone = sorted(
-            field for field in form.record.absent_from_definition if field not in form.inputs
+            field for field in form.diff.absent_from_definition if field not in form.inputs
         )
         resolved = sorted(
             source
-            for source in form.record.absent_from_source
+            for source in form.diff.absent_from_source
             if any(field == source or field.startswith(source + ".") for field in form.inputs)
         )
         unused = sorted(
-            source for source in form.record.absent_from_source if source not in form.sources
+            source for source in form.diff.absent_from_source if source not in form.sources
         )
 
         # A constraint gap has to still name a mapped element and a rule that element declares.
         by_element = {paths.render(path): element for path, element in form.declared.items()}
         stale_gaps = []
-        for entry in form.record.recorded_differences:
+        for entry in form.diff.differing_rules:
             element, _, keyword = entry.rpartition("/")
             declared = by_element.get(element)
             if declared is None:
@@ -428,6 +421,6 @@ class TestGapRecordIntegrity:
             )
         if stale_gaps:
             complaints.append(
-                f"no longer describe a real restriction, so remove from `recorded_differences`: {stale_gaps}"
+                f"no longer describe a real restriction, so remove from `differing_rules`: {stale_gaps}"
             )
-        assert not complaints, f"{form.record.module}: " + "; ".join(complaints)
+        assert not complaints, f"{form.diff.module}: " + "; ".join(complaints)

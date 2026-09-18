@@ -5,16 +5,16 @@ fields land where you would expect. Every path here is checked against both sche
 entry naming a field either form lacks fails, and any input this file leaves out fails too.
 """
 
-from ..form_mapping import FormMapping
+from ..harness.form_diff import FormDiff
 
-MAPPING = FormMapping(
+DIFF = FormDiff(
     generated_module="sf424a_portable",
     handwritten_module="sf424a",
     # Rules where the hand-written form disagrees with the official Grants.gov schema,
     # and the schema says the hand-written one is wrong. Each is a defect for Simpler
     # Grants to fix; recording it keeps the suite green meanwhile, and stale_entries
     # fails if the input it names stops existing.
-    recorded_differences={
+    differing_rules={
         "direct_charges_explanation/minLength": (
             "SF424A-V1.0.xsd types OtherDirectChargesExplanation as glob:StringMin1Max50Type, and "
             "Global-V1.0.xsd defines that type as minLength 1, maxLength 50. The hand-written "

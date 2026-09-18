@@ -6,12 +6,12 @@ not a field this form has. Every one of the elements is `minOccurs="0"`, so the 
 validates either way.
 """
 
-from ..form_mapping import FormMapping
+from ..harness.form_diff import FormDiff
 from .shared_conflicts import CIV, EMPTY_EMAIL, MAX_EMAIL
 
 _NO_RULE = "the mapping declares no rule for this field, so {} is never emitted; the XSD makes it optional, so the submission validates without it"
 
-MAPPING = FormMapping(
+DIFF = FormDiff(
     module="sf424",
     absent_from_definition={
         "applicant_id": _NO_RULE.format("ApplicantID"),
@@ -40,7 +40,7 @@ MAPPING = FormMapping(
             "check reading only the XSD side cannot find this one: Fax *is* mapped."
         ),
     },
-    recorded_differences={
+    differing_rules={
         "Applicant.Country/enum": CIV,
         "Email/minLength": EMPTY_EMAIL.format(wire="globLib:EmailDataType"),
         "AuthorizedRepresentativeEmail/minLength": EMPTY_EMAIL.format(wire="globLib:EmailDataType"),

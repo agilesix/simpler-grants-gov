@@ -5,9 +5,9 @@ fields land where you would expect. Every path here is checked against both sche
 entry naming a field either form lacks fails, and any input this file leaves out fails too.
 """
 
-from ..form_mapping import FormMapping
+from ..harness.form_diff import FormDiff
 
-MAPPING = FormMapping(
+DIFF = FormDiff(
     generated_module="sf424_short_portable",
     handwritten_module="sf424_short",
     # The shared contact question calls this `phone`. The hand-written forms are
@@ -22,7 +22,7 @@ MAPPING = FormMapping(
     # and the schema says the hand-written one is wrong. Each is a defect for Simpler
     # Grants to fix; recording it keeps the suite green meanwhile, and stale_entries
     # fails if the input it names stops existing.
-    recorded_differences={
+    differing_rules={
         "project_director.email/minLength": (
             "GlobalLibrary-V2.0.xsd defines globLib:EmailDataType as minLength 1, maxLength "
             "60, and the hand-written form declares neither bound on this field. The generated "

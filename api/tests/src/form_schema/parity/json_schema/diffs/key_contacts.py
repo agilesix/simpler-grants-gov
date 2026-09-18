@@ -5,16 +5,16 @@ fields land where you would expect. Every path here is checked against both sche
 entry naming a field either form lacks fails, and any input this file leaves out fails too.
 """
 
-from ..form_mapping import FormMapping
+from ..harness.form_diff import FormDiff
 
-MAPPING = FormMapping(
+DIFF = FormDiff(
     generated_module="key_contacts_portable",
     handwritten_module="key_contacts",
     # Rules where the hand-written form disagrees with the official Grants.gov schema,
     # and the schema says the hand-written one is wrong. Each is a defect for Simpler
     # Grants to fix; recording it keeps the suite green meanwhile, and stale_entries
     # fails if the input it names stops existing.
-    recorded_differences={
+    differing_rules={
         "key_contacts.[].email/minLength": (
             "GlobalLibrary-V2.0.xsd defines globLib:EmailDataType as minLength 1, maxLength "
             "60, and the hand-written form declares neither bound on this field. The generated "

@@ -327,7 +327,7 @@ Both suites live in `api/tests/src/form_schema/parity/` and ask whether a
 generated form agrees with something already trusted.
 
 **Form parity** compares a generated form against the hand-written form it
-mirrors. A hand-written mapping in `parity/mappings/<form>.py` claims which fields
+mirrors. A hand-written mapping in `parity/json_schema/diffs/<form>.py` claims which fields
 on the two sides correspond; the checks then hold that claim to both schemas —
 every mapped path exists on both sides, every input on both sides is accounted
 for, and corresponding inputs are governed by the same validation rules. The

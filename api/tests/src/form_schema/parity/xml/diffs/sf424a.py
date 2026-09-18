@@ -10,9 +10,9 @@ The form that most wants a declared wire model; until then its XML correctness r
 the output differential and XSD validation.
 """
 
-from ..form_mapping import FormMapping
+from ..harness.form_diff import FormDiff
 
-MAPPING = FormMapping(
+DIFF = FormDiff(
     module="sf424a",
     unreadable={
         "budget_sections": "conditional_transform.type 'array_decomposition'",
