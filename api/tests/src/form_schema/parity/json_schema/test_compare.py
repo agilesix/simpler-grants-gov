@@ -8,13 +8,13 @@ absent.
 
 import pytest
 
-from tests.src.form_schema.form_spec.parity.mapping import (
+from tests.src.form_schema.parity.json_schema.form_mapping import (
     FormMapping,
     pairs,
     stale_entries,
     unmapped,
 )
-from tests.src.form_schema.form_spec.parity.paths import Input
+from tests.src.form_schema.parity.json_schema.flatten_schema import Input
 
 NOTHING_DECLARED = FormMapping(generated_module="g", handwritten_module="h")
 

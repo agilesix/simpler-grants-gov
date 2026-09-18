@@ -1,4 +1,4 @@
-"""An XML mapping flattened the same way `wire.py` flattens an XSD.
+"""An XML mapping flattened the same way `flatten_xsd.py` flattens an XSD.
 
 A form's `json_to_xml_schema` nests response fields the way the wire nests elements, so it
 reads into `{element path: response field}` and the checks become dictionary comparison.
@@ -15,8 +15,8 @@ Three details the format carries:
 
 from typing import Any
 
-from ..parity.paths import ARRAY
-from .wire import Path
+from ..json_schema.flatten_schema import ARRAY
+from .flatten_xsd import Path
 
 #: `xml_transform.type` values whose wire structure follows from the declaration.
 READABLE = frozenset({"nested_object", "array", "attribute", "conditional"})
@@ -109,7 +109,7 @@ def read(mapping: dict[str, Any]) -> tuple[dict[Path, str | None], dict[str, str
                     unreadable[source] = "array with no items rules"
                     continue
                 # One path describes every item, using the same `[]` step as
-                # `parity/paths.py` so the two can be compared.
+                # `json_schema/flatten_schema.py` so the two can be compared.
                 descend(items_rules, (*level, target), f"{source}.{ARRAY}")
 
     descend({k: v for k, v in mapping.items() if k != "_xml_config"}, (), "")

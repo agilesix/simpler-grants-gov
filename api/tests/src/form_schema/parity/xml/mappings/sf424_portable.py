@@ -8,6 +8,6 @@ No recorded gaps. The registers are empty because there is nothing to explain, w
 the whole claim -- and the checks fail rather than pass if that stops being true.
 """
 
-from ..mapping import WireMapping
+from ..form_mapping import WireMapping
 
 MAPPING = WireMapping(module="sf424_portable")

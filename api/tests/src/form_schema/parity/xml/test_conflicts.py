@@ -1,4 +1,4 @@
-"""Reproduces the defects `test_xml_mapping.py` finds, using Simpler Grants' own harness.
+"""Reproduces the defects `test_parity.py` finds, using Simpler Grants' own harness.
 
 Every test here takes a fixture that already exists in
 `tests/src/services/xml_generation/`, adds the values the mapping checks flagged, and runs
@@ -6,7 +6,7 @@ it through the same `XMLGenerationService` and `XSDValidator` calls their XSD te
 Nothing is reimplemented, so a failure cannot be blamed on a parallel code path.
 
 These tests pass while the defects exist. Fixing one turns its test red, which is the
-signal to retire the reproduction along with the entry in `xml/mappings/`.
+signal to retire the reproduction along with the entry in `mappings/`.
 
 The point is what the fixtures do not contain. Their suite is green because its fixtures
 answer the fields whose rules work and choose the enum members the schema accepts. Add the
@@ -27,7 +27,7 @@ from src.services.xml_generation.config import _build_xml_form_map
 from src.services.xml_generation.models import XMLGenerationRequest
 from src.services.xml_generation.service import XMLGenerationService
 from src.services.xml_generation.validation.xsd_validator import XSDValidator
-from tests.src.form_schema.form_spec.xml.mappings import sf424 as sf424_record
+from tests.src.form_schema.parity.xml.mappings import sf424 as sf424_record
 from tests.src.services.xml_generation.test_sf424_short_xml_generation import (
     _SNAPSHOT_DATA as SHORT_FIXTURE,
 )
@@ -163,7 +163,7 @@ class TestDroppedResponseFields:
     """Response fields absent from a submission the XSD still accepts."""
 
     def test_nineteen_sf424_answers_do_not_reach_the_submission(self):
-        """Every field `xml/mappings/sf424.py` records is answered here, and none is in the XML."""
+        """Every field `mappings/sf424.py` records is answered here, and none is in the XML."""
         xml = submission("SF424_4_0", sf424(**ANSWERS_TO_DROPPED_FIELDS))
 
         recorded = sorted(sf424_record.MAPPING.dropped)

@@ -7,9 +7,9 @@ validates and neither `xmllint` nor a snapshot notices.
 
 These checks compare the mapping against the schema directly, so no fixture has to happen
 to populate the right field for a mistake to surface. Three sources, all keyed by path:
-`wire.elements()`, `rules.read()`, and `paths.inputs()` from the parity suite.
+`flatten_xsd.elements()`, `flatten_transform.read()`, and `flatten_schema.inputs()` from the parity suite.
 
-Known gaps are recorded per form in `xml/mappings/` with a reason, and a companion check
+Known gaps are recorded per form in `mappings/` with a reason, and a companion check
 fails if an entry stops describing a real gap.
 """
 
@@ -21,9 +21,9 @@ from types import SimpleNamespace
 import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
-from tests.src.form_schema.form_spec.parity import paths
-from tests.src.form_schema.form_spec.xml import rules, wire
-from tests.src.form_schema.form_spec.xml.mappings import (
+from tests.src.form_schema.parity.json_schema import flatten_schema
+from tests.src.form_schema.parity.xml import flatten_transform, flatten_xsd
+from tests.src.form_schema.parity.xml.mappings import (
     key_contacts,
     key_contacts_portable,
     sf424,
@@ -53,25 +53,27 @@ def form(request):
     # the loader built from its form.json.
     generated = getattr(module, "FORM", None)
     mapping = generated.json_to_xml_schema if generated else module.FORM_XML_TRANSFORM_RULES
-    targets, unreadable = rules.read(mapping)
+    targets, unreadable = flatten_transform.read(mapping)
 
     return SimpleNamespace(
         record=record,
         targets=targets,
         unreadable=unreadable,
-        declared=wire.elements(rules.xsd_of(mapping), rules.root_of(mapping)),
-        attachments=rules.attachment_elements(mapping),
-        by_path=paths.inputs(resolve_jsonschema(module.FORM_JSON_SCHEMA)),
+        declared=flatten_xsd.elements(
+            flatten_transform.xsd_of(mapping), flatten_transform.root_of(mapping)
+        ),
+        attachments=flatten_transform.attachment_elements(mapping),
+        by_path=flatten_schema.inputs(resolve_jsonschema(module.FORM_JSON_SCHEMA)),
         inputs={
-            paths.render(p)
-            for p in paths.inputs(
+            flatten_schema.render(p)
+            for p in flatten_schema.inputs(
                 resolve_jsonschema(
                     generated.form_json_schema if generated else module.FORM_JSON_SCHEMA
                 )
             )
         },
         sources={source for source in targets.values() if source},
-        transformed=rules.transformed(mapping),
+        transformed=flatten_transform.transformed(mapping),
     )
 
 
@@ -99,25 +101,25 @@ def _governed(form):
     for path, source in form.targets.items():
         if source is None:
             continue
-        governed = form.by_path.get(paths.parse(source))
+        governed = form.by_path.get(flatten_schema.parse(source))
         element = form.declared.get(path)
         if governed is None or element is None:
             continue
         yield path, source, {k: json.loads(v) for k, v in governed.rules}, element
 
 
-def _reconciled(form, path: wire.Path, keyword: str) -> bool:
+def _reconciled(form, path: flatten_xsd.Path, keyword: str) -> bool:
     """Whether a declared `value_transform` could account for a difference in `keyword`."""
     declared = form.transformed.get(path, frozenset())
-    return bool(declared & rules.RECONCILED_BY.get(keyword, frozenset()))
+    return bool(declared & flatten_transform.RECONCILED_BY.get(keyword, frozenset()))
 
 
-def _gap(form, path: wire.Path, keyword: str) -> bool:
+def _gap(form, path: flatten_xsd.Path, keyword: str) -> bool:
     """Whether this difference is already recorded, so the check should pass over it."""
-    return f"{wire.render(path)}/{keyword}" in form.record.constraint_gaps
+    return f"{flatten_xsd.render(path)}/{keyword}" in form.record.constraint_gaps
 
 
-def _from_attachment(path: wire.Path, attachments: frozenset[str]) -> bool:
+def _from_attachment(path: flatten_xsd.Path, attachments: frozenset[str]) -> bool:
     """Whether an element's value comes from an uploaded file rather than the mapping."""
     return bool(path) and path[0] in attachments and len(path) > 1
 
@@ -149,7 +151,9 @@ class TestXsdElementCoverage:
         revision renamed or removed."""
         _readable(form)
 
-        unknown = sorted(wire.render(path) for path in form.targets if path not in form.declared)
+        unknown = sorted(
+            flatten_xsd.render(path) for path in form.targets if path not in form.declared
+        )
         assert not unknown, (
             f"{form.record.module}: {len(unknown)} target(s) name nothing in "
             f"{form.record.module}'s schema: {unknown}"
@@ -163,7 +167,7 @@ class TestXsdElementCoverage:
         _readable(form)
 
         missing = sorted(
-            wire.render(path)
+            flatten_xsd.render(path)
             for path, element in form.declared.items()
             if element.required
             and path not in form.targets
@@ -196,7 +200,7 @@ class TestXsdElementCoverage:
             as_declared = sorted(siblings, key=lambda p: form.declared[p].position)
             if as_mapped != as_declared:
                 out_of_order.append(
-                    f"{wire.render(parent) or '(root)'}: mapped "
+                    f"{flatten_xsd.render(parent) or '(root)'}: mapped "
                     f"{[p[-1] for p in as_mapped]}, schema declares {[p[-1] for p in as_declared]}"
                 )
         assert not out_of_order, f"{form.record.module}: " + "; ".join(out_of_order)
@@ -272,7 +276,7 @@ class TestFormConstraintContainment:
                 continue
             extra = sorted(set(governed["enum"]) - listed)
             if extra:
-                offered.append(f"{wire.render(path)} <- {source}: {extra}")
+                offered.append(f"{flatten_xsd.render(path)} <- {source}: {extra}")
         assert not offered, (
             f"{form.record.module}: {len(offered)} field(s) offer a value the element does not "
             f"list, so choosing it would produce a submission Grants.gov rejects: {offered}"
@@ -300,10 +304,10 @@ class TestFormConstraintContainment:
                     continue
                 declared = governed.get(keyword)
                 if keyword in FROM_PATTERN and governed.get("type") == "string":
-                    permitted = wire.implied_range(governed.get("pattern", ""))
+                    permitted = flatten_xsd.implied_range(governed.get("pattern", ""))
                     if permitted is None:
                         looser.append(
-                            f"{wire.render(path)} <- {source}: the element bounds {keyword} at "
+                            f"{flatten_xsd.render(path)} <- {source}: the element bounds {keyword} at "
                             f"{limit}, the field is a string, and its pattern "
                             f"{governed.get('pattern', '(none)')!r} does not say what range it "
                             f"permits -- so nothing checks it"
@@ -312,10 +316,12 @@ class TestFormConstraintContainment:
                     declared = permitted[0] if keyword == "minimum" else permitted[1]
 
                 if declared is None:
-                    looser.append(f"{wire.render(path)} <- {source}: no {keyword}, element {limit}")
+                    looser.append(
+                        f"{flatten_xsd.render(path)} <- {source}: no {keyword}, element {limit}"
+                    )
                 elif (declared > limit) if direction == "above" else (declared < limit):
                     looser.append(
-                        f"{wire.render(path)} <- {source}: {keyword} {declared} against element {limit}"
+                        f"{flatten_xsd.render(path)} <- {source}: {keyword} {declared} against element {limit}"
                     )
         assert not looser, (
             f"{form.record.module}: {len(looser)} field(s) accept more than the element carries, "
@@ -332,14 +338,14 @@ class TestFormConstraintContainment:
 
         mismatched = []
         for path, source, governed, element in _governed(form):
-            expected = wire.PRIMITIVES.get(element.primitive or "")
+            expected = flatten_xsd.PRIMITIVES.get(element.primitive or "")
             declared = governed.get("type")
             if not expected or not declared or declared == expected:
                 continue
             if _reconciled(form, path, "type") or _gap(form, path, "type"):
                 continue
             mismatched.append(
-                f"{wire.render(path)} <- {source}: form {declared}, element "
+                f"{flatten_xsd.render(path)} <- {source}: form {declared}, element "
                 f"xs:{element.primitive}, no value_transform declared"
             )
         assert not mismatched, (
@@ -387,7 +393,7 @@ class TestGapRecordIntegrity:
         unused = sorted(source for source in form.record.misdirected if source not in form.sources)
 
         # A constraint gap has to still name a mapped element and a rule that element declares.
-        by_element = {wire.render(path): element for path, element in form.declared.items()}
+        by_element = {flatten_xsd.render(path): element for path, element in form.declared.items()}
         stale_gaps = []
         for entry in form.record.constraint_gaps:
             element, _, keyword = entry.rpartition("/")

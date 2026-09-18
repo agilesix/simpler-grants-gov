@@ -6,11 +6,11 @@ five variants of it. Each variant changes one field to a value the SF-424 form a
 fails on them as the form ships today.
 
 That the form accepts each value is asserted, not assumed --
-`tests/src/form_schema/form_spec/test_xml_defects.py` runs every variant through
+`tests/src/form_schema/parity/xml/test_conflicts.py` runs every variant through
 `validate_json_schema` first. They are here rather than in a separate module to
 make the point that nothing about this harness had to change -- only the fixture.
 
-`tests/src/form_schema/form_spec/test_xml_defects.py` covers the other half, where an
+`tests/src/form_schema/parity/xml/test_conflicts.py` covers the other half, where an
 answer is dropped and the document stays valid, which this check cannot see.
 """
 

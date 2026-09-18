@@ -1,6 +1,6 @@
 """An XSD's elements and attributes as paths, so a mapping can be compared against it.
 
-The XSD counterpart of `parity/paths.py`. A path is a tuple of element names from the
+The XSD counterpart of `json_schema/flatten_schema.py`. A path is a tuple of element names from the
 root's children down; an attribute is a step prefixed with `@`.
 
 Reads the XSDs the API already vendors under `src/services/xml_generation/xsds/`.
@@ -60,7 +60,7 @@ class Element:
     position: int
     #: The xs: primitive the value reduces to, or None if the element has no simple content.
     primitive: str | None = None
-    #: Restrictions keyed by JSON Schema keyword, to line up with `parity/paths.py`.
+    #: Restrictions keyed by JSON Schema keyword, to line up with `json_schema/flatten_schema.py`.
     #: Lengths and bounds are numbers; `enum` is a frozenset.
     rules: dict[str, object] = dataclasses.field(default_factory=dict)
 

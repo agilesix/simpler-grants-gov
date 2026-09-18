@@ -1,6 +1,6 @@
 """Whether a SimplerForms form is equivalent to the hand-written form it mirrors.
 
-Three checks against the mapping in `parity/mappings/`: every entry names a field both
+Three checks against the mapping in `mappings/`: every entry names a field both
 forms have, every input on both sides appears in the mapping, and corresponding inputs are
 governed by the same rules.
 
@@ -19,9 +19,9 @@ import importlib
 import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
-from tests.src.form_schema.form_spec.parity import mapping as checks
-from tests.src.form_schema.form_spec.parity import paths
-from tests.src.form_schema.form_spec.parity.mappings import (
+from tests.src.form_schema.parity.json_schema import form_mapping as checks
+from tests.src.form_schema.parity.json_schema import flatten_schema
+from tests.src.form_schema.parity.json_schema.mappings import (
     key_contacts,
     sf424,
     sf424_short,
@@ -54,8 +54,8 @@ def pair(request):
         m,
         generated_schema,
         handwritten_schema,
-        paths.inputs(generated_schema),
-        paths.inputs(handwritten_schema),
+        flatten_schema.inputs(generated_schema),
+        flatten_schema.inputs(handwritten_schema),
     )
 
 

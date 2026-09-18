@@ -1,6 +1,6 @@
 """What is known to be wrong with one form's XML mapping.
 
-The counterpart of `parity/mapping.py`: hand-written, a reason per entry, and checked for
+The counterpart of `json_schema/form_mapping.py`: hand-written, a reason per entry, and checked for
 staleness so an entry cannot outlive the problem it describes.
 """
 

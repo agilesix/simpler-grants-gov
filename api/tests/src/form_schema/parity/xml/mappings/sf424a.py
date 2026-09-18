@@ -10,7 +10,7 @@ The form that most wants a declared wire model; until then its XML correctness r
 the output differential and XSD validation.
 """
 
-from ..mapping import WireMapping
+from ..form_mapping import WireMapping
 
 MAPPING = WireMapping(
     module="sf424a",

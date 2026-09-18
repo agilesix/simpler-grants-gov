@@ -4,8 +4,8 @@ The mapping is complete, including through the repeatable `RoleOnProject` sectio
 constraint gaps, both in shared global-library types.
 """
 
-from ..mapping import WireMapping
-from .constraints import CIV, EMPTY_EMAIL
+from ..form_mapping import WireMapping
+from .shared_conflicts import CIV, EMPTY_EMAIL
 
 MAPPING = WireMapping(
     module="key_contacts",

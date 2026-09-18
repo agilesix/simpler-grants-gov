@@ -8,7 +8,7 @@ so one path describes them all.
 import dataclasses
 from typing import Any
 
-from .merge import merge_allof
+from .merge_schema import merge_allof
 
 Path = tuple[str, ...]
 

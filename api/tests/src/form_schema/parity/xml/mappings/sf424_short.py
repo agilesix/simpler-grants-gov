@@ -5,8 +5,8 @@ reading a real field, every field reaching an element. Six constraint gaps, all 
 shared global-library country and email types.
 """
 
-from ..mapping import WireMapping
-from .constraints import CIV, EMPTY_EMAIL
+from ..form_mapping import WireMapping
+from .shared_conflicts import CIV, EMPTY_EMAIL
 
 MAPPING = WireMapping(
     module="sf424_short",

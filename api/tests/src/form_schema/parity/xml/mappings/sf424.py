@@ -6,8 +6,8 @@ not a field this form has. Every one of the elements is `minOccurs="0"`, so the 
 validates either way.
 """
 
-from ..mapping import WireMapping
-from .constraints import CIV, EMPTY_EMAIL, MAX_EMAIL
+from ..form_mapping import WireMapping
+from .shared_conflicts import CIV, EMPTY_EMAIL, MAX_EMAIL
 
 _NO_RULE = "the mapping declares no rule for this field, so {} is never emitted; the XSD makes it optional, so the submission validates without it"
 

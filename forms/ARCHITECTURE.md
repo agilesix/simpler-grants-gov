@@ -323,7 +323,7 @@ the way in.
 
 ## Parity testing
 
-Both suites live in `api/tests/src/form_schema/form_spec/` and ask whether a
+Both suites live in `api/tests/src/form_schema/parity/` and ask whether a
 generated form agrees with something already trusted.
 
 **Form parity** compares a generated form against the hand-written form it

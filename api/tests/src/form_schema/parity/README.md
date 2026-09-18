@@ -7,10 +7,10 @@ hand-written form it mirrors.
 
 ```bash
 # Four forms in about a tenth of a second, so this belongs on every commit.
-make test args="tests/src/form_schema/form_spec"
+make test args="tests/src/form_schema/parity"
 
 # One form, when a failure needs chasing.
-make test args="tests/src/form_schema/form_spec -k sf424_short_portable"
+make test args="tests/src/form_schema/parity -k sf424_short_portable"
 ```
 
 Running natively rather than in the container is much faster, and needs the environment
@@ -20,7 +20,7 @@ Running natively rather than in the container is much faster, and needs the envi
 export PY_RUN_APPROACH=local
 set -a && . override.env && set +a
 export DB_HOST=localhost SEARCH_ENDPOINT=localhost
-uv run pytest tests/src/form_schema/form_spec
+uv run pytest tests/src/form_schema/parity
 ```
 
 ## What is checked
@@ -73,6 +73,6 @@ Anything else is ours to fix.
 
 ## The XML mapping checks
 
-`../test_xml_mapping.py` asks a different question of the same forms -- whether each one's
+`xml/test_parity.py` asks a different question of the same forms -- whether each one's
 `json_to_xml_schema` agrees with the Grants.gov XSD it targets. Its module docstring
 explains what it compares.

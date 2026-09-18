@@ -5,7 +5,7 @@ fields land where you would expect. Every path here is checked against both sche
 entry naming a field either form lacks fails, and any input this file leaves out fails too.
 """
 
-from ..mapping import FormMapping
+from ..form_mapping import FormMapping
 
 _REVISION = (
     "SF424_4_0-V4.0.xsd types RevisionOtherSpecify as minLength 1, maxLength 21, and the "
