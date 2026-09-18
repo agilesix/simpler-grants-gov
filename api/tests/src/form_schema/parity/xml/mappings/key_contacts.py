@@ -4,12 +4,12 @@ The mapping is complete, including through the repeatable `RoleOnProject` sectio
 constraint gaps, both in shared global-library types.
 """
 
-from ..form_mapping import WireMapping
+from ..form_mapping import FormMapping
 from .shared_conflicts import CIV, EMPTY_EMAIL
 
-MAPPING = WireMapping(
+MAPPING = FormMapping(
     module="key_contacts",
-    constraint_gaps={
+    recorded_differences={
         "RoleOnProject.ContactAddress.Country/enum": CIV,
         "RoleOnProject.ContactEmail/minLength": EMPTY_EMAIL.format(wire="globLib:EmailDataType"),
     },

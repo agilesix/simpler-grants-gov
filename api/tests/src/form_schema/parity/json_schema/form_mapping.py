@@ -11,29 +11,31 @@ registers with a reason.
 
 import dataclasses
 
-from . import flatten_schema
-from .flatten_schema import Input, Path
+from .. import form_mapping as shared
+from .. import paths
+from ..paths import Path
+from .flatten_schema import Input
 
 
-@dataclasses.dataclass(frozen=True)
-class FormMapping:
+@dataclasses.dataclass(frozen=True, kw_only=True)
+class FormMapping(shared.FormMapping):
     """Where one form's inputs do *not* simply correspond to the other's.
 
-    `renamed` maps a generated path to the handwritten path meaning the same thing. The
-    two `absent` registers are the only way a field escapes the totality checks, so each
-    entry needs a reason.
+    The definition is the generated form; the source is the hand-written form it mirrors.
+    The two `absent` registers are the only way a field escapes the totality checks, so
+    each entry needs a reason.
+
+    `recorded_differences` cites the official Grants.gov schema showing the *hand-written*
+    form is the one that disagrees with it. Not permission for the difference to exist:
+    each entry is a defect for Simpler Grants to fix, recorded so the suite stays green
+    while they do, and `stale_entries` fails if an entry stops naming a real input.
     """
 
     generated_module: str
     handwritten_module: str
+
+    #: Generated path -> the handwritten path meaning the same thing.
     renamed: dict[str, str] = dataclasses.field(default_factory=dict)
-    absent_from_handwritten: dict[str, str] = dataclasses.field(default_factory=dict)
-    absent_from_generated: dict[str, str] = dataclasses.field(default_factory=dict)
-    # `"path/keyword"` -> the citation showing the hand-written form is the one that
-    # disagrees with the official schema. Not permission for the difference to exist: each
-    # entry is a defect for Simpler Grants to fix, recorded so the suite stays green while
-    # they do. `stale_entries` fails if an entry stops naming a real input.
-    upstream_rule_defects: dict[str, str] = dataclasses.field(default_factory=dict)
 
 
 def pairs(
@@ -47,7 +49,7 @@ def pairs(
     used as a rename's target is not also matched to itself, so an ambiguous mapping
     leaves both ends unaccounted for rather than pairing them two ways.
     """
-    renamed = {flatten_schema.parse(k): flatten_schema.parse(v) for k, v in mapping.renamed.items()}
+    renamed = {paths.parse(k): paths.parse(v) for k, v in mapping.renamed.items()}
     taken = set(renamed.values())
 
     out = dict(renamed)
@@ -77,13 +79,9 @@ def stale_entries(
     out = []
     for generated_path, handwritten_path in pairs(mapping, generated, handwritten).items():
         if generated_path not in generated:
-            out.append(
-                Discrepancy("no such generated input", flatten_schema.render(generated_path))
-            )
+            out.append(Discrepancy("no such generated input", paths.render(generated_path)))
         if handwritten_path not in handwritten:
-            out.append(
-                Discrepancy("no such handwritten input", flatten_schema.render(handwritten_path))
-            )
+            out.append(Discrepancy("no such handwritten input", paths.render(handwritten_path)))
     for generated_path, handwritten_path in mapping.renamed.items():
         if generated_path == handwritten_path:
             out.append(
@@ -93,15 +91,15 @@ def stale_entries(
                     "identical paths already correspond, so this entry says nothing",
                 )
             )
-    for path, reason in mapping.absent_from_handwritten.items():
-        if flatten_schema.parse(path) not in generated:
+    for path, reason in mapping.absent_from_source.items():
+        if paths.parse(path) not in generated:
             out.append(Discrepancy("declared absent but not a generated input", path, reason))
-    for path, reason in mapping.absent_from_generated.items():
-        if flatten_schema.parse(path) not in handwritten:
+    for path, reason in mapping.absent_from_definition.items():
+        if paths.parse(path) not in handwritten:
             out.append(Discrepancy("declared absent but not a handwritten input", path, reason))
-    for key in mapping.upstream_rule_defects:
+    for key in mapping.recorded_differences:
         path = key.rsplit("/", 1)[0]
-        if flatten_schema.parse(path) not in generated:
+        if paths.parse(path) not in generated:
             out.append(Discrepancy("recorded defect names no such input", path))
     return out
 
@@ -116,17 +114,17 @@ def unmapped(
     An unaccounted handwritten input is a field an applicant can fill in on the form that
     ships and cannot on the generated one.
     """
-    declared_generated = {flatten_schema.parse(p) for p in mapping.absent_from_handwritten}
-    declared_handwritten = {flatten_schema.parse(p) for p in mapping.absent_from_generated}
+    declared_generated = {paths.parse(p) for p in mapping.absent_from_source}
+    declared_handwritten = {paths.parse(p) for p in mapping.absent_from_definition}
     corresponding = pairs(mapping, generated, handwritten)
     mapped_generated = set(corresponding)
     mapped_handwritten = set(corresponding.values())
 
     out = []
     for path in sorted(set(generated) - mapped_generated - declared_generated):
-        out.append(Discrepancy("generated input is unmapped", flatten_schema.render(path)))
+        out.append(Discrepancy("generated input is unmapped", paths.render(path)))
     for path in sorted(set(handwritten) - mapped_handwritten - declared_handwritten):
-        out.append(Discrepancy("handwritten input is unmapped", flatten_schema.render(path)))
+        out.append(Discrepancy("handwritten input is unmapped", paths.render(path)))
     return out
 
 
@@ -140,14 +138,14 @@ def rule_conflicts(
     Every keyword that can make a payload invalid, plus requiredness, reported keyword by
     keyword. Presentation is not compared: that belongs to the UI checks.
     """
-    recorded = mapping.upstream_rule_defects
+    recorded = mapping.recorded_differences
     out = []
     for generated_path, handwritten_path in pairs(mapping, generated, handwritten).items():
         if generated_path not in generated or handwritten_path not in handwritten:
             continue
         generated_rules = generated[generated_path]
         handwritten_rules = handwritten[handwritten_path]
-        where = flatten_schema.render(generated_path)
+        where = paths.render(generated_path)
 
         if (
             generated_rules.required != handwritten_rules.required

@@ -166,7 +166,7 @@ class TestDroppedResponseFields:
         """Every field `mappings/sf424.py` records is answered here, and none is in the XML."""
         xml = submission("SF424_4_0", sf424(**ANSWERS_TO_DROPPED_FIELDS))
 
-        recorded = sorted(sf424_record.MAPPING.dropped)
+        recorded = sorted(sf424_record.MAPPING.absent_from_definition)
         assert len(recorded) == 19
 
         reached = sorted(field for field in recorded if answered(field) in xml)
@@ -276,7 +276,9 @@ class TestGeneratedFormXmlMapping:
 
         xml = result.xml_data
         missing = sorted(
-            field for field in sf424_record.MAPPING.dropped if answered(field) not in xml
+            field
+            for field in sf424_record.MAPPING.absent_from_definition
+            if answered(field) not in xml
         )
         assert not missing, f"the generated mapping also drops: {missing}"
 

@@ -1,7 +1,7 @@
 """An XSD's elements and attributes as paths, so a mapping can be compared against it.
 
-The XSD counterpart of `json_schema/flatten_schema.py`. A path is a tuple of element names from the
-root's children down; an attribute is a step prefixed with `@`.
+The XSD counterpart of `../json_schema/flatten_schema.py`. A path here is a tuple of
+element names from the root's children down; an attribute is a step prefixed with `@`.
 
 Reads the XSDs the API already vendors under `src/services/xml_generation/xsds/`.
 `xmlschema` follows the imports into `GlobalLibrary` and `UniversalCodes`, so an element
@@ -16,12 +16,12 @@ from pathlib import Path as FilePath
 import xmlschema
 from xmlschema.validators import XsdGroup
 
+from ..paths import Path
+
 XSD_DIR = FilePath(__file__).parents[5] / "src/services/xml_generation/xsds"
 
 # A guard against a self-referential type, not a real bound.
 MAX_DEPTH = 8
-
-Path = tuple[str, ...]
 
 #: XSD facet -> the JSON Schema keyword meaning the same thing. `totalDigits`,
 #: `fractionDigits` and `whiteSpace` have no equivalent and are not carried.
@@ -84,10 +84,6 @@ def implied_range(pattern: str) -> tuple[Decimal, Decimal] | None:
         return None
     digits = int(match.group(1))
     return Decimal(0), Decimal(10) ** digits - Decimal("0.01")
-
-
-def render(path: Path) -> str:
-    return ".".join(path)
 
 
 def _constraints(declaration) -> tuple[str | None, dict[str, object]]:

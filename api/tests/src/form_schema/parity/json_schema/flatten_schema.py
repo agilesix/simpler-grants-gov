@@ -1,16 +1,15 @@
-"""Addressing a form's inputs as paths through the data an applicant submits.
+"""A form's JSON Schema flattened into the inputs an applicant can fill in.
 
-A path is a tuple of steps, rendered as a dotted string for humans. `[]` is one step,
-standing for every item of a repeatable section: a form declares one shape for the items,
-so one path describes them all.
+Every path the schema reaches, with the rules that govern what may be submitted for it.
+The XSD counterpart is `../xml/flatten_xsd.py`, which produces the same shape over element
+names instead, so the two can be compared step for step.
 """
 
 import dataclasses
 from typing import Any
 
+from ..paths import ARRAY, Path
 from .merge_schema import merge_allof
-
-Path = tuple[str, ...]
 
 # Every keyword that can make a payload invalid. Anything else a schema carries -- title,
 # description, examples, $comment -- changes what an applicant reads, not what they may
@@ -51,18 +50,6 @@ class Input:
     @property
     def json_type(self) -> str | None:
         return self.as_dict.get("type")
-
-
-ARRAY = "[]"
-
-
-def render(path: Path) -> str:
-    """`("applicant", "street1")` -> `"applicant.street1"`."""
-    return ".".join(path)
-
-
-def parse(text: str) -> Path:
-    return tuple(text.split("."))
 
 
 def _rules(node: dict[str, Any]) -> tuple[tuple[str, str], ...]:
@@ -120,15 +107,3 @@ def inputs(schema: dict[str, Any]) -> dict[Path, Input]:
 
     walk(schema, (), False)
     return out
-
-
-def value_at(data: Any, path: Path) -> Any:
-    """The value at `path`, or None if any step is absent. `[]` takes the first item."""
-    for step in path:
-        if data is None:
-            return None
-        if step == ARRAY:
-            data = data[0] if isinstance(data, list) and data else None
-        else:
-            data = data.get(step) if isinstance(data, dict) else None
-    return data

@@ -21,6 +21,6 @@ The registers are empty because there is nothing to explain, and the checks fail
 than pass if that stops being true.
 """
 
-from ..form_mapping import WireMapping
+from ..form_mapping import FormMapping
 
-MAPPING = WireMapping(module="sf424_short_portable")
+MAPPING = FormMapping(module="sf424_short_portable")

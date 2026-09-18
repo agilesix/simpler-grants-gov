@@ -15,8 +15,7 @@ Three details the format carries:
 
 from typing import Any
 
-from ..json_schema.flatten_schema import ARRAY
-from .flatten_xsd import Path
+from ..paths import ARRAY, Path
 
 #: `xml_transform.type` values whose wire structure follows from the declaration.
 READABLE = frozenset({"nested_object", "array", "attribute", "conditional"})
@@ -108,8 +107,8 @@ def read(mapping: dict[str, Any]) -> tuple[dict[Path, str | None], dict[str, str
                 if not isinstance(items_rules, dict):
                     unreadable[source] = "array with no items rules"
                     continue
-                # One path describes every item, using the same `[]` step as
-                # `json_schema/flatten_schema.py` so the two can be compared.
+                # One path describes every item, using the shared `[]` step so this
+                # lines up with what `json_schema/flatten_schema.py` produces.
                 descend(items_rules, (*level, target), f"{source}.{ARRAY}")
 
     descend({k: v for k, v in mapping.items() if k != "_xml_config"}, (), "")

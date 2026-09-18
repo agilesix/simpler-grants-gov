@@ -6,14 +6,14 @@ not a field this form has. Every one of the elements is `minOccurs="0"`, so the 
 validates either way.
 """
 
-from ..form_mapping import WireMapping
+from ..form_mapping import FormMapping
 from .shared_conflicts import CIV, EMPTY_EMAIL, MAX_EMAIL
 
 _NO_RULE = "the mapping declares no rule for this field, so {} is never emitted; the XSD makes it optional, so the submission validates without it"
 
-MAPPING = WireMapping(
+MAPPING = FormMapping(
     module="sf424",
-    dropped={
+    absent_from_definition={
         "applicant_id": _NO_RULE.format("ApplicantID"),
         "revision_type": _NO_RULE.format("RevisionType"),
         "revision_other_specify": _NO_RULE.format("RevisionOtherSpecify"),
@@ -40,7 +40,7 @@ MAPPING = WireMapping(
             "check reading only the XSD side cannot find this one: Fax *is* mapped."
         ),
     },
-    constraint_gaps={
+    recorded_differences={
         "Applicant.Country/enum": CIV,
         "Email/minLength": EMPTY_EMAIL.format(wire="globLib:EmailDataType"),
         "AuthorizedRepresentativeEmail/minLength": EMPTY_EMAIL.format(wire="globLib:EmailDataType"),
@@ -64,7 +64,7 @@ MAPPING = WireMapping(
             for bound in ("minimum", "maximum")
         },
     },
-    misdirected={
+    absent_from_source={
         "fax_number": (
             "no such field on this form -- it is `fax`. The same rename appears in "
             "SF-424 Short's contact groups, where the shared contact question is spelled "

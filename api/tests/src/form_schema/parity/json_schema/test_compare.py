@@ -57,9 +57,7 @@ class TestUndeclaredFieldDetection:
         declared = FormMapping(
             generated_module="g",
             handwritten_module="h",
-            absent_from_handwritten={
-                "extra": "the specification asks for it and the form does not"
-            },
+            absent_from_source={"extra": "the specification asks for it and the form does not"},
         )
         assert not unmapped(declared, inputs("a", "extra"), inputs("a"))
 

@@ -14,7 +14,7 @@ MAPPING = FormMapping(
     # and the schema says the hand-written one is wrong. Each is a defect for Simpler
     # Grants to fix; recording it keeps the suite green meanwhile, and stale_entries
     # fails if the input it names stops existing.
-    upstream_rule_defects={
+    recorded_differences={
         "direct_charges_explanation/minLength": (
             "SF424A-V1.0.xsd types OtherDirectChargesExplanation as glob:StringMin1Max50Type, and "
             "Global-V1.0.xsd defines that type as minLength 1, maxLength 50. The hand-written "

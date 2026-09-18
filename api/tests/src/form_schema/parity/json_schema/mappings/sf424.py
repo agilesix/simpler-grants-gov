@@ -36,7 +36,7 @@ MAPPING = FormMapping(
     # and the schema says the hand-written one is wrong. Each is a defect for Simpler
     # Grants to fix; recording it keeps the suite green meanwhile, and stale_entries
     # fails if the input it names stops existing.
-    upstream_rule_defects={
+    recorded_differences={
         "email/minLength": (
             "GlobalLibrary-V2.0.xsd defines globLib:EmailDataType as minLength 1, maxLength "
             "60, and the hand-written form declares neither bound on this field. The generated "

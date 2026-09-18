@@ -21,6 +21,7 @@ from types import SimpleNamespace
 import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
+from tests.src.form_schema.parity import paths
 from tests.src.form_schema.parity.json_schema import flatten_schema
 from tests.src.form_schema.parity.xml import flatten_transform, flatten_xsd
 from tests.src.form_schema.parity.xml.mappings import (
@@ -65,7 +66,7 @@ def form(request):
         attachments=flatten_transform.attachment_elements(mapping),
         by_path=flatten_schema.inputs(resolve_jsonschema(module.FORM_JSON_SCHEMA)),
         inputs={
-            flatten_schema.render(p)
+            paths.render(p)
             for p in flatten_schema.inputs(
                 resolve_jsonschema(
                     generated.form_json_schema if generated else module.FORM_JSON_SCHEMA
@@ -101,25 +102,25 @@ def _governed(form):
     for path, source in form.targets.items():
         if source is None:
             continue
-        governed = form.by_path.get(flatten_schema.parse(source))
+        governed = form.by_path.get(paths.parse(source))
         element = form.declared.get(path)
         if governed is None or element is None:
             continue
         yield path, source, {k: json.loads(v) for k, v in governed.rules}, element
 
 
-def _reconciled(form, path: flatten_xsd.Path, keyword: str) -> bool:
+def _reconciled(form, path: paths.Path, keyword: str) -> bool:
     """Whether a declared `value_transform` could account for a difference in `keyword`."""
     declared = form.transformed.get(path, frozenset())
     return bool(declared & flatten_transform.RECONCILED_BY.get(keyword, frozenset()))
 
 
-def _gap(form, path: flatten_xsd.Path, keyword: str) -> bool:
+def _gap(form, path: paths.Path, keyword: str) -> bool:
     """Whether this difference is already recorded, so the check should pass over it."""
-    return f"{flatten_xsd.render(path)}/{keyword}" in form.record.constraint_gaps
+    return f"{paths.render(path)}/{keyword}" in form.record.recorded_differences
 
 
-def _from_attachment(path: flatten_xsd.Path, attachments: frozenset[str]) -> bool:
+def _from_attachment(path: paths.Path, attachments: frozenset[str]) -> bool:
     """Whether an element's value comes from an uploaded file rather than the mapping."""
     return bool(path) and path[0] in attachments and len(path) > 1
 
@@ -151,9 +152,7 @@ class TestXsdElementCoverage:
         revision renamed or removed."""
         _readable(form)
 
-        unknown = sorted(
-            flatten_xsd.render(path) for path in form.targets if path not in form.declared
-        )
+        unknown = sorted(paths.render(path) for path in form.targets if path not in form.declared)
         assert not unknown, (
             f"{form.record.module}: {len(unknown)} target(s) name nothing in "
             f"{form.record.module}'s schema: {unknown}"
@@ -167,7 +166,7 @@ class TestXsdElementCoverage:
         _readable(form)
 
         missing = sorted(
-            flatten_xsd.render(path)
+            paths.render(path)
             for path, element in form.declared.items()
             if element.required
             and path not in form.targets
@@ -200,7 +199,7 @@ class TestXsdElementCoverage:
             as_declared = sorted(siblings, key=lambda p: form.declared[p].position)
             if as_mapped != as_declared:
                 out_of_order.append(
-                    f"{flatten_xsd.render(parent) or '(root)'}: mapped "
+                    f"{paths.render(parent) or '(root)'}: mapped "
                     f"{[p[-1] for p in as_mapped]}, schema declares {[p[-1] for p in as_declared]}"
                 )
         assert not out_of_order, f"{form.record.module}: " + "; ".join(out_of_order)
@@ -219,7 +218,7 @@ class TestResponseFieldCoverage:
         dropped = sorted(
             field
             for field in form.inputs
-            if not _reaches(field, form.sources) and field not in form.record.dropped
+            if not _reaches(field, form.sources) and field not in form.record.absent_from_definition
         )
         assert not dropped, (
             f"{form.record.module}: {len(dropped)} response field(s) reach no XML element, so "
@@ -237,7 +236,7 @@ class TestResponseFieldCoverage:
             source
             for source in form.sources
             if not any(field == source or field.startswith(source + ".") for field in form.inputs)
-            and source not in form.record.misdirected
+            and source not in form.record.absent_from_source
         )
         assert not misdirected, (
             f"{form.record.module}: {len(misdirected)} rule(s) read a field this form does not "
@@ -276,7 +275,7 @@ class TestFormConstraintContainment:
                 continue
             extra = sorted(set(governed["enum"]) - listed)
             if extra:
-                offered.append(f"{flatten_xsd.render(path)} <- {source}: {extra}")
+                offered.append(f"{paths.render(path)} <- {source}: {extra}")
         assert not offered, (
             f"{form.record.module}: {len(offered)} field(s) offer a value the element does not "
             f"list, so choosing it would produce a submission Grants.gov rejects: {offered}"
@@ -307,7 +306,7 @@ class TestFormConstraintContainment:
                     permitted = flatten_xsd.implied_range(governed.get("pattern", ""))
                     if permitted is None:
                         looser.append(
-                            f"{flatten_xsd.render(path)} <- {source}: the element bounds {keyword} at "
+                            f"{paths.render(path)} <- {source}: the element bounds {keyword} at "
                             f"{limit}, the field is a string, and its pattern "
                             f"{governed.get('pattern', '(none)')!r} does not say what range it "
                             f"permits -- so nothing checks it"
@@ -317,11 +316,11 @@ class TestFormConstraintContainment:
 
                 if declared is None:
                     looser.append(
-                        f"{flatten_xsd.render(path)} <- {source}: no {keyword}, element {limit}"
+                        f"{paths.render(path)} <- {source}: no {keyword}, element {limit}"
                     )
                 elif (declared > limit) if direction == "above" else (declared < limit):
                     looser.append(
-                        f"{flatten_xsd.render(path)} <- {source}: {keyword} {declared} against element {limit}"
+                        f"{paths.render(path)} <- {source}: {keyword} {declared} against element {limit}"
                     )
         assert not looser, (
             f"{form.record.module}: {len(looser)} field(s) accept more than the element carries, "
@@ -345,7 +344,7 @@ class TestFormConstraintContainment:
             if _reconciled(form, path, "type") or _gap(form, path, "type"):
                 continue
             mismatched.append(
-                f"{flatten_xsd.render(path)} <- {source}: form {declared}, element "
+                f"{paths.render(path)} <- {source}: form {declared}, element "
                 f"xs:{element.primitive}, no value_transform declared"
             )
         assert not mismatched, (
@@ -369,9 +368,9 @@ class TestGapRecordIntegrity:
         unusable = sorted(
             f"{register}[{key!r}]: {reason!r}"
             for register, entries in (
-                ("dropped", form.record.dropped),
-                ("misdirected", form.record.misdirected),
-                ("constraint_gaps", form.record.constraint_gaps),
+                ("absent_from_definition", form.record.absent_from_definition),
+                ("absent_from_source", form.record.absent_from_source),
+                ("recorded_differences", form.record.recorded_differences),
                 ("unreadable", form.record.unreadable),
             )
             for key, reason in entries.items()
@@ -383,19 +382,25 @@ class TestGapRecordIntegrity:
         """A recorded gap cannot outlive the problem it describes."""
         _readable(form)
 
-        fixed = sorted(field for field in form.record.dropped if _reaches(field, form.sources))
-        gone = sorted(field for field in form.record.dropped if field not in form.inputs)
+        fixed = sorted(
+            field for field in form.record.absent_from_definition if _reaches(field, form.sources)
+        )
+        gone = sorted(
+            field for field in form.record.absent_from_definition if field not in form.inputs
+        )
         resolved = sorted(
             source
-            for source in form.record.misdirected
+            for source in form.record.absent_from_source
             if any(field == source or field.startswith(source + ".") for field in form.inputs)
         )
-        unused = sorted(source for source in form.record.misdirected if source not in form.sources)
+        unused = sorted(
+            source for source in form.record.absent_from_source if source not in form.sources
+        )
 
         # A constraint gap has to still name a mapped element and a rule that element declares.
-        by_element = {flatten_xsd.render(path): element for path, element in form.declared.items()}
+        by_element = {paths.render(path): element for path, element in form.declared.items()}
         stale_gaps = []
-        for entry in form.record.constraint_gaps:
+        for entry in form.record.recorded_differences:
             element, _, keyword = entry.rpartition("/")
             declared = by_element.get(element)
             if declared is None:
@@ -408,15 +413,21 @@ class TestGapRecordIntegrity:
 
         complaints = []
         if fixed:
-            complaints.append(f"now mapped, so remove from `dropped`: {fixed}")
+            complaints.append(f"now mapped, so remove from `absent_from_definition`: {fixed}")
         if gone:
-            complaints.append(f"no longer fields on this form, so remove from `dropped`: {gone}")
+            complaints.append(
+                f"no longer fields on this form, so remove from `absent_from_definition`: {gone}"
+            )
         if resolved:
-            complaints.append(f"now name real fields, so remove from `misdirected`: {resolved}")
+            complaints.append(
+                f"now name real fields, so remove from `absent_from_source`: {resolved}"
+            )
         if unused:
-            complaints.append(f"no longer rule sources, so remove from `misdirected`: {unused}")
+            complaints.append(
+                f"no longer rule sources, so remove from `absent_from_source`: {unused}"
+            )
         if stale_gaps:
             complaints.append(
-                f"no longer describe a real restriction, so remove from `constraint_gaps`: {stale_gaps}"
+                f"no longer describe a real restriction, so remove from `recorded_differences`: {stale_gaps}"
             )
         assert not complaints, f"{form.record.module}: " + "; ".join(complaints)
