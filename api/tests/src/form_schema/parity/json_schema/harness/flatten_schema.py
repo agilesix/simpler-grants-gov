@@ -1,9 +1,11 @@
 """Reads a form's JSON Schema into `{path: FormInput}`.
 
 Two forms that ask for the same things can be written as very different documents. The
-generated SF-424 hoists every shared question into `$defs` and composes with `allOf`; the
-hand-written one inlines everything and carries titles and descriptions. They share no
-`$defs` name and differ 1153 nodes to 436, so a structural diff of the two is all noise.
+generated SF-424 hoists 50 shared questions into `$defs` and composes with `allOf`; the
+hand-written one declares no `$defs` at all and inlines everything. The two share no
+definition name, so a structural diff of the documents is all noise -- and resolving the
+refs makes it worse, since `resolve_jsonschema` expands each one in place while keeping
+`$defs`, leaving the country code list in the generated schema four times over.
 
 Flattening keeps only the path an answer lives at and the rules that decide whether it is
 valid, which makes the two comparable. These produce the same result:
