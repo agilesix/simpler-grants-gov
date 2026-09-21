@@ -33,6 +33,11 @@ applicant reads, not what they may submit.
 Where two forms spell one field differently -- `p.phone` against `p.phone_number` -- the
 `FormInput` values match and only the path differs. `FormDiff.renamed` pairs those up.
 
+One array keyword is not read: `prefixItems`, which gives item 0 a different shape from
+items 1+. A path ends in one `[]` step describing every item, so a positional difference
+has nowhere to go. `sf424a` is the only form using it, and the requiredness it declares
+there is invisible here -- see `documentation/api/form-parity-open-questions.md`.
+
 `../../xml/harness/flatten_xsd.py` produces the same shape over element names.
 """
 
