@@ -1,15 +1,51 @@
-import type { Model, Namespace, Program } from "@typespec/compiler";
+import type { Model, ModelProperty, Namespace, Program } from "@typespec/compiler";
 import { allBlocks, type Block } from "simpler-forms";
 import { readBlock } from "simpler-forms";
-import { reportDiagnostic } from "./lib.js";
-import { modelMultiFields, modelPrePopulate } from "./model.js";
+import { reportDiagnostic, stateKeys } from "./lib.js";
+import { modelMultiFields, modelPrePopulate, modelRenderer } from "./model.js";
 
 export function $onValidate(program: Program): void {
   for (const block of allBlocks(program)) {
     if (block.model.kind !== "Model") continue;
     checkNoSggInBank(program, block);
     checkMultiFieldSections(program, block);
+    checkRendererIgnoresLayout(program, block);
   }
+  checkFormOnly(program, stateKeys.sync, "sync");
+  checkFormOnly(program, stateKeys.renderer, "renderer");
+}
+
+/**
+ * `@Sgg.sync` and `@Sgg.renderer` describe installing and drawing a form, and nothing else
+ * is installed or drawn. Read from the state map rather than `allBlocks`, because a model
+ * that is neither a question nor a form never appears as a block.
+ */
+function checkFormOnly(program: Program, key: symbol, decorator: string): void {
+  for (const target of program.stateMap(key).keys()) {
+    const model = target as Model;
+    if (readBlock(program, model)?.kind === "form") continue;
+    reportDiagnostic(program, {
+      code: "sgg-not-a-form",
+      target: model,
+      format: { decorator, name: model.name },
+    });
+  }
+}
+
+/** Under JSON Forms the SGG UI schema is not installed, so its layout decorators are inert. */
+function checkRendererIgnoresLayout(program: Program, block: Block): void {
+  if (block.kind !== "form") return;
+  const model = block.model as Model;
+  if (modelRenderer(program, model) !== "jsonforms") return;
+  const report = (decorator: string) =>
+    reportDiagnostic(program, {
+      code: "renderer-ignores-sgg-layout",
+      target: model,
+      format: { name: model.name, decorator },
+    });
+  if (modelMultiFields(program, model).length) report("multiField");
+  const fieldLists = [...program.stateMap(stateKeys.fieldList).keys()] as ModelProperty[];
+  if (fieldLists.some((prop) => prop.model === model)) report("fieldList");
 }
 
 /**

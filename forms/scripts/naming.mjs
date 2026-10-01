@@ -79,3 +79,37 @@ export function projectRuleSchema(node) {
     ]),
   );
 }
+
+/** `#/properties/activityLineItems` -> `#/properties/activity_line_items`. */
+const projectScope = (scope) =>
+  scope.startsWith("#/") ? `#${projectPointer(scope.slice(1))}` : scope;
+
+/**
+ * Rewrite a JSON Forms UI schema -- the canonical `ui.json` -- for a form rendered with
+ * JSON Forms. Field names appear in every `scope`, including a rule condition's, and as
+ * property keys in the schema a rule condition tests against. `options` names widgets and
+ * flags rather than fields, so it passes through.
+ */
+export function projectJsonFormsUiSchema(node) {
+  if (Array.isArray(node)) return node.map(projectJsonFormsUiSchema);
+  if (node === null || typeof node !== "object") return node;
+
+  const out = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (key === "scope" && typeof value === "string") {
+      out.scope = projectScope(value);
+    } else if (key === "condition" && value && typeof value === "object") {
+      const { scope, schema, ...rest } = value;
+      out.condition = {
+        ...projectJsonFormsUiSchema(rest),
+        ...(scope !== undefined ? { scope: projectScope(scope) } : {}),
+        ...(schema !== undefined ? { schema: projectSchema(schema) } : {}),
+      };
+    } else if (key === "options") {
+      out.options = value;
+    } else {
+      out[key] = projectJsonFormsUiSchema(value);
+    }
+  }
+  return out;
+}

@@ -11,5 +11,7 @@ export const $decorators = {
     prePopulate: d.$prePopulate,
     multiField: d.$multiField,
     fieldList: d.$fieldList,
+    sync: d.$sync,
+    renderer: d.$renderer,
   },
 };

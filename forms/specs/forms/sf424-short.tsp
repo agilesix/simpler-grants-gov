@@ -56,6 +56,7 @@ model Sf424ShortContact extends QuestionPocDetails {
 }
 
 /** Application for Federal Domestic Assistance-Short Organizational (SF-424) */
+@Sgg.sync
 @Meta.form(#{
   id: "sf424-short",
   legacyFormId: 711,

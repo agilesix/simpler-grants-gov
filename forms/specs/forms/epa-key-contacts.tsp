@@ -74,6 +74,7 @@ model EPAKeyContactPerson {
 }
 
 /** EPA KEY CONTACTS FORM, Grants.gov version 2.0. */
+@Sgg.sync
 @Meta.form(#{
   id: "epa-key-contacts",
   legacyFormId: 674,

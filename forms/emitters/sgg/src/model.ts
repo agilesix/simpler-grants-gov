@@ -18,3 +18,10 @@ export const propSggFieldList = (p: Program, prop: ModelProperty) =>
     hideFieldListHeading?: boolean;
     validateBeforeAdd?: boolean;
   } | undefined) ?? {};
+
+/** `@Sgg.sync`: whether sync installs this form into the API tree. */
+export const modelSync = (p: Program, model: Model) => g(p, stateKeys.sync, model) === true;
+
+/** `@Sgg.renderer`: the frontend renderer for this form, `sgg` when undeclared. */
+export const modelRenderer = (p: Program, model: Model) =>
+  (g(p, stateKeys.renderer, model) as string | undefined) ?? "sgg";

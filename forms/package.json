@@ -11,9 +11,10 @@
     "build": "npm run build --workspaces --if-present",
     "emit": "npm run build && tsp compile specs/main.tsp && npm run sync",
     "check:types": "npm run check:types --workspaces --if-present",
-    "checks": "npm run build && npm run check:types",
+    "checks": "npm run build && npm run check:types && npm test",
     "sync": "node scripts/sync.mjs",
-    "sync:check": "node scripts/sync.mjs --check"
+    "sync:check": "node scripts/sync.mjs --check",
+    "test": "node --test \"scripts/**/*.test.mjs\""
   },
   "devDependencies": {
     "@typespec/compiler": "^1.13.0",

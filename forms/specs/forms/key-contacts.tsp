@@ -39,6 +39,7 @@ model KeyContactPerson extends QuestionPocDetails {
 }
 
 /** KEY CONTACTS (Grants.gov FID 683, v2.0) */
+@Sgg.sync
 @Meta.form(#{
   id: "key-contacts",
   legacyFormId: 683,

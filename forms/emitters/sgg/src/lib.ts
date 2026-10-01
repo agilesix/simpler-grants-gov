@@ -26,11 +26,25 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`@Sgg.multiField names section "${"section"}", which this form does not declare (it has ${"declared"}).`,
       },
     },
+    "sgg-not-a-form": {
+      severity: "error",
+      messages: {
+        default: paramMessage`@Sgg.${"decorator"} applies to a form, and ${"name"} has no @Meta.form.`,
+      },
+    },
+    "renderer-ignores-sgg-layout": {
+      severity: "warning",
+      messages: {
+        default: paramMessage`${"name"} renders with JSON Forms, which reads the canonical UI schema, so its @Sgg.${"decorator"} has no effect.`,
+      },
+    },
   },
   state: {
     prePopulate: {},
     multiField: {},
     fieldList: {},
+    sync: {},
+    renderer: {},
   },
 } as const);
 

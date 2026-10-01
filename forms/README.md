@@ -55,6 +55,7 @@ npm run build        # compile both emitter packages
 npm run emit         # build, compile specs/, then sync into the API tree
 npm run sync         # sync only, from artifacts already emitted
 npm run sync:check   # fail if what is committed differs from the artifacts
+npm test             # the sync script's own tests
 npm run checks       # build and type-check
 ```
 
@@ -64,7 +65,18 @@ The emitters know nothing about where this application keeps forms. That layout 
 repository's convention, it changed once already this year, and encoding it into a
 published package would make a directory move here a breaking change there. So the
 emitters write to their own output directories and `scripts/sync.mjs` installs from
-them, doing three things the artifacts cannot do for themselves.
+them, doing what the artifacts cannot do for themselves.
+
+**It installs only forms that opt in.** A form carrying `@Sgg.sync` is installed; any
+other form still compiles and emits, but sync skips it. The emitter records the choice in
+`dist/sgg/forms/<form>/sgg.json`, which sync reads instead of the specification. Sync never
+deletes a form directory, because registering a form is a hand edit to `_ALL_FORMS`. If a
+form drops the decorator while its directory is still installed, `sync:check` reports it.
+
+**It picks the UI schema for the renderer.** `@Sgg.renderer(Sgg.SggRenderer.jsonForms)`
+installs the canonical `ui.json`, which is already a JSON Forms UI schema, instead of the
+SGG `ui-schema.json`, and writes `form_renderer: "jsonforms"` into `form.json` so the
+frontend draws the form with JSON Forms. Without it, a form uses the SGG renderer as before.
 
 **It projects names.** A specification names a field the way the question does —
 `activityLineItems`. This application names it `activity_line_items`, because stored

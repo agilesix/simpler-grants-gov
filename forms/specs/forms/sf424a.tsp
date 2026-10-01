@@ -62,6 +62,7 @@ model ForecastedCashNeeds {
 }
 
 /** Budget Information for Non-Construction Programs (SF-424A) */
+@Sgg.sync
 @Meta.form(#{
   id: "sf424a",
   legacyFormId: 241,

@@ -62,6 +62,7 @@ scalar AdditionalResearchPersonBiographicalSketches extends AttachmentRef;
 scalar AdditionalResearchPersonSupport extends AttachmentRef;
 
 /** Research & Related Senior/Key Person Profile (Expanded), Grants.gov version 4.0. */
+@Sgg.sync
 @Meta.form(#{
   id: "rr-key-person-expanded",
   legacyFormId: 774,

@@ -86,6 +86,8 @@ barrel. A form that only reuses existing questions skips this step.
 
 **2. Write the form.** `specs/forms/<form>.tsp` declares `@Meta.form`, its sections, and
 the questions it asks. Import it from `specs/main.tsp` so one compile covers every form.
+Add `@Sgg.sync` when the form should be installed into the API tree; until then it
+compiles and emits but sync leaves it out.
 
 **3. Add the XML transform, if the form submits to Grants.gov.** `specs/xml/<form>.json`
 is a transcription of the form's Grants.gov XSD, and the one artifact still written by

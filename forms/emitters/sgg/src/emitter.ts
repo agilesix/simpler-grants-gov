@@ -1,8 +1,9 @@
-import type { EmitContext } from "@typespec/compiler";
+import type { EmitContext, Model } from "@typespec/compiler";
 import { emitFile, resolvePath } from "@typespec/compiler";
 import { allBlocks } from "simpler-forms";
 import { emitSggUi } from "./ui-schema.js";
 import { emitSggRules } from "./rules.js";
+import { modelRenderer, modelSync } from "./model.js";
 
 /**
  * Writes the two artifacts this application's form registry consumes, one directory per
@@ -26,5 +27,11 @@ export async function $onEmit(context: EmitContext): Promise<void> {
     await write(`${dir}/ui-schema.json`, emitSggUi(program, block));
     const rules = emitSggRules(program, block);
     await write(`${dir}/rule-schema.json`, Object.keys(rules).length ? rules : null);
+    // What scripts/sync.mjs needs to know about installing the form, so it reads a file
+    // rather than the specification.
+    await write(`${dir}/sgg.json`, {
+      sync: modelSync(program, block.model as Model),
+      renderer: modelRenderer(program, block.model as Model),
+    });
   }
 }

@@ -81,3 +81,10 @@ function sectionName(v: unknown): string {
 
 export const $fieldList = (ctx: Ctx, target: ModelProperty, options: unknown) =>
   set(ctx, stateKeys.fieldList, target, plain(ctx, options));
+
+/** A marker; its presence is the whole of what it says. */
+export const $sync = (ctx: Ctx, target: Model) => set(ctx, stateKeys.sync, target, true);
+
+/** The renderer is the enum member's value, which is what the API and frontend spell it. */
+export const $renderer = (ctx: Ctx, target: Model, renderer: unknown) =>
+  set(ctx, stateKeys.renderer, target, enumValue(renderer));

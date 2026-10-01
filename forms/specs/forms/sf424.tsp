@@ -51,6 +51,7 @@ enum Sf424Section {
 }
 
 /** APPLICATION FOR FEDERAL ASSISTANCE (SF-424) */
+@Sgg.sync
 @Meta.form(#{
   id: "sf424",
   legacyFormId: 713,

@@ -70,3 +70,29 @@ model SggFieldListOptions {
 
 /** Configure how one form-local repeatable property is rendered. */
 extern dec fieldList(target: ModelProperty, options: valueof SggFieldListOptions);
+
+/**
+ * Install this form into the API tree when `npm run sync` runs.
+ *
+ * Opt in rather than opt out: a form without it still compiles and still emits its
+ * canonical and SGG artifacts, but sync leaves it out of `api/src/form_schema/forms/`. A
+ * specification can then be worked on in the tree without registering it anywhere.
+ */
+extern dec sync(target: Model);
+
+/** Which frontend renderer draws a form. */
+enum SggRenderer {
+  /** The bespoke renderer, reading the SGG `ui-schema.json`. */
+  sgg: "sgg",
+
+  /** JSON Forms, reading the canonical `ui.json`. */
+  jsonForms: "jsonforms",
+}
+
+/**
+ * Choose the renderer for this form. Forms without it use `SggRenderer.sgg`.
+ *
+ * Under `jsonForms`, sync installs the canonical JSON Forms UI schema in place of this
+ * emitter's `ui-schema.json`, so `@Sgg.multiField` and `@Sgg.fieldList` have no effect.
+ */
+extern dec renderer(target: Model, renderer: valueof SggRenderer);
