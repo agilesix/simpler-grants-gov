@@ -1,0 +1,454 @@
+[
+  {
+    "type": "section",
+    "name": "principalInvestigator",
+    "label": "Project Director / Principal Investigator",
+    "children": [
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/name/properties/prefix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/name/properties/first_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/name/properties/middle_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/name/properties/last_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/name/properties/suffix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/title"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/department"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/organization_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/division"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/street1"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/street2"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/city"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/county"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/principalInvestigator/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/province",
+        "conditional": {
+          "when": {
+            "op": "notEquals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/principalInvestigator/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/country"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/address/properties/zip_code"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/phone"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/fax"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/email"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/credential"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/project_role"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/other_project_role",
+        "conditional": {
+          "when": {
+            "op": "in",
+            "ref": {
+              "scope": "root",
+              "pointer": "/principalInvestigator/projectRole"
+            },
+            "values": [
+              "Other Professional",
+              "Other (Specify)"
+            ]
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/degree_type"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/degree_year"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/biographical_sketch",
+        "widget": "Attachment"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/principal_investigator/properties/current_pending_support",
+        "widget": "Attachment"
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "name": "seniorKeyPersons",
+    "label": "Senior / Key Persons",
+    "children": [
+      {
+        "type": "fieldList",
+        "name": "seniorKeyPersons",
+        "label": "Senior / Key Person",
+        "definition": "/properties/senior_key_persons",
+        "children": [
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/name/properties/prefix"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/name/properties/first_name"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/name/properties/middle_name"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/name/properties/last_name"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/name/properties/suffix"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/title"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/department"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/organization_name"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/division"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/street1"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/street2"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/city"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/county"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/state",
+            "conditional": {
+              "when": {
+                "op": "equals",
+                "ref": {
+                  "scope": "item",
+                  "pointer": "/address/country"
+                },
+                "value": "USA: UNITED STATES"
+              },
+              "then": {
+                "interaction": "enabled"
+              },
+              "otherwise": {
+                "interaction": "disabled"
+              }
+            }
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/province",
+            "conditional": {
+              "when": {
+                "op": "notEquals",
+                "ref": {
+                  "scope": "item",
+                  "pointer": "/address/country"
+                },
+                "value": "USA: UNITED STATES"
+              },
+              "then": {
+                "interaction": "enabled"
+              },
+              "otherwise": {
+                "interaction": "disabled"
+              }
+            }
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/country"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/address/properties/zip_code"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/phone"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/fax"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/email"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/credential"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/project_role"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/other_project_role",
+            "conditional": {
+              "when": {
+                "op": "in",
+                "ref": {
+                  "scope": "item",
+                  "pointer": "/projectRole"
+                },
+                "values": [
+                  "Other Professional",
+                  "Other (Specify)"
+                ]
+              },
+              "then": {
+                "interaction": "enabled"
+              },
+              "otherwise": {
+                "interaction": "disabled"
+              }
+            }
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/degree_type"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/degree_year"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/biographical_sketch",
+            "widget": "Attachment"
+          },
+          {
+            "type": "field",
+            "definition": "/properties/senior_key_persons/items/properties/current_pending_support",
+            "widget": "Attachment"
+          }
+        ],
+        "description": "Add every other senior or key person on the project.",
+        "validateBeforeAdd": true
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "name": "overflowAttachments",
+    "label": "Additional Senior / Key Person Attachments",
+    "children": [
+      {
+        "type": "field",
+        "definition": "/properties/additional_profiles",
+        "widget": "Attachment",
+        "conditional": {
+          "when": {
+            "op": "any",
+            "predicates": [
+              {
+                "op": "countAtLeast",
+                "ref": {
+                  "scope": "root",
+                  "pointer": "/seniorKeyPersons"
+                },
+                "minimum": 99
+              },
+              {
+                "op": "present",
+                "ref": {
+                  "scope": "root",
+                  "pointer": "/additionalProfiles"
+                }
+              }
+            ]
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/additional_biographical_sketches",
+        "widget": "Attachment",
+        "conditional": {
+          "when": {
+            "op": "any",
+            "predicates": [
+              {
+                "op": "countAtLeast",
+                "ref": {
+                  "scope": "root",
+                  "pointer": "/seniorKeyPersons"
+                },
+                "minimum": 99
+              },
+              {
+                "op": "present",
+                "ref": {
+                  "scope": "root",
+                  "pointer": "/additionalBiographicalSketches"
+                }
+              }
+            ]
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/additional_current_pending_support",
+        "widget": "Attachment",
+        "conditional": {
+          "when": {
+            "op": "any",
+            "predicates": [
+              {
+                "op": "countAtLeast",
+                "ref": {
+                  "scope": "root",
+                  "pointer": "/seniorKeyPersons"
+                },
+                "minimum": 99
+              },
+              {
+                "op": "present",
+                "ref": {
+                  "scope": "root",
+                  "pointer": "/additionalCurrentPendingSupport"
+                }
+              }
+            ]
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,334 @@
+[
+  {
+    "type": "section",
+    "name": "authorizedRepresentative",
+    "label": "Authorized Representative",
+    "children": [
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/name/properties/prefix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/name/properties/first_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/name/properties/middle_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/name/properties/last_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/name/properties/suffix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/title"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/address/properties/street1"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/address/properties/street2"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/address/properties/city"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/address/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/authorizedRepresentative/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/address/properties/country"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/address/properties/zip_code"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/phone"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/fax"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/authorized_representative/properties/email"
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "name": "payee",
+    "label": "Payee",
+    "children": [
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/name/properties/prefix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/name/properties/first_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/name/properties/middle_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/name/properties/last_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/name/properties/suffix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/title"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/address/properties/street1"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/address/properties/street2"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/address/properties/city"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/address/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/payee/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/address/properties/country"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/address/properties/zip_code"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/phone"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/fax"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/payee/properties/email"
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "name": "administrativeContact",
+    "label": "Administrative Contact",
+    "children": [
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/name/properties/prefix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/name/properties/first_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/name/properties/middle_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/name/properties/last_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/name/properties/suffix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/title"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/address/properties/street1"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/address/properties/street2"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/address/properties/city"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/address/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/administrativeContact/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/address/properties/country"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/address/properties/zip_code"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/phone"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/fax"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/administrative_contact/properties/email"
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "name": "projectManager",
+    "label": "Project Manager",
+    "children": [
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/name/properties/prefix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/name/properties/first_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/name/properties/middle_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/name/properties/last_name"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/name/properties/suffix"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/title"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/address/properties/street1"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/address/properties/street2"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/address/properties/city"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/address/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/projectManager/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/address/properties/country"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/address/properties/zip_code"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/phone"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/fax"
+      },
+      {
+        "type": "field",
+        "definition": "/properties/project_manager/properties/email"
+      }
+    ]
+  }
+]

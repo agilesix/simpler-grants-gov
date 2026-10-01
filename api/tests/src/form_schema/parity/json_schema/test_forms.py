@@ -20,6 +20,7 @@ import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
 from tests.src.form_schema.parity.json_schema.diffs import (
+    epa_key_contacts,
     key_contacts,
     sf424,
     sf424_short,
@@ -32,6 +33,7 @@ DIFFS = [
     sf424_short.DIFF,
     sf424a.DIFF,
     key_contacts.DIFF,
+    epa_key_contacts.DIFF,
 ]
 
 

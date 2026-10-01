@@ -4,3 +4,5 @@ import "./forms/sf424.tsp";
 import "./forms/sf424-short.tsp";
 import "./forms/sf424a.tsp";
 import "./forms/key-contacts.tsp";
+import "./forms/epa-key-contacts.tsp";
+import "./forms/rr-key-person-expanded.tsp";

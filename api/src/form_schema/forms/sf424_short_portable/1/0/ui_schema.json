@@ -78,11 +78,43 @@
       },
       {
         "type": "field",
-        "definition": "/properties/applicant/properties/state"
+        "definition": "/properties/applicant/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/applicant/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
       },
       {
         "type": "field",
-        "definition": "/properties/applicant/properties/province"
+        "definition": "/properties/applicant/properties/province",
+        "conditional": {
+          "when": {
+            "op": "notEquals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/applicant/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
       },
       {
         "type": "field",
@@ -201,11 +233,43 @@
       },
       {
         "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/state"
+        "definition": "/properties/project_director/properties/address/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/projectDirector/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
       },
       {
         "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/province"
+        "definition": "/properties/project_director/properties/address/properties/province",
+        "conditional": {
+          "when": {
+            "op": "notEquals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/projectDirector/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
       },
       {
         "type": "field",
@@ -280,11 +344,43 @@
       },
       {
         "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/state"
+        "definition": "/properties/contact_person/properties/address/properties/state",
+        "conditional": {
+          "when": {
+            "op": "equals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/contactPerson/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
       },
       {
         "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/province"
+        "definition": "/properties/contact_person/properties/address/properties/province",
+        "conditional": {
+          "when": {
+            "op": "notEquals",
+            "ref": {
+              "scope": "root",
+              "pointer": "/contactPerson/address/country"
+            },
+            "value": "USA: UNITED STATES"
+          },
+          "then": {
+            "interaction": "enabled"
+          },
+          "otherwise": {
+            "interaction": "disabled"
+          }
+        }
       },
       {
         "type": "field",

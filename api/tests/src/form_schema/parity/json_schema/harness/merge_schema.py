@@ -88,6 +88,13 @@ def merge_allof(schema: Any, path: str = "") -> Any:
                     )
             elif key == "required":
                 merged[key] = sorted({*merged[key], *value})
+            elif key == "allOf":
+                # Conditionals both branches kept back. They are a conjunction, so the two
+                # lists concatenate; treating them as mappings assumes a shape `allOf` never
+                # has. Reached when a question carries an `if`/`then` of its own and the
+                # occurrence composing it adds another, as an address does when the question
+                # and the form each make a field conditionally required.
+                merged[key] = [*merged[key], *value]
             elif key in ANNOTATION:
                 pass  # the node's own already sits in `merged`, and it wins
             elif key in COMBINING:

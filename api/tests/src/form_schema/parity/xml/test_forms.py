@@ -14,6 +14,7 @@ import pytest
 
 from tests.src.form_schema.parity.xml.diffs import (
     key_contacts,
+    epa_key_contacts_portable,
     key_contacts_portable,
     sf424,
     sf424_portable,
@@ -30,6 +31,7 @@ DIFFS = [
     sf424a.DIFF,
     key_contacts.DIFF,
     key_contacts_portable.DIFF,
+    epa_key_contacts_portable.DIFF,
     sf424_short_portable.DIFF,
 ]
 

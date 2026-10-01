@@ -15,7 +15,10 @@ import { Attachment } from "src/types/attachmentTypes";
 import { FormDetail } from "src/types/formResponseTypes";
 
 import { processFormSchema } from "./applyForm/applyFormUtils";
-import { validateUiSchema } from "./applyForm/validateUiSchema";
+import {
+  unimplementedRuleKeys,
+  validateUiSchema,
+} from "./applyForm/validateUiSchema";
 
 // either return error or data, not both
 type FormDataResult =
@@ -154,6 +157,16 @@ export default async function getFormData({
       summarizeUiSchemaErrors(schemaErrors),
     );
     return { error: "TopLevelError" };
+  }
+
+  // Rules the UI schema declares and this renderer does not act on. Logged rather than
+  // ignored silently: a conditionally disabled field renders enabled, and the applicant has
+  // no way to tell that the form asked for anything else.
+  const ignoredRules = unimplementedRuleKeys(formUiSchema);
+  if (ignoredRules.length) {
+    console.warn(
+      `Form ${formId} declares UI rules this renderer does not implement: ${ignoredRules.join(", ")}. The fields they govern render unconditionally.`,
+    );
   }
 
   try {

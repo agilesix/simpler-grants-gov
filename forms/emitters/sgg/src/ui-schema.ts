@@ -2,6 +2,7 @@ import type { Model, ModelProperty, Program } from "@typespec/compiler";
 import { getDoc } from "@typespec/compiler";
 import {
   type AtomicCondition, type Block, type Condition, childBlock, modelLabel, modelOrder,
+  modelOverrides,
   normalizedOverrideEnabledWhen, orderedProps, propEnabledWhen, propHelpText, propLabel,
   propOmit, propReadOnly, propReadOnlyWhen, propSection, propTotals, propVisibleWhen,
   propWidget, readBlock, typeTags,
@@ -57,7 +58,7 @@ export interface SggSection {
 interface AbsoluteAtomicCondition {
   scope: "root" | "item";
   sourcePath: string[];
-  operator: "equals" | "in" | "countAtLeast" | "present";
+  operator: "equals" | "notEquals" | "in" | "countAtLeast" | "present";
   value?: string | number | boolean | null;
   values?: (string | number | boolean | null)[];
   minimum?: number;
@@ -83,6 +84,9 @@ function predicate(condition: AbsoluteCondition): Record<string, unknown> {
     return { op: "countAtLeast", ref, minimum: condition.minimum };
   }
   if (condition.operator === "present") return { op: "present", ref };
+  if (condition.operator === "notEquals") {
+    return { op: "notEquals", ref, value: condition.value };
+  }
   return { op: "equals", ref, value: condition.value };
 }
 
@@ -128,6 +132,35 @@ type Overrides = Record<string, Record<string, unknown>>;
 
 const at = (overrides: Overrides, dataPath: string) => overrides[dataPath] ?? {};
 
+/**
+ * Fold a composed model's own `@UI.overrides` into the table, rebased onto where it sits.
+ *
+ * A model states an override in its own terms -- `address.county` -- and the table is keyed
+ * from the form root, so composing the model four times has to produce four entries. Doing it
+ * here rather than at the call site means a model reached through a field list, a nested
+ * object, or the form root is treated the same way.
+ *
+ * The form wins, key by key. An override on the occurrence is the more specific statement,
+ * and merging per key rather than per entry means a form relabeling a field does not silently
+ * un-omit a sibling the model dropped.
+ */
+function withModelOverrides(
+  program: Program,
+  model: Model,
+  dataPath: string,
+  overrides: Overrides,
+): Overrides {
+  const declared = modelOverrides(program, model);
+  if (!Object.keys(declared).length) return overrides;
+
+  const merged: Overrides = { ...overrides };
+  for (const [relative, patch] of Object.entries(declared)) {
+    const absolute = dataPath ? `${dataPath}.${relative}` : relative;
+    merged[absolute] = { ...patch, ...(overrides[absolute] ?? {}) };
+  }
+  return merged;
+}
+
 function overrideEnabledWhen(
   override: Record<string, unknown>,
 ): AbsoluteAtomicCondition[] {
@@ -168,6 +201,7 @@ function walk(
   inheritedReadOnly: AbsoluteCondition[] = [],
   itemPath?: string[],
 ): void {
+  overrides = withModelOverrides(program, model, dataPath, overrides);
   for (const prop of allProperties(program, model)) {
     const here = dataPath ? `${dataPath}.${prop.name}` : prop.name;
     if (propOmit(program, prop) || at(overrides, here).omit === true) continue;
@@ -324,7 +358,7 @@ function absoluteConditions(
         ? { values: condition.values }
         : condition.operator === "countAtLeast"
           ? { minimum: condition.minimum }
-          : condition.operator === "equals"
+          : condition.operator === "equals" || condition.operator === "notEquals"
             ? { value: condition.value }
             : {}),
     };

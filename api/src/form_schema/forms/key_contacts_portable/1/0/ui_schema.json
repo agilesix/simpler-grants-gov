@@ -64,11 +64,43 @@
           },
           {
             "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/state"
+            "definition": "/properties/key_contacts/items/properties/address/properties/state",
+            "conditional": {
+              "when": {
+                "op": "equals",
+                "ref": {
+                  "scope": "item",
+                  "pointer": "/address/country"
+                },
+                "value": "USA: UNITED STATES"
+              },
+              "then": {
+                "interaction": "enabled"
+              },
+              "otherwise": {
+                "interaction": "disabled"
+              }
+            }
           },
           {
             "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/province"
+            "definition": "/properties/key_contacts/items/properties/address/properties/province",
+            "conditional": {
+              "when": {
+                "op": "notEquals",
+                "ref": {
+                  "scope": "item",
+                  "pointer": "/address/country"
+                },
+                "value": "USA: UNITED STATES"
+              },
+              "then": {
+                "interaction": "enabled"
+              },
+              "otherwise": {
+                "interaction": "disabled"
+              }
+            }
           },
           {
             "type": "field",

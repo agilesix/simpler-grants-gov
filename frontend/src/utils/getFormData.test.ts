@@ -24,6 +24,7 @@ jest.mock("src/utils/applyForm/applyFormUtils", () => ({
 
 jest.mock("src/utils/applyForm/validateUiSchema", () => ({
   validateUiSchema: () => mockValidateUISchema() as unknown,
+  unimplementedRuleKeys: () => [],
 }));
 
 describe("getFormData", () => {

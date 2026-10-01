@@ -8,6 +8,7 @@ from .budget_narrative_attachment import BudgetNarrativeAttachment_v1_2
 from .cd511 import CD511_v1_1
 from .epa_form_4700_4 import EPA_FORM_4700_4_v5_0
 from .epa_key_contacts import EPA_KEY_CONTACT_v2_0
+from .epa_key_contacts_portable import FORM as EPAKeyContactsPortable_v1_0
 from .gg_lobbying_form import GG_LobbyingForm_v1_1
 from .key_contacts import KeyContacts_v2_0
 from .key_contacts_portable import FORM as KeyContactsPortable_v1_0
@@ -16,6 +17,7 @@ from .project_abstract import ProjectAbstract_v1_2
 from .project_abstract_summary import ProjectAbstractSummary_v2_0
 from .project_narrative_attachment import ProjectNarrativeAttachment_v1_2
 from .project_performance_site_location import ProjectPerformanceSiteLocation_v4_0
+from .rr_key_person_expanded_portable import FORM as RRKeyPersonExpandedPortable_v1_0
 from .sf424 import SF424_v4_0
 from .sf424_portable import FORM as SF424Portable_v1_0
 from .sf424_short import SF424Short_v3_0
@@ -58,6 +60,10 @@ _ALL_FORMS: list[Form] = [
     SF424ShortPortable_v1_0,
     SF424aPortable_v1_0,
     KeyContactsPortable_v1_0,
+    EPAKeyContactsPortable_v1_0,
+    # No hand-written counterpart: this form has never been offered in SGG, so it
+    # registers alone rather than beside one.
+    RRKeyPersonExpandedPortable_v1_0,
 ]
 
 
