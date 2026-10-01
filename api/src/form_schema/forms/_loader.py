@@ -24,7 +24,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, NamedTuple
 
-from src.constants.lookup_constants import FormType
+from src.constants.lookup_constants import FormRenderer, FormType
 from src.db.models.competition_models import Form
 
 PYTHON_FORM_FILENAME = "form_json.py"
@@ -38,6 +38,10 @@ _JSON_EXCLUDED_FIELDS = frozenset({"form_instruction"})
 
 _UUID_FIELDS = frozenset({"form_id", "form_instruction_id"})
 _DATETIME_FIELDS = frozenset({"active_at", "inactive_at"})
+_ENUM_FIELDS: dict[str, type[FormType] | type[FormRenderer]] = {
+    "form_type": FormType,
+    "form_renderer": FormRenderer,
+}
 
 
 class _SchemaDocument(NamedTuple):
@@ -115,15 +119,17 @@ def build_form_from_dict(data: dict[str, Any], source: Path) -> Form:
                     f"{source}: {field} is not a valid ISO 8601 datetime: {value!r}"
                 ) from err
 
-    form_type = kwargs.get("form_type")
-    if isinstance(form_type, str):
-        try:
-            kwargs["form_type"] = FormType(form_type)
-        except ValueError as err:
-            valid = ", ".join(t.value for t in FormType)
-            raise ValueError(
-                f"{source}: form_type {form_type!r} is not a known FormType. Valid values: {valid}"
-            ) from err
+    for field, enum in _ENUM_FIELDS.items():
+        value = kwargs.get(field)
+        if isinstance(value, str):
+            try:
+                kwargs[field] = enum(value)
+            except ValueError as err:
+                valid = ", ".join(t.value for t in enum)
+                raise ValueError(
+                    f"{source}: {field} {value!r} is not a known {enum.__name__}. "
+                    f"Valid values: {valid}"
+                ) from err
 
     try:
         return Form(**kwargs)

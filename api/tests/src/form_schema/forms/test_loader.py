@@ -9,7 +9,7 @@ from typing import Any
 
 import pytest
 
-from src.constants.lookup_constants import FormType
+from src.constants.lookup_constants import FormRenderer, FormType
 from src.db.models.competition_models import Form, FormInstruction
 from src.form_schema.forms._loader import (
     JSON_FORM_FILENAME,
@@ -236,6 +236,14 @@ class TestJsonCoercion:
         form = build_form_from_dict(self._minimal(form_type="SF424"), Path("form.json"))
         assert form.form_type is FormType.SF424
 
+    def test_form_renderer_is_coerced_to_the_enum(self) -> None:
+        form = build_form_from_dict(self._minimal(form_renderer="jsonforms"), Path("form.json"))
+        assert form.form_renderer is FormRenderer.JSON_FORMS
+
+    def test_form_renderer_defaults_to_sgg(self) -> None:
+        form = build_form_from_dict(self._minimal(), Path("form.json"))
+        assert form.form_renderer is FormRenderer.SGG
+
     def test_datetime_fields_are_coerced(self) -> None:
         form = build_form_from_dict(
             self._minimal(active_at="2026-01-15T00:00:00"), Path("form.json")
@@ -276,6 +284,11 @@ class TestJsonValidation:
     def test_unknown_form_type_is_rejected(self) -> None:
         data = self._minimal() | {"form_type": "NotAForm"}
         with pytest.raises(ValueError, match="not a known FormType"):
+            build_form_from_dict(data, Path("form.json"))
+
+    def test_unknown_form_renderer_is_rejected(self) -> None:
+        data = self._minimal() | {"form_renderer": "rjsf"}
+        with pytest.raises(ValueError, match="not a known FormRenderer"):
             build_form_from_dict(data, Path("form.json"))
 
     def test_invalid_datetime_is_rejected(self) -> None:

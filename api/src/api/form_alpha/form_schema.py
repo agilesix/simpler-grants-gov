@@ -1,7 +1,7 @@
 from grants_shared.api.schemas.extension import Schema, fields
 from grants_shared.api.schemas.response_schema import AbstractResponseSchema, WarningMixinSchema
 
-from src.constants.lookup_constants import FormType
+from src.constants.lookup_constants import FormRenderer, FormType
 
 
 class FormInstructionSchema(Schema):
@@ -129,6 +129,14 @@ class FormAlphaSchema(Schema):
         metadata={
             "description": "Whether the form is deprecated",
             "example": False,
+        },
+    )
+
+    form_renderer = fields.Enum(
+        FormRenderer,
+        metadata={
+            "description": "Which frontend renderer draws the form, and so the shape of form_ui_schema",
+            "example": FormRenderer.SGG.value,
         },
     )
 
