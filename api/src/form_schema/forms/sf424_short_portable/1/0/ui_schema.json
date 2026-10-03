@@ -4,17 +4,26 @@
     {
       "type": "Control",
       "scope": "#/properties/agency_name",
-      "label": "Name of Federal Agency"
+      "label": "Name of Federal Agency",
+      "options": {
+        "readonly": true
+      }
     },
     {
       "type": "Control",
       "scope": "#/properties/assistance_listing_number",
-      "label": "Assistance Listing Number"
+      "label": "Assistance Listing Number",
+      "options": {
+        "readonly": true
+      }
     },
     {
       "type": "Control",
       "scope": "#/properties/assistance_listing_program_title",
-      "label": "Assistance Listing Title"
+      "label": "Assistance Listing Title",
+      "options": {
+        "readonly": true
+      }
     },
     {
       "type": "Control",
@@ -27,12 +36,18 @@
     {
       "type": "Control",
       "scope": "#/properties/funding_opportunity_number",
-      "label": "Funding Opportunity Number"
+      "label": "Funding Opportunity Number",
+      "options": {
+        "readonly": true
+      }
     },
     {
       "type": "Control",
       "scope": "#/properties/funding_opportunity_title",
-      "label": "Funding Opportunity Title"
+      "label": "Funding Opportunity Title",
+      "options": {
+        "readonly": true
+      }
     },
     {
       "type": "Control",
@@ -149,7 +164,10 @@
     {
       "type": "Control",
       "scope": "#/properties/sam_uei",
-      "label": "SAM UEI"
+      "label": "SAM UEI",
+      "options": {
+        "readonly": true
+      }
     },
     {
       "type": "Control",

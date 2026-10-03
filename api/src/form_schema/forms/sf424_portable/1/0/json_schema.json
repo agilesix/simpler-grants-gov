@@ -120,7 +120,8 @@
         }
       ],
       "description": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet.",
-      "title": "SAM UEI"
+      "title": "SAM UEI",
+      "readOnly": true
     },
     "applicant": {
       "allOf": [
@@ -228,7 +229,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Agency Name"
+      "title": "Agency Name",
+      "readOnly": true
     },
     "assistance_listing_number": {
       "allOf": [
@@ -237,7 +239,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Assistance Listing Number"
+      "title": "Assistance Listing Number",
+      "readOnly": true
     },
     "assistance_listing_program_title": {
       "allOf": [
@@ -246,7 +249,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Assistance Listing Title"
+      "title": "Assistance Listing Title",
+      "readOnly": true
     },
     "funding_opportunity_number": {
       "allOf": [
@@ -255,7 +259,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Opportunity Number"
+      "title": "Opportunity Number",
+      "readOnly": true
     },
     "funding_opportunity_title": {
       "allOf": [
@@ -264,7 +269,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Opportunity title"
+      "title": "Opportunity title",
+      "readOnly": true
     },
     "competition_identification_number": {
       "allOf": [
@@ -273,7 +279,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Competition Number"
+      "title": "Competition Number",
+      "readOnly": true
     },
     "competition_identification_title": {
       "allOf": [
@@ -282,7 +289,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Competition Title"
+      "title": "Competition Title",
+      "readOnly": true
     },
     "areas_affected": {
       "allOf": [

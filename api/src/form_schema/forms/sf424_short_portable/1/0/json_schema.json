@@ -9,7 +9,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Name of Federal Agency"
+      "title": "Name of Federal Agency",
+      "readOnly": true
     },
     "assistance_listing_number": {
       "allOf": [
@@ -18,7 +19,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Assistance Listing Number"
+      "title": "Assistance Listing Number",
+      "readOnly": true
     },
     "assistance_listing_program_title": {
       "allOf": [
@@ -27,7 +29,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Assistance Listing Title"
+      "title": "Assistance Listing Title",
+      "readOnly": true
     },
     "date_received": {
       "allOf": [
@@ -46,7 +49,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Funding Opportunity Number"
+      "title": "Funding Opportunity Number",
+      "readOnly": true
     },
     "funding_opportunity_title": {
       "allOf": [
@@ -55,7 +59,8 @@
         }
       ],
       "description": "Pre-populated from the Application cover sheet.",
-      "title": "Funding Opportunity Title"
+      "title": "Funding Opportunity Title",
+      "readOnly": true
     },
     "organization_name": {
       "allOf": [
@@ -119,7 +124,8 @@
         }
       ],
       "description": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet.",
-      "title": "SAM UEI"
+      "title": "SAM UEI",
+      "readOnly": true
     },
     "congressional_district_applicant": {
       "allOf": [

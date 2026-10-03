@@ -135,6 +135,7 @@ model SF424 {
   /** UEI of the applicant organization. This field is pre-populated from the Application cover sheet. */
   @UI.label("SAM UEI")
   @UI.section(Sf424Section.applicantInformation)
+  @UI.readOnly
   samUei: SamUei;
 
   /** Enter information about the applicant. */
@@ -189,36 +190,43 @@ model SF424 {
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Agency Name")
   @UI.section(Sf424Section.federalAgency)
+  @UI.readOnly
   agencyName: AgencyName;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Assistance Listing Number")
   @UI.section(Sf424Section.assistanceListing)
+  @UI.readOnly
   assistanceListingNumber?: AssistanceListingNumber;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Assistance Listing Title")
   @UI.section(Sf424Section.assistanceListing)
+  @UI.readOnly
   assistanceListingProgramTitle?: AssistanceListingTitle;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Opportunity Number")
   @UI.section(Sf424Section.fundingOpportunity)
+  @UI.readOnly
   fundingOpportunityNumber: OpportunityNumber;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Opportunity title")
   @UI.section(Sf424Section.fundingOpportunity)
+  @UI.readOnly
   fundingOpportunityTitle: OpportunityTitle;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Competition Number")
   @UI.section(Sf424Section.competitionIdentification)
+  @UI.readOnly
   competitionIdentificationNumber?: CompetitionNumber;
 
   /** Pre-populated from the Application cover sheet. */
   @UI.label("Competition Title")
   @UI.section(Sf424Section.competitionIdentification)
+  @UI.readOnly
   competitionIdentificationTitle?: CompetitionTitle;
 
   /** List the areas or entities using the categories (e.g., cities, counties, states, etc.) specified in agency instructions. */

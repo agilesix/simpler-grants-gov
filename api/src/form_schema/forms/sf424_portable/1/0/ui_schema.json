@@ -109,7 +109,7 @@
         "definition": "/properties/employer_taxpayer_identification_number"
       },
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/sam_uei"
       },
       {
@@ -257,7 +257,7 @@
     "label": "10. Name of Federal Agency",
     "children": [
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/agency_name"
       }
     ]
@@ -268,11 +268,11 @@
     "label": "11. Assistance Listing Number/Title",
     "children": [
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/assistance_listing_number"
       },
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/assistance_listing_program_title"
       }
     ]
@@ -283,11 +283,11 @@
     "label": "12. Funding Opportunity Number/Title",
     "children": [
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/funding_opportunity_number"
       },
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/funding_opportunity_title"
       }
     ]
@@ -298,11 +298,11 @@
     "label": "13. Competition Identification Number/Title",
     "children": [
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/competition_identification_number"
       },
       {
-        "type": "field",
+        "type": "null",
         "definition": "/properties/competition_identification_title"
       }
     ]
