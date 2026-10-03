@@ -19,6 +19,7 @@ import {
   jsonFormsToUiSchema,
   JsonFormsUiSchema,
   unadaptableScopes,
+  unappliedListRules,
 } from "./applyForm/jsonFormsUiSchema";
 import {
   unimplementedRuleKeys,
@@ -174,6 +175,14 @@ export default async function getFormData({
       if (skipped.length) {
         console.warn(
           `Form ${formId} has controls no widget can render: ${skipped.join(", ")}. Their answers are not saved.`,
+        );
+      }
+      // The field-list widget draws a list's entries itself, so JSON Forms never applies
+      // the rules on the fields inside them.
+      const listRules = unappliedListRules(jsonFormsUiSchema);
+      if (listRules.length) {
+        console.warn(
+          `Form ${formId} declares rules on fields inside lists, which are not applied: ${listRules.join(", ")}. Those fields render unconditionally.`,
         );
       }
     } catch (e) {

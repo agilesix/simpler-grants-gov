@@ -1,10 +1,15 @@
-import type { ControlElement, UISchemaElement } from "@jsonforms/core";
+import {
+  RuleEffect,
+  type ControlElement,
+  type UISchemaElement,
+} from "@jsonforms/core";
 import { RJSFSchema } from "@rjsf/utils";
 import {
   controlToNodes,
   groupName,
   jsonFormsToUiSchema,
   unadaptableScopes,
+  unappliedListRules,
 } from "src/utils/applyForm/jsonFormsUiSchema";
 import { validateUiSchema } from "src/utils/applyForm/validateUiSchema";
 
@@ -117,6 +122,119 @@ describe("controlToNodes", () => {
     ).toEqual([]);
     expect(controlToNodes(control("#/properties/absent"), schema)).toEqual([]);
     expect(controlToNodes(control("#"), schema)).toEqual([]);
+  });
+});
+
+describe("a list control with options.detail", () => {
+  const listSchema: RJSFSchema = {
+    type: "object",
+    properties: {
+      contacts: {
+        type: "array",
+        title: "Contacts",
+        items: {
+          type: "object",
+          properties: {
+            role: { type: "string" },
+            name: {
+              type: "object",
+              properties: {
+                first: { type: "string" },
+                last: { type: "string" },
+              },
+            },
+            phones: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: { number: { type: "string" } },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+  const list = (elements: UISchemaElement[]) =>
+    control("#/properties/contacts", {
+      options: { detail: { type: "Group", elements } },
+    });
+
+  const childDefinitions = (listControl: ControlElement) => {
+    const [node] = controlToNodes(listControl, listSchema);
+    return node.type === "fieldList"
+      ? node.children.map((child) => [child.type, child.definition])
+      : [];
+  };
+
+  it("orders the entry's fields by the detail rather than the item schema", () => {
+    expect(
+      childDefinitions(
+        list([
+          control("#/properties/name/properties/last"),
+          control("#/properties/role", { options: { readonly: true } }),
+          control("#/properties/name/properties/first"),
+        ]),
+      ),
+    ).toEqual([
+      ["field", "/properties/contacts/items/properties/name/properties/last"],
+      ["null", "/properties/contacts/items/properties/role"],
+      ["field", "/properties/contacts/items/properties/name/properties/first"],
+    ]);
+  });
+
+  it("reads nested groups in the detail and expands a control on an object", () => {
+    expect(
+      childDefinitions(
+        list([
+          {
+            type: "Group",
+            label: "Name",
+            elements: [control("#/properties/name")],
+          },
+          control("#/properties/role"),
+        ]),
+      ),
+    ).toEqual([
+      ["field", "/properties/contacts/items/properties/name/properties/first"],
+      ["field", "/properties/contacts/items/properties/name/properties/last"],
+      ["field", "/properties/contacts/items/properties/role"],
+    ]);
+  });
+
+  it("leaves out a list nested in the entry, and reports it", () => {
+    const listControl = list([
+      control("#/properties/role"),
+      control("#/properties/phones"),
+    ]);
+
+    expect(childDefinitions(listControl)).toEqual([
+      ["field", "/properties/contacts/items/properties/role"],
+    ]);
+    expect(unadaptableScopes(listControl, listSchema)).toEqual([
+      "#/properties/contacts -> #/properties/phones",
+    ]);
+  });
+
+  it("reports the rules on the entry's fields, which the field list does not apply", () => {
+    const uiSchema = {
+      type: "Group",
+      elements: [
+        list([
+          control("#/properties/role", {
+            rule: {
+              effect: RuleEffect.ENABLE,
+              condition: { scope: "#/properties/name", schema: {} },
+            },
+          }),
+        ]),
+      ],
+    } as UISchemaElement;
+
+    expect(unappliedListRules(uiSchema)).toEqual([
+      "#/properties/contacts -> #/properties/role",
+    ]);
   });
 });
 

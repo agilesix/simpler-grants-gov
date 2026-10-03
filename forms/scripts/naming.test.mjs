@@ -33,6 +33,27 @@ describe("projectJsonFormsUiSchema", () => {
     });
   });
 
+  it("projects the scopes inside a list's options.detail, leaving the other options alone", () => {
+    const list = {
+      type: "Control",
+      scope: "#/properties/keyContacts",
+      options: {
+        widget: "Table",
+        detail: {
+          type: "Group",
+          elements: [{ type: "Control", scope: "#/properties/projectRole" }],
+        },
+      },
+    };
+    assert.deepEqual(projectJsonFormsUiSchema(list).options, {
+      widget: "Table",
+      detail: {
+        type: "Group",
+        elements: [{ type: "Control", scope: "#/properties/project_role" }],
+      },
+    });
+  });
+
   it("leaves options untouched, since they name widgets rather than fields", () => {
     const control = { type: "Control", scope: "#", options: { widget: "Attachment", readonlyWhen: "fooBar" } };
     assert.deepEqual(projectJsonFormsUiSchema(control).options, control.options);

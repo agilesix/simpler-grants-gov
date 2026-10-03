@@ -76,13 +76,52 @@ const leafDefinitions = (schema: RJSFSchema, base: Definition): Definition[] =>
 /** A top-level property, the only place a field list may sit. */
 const ROOT_PROPERTY = /^\/properties\/([^/]+)$/;
 
+/** A list control's layout for one entry, when the UI schema gives one. */
+const entryLayout = (control: ControlElement): UISchemaElement | undefined => {
+  const detail = (control.options as { detail?: unknown } | undefined)?.detail;
+  return detail && typeof detail === "object" && "type" in detail
+    ? (detail as UISchemaElement)
+    : undefined;
+};
+
+type EntryField = UiSchemaFieldList["children"][number];
+
+/**
+ * A list entry's fields, in the order its `options.detail` lays them out.
+ *
+ * Scopes inside the detail are relative to one entry, so each control is rebased beneath
+ * the list's `items` and then read like any other control. A list nested inside the entry
+ * has no field-list equivalent and is left out; `unappliedListRules` and
+ * `unadaptableScopes` report what this drops.
+ */
+const entryFields = (
+  element: UISchemaElement,
+  schema: RJSFSchema,
+  itemsBase: Definition,
+): EntryField[] => {
+  if (isControlElement(element)) {
+    if (!element.scope.startsWith("#/")) return [];
+    const rebased = {
+      ...element,
+      scope: `#${itemsBase}${element.scope.slice(1)}`,
+    };
+    return controlToNodes(rebased, schema).filter(
+      (node): node is EntryField => node.type !== "fieldList",
+    );
+  }
+  return isLayout(element)
+    ? element.elements.flatMap((child) => entryFields(child, schema, itemsBase))
+    : [];
+};
+
 /**
  * The field nodes one JSON Forms control stands for.
  *
  * A control scoped to a scalar is one field. A control scoped to an object is each of the
  * object's leaves, which is how the SGG UI schema lists a composed question. A control
- * scoped to a top-level array of objects is a field list. Anything else returns no nodes,
- * and JSON Forms falls back to its own renderer for it.
+ * scoped to a top-level array of objects is a field list, whose fields follow the control's
+ * `options.detail` when it has one and the item schema otherwise. Anything else returns no
+ * nodes, and JSON Forms falls back to its own renderer for it.
  */
 export const controlToNodes = (
   control: ControlElement,
@@ -104,6 +143,8 @@ export const controlToNodes = (
     const rootProperty = ROOT_PROPERTY.exec(definition);
     if (!rootProperty) return [];
     const name = rootProperty[1];
+    const itemsBase: Definition = `${definition}/items`;
+    const layout = entryLayout(control);
     return [
       {
         type: "fieldList",
@@ -113,9 +154,12 @@ export const controlToNodes = (
           fieldSchema.title ??
           name,
         description: fieldSchema.description,
-        children: leafDefinitions(items, `${definition}/items`).map(
-          (childDefinition) => ({ type, definition: childDefinition }),
-        ),
+        children: layout
+          ? entryFields(layout, schema, itemsBase)
+          : leafDefinitions(items, itemsBase).map((childDefinition) => ({
+              type,
+              definition: childDefinition,
+            })),
       },
     ];
   }
@@ -182,9 +226,55 @@ export const unadaptableScopes = (
   schema: RJSFSchema,
 ): string[] => {
   if (isControlElement(uiSchema)) {
-    return controlToNodes(uiSchema, schema).length ? [] : [uiSchema.scope];
+    if (!controlToNodes(uiSchema, schema).length) return [uiSchema.scope];
+    // A list's entries are laid out by its detail; report a field there no widget draws.
+    const layout = entryLayout(uiSchema);
+    const definition = scopeToDefinition(uiSchema.scope);
+    return layout && definition
+      ? droppedEntryScopes(layout, schema, `${definition}/items`).map(
+          (scope) => `${uiSchema.scope} -> ${scope}`,
+        )
+      : [];
   }
   return isLayout(uiSchema)
     ? uiSchema.elements.flatMap((element) => unadaptableScopes(element, schema))
+    : [];
+};
+
+const droppedEntryScopes = (
+  element: UISchemaElement,
+  schema: RJSFSchema,
+  itemsBase: Definition,
+): string[] => {
+  if (isControlElement(element)) {
+    return entryFields(element, schema, itemsBase).length
+      ? []
+      : [element.scope];
+  }
+  return isLayout(element)
+    ? element.elements.flatMap((child) =>
+        droppedEntryScopes(child, schema, itemsBase),
+      )
+    : [];
+};
+
+/**
+ * Rules on fields inside a list, which the field-list widget draws without applying, as
+ * `<list scope> -> <field scope>`. Logged so a conditionally disabled field that renders
+ * enabled is not a silent difference.
+ */
+export const unappliedListRules = (uiSchema: JsonFormsUiSchema): string[] => {
+  const ruled = (element: UISchemaElement): string[] => [
+    ...(element.rule && isControlElement(element) ? [element.scope] : []),
+    ...(isLayout(element) ? element.elements.flatMap(ruled) : []),
+  ];
+  if (isControlElement(uiSchema)) {
+    const layout = entryLayout(uiSchema);
+    return layout
+      ? ruled(layout).map((scope) => `${uiSchema.scope} -> ${scope}`)
+      : [];
+  }
+  return isLayout(uiSchema)
+    ? uiSchema.elements.flatMap(unappliedListRules)
     : [];
 };
