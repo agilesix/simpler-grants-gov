@@ -3,6 +3,7 @@
   "form_name": "Application for Federal Domestic Assistance-Short Organizational (SF-424)",
   "short_form_name": "SF424_Short_3_0_Portable",
   "form_version": "3.0",
+  "form_renderer": "jsonforms",
   "agency_code": "SGG",
   "omb_number": "4040-0003",
   "legacy_form_id": 711

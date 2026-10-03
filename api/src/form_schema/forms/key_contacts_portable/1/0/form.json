@@ -3,6 +3,7 @@
   "form_name": "KEY CONTACTS",
   "short_form_name": "Key_Contacts_Portable",
   "form_version": "2.0",
+  "form_renderer": "jsonforms",
   "agency_code": "SGG",
   "omb_number": "4040-0010",
   "legacy_form_id": 683

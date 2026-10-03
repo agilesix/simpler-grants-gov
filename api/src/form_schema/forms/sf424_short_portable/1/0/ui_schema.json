@@ -1,451 +1,247 @@
-[
-  {
-    "type": "section",
-    "name": "federalAgency",
-    "label": "1. Name of Federal Agency",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/agency_name"
+{
+  "type": "Group",
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/agency_name",
+      "label": "Name of Federal Agency"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/assistance_listing_number",
+      "label": "Assistance Listing Number"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/assistance_listing_program_title",
+      "label": "Assistance Listing Title"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/date_received",
+      "label": "Date Received",
+      "options": {
+        "readonly": true
       }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "assistanceListing",
-    "label": "2. Assistance Listing Number and Title",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/assistance_listing_number"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/assistance_listing_program_title"
-      }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "dateReceived",
-    "label": "3. Date Received",
-    "children": [
-      {
-        "type": "null",
-        "definition": "/properties/date_received"
-      }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "fundingOpportunity",
-    "label": "4. Funding Opportunity Number and Title",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/funding_opportunity_number"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/funding_opportunity_title"
-      }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "applicantInformation",
-    "label": "5. Applicant Information",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/organization_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/street1"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/street2"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/city"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/county"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/state",
-        "conditional": {
-          "when": {
-            "op": "equals",
-            "ref": {
-              "scope": "root",
-              "pointer": "/applicant/country"
-            },
-            "value": "USA: UNITED STATES"
-          },
-          "then": {
-            "interaction": "enabled"
-          },
-          "otherwise": {
-            "interaction": "disabled"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/funding_opportunity_number",
+      "label": "Funding Opportunity Number"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/funding_opportunity_title",
+      "label": "Funding Opportunity Title"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/organization_name",
+      "label": "Legal Name"
+    },
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/street1",
+          "label": "Street 1"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/street2",
+          "label": "Street 2"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/city",
+          "label": "City"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/county",
+          "label": "County/Parish"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/state",
+          "label": "State",
+          "rule": {
+            "effect": "ENABLE",
+            "condition": {
+              "scope": "#/properties/applicant/properties/country",
+              "schema": {
+                "const": "USA: UNITED STATES"
+              }
+            }
           }
-        }
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/province",
-        "conditional": {
-          "when": {
-            "op": "notEquals",
-            "ref": {
-              "scope": "root",
-              "pointer": "/applicant/country"
-            },
-            "value": "USA: UNITED STATES"
-          },
-          "then": {
-            "interaction": "enabled"
-          },
-          "otherwise": {
-            "interaction": "disabled"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/province",
+          "label": "Province",
+          "rule": {
+            "effect": "ENABLE",
+            "condition": {
+              "scope": "#/properties/applicant/properties/country",
+              "schema": {
+                "not": {
+                  "const": "USA: UNITED STATES"
+                }
+              }
+            }
           }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/country",
+          "label": "Country"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/applicant/properties/zip_code",
+          "label": "Zip / Postal Code"
         }
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/country"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant/properties/zip_code"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant_web_address"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant_type_code",
-        "widget": "MultiSelect"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/applicant_type_other_specify"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/employer_taxpayer_identification_number"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/sam_uei"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/congressional_district_applicant"
-      }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "projectInformation",
-    "label": "6. Project Information",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/project_title"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_description"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_start_date"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_end_date"
-      }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "projectDirector",
-    "label": "7. Project Director",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/name/properties/prefix"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/name/properties/first_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/name/properties/middle_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/name/properties/last_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/name/properties/suffix"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/title"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/email"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/phone"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/fax"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/street1"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/street2"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/city"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/county"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/state",
-        "conditional": {
-          "when": {
-            "op": "equals",
-            "ref": {
-              "scope": "root",
-              "pointer": "/projectDirector/address/country"
-            },
-            "value": "USA: UNITED STATES"
-          },
-          "then": {
-            "interaction": "enabled"
-          },
-          "otherwise": {
-            "interaction": "disabled"
-          }
+      ],
+      "label": "Address"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/applicant_web_address",
+      "label": "Web Address"
+    },
+    {
+      "type": "Group",
+      "elements": [],
+      "label": "Type of Applicant"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/applicant_type_other_specify",
+      "label": "Type of Applicant Other Explanation"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/employer_taxpayer_identification_number",
+      "label": "EIN/TIN"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/sam_uei",
+      "label": "SAM UEI"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/congressional_district_applicant",
+      "label": "Congressional District of Applicant"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/project_title",
+      "label": "Project Title"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/project_description",
+      "label": "Project Description"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/project_start_date",
+      "label": "Project Start Date"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/project_end_date",
+      "label": "Project End Date"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/project_director",
+      "label": "Project Director"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/same_as_project_director",
+      "label": "Same as Project Director (if checked, fill in information same as Project Director above)"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/contact_person",
+      "label": "Primary Contact/Grants Administrator"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/application_certification",
+      "label": "** I Agree"
+    },
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/authorized_representative/properties/prefix",
+          "label": "Prefix"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/authorized_representative/properties/first_name",
+          "label": "First Name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/authorized_representative/properties/middle_name",
+          "label": "Middle Name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/authorized_representative/properties/last_name",
+          "label": "Last Name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/authorized_representative/properties/suffix",
+          "label": "Suffix"
         }
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/province",
-        "conditional": {
-          "when": {
-            "op": "notEquals",
-            "ref": {
-              "scope": "root",
-              "pointer": "/projectDirector/address/country"
-            },
-            "value": "USA: UNITED STATES"
-          },
-          "then": {
-            "interaction": "enabled"
-          },
-          "otherwise": {
-            "interaction": "disabled"
-          }
-        }
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/country"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/project_director/properties/address/properties/zip_code"
+      ],
+      "label": "Authorized Representative"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/authorized_representative_title",
+      "label": "Title"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/authorized_representative_email",
+      "label": "Email"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/authorized_representative_phone_number",
+      "label": "Telephone Number"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/authorized_representative_fax",
+      "label": "Fax Number"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/aor_signature",
+      "label": "Signature of Authorized Representative",
+      "options": {
+        "readonly": true
       }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "contactPerson",
-    "label": "8. Primary Contact/Grants Administrator",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/same_as_project_director"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/name/properties/prefix"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/name/properties/first_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/name/properties/middle_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/name/properties/last_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/name/properties/suffix"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/title"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/email"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/phone"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/fax"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/street1"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/street2"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/city"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/county"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/state",
-        "conditional": {
-          "when": {
-            "op": "equals",
-            "ref": {
-              "scope": "root",
-              "pointer": "/contactPerson/address/country"
-            },
-            "value": "USA: UNITED STATES"
-          },
-          "then": {
-            "interaction": "enabled"
-          },
-          "otherwise": {
-            "interaction": "disabled"
-          }
-        }
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/province",
-        "conditional": {
-          "when": {
-            "op": "notEquals",
-            "ref": {
-              "scope": "root",
-              "pointer": "/contactPerson/address/country"
-            },
-            "value": "USA: UNITED STATES"
-          },
-          "then": {
-            "interaction": "enabled"
-          },
-          "otherwise": {
-            "interaction": "disabled"
-          }
-        }
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/country"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/contact_person/properties/address/properties/zip_code"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/authorized_representative_date_signed",
+      "label": "Date Signed",
+      "options": {
+        "readonly": true
       }
-    ]
-  },
-  {
-    "type": "section",
-    "name": "authorizedRepresentative",
-    "label": "9. Authorized Representative",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/application_certification",
-        "printDescription": true
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative/properties/prefix"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative/properties/first_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative/properties/middle_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative/properties/last_name"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative/properties/suffix"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative_title"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative_email"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative_phone_number"
-      },
-      {
-        "type": "field",
-        "definition": "/properties/authorized_representative_fax"
-      },
-      {
-        "type": "null",
-        "definition": "/properties/aor_signature"
-      },
-      {
-        "type": "null",
-        "definition": "/properties/authorized_representative_date_signed"
-      }
-    ]
-  }
-]
+    }
+  ],
+  "label": "Application for Federal Domestic Assistance-Short Organizational (SF-424)"
+}

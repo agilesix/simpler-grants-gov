@@ -1,131 +1,151 @@
-[
-  {
-    "type": "section",
-    "name": "keyContacts",
-    "label": "Key Contacts",
-    "children": [
-      {
-        "type": "field",
-        "definition": "/properties/applicant_organization_name"
-      },
-      {
-        "type": "fieldList",
-        "name": "keyContacts",
-        "label": "Key Contact",
-        "definition": "/properties/key_contacts",
-        "children": [
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/project_role"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/name/properties/prefix"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/name/properties/first_name"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/name/properties/middle_name"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/name/properties/last_name"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/name/properties/suffix"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/title"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/organizational_affiliation"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/street1"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/street2"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/city"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/county"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/state",
-            "conditional": {
-              "when": {
-                "op": "equals",
-                "ref": {
-                  "scope": "item",
-                  "pointer": "/address/country"
+{
+  "type": "Group",
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/applicant_organization_name",
+      "label": "Applicant Organization Name"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/key_contacts",
+      "label": "Key Contacts",
+      "options": {
+        "detail": {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/project_role",
+              "label": "Project Role"
+            },
+            {
+              "type": "Group",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name/properties/prefix",
+                  "label": "Prefix"
                 },
-                "value": "USA: UNITED STATES"
-              },
-              "then": {
-                "interaction": "enabled"
-              },
-              "otherwise": {
-                "interaction": "disabled"
-              }
-            }
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/province",
-            "conditional": {
-              "when": {
-                "op": "notEquals",
-                "ref": {
-                  "scope": "item",
-                  "pointer": "/address/country"
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name/properties/first_name",
+                  "label": "First Name"
                 },
-                "value": "USA: UNITED STATES"
-              },
-              "then": {
-                "interaction": "enabled"
-              },
-              "otherwise": {
-                "interaction": "disabled"
-              }
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name/properties/middle_name",
+                  "label": "Middle Name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name/properties/last_name",
+                  "label": "Last Name"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name/properties/suffix",
+                  "label": "Suffix"
+                }
+              ],
+              "label": "Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/title",
+              "label": "Title"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/organizational_affiliation",
+              "label": "Organizational Affiliation"
+            },
+            {
+              "type": "Group",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/street1",
+                  "label": "Street 1"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/street2",
+                  "label": "Street 2"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/city",
+                  "label": "City"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/county",
+                  "label": "County/Parish"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/state",
+                  "label": "State",
+                  "rule": {
+                    "effect": "ENABLE",
+                    "condition": {
+                      "scope": "#/properties/address/properties/country",
+                      "schema": {
+                        "const": "USA: UNITED STATES"
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/province",
+                  "label": "Province",
+                  "rule": {
+                    "effect": "ENABLE",
+                    "condition": {
+                      "scope": "#/properties/address/properties/country",
+                      "schema": {
+                        "not": {
+                          "const": "USA: UNITED STATES"
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/country",
+                  "label": "Country"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/address/properties/zip_code",
+                  "label": "Zip / Postal Code"
+                }
+              ],
+              "label": "Address"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/phone",
+              "label": "Telephone Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/fax",
+              "label": "Fax Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/email",
+              "label": "Email"
             }
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/country"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/address/properties/zip_code"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/phone"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/fax"
-          },
-          {
-            "type": "field",
-            "definition": "/properties/key_contacts/items/properties/email"
-          }
-        ],
-        "description": "You may enter up to four (4) Key Contacts. At least 1 (one) contact person is required. Additional contacts are optional.",
-        "hideFieldListHeading": true
+          ],
+          "label": "Key Contact"
+        }
       }
-    ]
-  }
-]
+    }
+  ],
+  "label": "KEY CONTACTS (Grants.gov FID 683, v2.0)"
+}
