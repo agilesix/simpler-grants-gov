@@ -89,10 +89,10 @@
             "value": "USA: UNITED STATES"
           },
           "then": {
-            "interaction": "enabled"
+            "visible": true
           },
           "otherwise": {
-            "interaction": "disabled"
+            "visible": false
           }
         }
       },
@@ -263,10 +263,10 @@
                 "value": "USA: UNITED STATES"
               },
               "then": {
-                "interaction": "enabled"
+                "visible": true
               },
               "otherwise": {
-                "interaction": "disabled"
+                "visible": false
               }
             }
           },

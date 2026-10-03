@@ -81,13 +81,34 @@
           "scope": "#/properties/applicant/properties/province",
           "label": "Province",
           "rule": {
-            "effect": "ENABLE",
+            "effect": "SHOW",
             "condition": {
+              "failWhenUndefined": true,
               "scope": "#/properties/applicant/properties/country",
               "schema": {
-                "not": {
-                  "const": "USA: UNITED STATES"
-                }
+                "allOf": [
+                  {
+                    "not": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "const": ""
+                        },
+                        {
+                          "type": "array",
+                          "maxItems": 0
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "not": {
+                      "const": "USA: UNITED STATES"
+                    }
+                  }
+                ]
               }
             }
           }

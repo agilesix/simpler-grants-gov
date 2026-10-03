@@ -15,6 +15,9 @@ namespace QuestionBank.Generics;
 // The rule therefore lives on the question rather than on each form. Every form asking for an
 // address asks for the same one, and a renderer honoring these two conditions cannot produce
 // the both-populated combination.
+//
+// Province is hidden for a US address rather than disabled. Either keeps it empty on the wire;
+// hiding it also keeps a field that cannot apply off a US applicant's screen.
 /** Enter an address. */
 @Meta.question(#{ id: "generics/address", entity: EntityName.generic })
 @Meta.tag(TagName.address)
@@ -53,7 +56,7 @@ model QuestionAddress {
   @UI.label("Province")
   @minLength(1)
   @maxLength(30)
-  @UI.disabledWhen(QuestionAddress.country, CountryCode.USA)
+  @UI.hiddenWhen(QuestionAddress.country, CountryCode.USA)
   province?: string;
 
   /** Enter the country. */
