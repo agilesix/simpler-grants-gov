@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { TOTAL_APPS } from "../../content.config";
+
+interface Props {
+  form: CollectionEntry<"forms">;
+}
+
+const { form } = Astro.props;
+const d = form.data;
+const pct = ((d.apps_count / TOTAL_APPS) * 100).toFixed(2);
+const fieldCount = d.sections.reduce((sum, sec) => sum + sec.fields.length, 0);
+---
+
+<div class="metadata-grid">
+  <div class="metadata-card">
+    <dl>
+      <dt>OMB Number</dt>
+      <dd>{d.omb_number}</dd>
+      <dt>Expiration</dt>
+      <dd>{d.expiration_date}</dd>
+      <dt>Family</dt>
+      <dd>{d.family}</dd>
+      {d.sgg_form_id && (
+        <>
+          <dt>SGG form ID</dt>
+          <dd><code>{d.sgg_form_id}</code></dd>
+        </>
+      )}
+    </dl>
+  </div>
+  <div class="metadata-card">
+    <dl>
+      {d.category && (
+        <>
+          <dt>Category</dt>
+          <dd>{d.category}</dd>
+        </>
+      )}
+      <dt>Apps count</dt>
+      <dd>{d.apps_count.toLocaleString()} ({pct}%)</dd>
+      <dt>Fields</dt>
+      <dd>{fieldCount}</dd>
+      <dt>Links</dt>
+      <dd>
+        <div class="metadata-links">
+          <a href={d.fid_url} target="_blank" rel="noopener">FID page</a>
+          <a href={d.pdf_url} target="_blank" rel="noopener">PDF</a>
+          <a href={d.xsd_url} target="_blank" rel="noopener">XSD</a>
+        </div>
+      </dd>
+    </dl>
+  </div>
+</div>

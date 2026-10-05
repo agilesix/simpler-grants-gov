@@ -1,0 +1,234 @@
+{
+  "title": "Key Contacts",
+  "slug": "key-contacts",
+  "omb_number": "4040-0010",
+  "expiration_date": "12/31/2026",
+  "fid_url": "https://www.grants.gov/forms/form-items-description/fid/683",
+  "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/Key_Contacts_2_0-V2.0_F683.pdf",
+  "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/Key_Contacts_2_0-V2.0.xsd",
+  "apps_count": 14470,
+  "status": "prioritized",
+  "family": "Supplemental",
+  "widgets": ["TextWidget", "SelectWidget", "FieldListWidget"],
+  "sgg_form_id": "key_contacts",
+  "description": "Collects contact information for individuals involved in a project. Captures the applicant organization name and up to four key contact persons with their name, title, organization affiliation, address, phone, fax, and email.",
+  "new_concepts": ["FieldListWidget"],
+  "deviations": [
+    "XSD allows 1-4 contacts (maxOccurs=4); DAT does not mention a maximum"
+  ],
+  "risks": [
+    "Repeatable contact entries require FieldListWidget which needs careful state management for add/remove"
+  ],
+  "sections": [
+    {
+      "title": "Applicant Information",
+      "fields": [
+        {
+          "label": "Applicant Organization Name",
+          "dat_field": "5",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the legal name of the applicant that will undertake the assistance activity.",
+          "constraints": "maxLength 60",
+          "pre_populated": "SF-424 (field 08-a), SF-424 Short (05a-1), SF-424 Mandatory (07a-1), R&R SF-424 (05-2)",
+          "json_path": "applicant_organization_name",
+          "xml_path": "Key_Contacts_2_0:ApplicantOrganizationName"
+        }
+      ]
+    },
+    {
+      "title": "Contact Information (repeating, 1-4 entries)",
+      "fields": [
+        {
+          "label": "Contact Project Role",
+          "dat_field": "7-01",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the individual's role on the project (e.g., project manager, fiscal contact).",
+          "constraints": "maxLength 45",
+          "json_path": "key_contacts[].project_role",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactProjectRole"
+        },
+        {
+          "label": "Prefix",
+          "dat_field": "7-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 10",
+          "json_path": "key_contacts[].name.prefix",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:PrefixName"
+        },
+        {
+          "label": "First Name",
+          "dat_field": "7-04",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's first (given) name.",
+          "constraints": "maxLength 35",
+          "json_path": "key_contacts[].name.first_name",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:FirstName"
+        },
+        {
+          "label": "Middle Name",
+          "dat_field": "7-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 25",
+          "json_path": "key_contacts[].name.middle_name",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:MiddleName"
+        },
+        {
+          "label": "Last Name",
+          "dat_field": "7-06",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's last (family) name.",
+          "constraints": "maxLength 60",
+          "json_path": "key_contacts[].name.last_name",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:LastName"
+        },
+        {
+          "label": "Suffix",
+          "dat_field": "7-07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 10",
+          "json_path": "key_contacts[].name.suffix",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:SuffixName"
+        },
+        {
+          "label": "Title",
+          "dat_field": "7-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's title or position within their organization.",
+          "constraints": "maxLength 45",
+          "json_path": "key_contacts[].title",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactTitle"
+        },
+        {
+          "label": "Organizational Affiliation",
+          "dat_field": "7-09",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's organizational affiliation.",
+          "constraints": "maxLength 60",
+          "json_path": "key_contacts[].organizational_affiliation",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactOrganizationalAffiliation"
+        },
+        {
+          "label": "Street 1",
+          "dat_field": "7-10",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 55",
+          "json_path": "key_contacts[].address.street1",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Street1"
+        },
+        {
+          "label": "Street 2",
+          "dat_field": "7-11",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 55",
+          "json_path": "key_contacts[].address.street2",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Street2"
+        },
+        {
+          "label": "City",
+          "dat_field": "7-12",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 35",
+          "json_path": "key_contacts[].address.city",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:City"
+        },
+        {
+          "label": "County",
+          "dat_field": "7-13",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 30",
+          "json_path": "key_contacts[].address.county",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:County"
+        },
+        {
+          "label": "State",
+          "dat_field": "7-14",
+          "required": "Conditional (when Country = 'USA')",
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "help_text": "Select the state for the contact's address. Required for US addresses.",
+          "constraints": "StateCodeDataType",
+          "json_path": "key_contacts[].address.state",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:State"
+        },
+        {
+          "label": "Country",
+          "dat_field": "7-16",
+          "required": true,
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "constraints": "CountryCodeDataType",
+          "json_path": "key_contacts[].address.country",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Country"
+        },
+        {
+          "label": "ZIP/Postal Code",
+          "dat_field": "7-17",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 30",
+          "json_path": "key_contacts[].address.zip_code",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:ZipPostalCode"
+        },
+        {
+          "label": "Phone Number",
+          "dat_field": "7-18",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's daytime telephone number.",
+          "constraints": "maxLength 25",
+          "json_path": "key_contacts[].phone",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactPhone"
+        },
+        {
+          "label": "Fax",
+          "dat_field": "7-19",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "constraints": "maxLength 25",
+          "json_path": "key_contacts[].fax",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactFax"
+        },
+        {
+          "label": "Email",
+          "dat_field": "7-20",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's email address.",
+          "constraints": "maxLength 60",
+          "json_path": "key_contacts[].email",
+          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactEmail"
+        }
+      ]
+    }
+  ]
+}

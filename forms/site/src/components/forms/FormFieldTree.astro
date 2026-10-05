@@ -1,0 +1,24 @@
+---
+import type { SectionData, FieldData } from "../../content.config";
+import FieldRow from "./FieldRow.astro";
+
+interface Props {
+  sections: SectionData[];
+}
+
+const { sections } = Astro.props;
+---
+
+{sections.map((section) => (
+  <details class="field-section" open>
+    <summary>
+      {section.title}
+      <span class="section-count">{section.fields.length} fields</span>
+    </summary>
+    <div class="field-section__body">
+      {section.fields.map((field: FieldData) => (
+        <FieldRow field={field} />
+      ))}
+    </div>
+  </details>
+))}
