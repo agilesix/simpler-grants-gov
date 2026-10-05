@@ -1,0 +1,691 @@
+{
+  "title": "Research and Related Senior/Key Person Profile (Expanded)",
+  "slug": "research-and-related-senior-key-person-profile-expanded",
+  "status": "prioritized",
+  "family": "Key Personnel & Contact Forms",
+  "category": "Key Personnel & Contact Forms",
+  "apps_count": 321176,
+  "fid_url": "https://www.grants.gov/forms/form-items-description/fid/774",
+  "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/RR_KeyPersonExpanded_4_0-V4.0_F774.pdf",
+  "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/RR_KeyPersonExpanded_4_0-V4.0.xsd",
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/RR_KeyPersonExpanded_4_0-V4.0_F774.xls",
+  "omb_number": "4040-0001",
+  "expiration_date": "01/31/2029",
+  "widgets": [
+    "TextWidget",
+    "SelectWidget",
+    "ApplicationAttachmentWidget",
+    "FieldListWidget"
+  ],
+  "description": "Research and Related Senior/Key Person Profile (Expanded) (RR_KeyPersonExpanded_4_0) is the expanded version of the R&R Senior/Key Person Profile form. It adds Degree Type and Degree Year fields to the person profile and is the most widely used form in this category, appearing in 7.89% of all grant applications.",
+  "sgg_form_id": "rr_key_person_expanded",
+  "deviations": [
+    "State/ZIP requirement: DAT shows asterisks on State and ZIP for Key Person entries, implying they are always required. The XSD marks both as optional. Resolution: follow the XSD. State is conditionally required when Country is USA.",
+    "BioSketch requirement for Key Person: DAT implies BioSketch is required for Key Person. The XSD marks BioSketchsAttached as minOccurs=\"0\" within the KeyPerson profile. Resolution: follow the XSD. BioSketch is optional for Key Person but required for PD/PI.",
+    "Department/Division maxLength: The XSD uses V2 types with maxLength 100. We use the XSD constraint (100).",
+    "ZIP/Postal Code maxLength: XSD defines maxLength 30. We use the XSD constraint (30).",
+    "DegreeType maxLength: XSD allows up to 75 characters. We use the XSD constraint (75).",
+    "DegreeYear maxLength: XSD allows up to 25 characters (not just 4). We use the XSD constraint (25) but may add UI guidance for a 4-digit year format."
+  ],
+  "risks": [
+    "This is the highest-volume Key Personnel form (321K submissions, 7.89% of applications) and should be prioritized",
+    "Very similar to the base R&R Senior/Key Person Profile (FID 772), only adds Degree Type and Degree Year. A shared component approach is strongly recommended.",
+    "BioSketch attachment requirement differs between PD/PI (required) and Key Person (optional), unlike the base form where it is required for both",
+    "The Key Person section allows up to 99 entries (XSD maxOccurs=99)",
+    "State and ZIP/Postal Code show asterisks in the DAT for Key Person (implying required) but the XSD marks them optional. The XSD is authoritative for required/optional."
+  ],
+  "sections": [
+    {
+      "title": "1. PD/PI Profile (required, single entry)",
+      "fields": [
+        {
+          "label": "Prefix",
+          "dat_field": "1-01",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Select the prefix for the person's name (e.g., Mr., Ms., Dr.).",
+          "constraints": "minLength 1, maxLength 10",
+          "pre_populated": "SF424(R&R) field 14-1 (deferred)",
+          "json_path": "principal_investigator.name.prefix",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:PrefixName"
+        },
+        {
+          "label": "First Name",
+          "dat_field": "1-02",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first (given) name of the PD/PI.",
+          "constraints": "minLength 1, maxLength 35",
+          "pre_populated": "SF424(R&R) field 14-2 (deferred)",
+          "json_path": "principal_investigator.name.first_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:FirstName"
+        },
+        {
+          "label": "Middle Name",
+          "dat_field": "1-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the middle name of the PD/PI.",
+          "constraints": "minLength 1, maxLength 25",
+          "pre_populated": "SF424(R&R) field 14-3 (deferred)",
+          "json_path": "principal_investigator.name.middle_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:MiddleName"
+        },
+        {
+          "label": "Last Name",
+          "dat_field": "1-04",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the last (family) name of the PD/PI.",
+          "constraints": "minLength 1, maxLength 60",
+          "pre_populated": "SF424(R&R) field 14-4 (deferred)",
+          "json_path": "principal_investigator.name.last_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:LastName"
+        },
+        {
+          "label": "Suffix",
+          "dat_field": "1-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix for the person's name (e.g., Jr., Sr., PhD).",
+          "constraints": "minLength 1, maxLength 10",
+          "pre_populated": "SF424(R&R) field 14-5 (deferred)",
+          "json_path": "principal_investigator.name.suffix",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:SuffixName"
+        },
+        {
+          "label": "Position/Title",
+          "dat_field": "1-06",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the title of the PD/PI (e.g., Professor, Research Scientist).",
+          "constraints": "minLength 1, maxLength 45",
+          "pre_populated": "SF424(R&R) field 14-6 (deferred)",
+          "json_path": "principal_investigator.title",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Title"
+        },
+        {
+          "label": "Department",
+          "dat_field": "1-07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the primary department.",
+          "constraints": "minLength 1, maxLength 100",
+          "pre_populated": "SF424(R&R) field 14-8 (deferred)",
+          "json_path": "principal_investigator.department",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Department"
+        },
+        {
+          "label": "Organization Name",
+          "dat_field": "1-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the organization with which the PD/PI is affiliated.",
+          "constraints": "minLength 1, maxLength 60",
+          "pre_populated": "SF424(R&R) field 14-7 (deferred)",
+          "json_path": "principal_investigator.organization_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:OrganizationName"
+        },
+        {
+          "label": "Division",
+          "dat_field": "1-09",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the primary division.",
+          "constraints": "minLength 1, maxLength 100",
+          "pre_populated": "SF424(R&R) field 14-9 (deferred)",
+          "json_path": "principal_investigator.division",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Division"
+        },
+        {
+          "label": "Street1",
+          "dat_field": "1-11",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first line of the street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "pre_populated": "SF424(R&R) field 14-10a (deferred)",
+          "json_path": "principal_investigator.address.street1",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street1"
+        },
+        {
+          "label": "Street2",
+          "dat_field": "1-12",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "pre_populated": "SF424(R&R) field 14-10b (deferred)",
+          "json_path": "principal_investigator.address.street2",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street2"
+        },
+        {
+          "label": "City",
+          "dat_field": "1-13",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the city.",
+          "constraints": "minLength 1, maxLength 35",
+          "pre_populated": "SF424(R&R) field 14-10c (deferred)",
+          "json_path": "principal_investigator.address.city",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:City"
+        },
+        {
+          "label": "County",
+          "dat_field": "1-14",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the county.",
+          "constraints": "minLength 1, maxLength 30",
+          "pre_populated": "SF424(R&R) field 14-10d (deferred)",
+          "json_path": "principal_investigator.address.county",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:County"
+        },
+        {
+          "label": "State",
+          "dat_field": "1-15",
+          "required": "Conditional",
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "help_text": "Select the state. Required for US addresses.",
+          "constraints": "StateCodeDataTypeV3 code list. Enabled when Country = \"USA: UNITED STATES\"; disabled otherwise.",
+          "pre_populated": "SF424(R&R) field 14-10e (deferred)",
+          "json_path": "principal_investigator.address.state",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:State"
+        },
+        {
+          "label": "Province",
+          "dat_field": "1-15a",
+          "required": "Conditional",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the province. For non-US addresses.",
+          "constraints": "minLength 1, maxLength 30. Enabled when Country != \"USA: UNITED STATES\"; disabled otherwise.",
+          "pre_populated": "SF424(R&R) field 14-10e1 (deferred)",
+          "json_path": "principal_investigator.address.province",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Province"
+        },
+        {
+          "label": "Country",
+          "dat_field": "1-16",
+          "required": true,
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "help_text": "Select the country.",
+          "constraints": "CountryCodeDataTypeV3 code list",
+          "pre_populated": "SF424(R&R) field 14-10g (deferred)",
+          "json_path": "principal_investigator.address.country",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Country"
+        },
+        {
+          "label": "ZIP/Postal Code",
+          "dat_field": "1-17",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the ZIP or postal code.",
+          "constraints": "minLength 1, maxLength 30",
+          "pre_populated": "SF424(R&R) field 14-10f (deferred)",
+          "json_path": "principal_investigator.address.zip_code",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:ZipPostalCode"
+        },
+        {
+          "label": "Phone Number",
+          "dat_field": "1-18",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the daytime telephone number for the PD/PI.",
+          "constraints": "minLength 1, maxLength 25",
+          "pre_populated": "SF424(R&R) field 14-11 (deferred)",
+          "json_path": "principal_investigator.phone",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Phone"
+        },
+        {
+          "label": "Fax Number",
+          "dat_field": "1-19",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the fax number for the PD/PI.",
+          "constraints": "minLength 1, maxLength 25",
+          "pre_populated": "SF424(R&R) field 14-12 (deferred)",
+          "json_path": "principal_investigator.fax",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Fax"
+        },
+        {
+          "label": "E-Mail",
+          "dat_field": "1-20",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the email address for the PD/PI.",
+          "constraints": "minLength 1, maxLength 60",
+          "pre_populated": "SF424(R&R) field 14-13 (deferred)",
+          "json_path": "principal_investigator.email",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Email"
+        },
+        {
+          "label": "Credential, e.g., agency login",
+          "dat_field": "1-21",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the agency-specific credential (e.g., eRA Commons username).",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "principal_investigator.credential",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Credential"
+        },
+        {
+          "label": "Project Role",
+          "dat_field": "1-22",
+          "required": true,
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "help_text": "Select the individual's role on the project.",
+          "constraints": "enum [PD/PI, Co-PD/PI, Faculty, Post Doctoral, Post Doctoral Associate, Post Doctoral Scholar, Other Professional, Graduate Student, Undergraduate Student, Technician, Consultant, Co-Investigator, Other (Specify)]",
+          "json_path": "principal_investigator.project_role",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:ProjectRole"
+        },
+        {
+          "label": "Other Project Role Category",
+          "dat_field": "1-23",
+          "required": "Conditional",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Specify the project role if 'Other' was selected.",
+          "constraints": "minLength 1, maxLength 40. Enabled when Project Role is \"Other Professional\" or \"Other (Specify)\"; disabled otherwise.",
+          "json_path": "principal_investigator.other_project_role",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:OtherProjectRoleCategory"
+        },
+        {
+          "label": "Degree Type",
+          "dat_field": "1-24",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the highest degree earned (e.g., PhD, MD, DVM).",
+          "constraints": "minLength 1, maxLength 75",
+          "json_path": "principal_investigator.degree_type",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:DegreeType"
+        },
+        {
+          "label": "Degree Year",
+          "dat_field": "1-25",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the year the highest degree was earned.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "principal_investigator.degree_year",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:DegreeYear"
+        },
+        {
+          "label": "Biographical Sketch",
+          "dat_field": "1-26",
+          "required": true,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach the biographical sketch for the PD/PI.",
+          "json_path": "principal_investigator.biographical_sketch",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:BioSketchAttached"
+        },
+        {
+          "label": "Current & Pending Support",
+          "dat_field": "1-27",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach the current and pending support document for the PD/PI.",
+          "json_path": "principal_investigator.current_pending_support",
+          "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:SupportsAttached"
+        }
+      ]
+    },
+    {
+      "title": "2. Senior/Key Person Profile (optional, repeating, up to 99)",
+      "fields": [
+        {
+          "label": "Prefix",
+          "dat_field": "2-01",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Select the prefix for the person's name (e.g., Mr., Ms., Dr.).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "senior_key_persons[].name.prefix",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:PrefixName"
+        },
+        {
+          "label": "First Name",
+          "dat_field": "2-02",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first (given) name of the PD/PI.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "senior_key_persons[].name.first_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:FirstName"
+        },
+        {
+          "label": "Middle Name",
+          "dat_field": "2-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the middle name of the PD/PI.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "senior_key_persons[].name.middle_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:MiddleName"
+        },
+        {
+          "label": "Last Name",
+          "dat_field": "2-04",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the last (family) name of the PD/PI.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "senior_key_persons[].name.last_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:LastName"
+        },
+        {
+          "label": "Suffix",
+          "dat_field": "2-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix for the person's name (e.g., Jr., Sr., PhD).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "senior_key_persons[].name.suffix",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:SuffixName"
+        },
+        {
+          "label": "Position/Title",
+          "dat_field": "2-06",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the title of the PD/PI (e.g., Professor, Research Scientist).",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "senior_key_persons[].title",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Title"
+        },
+        {
+          "label": "Department",
+          "dat_field": "2-07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the primary department.",
+          "constraints": "minLength 1, maxLength 100",
+          "json_path": "senior_key_persons[].department",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Department"
+        },
+        {
+          "label": "Organization Name",
+          "dat_field": "2-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the organization with which the PD/PI is affiliated.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "senior_key_persons[].organization_name",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:OrganizationName"
+        },
+        {
+          "label": "Division",
+          "dat_field": "2-09",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the primary division.",
+          "constraints": "minLength 1, maxLength 100",
+          "json_path": "senior_key_persons[].division",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Division"
+        },
+        {
+          "label": "Street1",
+          "dat_field": "2-11",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first line of the street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "senior_key_persons[].address.street1",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street1"
+        },
+        {
+          "label": "Street2",
+          "dat_field": "2-12",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "senior_key_persons[].address.street2",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street2"
+        },
+        {
+          "label": "City",
+          "dat_field": "2-13",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the city.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "senior_key_persons[].address.city",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:City"
+        },
+        {
+          "label": "County",
+          "dat_field": "2-14",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the county.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "senior_key_persons[].address.county",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:County"
+        },
+        {
+          "label": "State",
+          "dat_field": "2-15",
+          "required": "Conditional",
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "help_text": "Select the state. Required for US addresses.",
+          "constraints": "StateCodeDataTypeV3 code list. Enabled when Country = \"USA: UNITED STATES\"; disabled otherwise.",
+          "json_path": "senior_key_persons[].address.state",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:State"
+        },
+        {
+          "label": "Province",
+          "dat_field": "2-15a",
+          "required": "Conditional",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the province. For non-US addresses.",
+          "constraints": "minLength 1, maxLength 30. Enabled when Country != \"USA: UNITED STATES\"; disabled otherwise.",
+          "json_path": "senior_key_persons[].address.province",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Province"
+        },
+        {
+          "label": "Country",
+          "dat_field": "2-16",
+          "required": true,
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "help_text": "Select the country.",
+          "constraints": "CountryCodeDataTypeV3 code list",
+          "json_path": "senior_key_persons[].address.country",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Country"
+        },
+        {
+          "label": "ZIP/Postal Code",
+          "dat_field": "2-17",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the ZIP or postal code.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "senior_key_persons[].address.zip_code",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:ZipPostalCode"
+        },
+        {
+          "label": "Phone Number",
+          "dat_field": "2-18",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the daytime telephone number for the PD/PI.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "senior_key_persons[].phone",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Phone"
+        },
+        {
+          "label": "Fax Number",
+          "dat_field": "2-19",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the fax number for the PD/PI.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "senior_key_persons[].fax",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Fax"
+        },
+        {
+          "label": "E-Mail",
+          "dat_field": "2-20",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the email address for the PD/PI.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "senior_key_persons[].email",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Email"
+        },
+        {
+          "label": "Credential, e.g., agency login",
+          "dat_field": "2-21",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the agency-specific credential (e.g., eRA Commons username).",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "senior_key_persons[].credential",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Credential"
+        },
+        {
+          "label": "Project Role",
+          "dat_field": "2-22",
+          "required": true,
+          "type": "Dropdown",
+          "widget": "SelectWidget",
+          "help_text": "Select the individual's role on the project.",
+          "constraints": "enum [PD/PI, Co-PD/PI, Faculty, Post Doctoral, Post Doctoral Associate, Post Doctoral Scholar, Other Professional, Graduate Student, Undergraduate Student, Technician, Consultant, Co-Investigator, Other (Specify)]",
+          "json_path": "senior_key_persons[].project_role",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:ProjectRole"
+        },
+        {
+          "label": "Other Project Role Category",
+          "dat_field": "2-23",
+          "required": "Conditional",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Specify the project role if 'Other' was selected.",
+          "constraints": "minLength 1, maxLength 40. Enabled when Project Role is \"Other Professional\" or \"Other (Specify)\"; disabled otherwise.",
+          "json_path": "senior_key_persons[].other_project_role",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:OtherProjectRoleCategory"
+        },
+        {
+          "label": "Degree Type",
+          "dat_field": "2-24",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the highest degree earned (e.g., PhD, MD, DVM).",
+          "constraints": "minLength 1, maxLength 75",
+          "json_path": "senior_key_persons[].degree_type",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:DegreeType"
+        },
+        {
+          "label": "Degree Year",
+          "dat_field": "2-25",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the year the highest degree was earned.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "senior_key_persons[].degree_year",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:DegreeYear"
+        },
+        {
+          "label": "Biographical Sketch",
+          "dat_field": "2-26",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach the biographical sketch for the PD/PI.",
+          "json_path": "senior_key_persons[].biographical_sketch",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:BioSketchAttached"
+        },
+        {
+          "label": "Current & Pending Support",
+          "dat_field": "2-27",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach the current and pending support document for the PD/PI.",
+          "json_path": "senior_key_persons[].current_pending_support",
+          "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:SupportsAttached"
+        }
+      ]
+    },
+    {
+      "title": "3. Attachments",
+      "fields": [
+        {
+          "label": "Additional Profiles",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach additional senior/key person profiles if more than the form allows.",
+          "json_path": "additional_profiles",
+          "xml_path": "RR_KeyPersonExpanded_4_0:AdditionalProfilesAttached/RR_KeyPersonExpanded_4_0:AdditionalProfileAttached"
+        },
+        {
+          "label": "Additional Biographical Sketches",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach additional biographical sketches.",
+          "json_path": "additional_biographical_sketches",
+          "xml_path": "RR_KeyPersonExpanded_4_0:BioSketchsAttached/RR_KeyPersonExpanded_4_0:BioSketchAttached"
+        },
+        {
+          "label": "Additional Current & Pending Support",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach additional current and pending support documents.",
+          "json_path": "additional_current_pending_support",
+          "xml_path": "RR_KeyPersonExpanded_4_0:SupportsAttached/RR_KeyPersonExpanded_4_0:SupportAttached"
+        }
+      ]
+    }
+  ]
+}

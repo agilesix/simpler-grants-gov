@@ -8,19 +8,34 @@ interface Props {
 
 const { form } = Astro.props;
 const d = form.data;
-const pct = ((d.apps_count / TOTAL_APPS) * 100).toFixed(2);
+const pct = d.apps_count ? ((d.apps_count / TOTAL_APPS) * 100).toFixed(2) : "0.00";
 const fieldCount = d.sections.reduce((sum, sec) => sum + sec.fields.length, 0);
+const hasLinks = d.fid_url || d.pdf_url || d.xsd_url || d.dat_url;
 ---
 
 <div class="metadata-grid">
   <div class="metadata-card">
     <dl>
-      <dt>OMB Number</dt>
-      <dd>{d.omb_number}</dd>
-      <dt>Expiration</dt>
-      <dd>{d.expiration_date}</dd>
+      {d.omb_number && (
+        <>
+          <dt>OMB Number</dt>
+          <dd>{d.omb_number}</dd>
+        </>
+      )}
+      {d.expiration_date && (
+        <>
+          <dt>Expiration</dt>
+          <dd>{d.expiration_date}</dd>
+        </>
+      )}
       <dt>Family</dt>
       <dd>{d.family}</dd>
+      {d.category && d.category !== d.family && (
+        <>
+          <dt>Category</dt>
+          <dd>{d.category}</dd>
+        </>
+      )}
       {d.sgg_form_id && (
         <>
           <dt>SGG form ID</dt>
@@ -31,24 +46,33 @@ const fieldCount = d.sections.reduce((sum, sec) => sum + sec.fields.length, 0);
   </div>
   <div class="metadata-card">
     <dl>
-      {d.category && (
+      <dt>Apps count</dt>
+      <dd>{d.apps_count ? d.apps_count.toLocaleString() : "—"} ({pct}%)</dd>
+      {fieldCount > 0 && (
         <>
-          <dt>Category</dt>
-          <dd>{d.category}</dd>
+          <dt>Fields</dt>
+          <dd>{fieldCount}</dd>
         </>
       )}
-      <dt>Apps count</dt>
-      <dd>{d.apps_count.toLocaleString()} ({pct}%)</dd>
-      <dt>Fields</dt>
-      <dd>{fieldCount}</dd>
-      <dt>Links</dt>
-      <dd>
-        <div class="metadata-links">
-          <a href={d.fid_url} target="_blank" rel="noopener">FID page</a>
-          <a href={d.pdf_url} target="_blank" rel="noopener">PDF</a>
-          <a href={d.xsd_url} target="_blank" rel="noopener">XSD</a>
-        </div>
-      </dd>
+      {d.widgets && d.widgets.length > 0 && (
+        <>
+          <dt>Widgets</dt>
+          <dd>{d.widgets.join(", ")}</dd>
+        </>
+      )}
+      {hasLinks && (
+        <>
+          <dt>Links</dt>
+          <dd>
+            <div class="metadata-links">
+              {d.fid_url && <a href={d.fid_url} target="_blank" rel="noopener">FID page</a>}
+              {d.pdf_url && <a href={d.pdf_url} target="_blank" rel="noopener">PDF</a>}
+              {d.xsd_url && <a href={d.xsd_url} target="_blank" rel="noopener">XSD</a>}
+              {d.dat_url && <a href={d.dat_url} target="_blank" rel="noopener">DAT</a>}
+            </div>
+          </dd>
+        </>
+      )}
     </dl>
   </div>
 </div>
