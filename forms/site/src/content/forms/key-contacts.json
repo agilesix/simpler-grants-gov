@@ -7,10 +7,11 @@
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/Key_Contacts_2_0-V2.0_F683.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/Key_Contacts_2_0-V2.0.xsd",
   "apps_count": 14470,
-  "status": "prioritized",
+  "status": "in_progress",
   "family": "Key Personnel & Contact Forms",
   "widgets": ["TextWidget", "SelectWidget", "FieldListWidget"],
   "sgg_form_id": "key_contacts",
+  "spec_id": "key-contacts",
   "description": "Collects contact information for individuals involved in a project. Captures the applicant organization name and up to four key contact persons with their name, title, organization affiliation, address, phone, fax, and email.",
   "new_concepts": ["FieldListWidget"],
   "deviations": [
