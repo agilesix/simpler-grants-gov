@@ -14,7 +14,9 @@ const columns = [
 const grouped = Object.fromEntries(
   columns.map((col) => [
     col.status,
-    forms.filter((f) => f.data.status === col.status),
+    forms
+      .filter((f) => f.data.status === col.status)
+      .sort((a, b) => b.data.apps_count - a.data.apps_count),
   ]),
 );
 ---
