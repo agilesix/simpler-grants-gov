@@ -2,7 +2,7 @@
   "title": "ACH Vendor/Miscellaneous Payment Enrollment Form",
   "slug": "ach-vendor-miscellaneous-payment-enrollment-form",
   "status": "backlog",
-  "family": "Key Personnel & Contact Forms",
+  "family": ["SF-424"],
   "category": "Key Personnel & Contact Forms",
   "apps_count": 503,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/666",

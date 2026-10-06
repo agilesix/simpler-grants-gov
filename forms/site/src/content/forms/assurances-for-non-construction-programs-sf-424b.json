@@ -2,7 +2,7 @@
   "title": "Assurances for Non-Construction Programs (SF-424B)",
   "slug": "assurances-for-non-construction-programs-sf-424b",
   "status": "backlog",
-  "family": "Certification & Assurance Forms",
+  "family": ["SF-424", "SF-424 Short"],
   "category": "Certification & Assurance Forms",
   "apps_count": 47874,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/240",

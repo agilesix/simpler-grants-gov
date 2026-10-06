@@ -2,7 +2,7 @@
   "title": "PHS Human Subjects and Clinical Trials Information",
   "slug": "phs-human-subjects-and-clinical-trials-information",
   "status": "backlog",
-  "family": "Research & Science-Specific Forms",
+  "family": ["R&R"],
   "category": "Research & Science-Specific Forms",
   "apps_count": 243892,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/705",

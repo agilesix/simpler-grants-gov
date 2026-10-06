@@ -2,7 +2,7 @@
   "title": "HUD Detailed Budget Form",
   "slug": "hud-detailed-budget-form",
   "status": "backlog",
-  "family": "Budget & Financial Forms",
+  "family": ["SF-424"],
   "category": "Budget & Financial Forms",
   "apps_count": 477,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/292",

@@ -2,7 +2,7 @@
   "title": "PHS 398 Modular Budget",
   "slug": "phs-398-modular-budget",
   "status": "backlog",
-  "family": "Budget & Financial Forms",
+  "family": ["R&R"],
   "category": "Budget & Financial Forms",
   "apps_count": 162092,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/403",

@@ -2,7 +2,7 @@
   "title": "NEH Institutional Profile",
   "slug": "neh-institutional-profile",
   "status": "backlog",
-  "family": "Agency-Specific Supplement Forms",
+  "family": ["SF-424", "SF-424 Short"],
   "category": "Agency-Specific Supplement Forms",
   "apps_count": 210,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/417",

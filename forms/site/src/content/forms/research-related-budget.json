@@ -2,7 +2,7 @@
   "title": "Research & Related Budget",
   "slug": "research-related-budget",
   "status": "backlog",
-  "family": "Budget & Financial Forms",
+  "family": ["R&R"],
   "category": "Budget & Financial Forms",
   "apps_count": 258377,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/770",

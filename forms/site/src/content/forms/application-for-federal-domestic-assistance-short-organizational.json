@@ -2,7 +2,7 @@
   "title": "Application for Federal Domestic Assistance-Short Organizational",
   "slug": "application-for-federal-domestic-assistance-short-organizational",
   "status": "prioritized",
-  "family": "Key Personnel & Contact Forms",
+  "family": ["SF-424 Short"],
   "category": "Key Personnel & Contact Forms",
   "apps_count": 20021,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/711",

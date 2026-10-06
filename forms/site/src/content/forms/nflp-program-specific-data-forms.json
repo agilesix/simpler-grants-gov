@@ -2,7 +2,7 @@
   "title": "NFLP Program Specific Data Forms",
   "slug": "nflp-program-specific-data-forms",
   "status": "backlog",
-  "family": "Agency-Specific Supplement Forms",
+  "family": ["SF-424", "R&R"],
   "category": "Agency-Specific Supplement Forms",
   "apps_count": 12,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/825",

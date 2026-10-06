@@ -2,7 +2,7 @@
   "title": "EPA Form 4700-4",
   "slug": "epa-form-4700-4",
   "status": "backlog",
-  "family": "Key Personnel & Contact Forms",
+  "family": ["SF-424", "SF-424 Mandatory"],
   "category": "Key Personnel & Contact Forms",
   "apps_count": 12044,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/773",

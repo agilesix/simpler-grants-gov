@@ -2,7 +2,7 @@
   "title": "Research & Related Budget 10YR",
   "slug": "research-related-budget-10yr",
   "status": "backlog",
-  "family": "Budget & Financial Forms",
+  "family": ["R&R", "SF-424 Short"],
   "category": "Budget & Financial Forms",
   "apps_count": 41946,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/771",

@@ -2,7 +2,7 @@
   "title": "EPA KEY CONTACTS FORM",
   "slug": "epa-key-contacts-form",
   "status": "in_progress",
-  "family": "Key Personnel & Contact Forms",
+  "family": ["SF-424"],
   "category": "Key Personnel & Contact Forms",
   "apps_count": 12044,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/674",

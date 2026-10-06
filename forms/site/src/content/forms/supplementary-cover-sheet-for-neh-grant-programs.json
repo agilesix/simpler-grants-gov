@@ -2,7 +2,7 @@
   "title": "Supplementary Cover Sheet for NEH Grant Programs",
   "slug": "supplementary-cover-sheet-for-neh-grant-programs",
   "status": "backlog",
-  "family": "Budget & Financial Forms",
+  "family": ["SF-424", "SF-424 Short", "SF-424 Individual"],
   "category": "Budget & Financial Forms",
   "apps_count": 4784,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/530",

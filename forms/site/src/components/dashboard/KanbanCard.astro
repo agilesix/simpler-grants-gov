@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { TOTAL_APPS } from "../../content.config";
+import { familySlug } from "../../lib/families";
 
 interface Props {
   form: CollectionEntry<"forms">;
@@ -8,7 +9,6 @@ interface Props {
 
 const { form } = Astro.props;
 const pct = ((form.data.apps_count / TOTAL_APPS) * 100).toFixed(2);
-const familySlug = form.data.family.toLowerCase().replace(/\s+/g, "-");
 ---
 
 <a href={`/forms/${form.data.slug}/`} class="kanban-card">
@@ -17,8 +17,10 @@ const familySlug = form.data.family.toLowerCase().replace(/\s+/g, "-");
     <span class="kanban-card__apps">
       {form.data.apps_count.toLocaleString()} apps ({pct}%)
     </span>
-    <span class={`kanban-card__family family--${familySlug}`}>
-      {form.data.family}
-    </span>
+    {form.data.family.map((family) => (
+      <span class={`kanban-card__family family--${familySlug(family)}`}>
+        {family}
+      </span>
+    ))}
   </div>
 </a>

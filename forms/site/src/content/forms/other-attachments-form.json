@@ -2,7 +2,7 @@
   "title": "Other Attachments Form",
   "slug": "other-attachments-form",
   "status": "backlog",
-  "family": "Narrative & Attachment Forms",
+  "family": ["SF-424", "SF-424 Short", "SF-424 Individual", "SF-424 Mandatory"],
   "category": "Narrative & Attachment Forms",
   "apps_count": 68887,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/542",

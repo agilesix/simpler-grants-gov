@@ -52,7 +52,8 @@ const formSchema = z.object({
     "migrated",
     "ready",
   ]),
-  family: z.string(),
+  /** Grants.gov form families, e.g. ["R&R"]; empty for forms outside any family. */
+  family: z.array(z.string()).default([]),
   category: z.string().optional(),
   widgets: z.array(z.string()).optional().default([]),
   sgg_form_id: z.string().nullable().optional().default(null),

@@ -2,7 +2,7 @@
   "title": "ED Abstract Form",
   "slug": "ed-abstract-form",
   "status": "backlog",
-  "family": "Narrative & Attachment Forms",
+  "family": ["SF-424"],
   "category": "Narrative & Attachment Forms",
   "apps_count": 11970,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/267",

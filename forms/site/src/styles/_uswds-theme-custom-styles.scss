@@ -449,22 +449,28 @@ main#main-content {
   border-radius: 2px;
 }
 
+// One badge color per Grants.gov form family (class from `familySlug` in src/lib/families.ts).
 .family--sf-424 {
   background: color("primary-lighter");
   color: color("primary-darker");
 }
 
-.family--budget {
-  background: color("secondary-lighter");
-  color: color("secondary-dark");
-}
-
-.family--supplemental {
+.family--r-r {
   background: color("accent-cool-lighter");
   color: color("accent-cool-dark");
 }
 
-.family--compliance {
+.family--sf-424-short {
+  background: color("secondary-lighter");
+  color: color("secondary-dark");
+}
+
+.family--sf-424-individual {
+  background: color("accent-warm-lighter");
+  color: color("accent-warm-dark");
+}
+
+.family--sf-424-mandatory {
   background: color("base-lighter");
   color: color("base-darker");
 }

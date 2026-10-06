@@ -2,7 +2,7 @@
   "title": "USDA AD-3030",
   "slug": "usda-ad-3030",
   "status": "backlog",
-  "family": "Other",
+  "family": ["SF-424", "R&R"],
   "category": "Uncategorized",
   "apps_count": 2117,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/582",

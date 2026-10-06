@@ -2,7 +2,7 @@
   "title": "FRA F 30",
   "slug": "fra-f-30",
   "status": "backlog",
-  "family": "Agency-Specific Supplement Forms",
+  "family": ["SF-424", "SF-424 Mandatory"],
   "category": "Agency-Specific Supplement Forms",
   "apps_count": 1182,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/648",

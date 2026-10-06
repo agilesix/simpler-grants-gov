@@ -2,7 +2,7 @@
   "title": "U.S. DEPARTMENT OF EDUCATION BUDGET INFORMATION NON-CONSTRUCTION PROGRAMS",
   "slug": "u-s-department-of-education-budget-information-non-construction-programs",
   "status": "backlog",
-  "family": "Other",
+  "family": ["SF-424"],
   "category": "Uncategorized",
   "apps_count": 8175,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/840",

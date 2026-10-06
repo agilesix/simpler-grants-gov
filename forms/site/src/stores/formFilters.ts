@@ -1,10 +1,13 @@
 import { atom, computed } from "nanostores";
 
+import { familiesOf } from "../lib/families";
+
 export interface FormSummary {
   slug: string;
   title: string;
   status: string;
-  family: string;
+  /** Grants.gov form families, e.g. ["R&R"]; empty when the form has none. */
+  family: string[];
   apps_count: number;
   apps_pct: string;
   fieldCount: number;
@@ -35,7 +38,9 @@ export const $filteredForms = computed(
       result = result.filter((f) => statuses.includes(f.status));
     }
     if (families.length > 0) {
-      result = result.filter((f) => families.includes(f.family));
+      result = result.filter((f) =>
+        familiesOf(f).some((family) => families.includes(family)),
+      );
     }
 
     const sorted = [...result];

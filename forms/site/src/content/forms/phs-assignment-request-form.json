@@ -2,7 +2,7 @@
   "title": "PHS Assignment Request Form",
   "slug": "phs-assignment-request-form",
   "status": "backlog",
-  "family": "Agency-Specific Supplement Forms",
+  "family": ["R&R"],
   "category": "Agency-Specific Supplement Forms",
   "apps_count": 237461,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/833",

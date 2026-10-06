@@ -4,7 +4,7 @@ import { TOTAL_APPS } from "../../content.config";
 
 const forms = await getCollection("forms");
 const totalForms = forms.length;
-const families = new Set(forms.map((f) => f.data.family));
+const families = new Set(forms.flatMap((f) => f.data.family));
 const migrated = forms.filter((f) => f.data.status === "migrated");
 const migratedCount = migrated.length;
 

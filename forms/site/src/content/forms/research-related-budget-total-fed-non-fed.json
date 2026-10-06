@@ -2,7 +2,7 @@
   "title": "Research & Related Budget (Total Fed + Non-Fed)",
   "slug": "research-related-budget-total-fed-non-fed",
   "status": "backlog",
-  "family": "Budget & Financial Forms",
+  "family": ["R&R"],
   "category": "Budget & Financial Forms",
   "apps_count": 5087,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/738",

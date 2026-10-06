@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { TOTAL_APPS } from "../../content.config";
+import { NO_FAMILY } from "../../lib/families";
 
 interface Props {
   form: CollectionEntry<"forms">;
@@ -29,8 +30,8 @@ const hasLinks = d.fid_url || d.pdf_url || d.xsd_url || d.dat_url;
         </>
       )}
       <dt>Family</dt>
-      <dd>{d.family}</dd>
-      {d.category && d.category !== d.family && (
+      <dd>{d.family.length ? d.family.join(", ") : NO_FAMILY}</dd>
+      {d.category && (
         <>
           <dt>Category</dt>
           <dd>{d.category}</dd>

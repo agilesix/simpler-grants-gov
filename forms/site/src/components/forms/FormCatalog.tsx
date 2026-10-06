@@ -10,6 +10,7 @@ import {
   $statusFilter,
   type FormSummary,
 } from "../../stores/formFilters";
+import { byFamily, familiesOf, familySlug } from "../../lib/families";
 
 interface Props {
   forms: FormSummary[];
@@ -88,7 +89,7 @@ export default function FormCatalog({ forms, title, subtitle }: Props) {
   }, [search, statusFilter, familyFilter, sortBy, groupBy, syncUrl]);
 
   const families = useMemo(
-    () => [...new Set(forms.map((f) => f.family))].sort(),
+    () => [...new Set(forms.flatMap(familiesOf))].sort(byFamily),
     [forms],
   );
   const statuses = useMemo(
@@ -104,7 +105,9 @@ export default function FormCatalog({ forms, title, subtitle }: Props) {
 
   const familyCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    for (const f of forms) counts[f.family] = (counts[f.family] ?? 0) + 1;
+    for (const f of forms) {
+      for (const family of familiesOf(f)) counts[family] = (counts[family] ?? 0) + 1;
+    }
     return counts;
   }, [forms]);
 
@@ -112,10 +115,13 @@ export default function FormCatalog({ forms, title, subtitle }: Props) {
     if (groupBy === "none") return [["", filtered] as [string, FormSummary[]]];
     const groups: Record<string, FormSummary[]> = {};
     for (const form of filtered) {
-      const key = groupBy === "family" ? form.family : form.status;
-      (groups[key] ??= []).push(form);
+      // A form in several families appears in each of their groups.
+      const keys = groupBy === "family" ? familiesOf(form) : [form.status];
+      for (const key of keys) (groups[key] ??= []).push(form);
     }
-    return Object.entries(groups).sort(([a], [b]) => a.localeCompare(b));
+    return Object.entries(groups).sort(([a], [b]) =>
+      groupBy === "family" ? byFamily(a, b) : a.localeCompare(b),
+    );
   }, [filtered, groupBy]);
 
   function toggleFilter(
@@ -384,8 +390,6 @@ export default function FormCatalog({ forms, title, subtitle }: Props) {
 }
 
 function FormCard({ form }: { form: FormSummary }) {
-  const familySlug = form.family.toLowerCase().replace(/\s+/g, "-");
-
   return (
     <a href={`/forms/${form.slug}/`} className="form-card">
       <div className="form-card__header">
@@ -412,9 +416,11 @@ function FormCard({ form }: { form: FormSummary }) {
         >
           {STATUS_LABELS[form.status] ?? form.status}
         </span>
-        <span className={`kanban-card__family family--${familySlug}`}>
-          {form.family}
-        </span>
+        {form.family.map((family) => (
+          <span key={family} className={`kanban-card__family family--${familySlug(family)}`}>
+            {family}
+          </span>
+        ))}
       </div>
     </a>
   );
