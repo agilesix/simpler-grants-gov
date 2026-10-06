@@ -899,6 +899,17 @@ h2.results-count {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: units(2);
+
+  // Grid rows already stretch each item; let the card fill it so a row's cards match. The
+  // USWDS list-item margin would make an item that much shorter than its neighbors.
+  > li {
+    display: flex;
+    margin: 0;
+
+    > .form-card {
+      flex: 1;
+    }
+  }
 }
 
 @media (max-width: 640px) {
@@ -964,10 +975,36 @@ h2.results-count {
   color: color("base-dark");
 }
 
+// Keep the footer on the bottom edge when a card is stretched to its row's height.
+.form-card__footer {
+  display: flex;
+  flex-direction: column;
+  gap: units(1);
+  margin-top: auto;
+}
+
 .form-card__tags {
   display: flex;
+  align-items: center;
   gap: units(1);
   flex-wrap: wrap;
+}
+
+// Families sit on their own labeled row, below a divider, so they read separately from status.
+.form-card__families {
+  padding-top: units(1);
+  border-top: 1px solid color("base-lightest");
+}
+
+.form-card__tags-label {
+  @include u-font("sans", "3xs");
+  color: color("base");
+}
+
+.form-card__tags-none {
+  @include u-font("sans", "3xs");
+  color: color("base");
+  font-style: italic;
 }
 
 // Group headers

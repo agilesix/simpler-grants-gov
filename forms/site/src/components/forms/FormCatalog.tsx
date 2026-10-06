@@ -10,7 +10,7 @@ import {
   $statusFilter,
   type FormSummary,
 } from "../../stores/formFilters";
-import { byFamily, familiesOf, familySlug } from "../../lib/families";
+import { byFamily, familiesOf, familySlug, NO_FAMILY } from "../../lib/families";
 
 interface Props {
   forms: FormSummary[];
@@ -24,6 +24,13 @@ const STATUS_LABELS: Record<string, string> = {
   in_progress: "In Progress",
   migrated: "Migrated",
   ready: "Ready",
+};
+
+/** Sort statuses in workflow order, matching the dashboard's Kanban columns. */
+const byStatus = (a: string, b: string) => {
+  const order = Object.keys(STATUS_LABELS);
+  const rank = (s: string) => (order.includes(s) ? order.indexOf(s) : order.length);
+  return rank(a) - rank(b) || a.localeCompare(b);
 };
 
 function readUrlParams() {
@@ -93,7 +100,7 @@ export default function FormCatalog({ forms, title, subtitle }: Props) {
     [forms],
   );
   const statuses = useMemo(
-    () => [...new Set(forms.map((f) => f.status))].sort(),
+    () => [...new Set(forms.map((f) => f.status))].sort(byStatus),
     [forms],
   );
 
@@ -120,7 +127,7 @@ export default function FormCatalog({ forms, title, subtitle }: Props) {
       for (const key of keys) (groups[key] ??= []).push(form);
     }
     return Object.entries(groups).sort(([a], [b]) =>
-      groupBy === "family" ? byFamily(a, b) : a.localeCompare(b),
+      groupBy === "family" ? byFamily(a, b) : byStatus(a, b),
     );
   }, [filtered, groupBy]);
 
@@ -410,17 +417,28 @@ function FormCard({ form }: { form: FormSummary }) {
           <span className="form-card__stat-label">fields</span>
         </span>
       </div>
-      <div className="form-card__tags">
-        <span
-          className={`status-badge status-badge--${form.status.replace("_", "-")}`}
-        >
-          {STATUS_LABELS[form.status] ?? form.status}
-        </span>
-        {form.family.map((family) => (
-          <span key={family} className={`kanban-card__family family--${familySlug(family)}`}>
-            {family}
+      <div className="form-card__footer">
+        <div className="form-card__tags">
+          <span
+            className={`status-badge status-badge--${form.status.replace("_", "-")}`}
+          >
+            {STATUS_LABELS[form.status] ?? form.status}
           </span>
-        ))}
+        </div>
+        <div className="form-card__tags form-card__families">
+          <span className="form-card__tags-label">
+            {form.family.length === 1 ? "Family" : "Families"}
+          </span>
+          {form.family.length ? (
+            form.family.map((family) => (
+              <span key={family} className={`kanban-card__family family--${familySlug(family)}`}>
+                {family}
+              </span>
+            ))
+          ) : (
+            <span className="form-card__tags-none">{NO_FAMILY}</span>
+          )}
+        </div>
       </div>
     </a>
   );
