@@ -1139,6 +1139,55 @@ details[open] > .group-header::before {
   }
 }
 
+// Form preview
+.form-preview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: units(1);
+  margin-bottom: units(2);
+
+  .usa-button {
+    margin-right: 0;
+  }
+}
+
+// Apply-form widget styles, copied from frontend/src/styles/_uswds-theme-custom-styles.scss
+// while the preview renders frontend widgets without the frontend's stylesheet (#12695).
+.simpler-apply-form {
+  .usa-checkbox__label {
+    margin-top: 0;
+  }
+}
+
+.field-list-widget {
+  &__entry-controls {
+    border-top: 1px solid color("base-lighter");
+    border-bottom: 1px solid color("base-lighter");
+    padding-bottom: units(2);
+  }
+
+  &__controls {
+    border-top: 1px solid color("base-lighter");
+  }
+
+  &__entry:has(+ .field-list-widget__controls) {
+    .field-list-widget__entry-controls {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+}
+
+.form-preview__json {
+  max-height: 80vh;
+  overflow: auto;
+  margin: 0;
+  padding: units(2);
+  background: color("base-lightest");
+  border-radius: radius("md");
+  @include u-font("mono", "3xs");
+}
+
 // Field tree
 .field-tree {
   margin-bottom: units(5);
