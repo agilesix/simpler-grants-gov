@@ -1,0 +1,710 @@
+{
+  "title": "EPA KEY CONTACTS FORM",
+  "slug": "epa-key-contacts-form",
+  "status": "in_progress",
+  "family": ["SF-424"],
+  "category": "Key Personnel & Contact Forms",
+  "apps_count": 12044,
+  "fid_url": "https://www.grants.gov/forms/form-items-description/fid/674",
+  "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/EPA_KeyContacts_2_0-V2.0_F674.pdf",
+  "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/EPA_KeyContacts_2_0-V2.0.xsd",
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/EPA_KeyContacts_2_0-V2.0_F674.xls",
+  "omb_number": "2030-0020",
+  "expiration_date": "02/28/2029",
+  "widgets": [
+    "TextWidget",
+    "SelectWidget"
+  ],
+  "description": "EPA Key Contacts Form (EPA_KeyContacts_2_0, EPA Form 5700-54) collects contact information for four specific roles required by the EPA: Authorized Representative, Payee, Administrative Contact, and Project Manager. Each role captures the same set of person contact fields using the shared `ContactPersonDataTypeV3`.",
+  "sgg_form_id": "epa_key_contacts",
+  "spec_id": "epa-key-contacts",
+  "deviations": [
+    "Required fields: The XSD marks ALL fields as optional (all minOccurs=\"0\" within each ContactPersonDataTypeV3 section). The DAT shows asterisks on Name, Address, Phone, and Email fields. We'll plan to follow the current SGG pattern, making those fields required if any field in that section is filled out.",
+    "Address field order: The PDF and DAT list ZIP/Postal Code (B1-14) before Country (B1-15), and the current SGG form follows that order. We'll reuse the shared Address question, which lists Country before ZIP/Postal Code (matching Key Contacts), rather than reordering address fields per form."
+  ],
+  "risks": [
+    "Because all four sections are structurally identical, we'll plan to use the same underlying model across all four sections."
+  ],
+  "sections": [
+    {
+      "title": "1. Authorized Representative",
+      "fields": [
+        {
+          "label": "Prefix",
+          "dat_field": "B1-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "authorized_representative.name.prefix",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:PrefixName"
+        },
+        {
+          "label": "First Name",
+          "dat_field": "B1-04",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's first (given) name.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "authorized_representative.name.first_name",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:FirstName"
+        },
+        {
+          "label": "Middle Name",
+          "dat_field": "B1-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's middle name.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "authorized_representative.name.middle_name",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:MiddleName"
+        },
+        {
+          "label": "Last Name",
+          "dat_field": "B1-06",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's last (family) name.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "authorized_representative.name.last_name",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:LastName"
+        },
+        {
+          "label": "Suffix",
+          "dat_field": "B1-07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "authorized_representative.name.suffix",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:SuffixName"
+        },
+        {
+          "label": "Title",
+          "dat_field": "B1-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's title or position within their organization.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "authorized_representative.title",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Title"
+        },
+        {
+          "label": "Street1",
+          "dat_field": "B1-10",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "authorized_representative.address.street1",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Street1"
+        },
+        {
+          "label": "Street2",
+          "dat_field": "B1-11",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "authorized_representative.address.street2",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Street2"
+        },
+        {
+          "label": "City",
+          "dat_field": "B1-12",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the city for the contact's address.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "authorized_representative.address.city",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:City"
+        },
+        {
+          "label": "State",
+          "dat_field": "B1-13",
+          "required": "Conditional (when Country = \"USA: UNITED STATES\")",
+          "type": "Dropdown (state code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the state for the contact's address. Required for US addresses.",
+          "constraints": "StateCodeDataType enumeration",
+          "json_path": "authorized_representative.address.state",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:State"
+        },
+        {
+          "label": "ZIP/Postal Code",
+          "dat_field": "B1-14",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "authorized_representative.address.zip_code",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:ZipPostalCode"
+        },
+        {
+          "label": "Country",
+          "dat_field": "B1-15",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Dropdown (country code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the country for the contact's address.",
+          "constraints": "CountryCodeDataType enumeration",
+          "json_path": "authorized_representative.address.country",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Country"
+        },
+        {
+          "label": "Phone Number",
+          "dat_field": "B1-16",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's daytime telephone number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "authorized_representative.phone",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Phone"
+        },
+        {
+          "label": "Fax Number",
+          "dat_field": "B1-17",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's fax number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "authorized_representative.fax",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Fax"
+        },
+        {
+          "label": "Email",
+          "dat_field": "B1-18",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's email address.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "authorized_representative.email",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Email"
+        }
+      ]
+    },
+    {
+      "title": "2. Payee",
+      "fields": [
+        {
+          "label": "Prefix",
+          "dat_field": "B2-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "payee.name.prefix",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:PrefixName"
+        },
+        {
+          "label": "First Name",
+          "dat_field": "B2-04",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's first (given) name.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "payee.name.first_name",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:FirstName"
+        },
+        {
+          "label": "Middle Name",
+          "dat_field": "B2-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's middle name.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "payee.name.middle_name",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:MiddleName"
+        },
+        {
+          "label": "Last Name",
+          "dat_field": "B2-06",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's last (family) name.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "payee.name.last_name",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:LastName"
+        },
+        {
+          "label": "Suffix",
+          "dat_field": "B2-07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "payee.name.suffix",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:SuffixName"
+        },
+        {
+          "label": "Title",
+          "dat_field": "B2-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's title or position within their organization.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "payee.title",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Title"
+        },
+        {
+          "label": "Street1",
+          "dat_field": "B2-10",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "payee.address.street1",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Street1"
+        },
+        {
+          "label": "Street2",
+          "dat_field": "B2-11",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "payee.address.street2",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Street2"
+        },
+        {
+          "label": "City",
+          "dat_field": "B2-12",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the city for the contact's address.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "payee.address.city",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:City"
+        },
+        {
+          "label": "State",
+          "dat_field": "B2-13",
+          "required": "Conditional (when Country = \"USA: UNITED STATES\")",
+          "type": "Dropdown (state code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the state for the contact's address. Required for US addresses.",
+          "constraints": "StateCodeDataType enumeration",
+          "json_path": "payee.address.state",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:State"
+        },
+        {
+          "label": "ZIP/Postal Code",
+          "dat_field": "B2-14",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "payee.address.zip_code",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:ZipPostalCode"
+        },
+        {
+          "label": "Country",
+          "dat_field": "B2-15",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Dropdown (country code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the country for the contact's address.",
+          "constraints": "CountryCodeDataType enumeration",
+          "json_path": "payee.address.country",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Country"
+        },
+        {
+          "label": "Phone Number",
+          "dat_field": "B2-16",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's daytime telephone number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "payee.phone",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Phone"
+        },
+        {
+          "label": "Fax Number",
+          "dat_field": "B2-17",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's fax number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "payee.fax",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Fax"
+        },
+        {
+          "label": "Email",
+          "dat_field": "B2-18",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's email address.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "payee.email",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Email"
+        }
+      ]
+    },
+    {
+      "title": "3. Administrative Contact",
+      "fields": [
+        {
+          "label": "Prefix",
+          "dat_field": "B3-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "administrative_contact.name.prefix",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:PrefixName"
+        },
+        {
+          "label": "First Name",
+          "dat_field": "B3-04",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's first (given) name.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "administrative_contact.name.first_name",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:FirstName"
+        },
+        {
+          "label": "Middle Name",
+          "dat_field": "B3-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's middle name.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "administrative_contact.name.middle_name",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:MiddleName"
+        },
+        {
+          "label": "Last Name",
+          "dat_field": "B3-06",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's last (family) name.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "administrative_contact.name.last_name",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:LastName"
+        },
+        {
+          "label": "Suffix",
+          "dat_field": "B3-07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "administrative_contact.name.suffix",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:SuffixName"
+        },
+        {
+          "label": "Title",
+          "dat_field": "B3-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's title or position within their organization.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "administrative_contact.title",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Title"
+        },
+        {
+          "label": "Street1",
+          "dat_field": "B3-10",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "administrative_contact.address.street1",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Street1"
+        },
+        {
+          "label": "Street2",
+          "dat_field": "B3-11",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "administrative_contact.address.street2",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Street2"
+        },
+        {
+          "label": "City",
+          "dat_field": "B3-12",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the city for the contact's address.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "administrative_contact.address.city",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:City"
+        },
+        {
+          "label": "State",
+          "dat_field": "B3-13",
+          "required": "Conditional (when Country = \"USA: UNITED STATES\")",
+          "type": "Dropdown (state code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the state for the contact's address. Required for US addresses.",
+          "constraints": "StateCodeDataType enumeration",
+          "json_path": "administrative_contact.address.state",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:State"
+        },
+        {
+          "label": "ZIP/Postal Code",
+          "dat_field": "B3-14",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "administrative_contact.address.zip_code",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:ZipPostalCode"
+        },
+        {
+          "label": "Country",
+          "dat_field": "B3-15",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Dropdown (country code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the country for the contact's address.",
+          "constraints": "CountryCodeDataType enumeration",
+          "json_path": "administrative_contact.address.country",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Country"
+        },
+        {
+          "label": "Phone Number",
+          "dat_field": "B3-16",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's daytime telephone number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "administrative_contact.phone",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Phone"
+        },
+        {
+          "label": "Fax Number",
+          "dat_field": "B3-17",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's fax number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "administrative_contact.fax",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Fax"
+        },
+        {
+          "label": "Email",
+          "dat_field": "B3-18",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's email address.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "administrative_contact.email",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Email"
+        }
+      ]
+    },
+    {
+      "title": "4. Project Manager",
+      "fields": [
+        {
+          "label": "Prefix",
+          "dat_field": "B4-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "project_manager.name.prefix",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:PrefixName"
+        },
+        {
+          "label": "First Name",
+          "dat_field": "B4-04",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's first (given) name.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "project_manager.name.first_name",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:FirstName"
+        },
+        {
+          "label": "Middle Name",
+          "dat_field": "B4-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's middle name.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "project_manager.name.middle_name",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:MiddleName"
+        },
+        {
+          "label": "Last Name",
+          "dat_field": "B4-06",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's last (family) name.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "project_manager.name.last_name",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:LastName"
+        },
+        {
+          "label": "Suffix",
+          "dat_field": "B4-07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "project_manager.name.suffix",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:SuffixName"
+        },
+        {
+          "label": "Title",
+          "dat_field": "B4-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's title or position within their organization.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "project_manager.title",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Title"
+        },
+        {
+          "label": "Street1",
+          "dat_field": "B4-10",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "project_manager.address.street1",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Street1"
+        },
+        {
+          "label": "Street2",
+          "dat_field": "B4-11",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the contact's street address.",
+          "constraints": "minLength 1, maxLength 55",
+          "json_path": "project_manager.address.street2",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Street2"
+        },
+        {
+          "label": "City",
+          "dat_field": "B4-12",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the city for the contact's address.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "project_manager.address.city",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:City"
+        },
+        {
+          "label": "State",
+          "dat_field": "B4-13",
+          "required": "Conditional (when Country = \"USA: UNITED STATES\")",
+          "type": "Dropdown (state code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the state for the contact's address. Required for US addresses.",
+          "constraints": "StateCodeDataType enumeration",
+          "json_path": "project_manager.address.state",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:State"
+        },
+        {
+          "label": "ZIP/Postal Code",
+          "dat_field": "B4-14",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "project_manager.address.zip_code",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:ZipPostalCode"
+        },
+        {
+          "label": "Country",
+          "dat_field": "B4-15",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Dropdown (country code list)",
+          "widget": "SelectWidget",
+          "help_text": "Select the country for the contact's address.",
+          "constraints": "CountryCodeDataType enumeration",
+          "json_path": "project_manager.address.country",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Country"
+        },
+        {
+          "label": "Phone Number",
+          "dat_field": "B4-16",
+          "required": "No (per XSD; required when section is started per SGG implementation)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's daytime telephone number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "project_manager.phone",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Phone"
+        },
+        {
+          "label": "Fax Number",
+          "dat_field": "B4-17",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's fax number.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "project_manager.fax",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Fax"
+        },
+        {
+          "label": "Email",
+          "dat_field": "B4-18",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the contact's email address.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "project_manager.email",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Email"
+        }
+      ]
+    }
+  ]
+}
