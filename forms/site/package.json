@@ -12,6 +12,8 @@
     "prebuild": "npm run specs",
     "build": "astro build",
     "preview": "astro preview",
+    "preview:worker": "wrangler dev",
+    "deploy": "wrangler deploy",
     "check": "astro check && tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -59,6 +61,7 @@
     "prettier": "^3.5.3",
     "sass": "^1.87.0",
     "typescript": "^5.8.3",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.3",
+    "wrangler": "^4.147.0"
   }
 }
