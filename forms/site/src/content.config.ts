@@ -56,6 +56,8 @@ const formSchema = z.object({
   category: z.string().optional(),
   widgets: z.array(z.string()).optional().default([]),
   sgg_form_id: z.string().nullable().optional().default(null),
+  /** Id of the compiled TypeSpec form in forms/dist/canonical/forms/, if one exists. */
+  spec_id: z.string().optional(),
   description: z.string().optional().default(""),
   new_concepts: z.array(widgets).optional(),
   sections: z.array(sectionSchema).optional().default([]),
