@@ -6,6 +6,7 @@
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/683",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/Key_Contacts_2_0-V2.0_F683.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/Key_Contacts_2_0-V2.0.xsd",
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/Key_Contacts_2_0-V2.0_F683.xls",
   "apps_count": 14470,
   "status": "in_progress",
   "family": ["SF-424", "R&R", "SF-424 Short", "SF-424 Individual", "SF-424 Mandatory"],
@@ -15,9 +16,6 @@
   "spec_id": "key-contacts",
   "description": "Collects contact information for individuals involved in a project. Captures the applicant organization name and up to four key contact persons with their name, title, organization affiliation, address, phone, fax, and email.",
   "new_concepts": ["FieldListWidget"],
-  "deviations": [
-    "XSD allows 1-4 contacts (maxOccurs=4); DAT does not mention a maximum"
-  ],
   "risks": [
     "Repeatable contact entries require FieldListWidget which needs careful state management for add/remove"
   ],
@@ -41,6 +39,7 @@
     },
     {
       "title": "Contact Information (repeating, 1-4 entries)",
+      "max_occurs": 4,
       "fields": [
         {
           "label": "Contact Project Role",

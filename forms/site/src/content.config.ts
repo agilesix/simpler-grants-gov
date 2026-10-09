@@ -16,6 +16,12 @@ const widgets = z.enum([
   "TableWidget",
 ]);
 
+/** How many times a field can appear in one form; checked by `forms/parity`. */
+const maxOccurs = z.union([
+  z.number().int().positive(),
+  z.literal("unbounded"),
+]);
+
 const fieldSchema = z.object({
   label: z.string(),
   dat_field: z.string().optional(),
@@ -28,10 +34,14 @@ const fieldSchema = z.object({
   post_populated: z.string().optional(),
   json_path: z.string().optional(),
   xml_path: z.string().optional(),
+  /** Overrides the section's `max_occurs`. */
+  max_occurs: maxOccurs.optional(),
 });
 
 const sectionSchema = z.object({
   title: z.string(),
+  /** For a repeating section, how many entries it allows. Defaults to 1. */
+  max_occurs: maxOccurs.optional(),
   fields: z.array(fieldSchema),
 });
 
