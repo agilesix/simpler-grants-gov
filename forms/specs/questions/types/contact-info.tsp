@@ -30,7 +30,7 @@ scalar EmailAddress extends string;
 @UI.label("Contact Information")
 model ContactInfo {
   /** Enter the daytime Telephone Number. */
-  @UI.label("Telephone Number")
+  @UI.label("Phone Number")
   phone?: Questions.Types.PhoneNumber;
 
   /** Enter the Fax Number. */

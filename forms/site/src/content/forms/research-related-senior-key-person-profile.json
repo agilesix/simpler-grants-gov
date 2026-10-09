@@ -179,7 +179,7 @@
           "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Address/globLib:City"
         },
         {
-          "label": "County",
+          "label": "County/Parish",
           "dat_field": "1-14",
           "required": false,
           "type": "Text input",
@@ -227,7 +227,7 @@
           "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Address/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "1-17",
           "required": false,
           "type": "Text input",
@@ -455,7 +455,7 @@
           "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Address/globLib:City"
         },
         {
-          "label": "County",
+          "label": "County/Parish",
           "dat_field": "2-14",
           "required": false,
           "type": "Text input",
@@ -499,7 +499,7 @@
           "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Address/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "2-17",
           "required": false,
           "type": "Text input",

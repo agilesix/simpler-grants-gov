@@ -309,7 +309,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "07d-9",
           "required": "No (conditionally required when Country = USA per DAT)",
           "type": "Text input",
@@ -424,7 +424,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactOrganizationalAffiliation"
         },
         {
-          "label": "Telephone Number",
+          "label": "Phone Number",
           "dat_field": "07f-09",
           "required": true,
           "type": "Text input",
@@ -797,7 +797,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeOrganizationalAffiliation"
         },
         {
-          "label": "Telephone Number",
+          "label": "Phone Number",
           "dat_field": "18-07",
           "required": true,
           "type": "Text input",

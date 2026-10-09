@@ -185,7 +185,7 @@
           "xml_path": "SF424_4_0:SAMUEI"
         },
         {
-          "label": "Street 1",
+          "label": "Street1",
           "dat_field": "08-d1",
           "required": true,
           "type": "Text input",
@@ -196,7 +196,7 @@
           "xml_path": "SF424_4_0:Applicant/globLib:Street1"
         },
         {
-          "label": "Street 2",
+          "label": "Street2",
           "dat_field": "08-d2",
           "required": false,
           "type": "Text input",
@@ -247,7 +247,7 @@
           "xml_path": "SF424_4_0:Applicant/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "08-d8",
           "required": false,
           "type": "Text input",
@@ -436,7 +436,7 @@
           "xml_path": "SF424_4_0:AORInfo/SF424_4_0:Title"
         },
         {
-          "label": "Phone",
+          "label": "Phone Number",
           "dat_field": "21-f08",
           "required": true,
           "type": "Text input",

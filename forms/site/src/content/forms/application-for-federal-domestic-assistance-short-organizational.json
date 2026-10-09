@@ -198,7 +198,7 @@
           "xml_path": "SF424_Short_3_0:Address/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "5b-9",
           "required": false,
           "type": "Text input",
@@ -527,7 +527,7 @@
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "7-19",
           "required": false,
           "type": "Text input",
@@ -730,7 +730,7 @@
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "8-20",
           "required": false,
           "type": "Text input",

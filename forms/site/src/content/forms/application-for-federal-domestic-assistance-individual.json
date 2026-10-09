@@ -249,7 +249,7 @@
           "xml_path": "SF424_Individual_2_0:AuthorizedRepresentativeAddress/globLib:Country"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Zip / Postal Code",
           "dat_field": "5b-8",
           "required": "No (per XSD)",
           "type": "Text input",

@@ -54,11 +54,11 @@ namespace AddressParts {
 @UI.label("Address")
 model Address {
   /** Enter the first line of the Street Address. */
-  @UI.label("Street 1")
+  @UI.label("Street1")
   street1?: Questions.Types.AddressParts.Street1;
 
   /** Enter the second line of the Street Address. */
-  @UI.label("Street 2")
+  @UI.label("Street2")
   street2?: Questions.Types.AddressParts.Street2;
 
   /** Enter the city. */
