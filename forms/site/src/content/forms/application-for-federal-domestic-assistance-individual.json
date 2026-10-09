@@ -19,7 +19,7 @@
   ],
   "sgg_form_id": null,
   "description": "Application for Federal Domestic Assistance - Individual (SF424_Individual_2_0) collects application information from individual applicants seeking federal domestic assistance. Unlike other SF-424 variants, this form has no organization, EIN, or estimated funding sections -- the applicant IS the individual. It captures the applicant's name, address, contact information, citizenship status, project details, and certification. This is the simplest form in the SF-424 family, designed exclusively for individual (non-organizational) applicants.",
-  "deviations": [
+  "notes": [
     "State requirement: DAT describes State as \"required if Country is the United States.\" The XSD marks State as optional (within AddressDataTypeV3, minOccurs=\"0\"). Resolution: follow the XSD. State is conditionally required only when Country is USA, enforced at the UI level.",
     "ZIP/Postal Code requirement: DAT says ZIP is \"required if the country is the United States\" with minimum 9 characters for US addresses. The XSD marks ZipPostalCode as optional (minOccurs=\"0\"). Resolution: follow the XSD for XML validation; enforce the US-specific rule at the UI level.",
     "Citizenship conditional fields: DAT says Country of Citizenship and Residency Start Date are \"required\" when citizenship = No, but the XSD marks both as optional (minOccurs=\"0\"). Resolution: follow the XSD for XML validation; enforce the conditional requirement at the UI level.",

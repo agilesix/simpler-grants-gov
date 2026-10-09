@@ -19,7 +19,7 @@
   ],
   "description": "Research and Related Senior/Key Person Profile (Expanded) (RR_KeyPersonExpanded_4_0) is the expanded version of the R&R Senior/Key Person Profile form. It adds Degree Type and Degree Year fields to the person profile and is the most widely used form in this category, appearing in 7.89% of all grant applications.",
   "sgg_form_id": "rr_key_person_expanded",
-  "deviations": [
+  "notes": [
     "State/ZIP requirement: DAT shows asterisks on State and ZIP for Key Person entries, implying they are always required. The XSD marks both as optional. Resolution: follow the XSD. State is conditionally required when Country is USA.",
     "BioSketch requirement for Key Person: DAT implies BioSketch is required for Key Person. The XSD marks BioSketchsAttached as minOccurs=\"0\" within the KeyPerson profile. Resolution: follow the XSD. BioSketch is optional for Key Person but required for PD/PI.",
     "Department/Division maxLength: The XSD uses V2 types with maxLength 100. We use the XSD constraint (100).",

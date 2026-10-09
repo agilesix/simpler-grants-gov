@@ -18,7 +18,7 @@
     "FieldListWidget"
   ],
   "description": "NSF Senior Key Person Profile (Expanded) (NSF_KeyPersonExpanded_3_3) is an NSF-specific variant of the R&R Senior/Key Person Profile (Expanded) form.",
-  "deviations": [
+  "notes": [
     "State/ZIP requirement: DAT shows asterisks on State and ZIP for some entries. The XSD marks both as optional. Resolution: follow the XSD. State is conditionally required when Country is USA.",
     "Degree Type and Degree Year: DAT includes Degree Type and Degree Year fields. The NSF XSD `PDPIProfileDataType` does NOT include `DegreeType` or `DegreeYear` elements (unlike the R&R Expanded form). These are managed via Research.gov and displayed read-only. Resolution: show these as read-only display fields, not submitted in XML.",
     "Attachment requirements: DAT indicates BioSketch, Current & Pending Support, and Collaborators are optional for Key Person, with only Synergistic Activities required. The XSD makes all 4 attachments required (not `minOccurs=\"0\"`) for BOTH PD/PI and Key Person. Resolution: follow the XSD. All 4 attachments are required for both.",

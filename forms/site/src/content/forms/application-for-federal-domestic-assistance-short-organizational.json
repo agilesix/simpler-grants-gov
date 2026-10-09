@@ -19,7 +19,7 @@
   ],
   "description": "Application for Federal Domestic Assistance - Short Organizational (SF424_Short_3_0) is a simplified SF-424 variant for organizational applicants. It collects the applicant organization, project information, a project director, an optional primary contact/grants administrator, and an authorized representative certification. It is shorter than the full SF-424: it omits funding estimates, state review, delinquent debt, and federal identifiers.",
   "sgg_form_id": "sf424_short",
-  "deviations": [
+  "notes": [
     "State requirement: DAT marks State as required (*) for both applicant and project director addresses. The XSD makes State optional within `AddressDataTypeV3` (in a choice group with Province, both minOccurs=\"0\"). Resolution: follow the XSD. State is conditionally required when Country is USA.",
     "ZIP/Postal Code requirement: DAT marks ZIP as required (*) for both applicant and project director addresses. The XSD marks `ZipPostalCode` as optional (minOccurs=\"0\"). Resolution: follow the XSD. ZIP is optional.",
     "Title requirement (Project Director): DAT marks Title as required (*) for the Project Director. The XSD makes `Title` optional within `ContactPersonDataTypeV3` (minOccurs=\"0\"). Resolution: follow the XSD for XML validation; the SGG implementation may enforce Title as required at the UI level.",

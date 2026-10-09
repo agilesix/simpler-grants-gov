@@ -72,7 +72,11 @@ const formSchema = z.object({
   description: z.string().optional().default(""),
   new_concepts: z.array(widgets).optional(),
   sections: z.array(sectionSchema).optional().default([]),
-  deviations: z.array(z.string()).optional(),
+  /**
+   * Narrative context nothing verifies. Deviations from Grants.gov that can be verified are
+   * recorded in `forms/parity/diffs/` instead.
+   */
+  notes: z.array(z.string()).optional(),
   risks: z.array(z.string()).optional(),
 });
 

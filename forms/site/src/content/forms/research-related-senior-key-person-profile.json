@@ -19,7 +19,7 @@
   ],
   "description": "Research & Related Senior/Key Person Profile (RR_KeyPerson_3_0) collects biographical and contact information for the PD/PI and other senior/key persons on a research project. Each person profile includes name, title, address, phone, email, organization, department, division, credential, and project role, plus attachment fields for biographical sketches and current & pending support.",
   "sgg_form_id": "rr_key_person_expanded",
-  "deviations": [
+  "notes": [
     "State/ZIP requirement: DAT shows asterisks on State and ZIP for some entries, implying they are always required. The XSD marks both as optional (State and Province are in a choice group, both minOccurs=\"0\"; ZipPostalCode is minOccurs=\"0\"). Resolution: follow the XSD. State is conditionally required when Country is USA.",
     "Department/Division maxLength: The XSD uses DepartmentNameDataTypeV2 and DivisionNameDataTypeV2, both with maxLength 100. Older versions used maxLength 30. We use the V2 constraint (100).",
     "ZIP/Postal Code maxLength: The XSD defines ZipPostalCodeDataType with maxLength 30. We will use the XSD constraint (30)."

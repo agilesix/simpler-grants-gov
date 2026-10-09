@@ -19,7 +19,7 @@
   ],
   "sgg_form_id": null,
   "description": "SF 424 (R&R) (RR_SF424_5_0) is the Application for Federal Assistance used for Research and Related programs. It collects submission type, applicant organization information, contact person details, employer identification, applicant type, application type with revision codes, federal agency and assistance listing info, project title and period, congressional district, PD/PI contact information, estimated funding, state review status, certifications, authorized representative details, and optional attachments.",
-  "deviations": [
+  "notes": [
     "Contact Person Email: the XSD marks Email in ContactPersonInfo as minOccurs=\"0\" (optional), and the DAT (05-9) also says \"No\" for required. This differs from PD/PI Email (14-13) and AOR Email (19-13) which are both required. Resolution: follow the XSD. Contact Person Email is optional.",
     "AOR Title requirement: the AORInfoType in the XSD makes Title required (no minOccurs=\"0\"), unlike OrganizationContactPersonDataType where Title is optional (minOccurs=\"0\"). The DAT (19-06) confirms Title is required for the AOR. Resolution: follow the XSD. AOR Title is required; PD/PI Title is optional.",
     "ZIP/Postal Code conditional minLength: the DAT business rules for ZIP fields (05-5g, 05-6n, 14-10g, 19-10g) state \"If US, min character = 9, max remains the same.\" The XSD defines ZipPostalCodeDataType as minLength 1, maxLength 30 with no conditional validation. Resolution: implement the DAT business rule as a conditional validation. When Country = USA, require minLength 9.",

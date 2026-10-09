@@ -11,7 +11,8 @@ export default defineConfig({
       dedupe: ["react", "react-dom", "@trussworks/react-uswds"],
     },
     server: {
-      fs: { allow: [".", FRONTEND_ROOT] },
+      // `../parity` holds the recorded deviations each form page lists.
+      fs: { allow: [".", "../parity", FRONTEND_ROOT] },
     },
     css: {
       preprocessorOptions: {

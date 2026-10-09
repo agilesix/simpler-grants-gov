@@ -20,7 +20,7 @@
   ],
   "sgg_form_id": null,
   "description": "SF424 Mandatory Form (SF424_Mandatory_3_0) is a streamlined variant of the SF-424 used for formula grants, block grants, and other mandatory awards. Unlike the standard SF-424, it includes submission type, frequency, version, and consolidated request fields, but has a reduced estimated funding section (Federal and Match only, versus 7 line items on the standard SF-424).",
-  "deviations": [
+  "notes": [
     "Organization optionality: The XSD marks the Organization element as optional (minOccurs=\"0\"), but the DAT marks Legal Name, EIN/TIN, and UEI as required. Resolution: follow the XSD. Organization is optional at the XML level; when present, its sub-fields (OrgName, SAMUEI) are required within the complex type. Enforce required sub-fields at the UI level only when the organization section is shown.",
     "EIN/TIN placement: The DAT shows EIN/TIN as a separate field (07b-1) outside the organization address, but in the XSD it is nested inside OrganizationDataTypeV4. Resolution: follow the XSD nesting. The UI can display it as a separate field while mapping to the correct XML path.",
     "State requirement: DAT says State is \"required if Country is the United States\" but the XSD marks State as optional (minOccurs=\"0\" within AddressDataTypeV3). Resolution: follow the XSD for XML validation; enforce the conditional rule at the UI level.",
