@@ -34,7 +34,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "help_text": "Enter the Prefix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "authorized_representative.name.prefix",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:PrefixName"
@@ -45,7 +45,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's first (given) name.",
+          "help_text": "Enter the First Name.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "authorized_representative.name.first_name",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:FirstName"
@@ -56,7 +56,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's middle name.",
+          "help_text": "Enter the Middle Name.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "authorized_representative.name.middle_name",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:MiddleName"
@@ -67,7 +67,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's last (family) name.",
+          "help_text": "Enter the Last Name.",
           "constraints": "minLength 1, maxLength 60",
           "json_path": "authorized_representative.name.last_name",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:LastName"
@@ -78,7 +78,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "help_text": "Enter the Suffix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "authorized_representative.name.suffix",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:SuffixName"
@@ -89,7 +89,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's title or position within their organization.",
+          "help_text": "Enter the contact's position title.",
           "constraints": "minLength 1, maxLength 45",
           "json_path": "authorized_representative.title",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Title"
@@ -100,7 +100,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the contact's street address.",
+          "help_text": "Enter the first line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "authorized_representative.address.street1",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Street1"
@@ -111,7 +111,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the second line of the contact's street address.",
+          "help_text": "Enter the second line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "authorized_representative.address.street2",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Street2"
@@ -122,10 +122,20 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the city for the contact's address.",
+          "help_text": "Enter the city.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "authorized_representative.address.city",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:City"
+        },
+        {
+          "label": "County/Parish",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the County or Parish.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "authorized_representative.address.county",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:County"
         },
         {
           "label": "State",
@@ -133,18 +143,28 @@
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
           "type": "Dropdown (state code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the contact's address. Required for US addresses.",
-          "constraints": "StateCodeDataType enumeration",
+          "help_text": "Enter the state.",
+          "constraints": "StateCodeDataTypeV3 enumeration",
           "json_path": "authorized_representative.address.state",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:State"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Province",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the province.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "authorized_representative.address.province",
+          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Province"
+        },
+        {
+          "label": "Zip / Postal Code",
           "dat_field": "B1-14",
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
           "constraints": "minLength 1, maxLength 30",
           "json_path": "authorized_representative.address.zip_code",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:ZipPostalCode"
@@ -155,8 +175,8 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Dropdown (country code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the country for the contact's address.",
-          "constraints": "CountryCodeDataType enumeration",
+          "help_text": "Enter the country.",
+          "constraints": "CountryCodeDataTypeV3 enumeration",
           "json_path": "authorized_representative.address.country",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Country"
         },
@@ -166,7 +186,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's daytime telephone number.",
+          "help_text": "Enter the daytime Telephone Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "authorized_representative.phone",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Phone"
@@ -177,7 +197,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's fax number.",
+          "help_text": "Enter the Fax Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "authorized_representative.fax",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Fax"
@@ -188,8 +208,8 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's email address.",
-          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter a valid email Address.",
+          "constraints": "minLength 1, maxLength 60, format email",
           "json_path": "authorized_representative.email",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Email"
         }
@@ -204,7 +224,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "help_text": "Enter the Prefix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "payee.name.prefix",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:PrefixName"
@@ -215,7 +235,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's first (given) name.",
+          "help_text": "Enter the First Name.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "payee.name.first_name",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:FirstName"
@@ -226,7 +246,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's middle name.",
+          "help_text": "Enter the Middle Name.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "payee.name.middle_name",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:MiddleName"
@@ -237,7 +257,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's last (family) name.",
+          "help_text": "Enter the Last Name.",
           "constraints": "minLength 1, maxLength 60",
           "json_path": "payee.name.last_name",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:LastName"
@@ -248,7 +268,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "help_text": "Enter the Suffix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "payee.name.suffix",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:SuffixName"
@@ -259,7 +279,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's title or position within their organization.",
+          "help_text": "Enter the contact's position title.",
           "constraints": "minLength 1, maxLength 45",
           "json_path": "payee.title",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Title"
@@ -270,7 +290,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the contact's street address.",
+          "help_text": "Enter the first line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "payee.address.street1",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Street1"
@@ -281,7 +301,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the second line of the contact's street address.",
+          "help_text": "Enter the second line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "payee.address.street2",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Street2"
@@ -292,10 +312,20 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the city for the contact's address.",
+          "help_text": "Enter the city.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "payee.address.city",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:City"
+        },
+        {
+          "label": "County/Parish",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the County or Parish.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "payee.address.county",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:County"
         },
         {
           "label": "State",
@@ -303,18 +333,28 @@
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
           "type": "Dropdown (state code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the contact's address. Required for US addresses.",
-          "constraints": "StateCodeDataType enumeration",
+          "help_text": "Enter the state.",
+          "constraints": "StateCodeDataTypeV3 enumeration",
           "json_path": "payee.address.state",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:State"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Province",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the province.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "payee.address.province",
+          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Province"
+        },
+        {
+          "label": "Zip / Postal Code",
           "dat_field": "B2-14",
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
           "constraints": "minLength 1, maxLength 30",
           "json_path": "payee.address.zip_code",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:ZipPostalCode"
@@ -325,8 +365,8 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Dropdown (country code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the country for the contact's address.",
-          "constraints": "CountryCodeDataType enumeration",
+          "help_text": "Enter the country.",
+          "constraints": "CountryCodeDataTypeV3 enumeration",
           "json_path": "payee.address.country",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Country"
         },
@@ -336,7 +376,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's daytime telephone number.",
+          "help_text": "Enter the daytime Telephone Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "payee.phone",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Phone"
@@ -347,7 +387,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's fax number.",
+          "help_text": "Enter the Fax Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "payee.fax",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Fax"
@@ -358,8 +398,8 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's email address.",
-          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter a valid email Address.",
+          "constraints": "minLength 1, maxLength 60, format email",
           "json_path": "payee.email",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Email"
         }
@@ -374,7 +414,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "help_text": "Enter the Prefix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "administrative_contact.name.prefix",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:PrefixName"
@@ -385,7 +425,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's first (given) name.",
+          "help_text": "Enter the First Name.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "administrative_contact.name.first_name",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:FirstName"
@@ -396,7 +436,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's middle name.",
+          "help_text": "Enter the Middle Name.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "administrative_contact.name.middle_name",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:MiddleName"
@@ -407,7 +447,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's last (family) name.",
+          "help_text": "Enter the Last Name.",
           "constraints": "minLength 1, maxLength 60",
           "json_path": "administrative_contact.name.last_name",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:LastName"
@@ -418,7 +458,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "help_text": "Enter the Suffix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "administrative_contact.name.suffix",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:SuffixName"
@@ -429,7 +469,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's title or position within their organization.",
+          "help_text": "Enter the contact's position title.",
           "constraints": "minLength 1, maxLength 45",
           "json_path": "administrative_contact.title",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Title"
@@ -440,7 +480,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the contact's street address.",
+          "help_text": "Enter the first line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "administrative_contact.address.street1",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Street1"
@@ -451,7 +491,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the second line of the contact's street address.",
+          "help_text": "Enter the second line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "administrative_contact.address.street2",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Street2"
@@ -462,10 +502,20 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the city for the contact's address.",
+          "help_text": "Enter the city.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "administrative_contact.address.city",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:City"
+        },
+        {
+          "label": "County/Parish",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the County or Parish.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "administrative_contact.address.county",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:County"
         },
         {
           "label": "State",
@@ -473,18 +523,28 @@
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
           "type": "Dropdown (state code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the contact's address. Required for US addresses.",
-          "constraints": "StateCodeDataType enumeration",
+          "help_text": "Enter the state.",
+          "constraints": "StateCodeDataTypeV3 enumeration",
           "json_path": "administrative_contact.address.state",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:State"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Province",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the province.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "administrative_contact.address.province",
+          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Province"
+        },
+        {
+          "label": "Zip / Postal Code",
           "dat_field": "B3-14",
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
           "constraints": "minLength 1, maxLength 30",
           "json_path": "administrative_contact.address.zip_code",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:ZipPostalCode"
@@ -495,8 +555,8 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Dropdown (country code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the country for the contact's address.",
-          "constraints": "CountryCodeDataType enumeration",
+          "help_text": "Enter the country.",
+          "constraints": "CountryCodeDataTypeV3 enumeration",
           "json_path": "administrative_contact.address.country",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Country"
         },
@@ -506,7 +566,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's daytime telephone number.",
+          "help_text": "Enter the daytime Telephone Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "administrative_contact.phone",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Phone"
@@ -517,7 +577,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's fax number.",
+          "help_text": "Enter the Fax Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "administrative_contact.fax",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Fax"
@@ -528,8 +588,8 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's email address.",
-          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter a valid email Address.",
+          "constraints": "minLength 1, maxLength 60, format email",
           "json_path": "administrative_contact.email",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Email"
         }
@@ -544,7 +604,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Select the prefix for the contact's name (e.g., Mr., Ms., Dr.).",
+          "help_text": "Enter the Prefix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "project_manager.name.prefix",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:PrefixName"
@@ -555,7 +615,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's first (given) name.",
+          "help_text": "Enter the First Name.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "project_manager.name.first_name",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:FirstName"
@@ -566,7 +626,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's middle name.",
+          "help_text": "Enter the Middle Name.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "project_manager.name.middle_name",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:MiddleName"
@@ -577,7 +637,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's last (family) name.",
+          "help_text": "Enter the Last Name.",
           "constraints": "minLength 1, maxLength 60",
           "json_path": "project_manager.name.last_name",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:LastName"
@@ -588,7 +648,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the suffix for the contact's name (e.g., Jr., Sr., PhD).",
+          "help_text": "Enter the Suffix.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "project_manager.name.suffix",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:SuffixName"
@@ -599,7 +659,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's title or position within their organization.",
+          "help_text": "Enter the contact's position title.",
           "constraints": "minLength 1, maxLength 45",
           "json_path": "project_manager.title",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Title"
@@ -610,7 +670,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the contact's street address.",
+          "help_text": "Enter the first line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "project_manager.address.street1",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Street1"
@@ -621,7 +681,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the second line of the contact's street address.",
+          "help_text": "Enter the second line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "project_manager.address.street2",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Street2"
@@ -632,10 +692,20 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the city for the contact's address.",
+          "help_text": "Enter the city.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "project_manager.address.city",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:City"
+        },
+        {
+          "label": "County/Parish",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the County or Parish.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "project_manager.address.county",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:County"
         },
         {
           "label": "State",
@@ -643,18 +713,28 @@
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
           "type": "Dropdown (state code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the contact's address. Required for US addresses.",
-          "constraints": "StateCodeDataType enumeration",
+          "help_text": "Enter the state.",
+          "constraints": "StateCodeDataTypeV3 enumeration",
           "json_path": "project_manager.address.state",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:State"
         },
         {
-          "label": "ZIP/Postal Code",
+          "label": "Province",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the province.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "project_manager.address.province",
+          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Province"
+        },
+        {
+          "label": "Zip / Postal Code",
           "dat_field": "B4-14",
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the ZIP or postal code for the contact's address.",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
           "constraints": "minLength 1, maxLength 30",
           "json_path": "project_manager.address.zip_code",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:ZipPostalCode"
@@ -665,8 +745,8 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Dropdown (country code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the country for the contact's address.",
-          "constraints": "CountryCodeDataType enumeration",
+          "help_text": "Enter the country.",
+          "constraints": "CountryCodeDataTypeV3 enumeration",
           "json_path": "project_manager.address.country",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Country"
         },
@@ -676,7 +756,7 @@
           "required": "No (per XSD; required when section is started per SGG implementation)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's daytime telephone number.",
+          "help_text": "Enter the daytime Telephone Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "project_manager.phone",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Phone"
@@ -687,7 +767,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's fax number.",
+          "help_text": "Enter the Fax Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "project_manager.fax",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Fax"
@@ -698,8 +778,8 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the contact's email address.",
-          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter a valid email Address.",
+          "constraints": "minLength 1, maxLength 60, format email",
           "json_path": "project_manager.email",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Email"
         }
