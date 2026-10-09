@@ -20,7 +20,7 @@ export interface ValidationWarning {
 /** Ajv reports a failed `if/then` twice: the `then` failure and a summary `if` error. */
 const isReportable = (error: ErrorObject) => error.keyword !== "if";
 
-/** `/keyContacts/0/name` -> `$.keyContacts[0].name`, the API's JSON path spelling. */
+/** `/key_contacts/0/name` -> `$.key_contacts[0].name`, the API's JSON path spelling. */
 const toJsonPath = (instancePath: string) =>
   instancePath
     .split("/")

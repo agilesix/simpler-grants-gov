@@ -82,14 +82,14 @@ describe("validation rules", () => {
   it("requires state and zip code for a US address", async () => {
     const { schema, example } = await loadFormSpec("key-contacts");
     const data = clone(example) as {
-      keyContacts: { address: Record<string, string> }[];
+      key_contacts: { address: Record<string, string> }[];
     };
-    delete data.keyContacts[0].address.state;
+    delete data.key_contacts[0].address.state;
     const validate = createAjv().compile(schema);
     expect(validate(data)).toBe(false);
     expect(validate.errors).toContainEqual(
       expect.objectContaining({
-        instancePath: "/keyContacts/0/address",
+        instancePath: "/key_contacts/0/address",
         params: { missingProperty: "state" },
       }),
     );
@@ -98,9 +98,9 @@ describe("validation rules", () => {
   it("requires a key contact's email", async () => {
     const { schema, example } = await loadFormSpec("key-contacts");
     const data = clone(example) as {
-      keyContacts: { contact: Record<string, string> }[];
+      key_contacts: { contact: Record<string, string> }[];
     };
-    delete data.keyContacts[0].contact.email;
+    delete data.key_contacts[0].contact.email;
     expect(createAjv().compile(schema)(data)).toBe(false);
   });
 
@@ -118,7 +118,7 @@ describe("UI layout", () => {
   it("lays out each key contacts entry with the item question's UI", async () => {
     const { uischema } = await loadFormSpec("key-contacts");
     const list = (uischema as unknown as UiNode).elements?.find(
-      (el) => el.scope === "#/properties/keyContacts",
+      (el) => el.scope === "#/properties/key_contacts",
     );
     expect(list?.options?.detail?.label).toBe("Key Contact");
   });

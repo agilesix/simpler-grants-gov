@@ -3,3 +3,4 @@ emit:
 options:
   simpler-forms:
     emitter-output-dir: "{project-root}/dist/canonical"
+    property-casing: snake
