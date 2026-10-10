@@ -29,6 +29,7 @@ const PREBUNDLE = [
   "@jsonforms/core",
   "@jsonforms/react",
   "@jsonforms/vanilla-renderers",
+  "@nanostores/react",
   "@rjsf/utils",
   "@trussworks/react-uswds",
   "ajv/dist/2020.js",
@@ -43,6 +44,7 @@ const PREBUNDLE = [
   "json-schema-merge-allof",
   "lodash",
   "lodash/noop",
+  "nanostores",
 ];
 
 const isBare = (source) =>
