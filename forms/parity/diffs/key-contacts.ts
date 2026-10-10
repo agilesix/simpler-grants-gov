@@ -1,22 +1,10 @@
-import type { FormDiff, Pinned, Recorded, Renamed } from "../harness/model.ts";
+import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
 import {
   FREE_TEXT_HELP,
   LIST_HELP,
   SHARED_HELP,
   standardLabel,
 } from "./common.ts";
-
-const contactInfo: Record<string, Renamed> = Object.fromEntries(
-  ["phone", "fax", "email"].map((field) => [
-    `key_contacts[].${field}`,
-    {
-      to: `key_contacts[].contact.${field}`,
-      category: "intentional",
-      reason:
-        "The plan lists phone, fax and email beside the contact's name, as the existing SGG form does; the spec groups them in one shared `contact` question (Questions.Types.ContactInfo).",
-    },
-  ]),
-);
 
 /** The DAT stars State and Zip but answers "No" in its Required column; both are required only for a US address. */
 const conditionalStar = (label: string): Pinned => ({
@@ -133,13 +121,13 @@ const help: Record<string, Pinned> = {
     source:
       "Enter the Postal Code (e.g., ZIP code). This field is required if Country is the United States.",
   },
-  // key_contacts[].phone
+  // key_contacts[].contact.phone
   "7-18": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Enter the daytime Telephone Number. This field is required.",
   },
-  // key_contacts[].email
+  // key_contacts[].contact.email
   "7-20": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -160,6 +148,4 @@ export const DIFF: FormDiff = {
     },
     differingHelp: help,
   },
-  jsonSchema: { renamed: contactInfo },
-  uiSchema: { renamed: contactInfo },
 };

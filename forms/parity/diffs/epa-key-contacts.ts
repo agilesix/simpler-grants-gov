@@ -1,4 +1,4 @@
-import type { FormDiff, Pinned, Recorded, Renamed } from "../harness/model.ts";
+import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
 import {
   FREE_TEXT_HELP,
   LIST_HELP,
@@ -12,20 +12,6 @@ const ROLES = [
   "administrative_contact",
   "project_manager",
 ];
-
-const contactInfo: Record<string, Renamed> = Object.fromEntries(
-  ROLES.flatMap((role) =>
-    ["phone", "fax", "email"].map((field) => [
-      `${role}.${field}`,
-      {
-        to: `${role}.contact.${field}`,
-        category: "intentional",
-        reason:
-          "The plan lists phone, fax and email beside each contact's name, as the existing SGG form does; the spec groups them in one shared `contact` question (Questions.Types.ContactInfo).",
-      },
-    ]),
-  ),
-);
 
 const addressOrder: Record<string, Recorded> = Object.fromEntries(
   ROLES.map((role) => [
@@ -124,19 +110,19 @@ const help: Record<string, Pinned> = {
     source:
       "Please enter the Authorized Representative's Country. Select from the pull down menu.",
   },
-  // authorized_representative.phone
+  // authorized_representative.contact.phone
   "B1-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Authorized Representative's Phone Number.",
   },
-  // authorized_representative.fax
+  // authorized_representative.contact.fax
   "B1-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Authorized Representative's Fax Number.",
   },
-  // authorized_representative.email
+  // authorized_representative.contact.email
   "B1-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -216,19 +202,19 @@ const help: Record<string, Pinned> = {
     plan: "Enter the country.",
     source: "Please enter the Payee's Country. Select from the pull down menu.",
   },
-  // payee.phone
+  // payee.contact.phone
   "B2-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Payee's Phone Number.",
   },
-  // payee.fax
+  // payee.contact.fax
   "B2-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Payee's Fax Number.",
   },
-  // payee.email
+  // payee.contact.email
   "B2-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -312,19 +298,19 @@ const help: Record<string, Pinned> = {
     source:
       "Please enter the Administrative Contact's Country. Select from the pull down menu.",
   },
-  // administrative_contact.phone
+  // administrative_contact.contact.phone
   "B3-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Administrative Contact's Phone Number.",
   },
-  // administrative_contact.fax
+  // administrative_contact.contact.fax
   "B3-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Administrative Contact's Fax Number.",
   },
-  // administrative_contact.email
+  // administrative_contact.contact.email
   "B3-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -408,19 +394,19 @@ const help: Record<string, Pinned> = {
     source:
       "Please enter the Project Manager's Country. Select from the pull down menu.",
   },
-  // project_manager.phone
+  // project_manager.contact.phone
   "B4-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Project Manager's Phone Number.",
   },
-  // project_manager.fax
+  // project_manager.contact.fax
   "B4-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Project Manager's Fax Number.",
   },
-  // project_manager.email
+  // project_manager.contact.email
   "B4-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -439,6 +425,5 @@ export const DIFF: FormDiff = {
     ),
     differingHelp: help,
   },
-  jsonSchema: { renamed: contactInfo },
-  uiSchema: { renamed: contactInfo, outOfOrder: addressOrder },
+  uiSchema: { outOfOrder: addressOrder },
 };

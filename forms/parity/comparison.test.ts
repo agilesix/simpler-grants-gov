@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import {
   compareForm,
   type Attribute,
+  type ComparisonNode,
   type FormComparison,
   type Source,
 } from "./comparison.ts";
@@ -49,10 +50,40 @@ describe("Key Contacts", () => {
   });
 
   describe("Phone Number", () => {
-    it("form names it differently on purpose", () => {
-      expect(statusOf(form, "key_contacts[].phone", "matchedBy", "form")).toBe(
-        "intentional",
+    it("form matches it by its path in the Contact Info group", () => {
+      expect(
+        statusOf(form, "key_contacts[].contact.phone", "matchedBy", "form"),
+      ).toBe("match");
+    });
+  });
+
+  describe("the tree", () => {
+    const labels = (nodes: ComparisonNode[]): unknown[] =>
+      nodes.flatMap((node) =>
+        node.kind === "section"
+          ? [{ [node.section.label]: labels(node.children) }]
+          : [],
       );
+
+    it("nests sections as the plan does", () => {
+      expect(labels(form.children)).toEqual([
+        { "Applicant Information": [] },
+        {
+          "Contact Information": [
+            { Name: [] },
+            { Address: [] },
+            { "Contact Info": [] },
+          ],
+        },
+      ]);
+    });
+
+    it("names every field in the tree by a comparison", () => {
+      const ids = (nodes: ComparisonNode[]): string[] =>
+        nodes.flatMap((node) =>
+          node.kind === "field" ? [node.id] : ids(node.children),
+        );
+      expect(ids(form.children)).toEqual(form.fields.map((f) => f.id));
     });
   });
 

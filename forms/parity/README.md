@@ -63,8 +63,8 @@ and the plan's label gets one wherever the plan says the field is required, so a
 differs on the asterisk where the DAT and the plan disagree about requiredness (a DAT `*`
 on a field the plan makes conditional, for example).
 
-Occurrences are how many times a field can appear in one form: `max_occurs` on a plan
-section (inherited by its fields, which can override it; 1 by default), the DAT's Maximum
+Occurrences are how many times a field can appear in one form: `max_items` on a plan
+node (a field's own, else its nearest repeating section's; 1 by default), the DAT's Maximum
 Occurrences, the product of `maxOccurs` above an XSD element, and the product of `maxItems`
 above a schema field. Only the maximum is compared: the DAT's minimum occurrences restates
 requiredness, like its minimum characters.
