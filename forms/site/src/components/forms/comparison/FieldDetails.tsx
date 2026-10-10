@@ -23,8 +23,12 @@ function Group({ title, items }: { title: string; items: Item[] }) {
   );
 }
 
-/** Where the field lives in each source, and what fills it in, collapsed by default. */
-export default function FieldDetails({ field }: { field: FieldNode }) {
+/** What a field or section says about where it lives in each source and what fills it in. */
+type DetailsOf = Pick<FieldNode, "dat_field" | "xml_path" | "json_path"> &
+  Partial<Pick<FieldNode, "pre_populated" | "post_populated">>;
+
+/** Where a field or section lives in each source, and what fills it in, collapsed by default. */
+export default function FieldDetails({ field }: { field: DetailsOf }) {
   const ids = [
     { term: "DAT #", value: field.dat_field },
     { term: "XSD path", value: field.xml_path },

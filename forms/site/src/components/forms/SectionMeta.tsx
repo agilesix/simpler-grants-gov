@@ -1,33 +1,25 @@
 import type { SectionNode } from "@/content.config";
 
-/** A section's help text and where it lives in each source, always visible under its summary. */
+import FieldDetails from "./comparison/FieldDetails";
+
+/**
+ * What a section says about itself, laid out as a field row lays out a field: its help text,
+ * its widget, and the same collapsed Details with its source IDs.
+ */
 export default function SectionMeta({
   section,
 }: {
   section: Omit<SectionNode, "children">;
 }) {
-  const ids = [
-    { term: "JSON", value: section.json_path },
-    { term: "XML", value: section.xml_path },
-    { term: "DAT", value: section.dat_field },
-    { term: "Widget", value: section.widget },
-  ].filter((item) => item.value);
-  if (!section.help_text && !ids.length) return null;
   return (
     <div className="section-meta">
       {section.help_text && (
-        <p className="section-meta__help">{section.help_text}</p>
+        <div className="field-row__help">{section.help_text}</div>
       )}
-      {ids.length > 0 && (
-        <dl className="section-meta__ids">
-          {ids.map(({ term, value }) => (
-            <div key={term}>
-              <dt>{term}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
+      {section.widget && (
+        <div className="field-row__tertiary">{section.widget}</div>
       )}
+      <FieldDetails field={section} />
     </div>
   );
 }

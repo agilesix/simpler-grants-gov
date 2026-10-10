@@ -1362,40 +1362,16 @@ details[open] > .group-header::before {
   color: color("base-darker");
 }
 
-// Always visible: a section has no Compare sheet, so its IDs sit under its summary.
+// A section's help, widget and Details, indented to its label as a field row's are.
 .section-meta {
-  padding: units("05") units(2) units(1) units(4);
-  @include u-font("sans", "3xs");
-  color: color("base");
+  padding: 0 units(2) units(1) units(4);
+
+  &:empty {
+    display: none;
+  }
 
   @media (max-width: 640px) {
     padding-left: units(2);
-  }
-}
-
-.section-meta__help {
-  margin: 0 0 2px;
-  font-style: italic;
-  color: color("base-dark");
-}
-
-.section-meta__ids {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px units("105");
-  margin: 0;
-
-  > div {
-    display: inline-flex;
-    gap: units("05");
-    min-width: 0;
-  }
-
-  dd {
-    margin: 0;
-    font-family: family("mono");
-    color: color("base-darker");
-    overflow-wrap: anywhere;
   }
 }
 
