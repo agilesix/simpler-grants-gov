@@ -11,10 +11,7 @@
   "dat_url": "https://apply07.grants.gov/apply/forms/sample/EPA_KeyContacts_2_0-V2.0_F674.xls",
   "omb_number": "2030-0020",
   "expiration_date": "02/28/2029",
-  "widgets": [
-    "TextWidget",
-    "SelectWidget"
-  ],
+  "widgets": ["TextWidget", "SelectWidget"],
   "description": "EPA Key Contacts Form (EPA_KeyContacts_2_0, EPA Form 5700-54) collects contact information for four specific roles required by the EPA: Authorized Representative, Payee, Administrative Contact, and Project Manager. Each role captures the same set of person contact fields using the shared `ContactPersonDataTypeV3`.",
   "sgg_form_id": "epa_key_contacts",
   "spec_id": "epa-key-contacts",
@@ -24,11 +21,13 @@
   "risks": [
     "Because all four sections are structurally identical, we'll plan to use the same underlying model across all four sections."
   ],
-  "sections": [
+  "children": [
     {
-      "title": "1. Authorized Representative",
-      "fields": [
+      "kind": "section",
+      "label": "1. Authorized Representative",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "B1-03",
           "required": false,
@@ -40,6 +39,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "B1-04",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -51,6 +51,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "B1-05",
           "required": false,
@@ -62,6 +63,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "B1-06",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -73,6 +75,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "B1-07",
           "required": false,
@@ -84,6 +87,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Title",
           "dat_field": "B1-08",
           "required": false,
@@ -95,6 +99,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Title"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "B1-10",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -106,6 +111,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "B1-11",
           "required": false,
@@ -117,6 +123,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "B1-12",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -128,6 +135,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "required": false,
           "type": "Text input",
@@ -138,6 +146,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "B1-13",
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -149,6 +158,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "required": false,
           "type": "Text input",
@@ -159,6 +169,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "B1-14",
           "required": false,
@@ -170,6 +181,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "B1-15",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -181,6 +193,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "B1-16",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -192,6 +205,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Phone"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "B1-17",
           "required": false,
@@ -203,6 +217,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Fax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "B1-18",
           "required": false,
@@ -216,9 +231,11 @@
       ]
     },
     {
-      "title": "2. Payee",
-      "fields": [
+      "kind": "section",
+      "label": "2. Payee",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "B2-03",
           "required": false,
@@ -230,6 +247,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "B2-04",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -241,6 +259,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "B2-05",
           "required": false,
@@ -252,6 +271,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "B2-06",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -263,6 +283,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "B2-07",
           "required": false,
@@ -274,6 +295,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Title",
           "dat_field": "B2-08",
           "required": false,
@@ -285,6 +307,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Title"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "B2-10",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -296,6 +319,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "B2-11",
           "required": false,
@@ -307,6 +331,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "B2-12",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -318,6 +343,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "required": false,
           "type": "Text input",
@@ -328,6 +354,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "B2-13",
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -339,6 +366,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "required": false,
           "type": "Text input",
@@ -349,6 +377,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "B2-14",
           "required": false,
@@ -360,6 +389,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "B2-15",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -371,6 +401,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "B2-16",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -382,6 +413,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Phone"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "B2-17",
           "required": false,
@@ -393,6 +425,7 @@
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Fax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "B2-18",
           "required": false,
@@ -406,9 +439,11 @@
       ]
     },
     {
-      "title": "3. Administrative Contact",
-      "fields": [
+      "kind": "section",
+      "label": "3. Administrative Contact",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "B3-03",
           "required": false,
@@ -420,6 +455,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "B3-04",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -431,6 +467,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "B3-05",
           "required": false,
@@ -442,6 +479,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "B3-06",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -453,6 +491,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "B3-07",
           "required": false,
@@ -464,6 +503,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Title",
           "dat_field": "B3-08",
           "required": false,
@@ -475,6 +515,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Title"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "B3-10",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -486,6 +527,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "B3-11",
           "required": false,
@@ -497,6 +539,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "B3-12",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -508,6 +551,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "required": false,
           "type": "Text input",
@@ -518,6 +562,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "B3-13",
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -529,6 +574,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "required": false,
           "type": "Text input",
@@ -539,6 +585,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "B3-14",
           "required": false,
@@ -550,6 +597,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "B3-15",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -561,6 +609,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "B3-16",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -572,6 +621,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Phone"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "B3-17",
           "required": false,
@@ -583,6 +633,7 @@
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Fax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "B3-18",
           "required": false,
@@ -596,9 +647,11 @@
       ]
     },
     {
-      "title": "4. Project Manager",
-      "fields": [
+      "kind": "section",
+      "label": "4. Project Manager",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "B4-03",
           "required": false,
@@ -610,6 +663,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "B4-04",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -621,6 +675,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "B4-05",
           "required": false,
@@ -632,6 +687,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "B4-06",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -643,6 +699,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "B4-07",
           "required": false,
@@ -654,6 +711,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Title",
           "dat_field": "B4-08",
           "required": false,
@@ -665,6 +723,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Title"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "B4-10",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -676,6 +735,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "B4-11",
           "required": false,
@@ -687,6 +747,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "B4-12",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -698,6 +759,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "required": false,
           "type": "Text input",
@@ -708,6 +770,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "B4-13",
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -719,6 +782,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "required": false,
           "type": "Text input",
@@ -729,6 +793,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "B4-14",
           "required": false,
@@ -740,6 +805,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "B4-15",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -751,6 +817,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "B4-16",
           "required": "No (per XSD; required when section is started per SGG implementation)",
@@ -762,6 +829,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Phone"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "B4-17",
           "required": false,
@@ -773,6 +841,7 @@
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Fax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "B4-18",
           "required": false,

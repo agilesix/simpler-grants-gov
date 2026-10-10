@@ -16,34 +16,40 @@ const widgets = z.enum([
   "TableWidget",
 ]);
 
-/** How many times a field can appear in one form; checked by `forms/parity`. */
-const maxOccurs = z.union([
-  z.number().int().positive(),
-  z.literal("unbounded"),
-]);
+/** How many entries a repeating node allows; checked by `forms/parity`. */
+const maxItems = z.union([z.number().int().positive(), z.literal("unbounded")]);
 
-const fieldSchema = z.object({
+/** Metadata every node of a form plan can carry. */
+const nodeBase = z.object({
   label: z.string(),
+  help_text: z.string().optional(),
   dat_field: z.string().optional(),
+  json_path: z.string().optional(),
+  xml_path: z.string().optional(),
+  widget: z.string().optional(),
+  /** For a repeating node, how many entries it allows. Unset means exactly one. */
+  min_items: z.number().int().nonnegative().optional(),
+  max_items: maxItems.optional(),
+});
+
+const fieldNode = nodeBase.extend({
+  kind: z.literal("field"),
   required: z.union([z.boolean(), z.string()]),
   type: z.string(),
-  widget: z.string().optional(),
-  help_text: z.string().optional(),
   constraints: z.string().optional(),
   pre_populated: z.string().optional(),
   post_populated: z.string().optional(),
-  json_path: z.string().optional(),
-  xml_path: z.string().optional(),
-  /** Overrides the section's `max_occurs`. */
-  max_occurs: maxOccurs.optional(),
 });
 
-const sectionSchema = z.object({
-  title: z.string(),
-  /** For a repeating section, how many entries it allows. Defaults to 1. */
-  max_occurs: maxOccurs.optional(),
-  fields: z.array(fieldSchema),
+/** A group of nodes, laid out the way the form groups them. */
+const sectionNode = nodeBase.extend({
+  kind: z.literal("section"),
+  get children(): z.ZodArray<typeof formNode> {
+    return z.array(formNode);
+  },
 });
+
+const formNode = z.discriminatedUnion("kind", [fieldNode, sectionNode]);
 
 const formSchema = z.object({
   title: z.string(),
@@ -71,7 +77,8 @@ const formSchema = z.object({
   spec_id: z.string().optional(),
   description: z.string().optional().default(""),
   new_concepts: z.array(widgets).optional(),
-  sections: z.array(sectionSchema).optional().default([]),
+  /** The plan's top-level nodes, nested the way the form nests them. */
+  children: z.array(formNode).optional().default([]),
   /**
    * Narrative context nothing verifies. Deviations from Grants.gov that can be verified are
    * recorded in `forms/parity/diffs/` instead.
@@ -81,8 +88,9 @@ const formSchema = z.object({
 });
 
 export type FormData = z.infer<typeof formSchema>;
-export type FieldData = z.infer<typeof fieldSchema>;
-export type SectionData = z.infer<typeof sectionSchema>;
+export type FormNode = z.infer<typeof formNode>;
+export type FieldNode = z.infer<typeof fieldNode>;
+export type SectionNode = z.infer<typeof sectionNode>;
 
 export const TOTAL_APPS = 4_072_033;
 

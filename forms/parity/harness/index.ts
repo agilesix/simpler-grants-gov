@@ -14,7 +14,7 @@ import {
 } from "./compare.ts";
 import { datFields } from "./flatten/dat.ts";
 import { indexLeaves, jsonSchemaFields } from "./flatten/jsonSchema.ts";
-import { planFields, type Plan } from "./flatten/plan.ts";
+import { planFields, walkFields, type Plan } from "./flatten/plan.ts";
 import { uiSchemaFields } from "./flatten/uiSchema.ts";
 import { xsdFields } from "./flatten/xsd.ts";
 import {
@@ -138,9 +138,7 @@ function joinThroughPlan(
   const toXsd = diff.xsd?.renamed ?? {};
   const left: Fields = new Map();
   const right: Fields = new Map();
-  for (const field of (plan.sections ?? []).flatMap(
-    (section) => section.fields,
-  )) {
+  for (const { field } of walkFields(plan.children)) {
     if (!field.json_path || !field.xml_path) continue;
     const schemaPath = toSchema[field.json_path]?.to ?? field.json_path;
     const xmlPath = fromXmlPath(field.xml_path);
@@ -295,7 +293,14 @@ export {
   type Pair,
   type PairResult,
 } from "./compare.ts";
-export type { Plan, PlanField, PlanSection } from "./flatten/plan.ts";
+export type {
+  MaxItems,
+  Plan,
+  PlanField,
+  PlanNode,
+  PlanSection,
+} from "./flatten/plan.ts";
+export { walkFields } from "./flatten/plan.ts";
 export { loadPlans } from "./load.ts";
 export {
   report,

@@ -1,26 +1,22 @@
-import type { FieldComparison } from "@/lib/comparison";
-
-import FieldRow from "./FieldRow";
+import { fieldCount, type ComparisonNode } from "@/lib/comparison";
+import type { ReactNode } from "react";
 
 interface Props {
-  title: string;
-  fields: FieldComparison[];
+  node: Extract<ComparisonNode, { kind: "section" }>;
+  children: ReactNode;
 }
 
-export default function FieldSection({ title, fields }: Props) {
+export default function FieldSection({ node, children }: Props) {
+  const count = fieldCount(node);
   return (
     <details className="field-section" open>
       <summary>
-        {title}
+        {node.section.label}
         <span className="section-count">
-          {fields.length} {fields.length === 1 ? "field" : "fields"}
+          {count} {count === 1 ? "field" : "fields"}
         </span>
       </summary>
-      <div className="field-section__body">
-        {fields.map((field) => (
-          <FieldRow key={field.id} comparison={field} />
-        ))}
-      </div>
+      <div className="field-section__body">{children}</div>
     </details>
   );
 }

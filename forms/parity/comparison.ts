@@ -19,7 +19,9 @@ import {
   type PairResult,
   type Plan,
   type PlanField,
+  type PlanNode,
   type PlanSection,
+  walkFields,
 } from "./harness/index.ts";
 import { readRequired } from "./harness/flatten/plan.ts";
 import { fromXmlPath, type Category } from "./harness/model.ts";
@@ -64,17 +66,25 @@ export interface AttributeRow {
 export type CategoryCounts = Record<Category, number>;
 
 export interface FieldComparison<F extends PlanField = PlanField> {
-  /** The field's `json_path`, or its position when it has none. */
+  /** The field's `json_path`, or its position in the plan when it has none. */
   id: string;
-  sectionIndex: number;
   field: F;
   rows: AttributeRow[];
   /** Cells in each category. */
   counts: CategoryCounts;
 }
 
+/** A plan section's own metadata, without its children. */
+export type SectionMeta = Omit<PlanSection, "children">;
+
+/** The plan's tree, with each field named by its comparison's `id`. */
+export type ComparisonNode =
+  | { kind: "field"; id: string }
+  | { kind: "section"; section: SectionMeta; children: ComparisonNode[] };
+
 export interface FormComparison<F extends PlanField = PlanField> {
-  sections: { title: string }[];
+  children: ComparisonNode[];
+  /** Every field, in plan order. */
   fields: FieldComparison<F>[];
 }
 
@@ -362,8 +372,7 @@ function sidesFor(
 
 function buildField<F extends PlanField>(
   field: F,
-  sectionIndex: number,
-  fieldIndex: number,
+  fallbackId: string,
   sides: Sides,
   labels: Record<Source, Map<string, string>>,
 ): FieldComparison<F> {
@@ -602,17 +611,12 @@ function buildField<F extends PlanField>(
     }
 
   return {
-    id: field.json_path ?? `${sectionIndex}.${fieldIndex}`,
-    sectionIndex,
+    id: field.json_path ?? fallbackId,
     field,
     rows,
     counts,
   };
 }
-
-type PlanWith<F extends PlanField> = Omit<Plan, "sections"> & {
-  sections?: (Omit<PlanSection, "fields"> & { fields: F[] })[];
-};
 
 /**
  * Every field of a plan compared with its sources, or null for a form the parity suite does
@@ -620,7 +624,7 @@ type PlanWith<F extends PlanField> = Omit<Plan, "sections"> & {
  * (`npm run parity:fetch`).
  */
 export async function compareForm<F extends PlanField>(
-  plan: PlanWith<F>,
+  plan: Plan<F>,
 ): Promise<FormComparison<F> | null> {
   const diff = DIFFS.find((d) => d.slug === plan.slug);
   if (!diff) return null;
@@ -634,8 +638,7 @@ export async function compareForm<F extends PlanField>(
     jsonSchemaVsXsd:
       compiled && side(compiled.jsonSchemaVsXsd, SPECS.jsonSchemaVsXsd),
   };
-  const sections = plan.sections ?? [];
-  const all = sections.flatMap((section) => section.fields);
+  const all = walkFields(plan.children).map(({ field }) => field);
   const labels = Object.fromEntries(
     SOURCES.map((source) => [
       source,
@@ -648,12 +651,22 @@ export async function compareForm<F extends PlanField>(
     ]),
   ) as Record<Source, Map<string, string>>;
 
-  return {
-    sections: sections.map(({ title }) => ({ title })),
-    fields: sections.flatMap((section, sectionIndex) =>
-      section.fields.map((field, fieldIndex) =>
-        buildField(field, sectionIndex, fieldIndex, sides, labels),
-      ),
-    ),
-  };
+  const fields: FieldComparison<F>[] = [];
+  const compare = (nodes: PlanNode<F>[], at: number[]): ComparisonNode[] =>
+    nodes.map((node, index) => {
+      const position = [...at, index];
+      if (node.kind === "section") {
+        const { children, ...section } = node;
+        return {
+          kind: "section",
+          section,
+          children: compare(children, position),
+        };
+      }
+      const field = buildField(node, position.join("."), sides, labels);
+      fields.push(field);
+      return { kind: "field", id: field.id };
+    });
+  const children = compare(plan.children ?? [], []);
+  return { children, fields };
 }

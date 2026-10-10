@@ -6,6 +6,7 @@ import {
   summarize,
   visibleDifferences,
   visibleFields,
+  visibleTree,
   type CellRef,
   type DiffType,
   type FilterKey,
@@ -16,7 +17,7 @@ import { atom, computed } from "nanostores";
 export type SheetTab = "comparison" | "differences";
 
 /** The form's comparison, set once by the island that shows it. */
-export const $comparison = atom<FormComparison>({ sections: [], fields: [] });
+export const $comparison = atom<FormComparison>({ children: [], fields: [] });
 export const $categoryFilter = atom<FilterKey[]>([]);
 export const $selectedFieldId = atom<string | null>(null);
 export const $sheetTab = atom<SheetTab>("comparison");
@@ -27,6 +28,13 @@ export const $diffTypeFilter = atom<DiffType[]>([]);
 export const $visibleFields = computed(
   [$comparison, $categoryFilter],
   (comparison, filter) => visibleFields(comparison.fields, filter),
+);
+
+/** The plan's tree, showing only the fields the filter shows. */
+export const $visibleTree = computed(
+  [$comparison, $visibleFields],
+  (comparison, fields) =>
+    visibleTree(comparison.children, new Set(fields.map((field) => field.id))),
 );
 
 export const $categoryCounts = computed($comparison, (comparison) =>

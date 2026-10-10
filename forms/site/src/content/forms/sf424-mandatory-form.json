@@ -39,11 +39,13 @@
     "The Mandatory form has only 2 estimated funding lines (Federal and Match), unlike the standard SF-424's 7 lines. Agencies that need more granular funding breakdowns should use the standard SF-424.",
     "The \"Version\" field (Initial/Resubmission/Revision/Update) is distinct from the \"Application Type\" concept in other SF-424 variants. Ensure the UI labels and help text clearly distinguish these concepts for users who work with multiple SF-424 variants."
   ],
-  "sections": [
+  "children": [
     {
-      "title": "Submission Information",
-      "fields": [
+      "kind": "section",
+      "label": "Submission Information",
+      "children": [
         {
+          "kind": "field",
           "label": "Type of Submission",
           "dat_field": "01a-1",
           "required": true,
@@ -55,6 +57,7 @@
           "xml_path": "SF424_Mandatory_3_0:TypeOfSubmission"
         },
         {
+          "kind": "field",
           "label": "Type of Submission - Other (specify)",
           "dat_field": "01a-6",
           "required": "No (conditionally enabled when Type of Submission = Other)",
@@ -66,6 +69,7 @@
           "xml_path": "SF424_Mandatory_3_0:TypeOfSubmissionOtherDescription"
         },
         {
+          "kind": "field",
           "label": "Frequency",
           "dat_field": "01b-1",
           "required": true,
@@ -77,6 +81,7 @@
           "xml_path": "SF424_Mandatory_3_0:Frequency"
         },
         {
+          "kind": "field",
           "label": "Frequency - Other (specify)",
           "dat_field": "01b-5",
           "required": "No (conditionally enabled when Frequency = Other)",
@@ -88,6 +93,7 @@
           "xml_path": "SF424_Mandatory_3_0:FrequencyOtherDescription"
         },
         {
+          "kind": "field",
           "label": "Consolidated Application/Plan/Funding Request?",
           "dat_field": "01c-1",
           "required": false,
@@ -99,6 +105,7 @@
           "xml_path": "SF424_Mandatory_3_0:ConsolidatedRequest"
         },
         {
+          "kind": "field",
           "label": "Consolidated Request Explanation",
           "dat_field": "01c-5",
           "required": "No (conditionally enabled when Consolidated Request = Yes)",
@@ -110,6 +117,7 @@
           "xml_path": "SF424_Mandatory_3_0:ConsolidatedRequestExplanation"
         },
         {
+          "kind": "field",
           "label": "Version",
           "dat_field": "01d-1",
           "required": true,
@@ -123,9 +131,11 @@
       ]
     },
     {
-      "title": "Dates and Identifiers",
-      "fields": [
+      "kind": "section",
+      "label": "Dates and Identifiers",
+      "children": [
         {
+          "kind": "field",
           "label": "Date Received",
           "dat_field": "02-1",
           "required": true,
@@ -138,6 +148,7 @@
           "xml_path": "SF424_Mandatory_3_0:ReceivedDate"
         },
         {
+          "kind": "field",
           "label": "Applicant Identifier",
           "dat_field": "03-1",
           "required": false,
@@ -149,6 +160,7 @@
           "xml_path": "SF424_Mandatory_3_0:ApplicantID"
         },
         {
+          "kind": "field",
           "label": "Federal Entity Identifier",
           "dat_field": "04a-1",
           "required": false,
@@ -160,6 +172,7 @@
           "xml_path": "SF424_Mandatory_3_0:FederalEntityID"
         },
         {
+          "kind": "field",
           "label": "Federal Award Identifier",
           "dat_field": "04b-1",
           "required": false,
@@ -171,6 +184,7 @@
           "xml_path": "SF424_Mandatory_3_0:FederalAwardID"
         },
         {
+          "kind": "field",
           "label": "Date Received by State",
           "dat_field": "05-1",
           "required": false,
@@ -182,6 +196,7 @@
           "xml_path": "SF424_Mandatory_3_0:StateReceivedDate"
         },
         {
+          "kind": "field",
           "label": "State Application Identifier",
           "dat_field": "06-1",
           "required": false,
@@ -195,9 +210,11 @@
       ]
     },
     {
-      "title": "Applicant Organization",
-      "fields": [
+      "kind": "section",
+      "label": "Applicant Organization",
+      "children": [
         {
+          "kind": "field",
           "label": "Legal Name",
           "dat_field": "07a-1",
           "required": true,
@@ -209,6 +226,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:OrganizationName"
         },
         {
+          "kind": "field",
           "label": "EIN/TIN",
           "dat_field": "07b-1",
           "required": true,
@@ -220,6 +238,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:EIN"
         },
         {
+          "kind": "field",
           "label": "UEI",
           "dat_field": "07c-1",
           "required": true,
@@ -232,6 +251,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:SAMUEI"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "07d-2",
           "required": true,
@@ -243,6 +263,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "07d-3",
           "required": false,
@@ -254,6 +275,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "07d-4",
           "required": true,
@@ -265,6 +287,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "dat_field": "07d-5",
           "required": false,
@@ -276,6 +299,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "07d-6",
           "required": "No (conditionally required when Country = USA)",
@@ -287,6 +311,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "dat_field": "07d-7",
           "required": "No (enabled when Country != USA)",
@@ -298,6 +323,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "07d-8",
           "required": true,
@@ -309,6 +335,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "07d-9",
           "required": "No (conditionally required when Country = USA per DAT)",
@@ -320,6 +347,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Department Name",
           "dat_field": "07e-2",
           "required": false,
@@ -331,6 +359,7 @@
           "xml_path": "SF424_Mandatory_3_0:Organization/globLib:DepartmentName"
         },
         {
+          "kind": "field",
           "label": "Division Name",
           "dat_field": "07e-3",
           "required": false,
@@ -344,9 +373,11 @@
       ]
     },
     {
-      "title": "Contact Person",
-      "fields": [
+      "kind": "section",
+      "label": "Contact Person",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "07f-02",
           "required": false,
@@ -358,6 +389,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "07f-03",
           "required": true,
@@ -369,6 +401,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "07f-04",
           "required": false,
@@ -380,6 +413,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "07f-05",
           "required": true,
@@ -391,6 +425,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "07f-06",
           "required": false,
@@ -402,6 +437,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Title",
           "dat_field": "07f-07",
           "required": false,
@@ -413,6 +449,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactTitle"
         },
         {
+          "kind": "field",
           "label": "Organizational Affiliation",
           "dat_field": "07f-08",
           "required": false,
@@ -424,6 +461,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactOrganizationalAffiliation"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "07f-09",
           "required": true,
@@ -435,6 +473,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactPhoneNumber"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "07f-10",
           "required": false,
@@ -446,6 +485,7 @@
           "xml_path": "SF424_Mandatory_3_0:ContactFax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "07f-11",
           "required": true,
@@ -459,9 +499,11 @@
       ]
     },
     {
-      "title": "Applicant Type",
-      "fields": [
+      "kind": "section",
+      "label": "Applicant Type",
+      "children": [
         {
+          "kind": "field",
           "label": "Type of Applicant",
           "dat_field": "08a-1",
           "required": true,
@@ -473,6 +515,7 @@
           "xml_path": "SF424_Mandatory_3_0:ApplicantType"
         },
         {
+          "kind": "field",
           "label": "Other (specify)",
           "dat_field": "08a-2",
           "required": "No (conditionally enabled when Applicant Type = \"X: Other (specify)\")",
@@ -484,6 +527,7 @@
           "xml_path": "SF424_Mandatory_3_0:OtherTypeApplicant"
         },
         {
+          "kind": "field",
           "label": "Additional Description",
           "dat_field": "08b-3",
           "required": false,
@@ -497,9 +541,11 @@
       ]
     },
     {
-      "title": "Agency and Program Information",
-      "fields": [
+      "kind": "section",
+      "label": "Agency and Program Information",
+      "children": [
         {
+          "kind": "field",
           "label": "Name of Federal Agency",
           "dat_field": "09-1",
           "required": true,
@@ -512,6 +558,7 @@
           "xml_path": "SF424_Mandatory_3_0:AgencyName"
         },
         {
+          "kind": "field",
           "label": "Assistance Listing Number",
           "dat_field": "10-1",
           "required": false,
@@ -524,6 +571,7 @@
           "xml_path": "SF424_Mandatory_3_0:CFDANumber"
         },
         {
+          "kind": "field",
           "label": "Assistance Listing Title",
           "dat_field": "10-2",
           "required": false,
@@ -538,9 +586,11 @@
       ]
     },
     {
-      "title": "Project Information",
-      "fields": [
+      "kind": "section",
+      "label": "Project Information",
+      "children": [
         {
+          "kind": "field",
           "label": "Descriptive Title of Applicant's Project",
           "dat_field": "11-1",
           "required": true,
@@ -552,6 +602,7 @@
           "xml_path": "SF424_Mandatory_3_0:DescriptiveProjectTitle"
         },
         {
+          "kind": "field",
           "label": "Areas Affected by Funding",
           "dat_field": "12-1",
           "required": false,
@@ -565,9 +616,11 @@
       ]
     },
     {
-      "title": "Congressional Districts",
-      "fields": [
+      "kind": "section",
+      "label": "Congressional Districts",
+      "children": [
         {
+          "kind": "field",
           "label": "Applicant Congressional District",
           "dat_field": "13a-1",
           "required": true,
@@ -579,6 +632,7 @@
           "xml_path": "SF424_Mandatory_3_0:CongressionalDistrictApplicant"
         },
         {
+          "kind": "field",
           "label": "Program/Project Congressional District",
           "dat_field": "13b-1",
           "required": false,
@@ -590,6 +644,7 @@
           "xml_path": "SF424_Mandatory_3_0:CongressionalDistrictProject"
         },
         {
+          "kind": "field",
           "label": "Additional Congressional Districts Attachment",
           "dat_field": "13-c2",
           "required": false,
@@ -603,9 +658,11 @@
       ]
     },
     {
-      "title": "Funding Period and Estimated Funding",
-      "fields": [
+      "kind": "section",
+      "label": "Funding Period and Estimated Funding",
+      "children": [
         {
+          "kind": "field",
           "label": "Funding Period Start Date",
           "dat_field": "14a-1",
           "required": true,
@@ -617,6 +674,7 @@
           "xml_path": "SF424_Mandatory_3_0:FundingPeriodStartDate"
         },
         {
+          "kind": "field",
           "label": "Funding Period End Date",
           "dat_field": "14b-1",
           "required": true,
@@ -628,6 +686,7 @@
           "xml_path": "SF424_Mandatory_3_0:FundingPeriodEndDate"
         },
         {
+          "kind": "field",
           "label": "Estimated Funding - Federal",
           "dat_field": "15a-1",
           "required": true,
@@ -639,6 +698,7 @@
           "xml_path": "SF424_Mandatory_3_0:EstimatedFundingFederal"
         },
         {
+          "kind": "field",
           "label": "Estimated Funding - Match",
           "dat_field": "15b-1",
           "required": false,
@@ -652,9 +712,11 @@
       ]
     },
     {
-      "title": "State Review",
-      "fields": [
+      "kind": "section",
+      "label": "State Review",
+      "children": [
         {
+          "kind": "field",
           "label": "Is Submission Subject to Review by State Under Executive Order 12372?",
           "dat_field": "16-1",
           "required": true,
@@ -666,6 +728,7 @@
           "xml_path": "SF424_Mandatory_3_0:SubmissionUnderReview"
         },
         {
+          "kind": "field",
           "label": "State Review Available Date",
           "dat_field": "16-3",
           "required": "No (conditionally required when State Review = StateReviewAvailable)",
@@ -679,9 +742,11 @@
       ]
     },
     {
-      "title": "Federal Debt and Certification",
-      "fields": [
+      "kind": "section",
+      "label": "Federal Debt and Certification",
+      "children": [
         {
+          "kind": "field",
           "label": "Is the Applicant Delinquent on Any Federal Debt?",
           "dat_field": "17-1",
           "required": true,
@@ -693,6 +758,7 @@
           "xml_path": "SF424_Mandatory_3_0:DelinquentOnFederalDebt"
         },
         {
+          "kind": "field",
           "label": "Federal Debt Delinquency Explanation",
           "dat_field": "17-5",
           "required": "No (conditionally enabled when Delinquent = Yes)",
@@ -704,6 +770,7 @@
           "xml_path": "SF424_Mandatory_3_0:DelinquentFederalDebtExplanation"
         },
         {
+          "kind": "field",
           "label": "Application Certification (I Agree)",
           "dat_field": "18-02",
           "required": true,
@@ -717,9 +784,11 @@
       ]
     },
     {
-      "title": "Authorized Representative",
-      "fields": [
+      "kind": "section",
+      "label": "Authorized Representative",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "18-03a",
           "required": false,
@@ -731,6 +800,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "18-03b",
           "required": true,
@@ -742,6 +812,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "18-03c",
           "required": false,
@@ -753,6 +824,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "18-03d",
           "required": true,
@@ -764,6 +836,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "18-03e",
           "required": false,
@@ -775,6 +848,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Title",
           "dat_field": "18-05",
           "required": true,
@@ -786,6 +860,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeTitle"
         },
         {
+          "kind": "field",
           "label": "Organizational Affiliation",
           "dat_field": "18-06",
           "required": false,
@@ -797,6 +872,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeOrganizationalAffiliation"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "18-07",
           "required": true,
@@ -808,6 +884,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativePhoneNumber"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "18-08",
           "required": false,
@@ -819,6 +896,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeFax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "18-09",
           "required": true,
@@ -830,6 +908,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeEmail"
         },
         {
+          "kind": "field",
           "label": "Signature of Authorized Representative",
           "dat_field": "18-10",
           "required": true,
@@ -842,6 +921,7 @@
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeSignature"
         },
         {
+          "kind": "field",
           "label": "Date Signed",
           "dat_field": "18-11",
           "required": true,
@@ -856,9 +936,11 @@
       ]
     },
     {
-      "title": "Attachments",
-      "fields": [
+      "kind": "section",
+      "label": "Attachments",
+      "children": [
         {
+          "kind": "field",
           "label": "Supporting Documents",
           "dat_field": "18-12",
           "required": false,

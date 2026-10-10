@@ -19,11 +19,13 @@
   "risks": [
     "Repeatable contact entries require FieldListWidget which needs careful state management for add/remove"
   ],
-  "sections": [
+  "children": [
     {
-      "title": "Applicant Information",
-      "fields": [
+      "kind": "section",
+      "label": "Applicant Information",
+      "children": [
         {
+          "kind": "field",
           "label": "Applicant Organization Name",
           "dat_field": "5",
           "required": true,
@@ -38,10 +40,13 @@
       ]
     },
     {
-      "title": "Contact Information (repeating, 1-4 entries)",
-      "max_occurs": 4,
-      "fields": [
+      "kind": "section",
+      "label": "Contact Information",
+      "min_items": 1,
+      "max_items": 4,
+      "children": [
         {
+          "kind": "field",
           "label": "Project Role",
           "dat_field": "7-01",
           "required": true,
@@ -53,6 +58,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactProjectRole"
         },
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "7-03",
           "required": false,
@@ -64,6 +70,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "7-04",
           "required": true,
@@ -75,6 +82,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "7-05",
           "required": false,
@@ -86,6 +94,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "7-06",
           "required": true,
@@ -97,6 +106,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "7-07",
           "required": false,
@@ -108,6 +118,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Title",
           "dat_field": "7-08",
           "required": false,
@@ -119,6 +130,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactTitle"
         },
         {
+          "kind": "field",
           "label": "Organizational Affiliation",
           "dat_field": "7-09",
           "required": false,
@@ -130,6 +142,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactOrganizationalAffiliation"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "7-10",
           "required": true,
@@ -141,6 +154,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "7-11",
           "required": false,
@@ -152,6 +166,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "7-12",
           "required": true,
@@ -163,6 +178,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "dat_field": "7-13",
           "required": false,
@@ -174,6 +190,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "7-14",
           "required": "Conditional (when Country = 'USA')",
@@ -185,6 +202,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "dat_field": "7-15",
           "required": false,
@@ -196,6 +214,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "7-16",
           "required": true,
@@ -207,6 +226,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "7-17",
           "required": false,
@@ -218,6 +238,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "7-18",
           "required": true,
@@ -229,6 +250,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactPhone"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "7-19",
           "required": false,
@@ -240,6 +262,7 @@
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactFax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "7-20",
           "required": true,

@@ -1,4 +1,4 @@
-import type { FieldData } from "@/content.config";
+import type { FieldNode } from "@/content.config";
 
 interface Item {
   term: string;
@@ -24,7 +24,7 @@ function Group({ title, items }: { title: string; items: Item[] }) {
 }
 
 /** Where the field lives in each source, and what fills it in, collapsed by default. */
-export default function FieldDetails({ field }: { field: FieldData }) {
+export default function FieldDetails({ field }: { field: FieldNode }) {
   const ids = [
     { term: "DAT #", value: field.dat_field },
     { term: "XSD path", value: field.xml_path },

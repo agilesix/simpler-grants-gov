@@ -6,35 +6,58 @@ import {
   type Rules,
 } from "../model.ts";
 
-/** The parts of a form plan (`site/src/content/forms/<slug>.json`) the suite reads. */
-export interface PlanField {
+/** How many entries a repeating node allows. */
+export type MaxItems = number | "unbounded";
+
+/** What every node of a form plan (`site/src/content/forms/<slug>.json`) can state. */
+interface PlanNodeBase {
   label: string;
-  dat_field?: string;
-  required: boolean | string;
   help_text?: string;
-  constraints?: string;
+  dat_field?: string;
   json_path?: string;
   xml_path?: string;
-  /** Overrides the section's `max_occurs`. */
-  max_occurs?: MaxOccurs;
+  /** For a repeating node, how many entries it allows. Unset means exactly one. */
+  min_items?: number;
+  max_items?: MaxItems;
 }
 
-/** How many times a field can appear in one form. */
-export type MaxOccurs = number | "unbounded";
-
-export interface PlanSection {
-  title: string;
-  /** For a repeating section, how many entries it allows. Defaults to 1. */
-  max_occurs?: MaxOccurs;
-  fields: PlanField[];
+/** The parts of a plan field the suite reads. */
+export interface PlanField extends PlanNodeBase {
+  kind: "field";
+  required: boolean | string;
+  constraints?: string;
 }
 
-export interface Plan {
+export interface PlanSection<
+  F extends PlanField = PlanField,
+> extends PlanNodeBase {
+  kind: "section";
+  children: PlanNode<F>[];
+}
+
+export type PlanNode<F extends PlanField = PlanField> = F | PlanSection<F>;
+
+export interface Plan<F extends PlanField = PlanField> {
   slug: string;
   spec_id?: string;
   xsd_url?: string;
   dat_url?: string;
-  sections?: PlanSection[];
+  children?: PlanNode<F>[];
+}
+
+/**
+ * Every field under `nodes`, depth first in plan order, with how many times it can occur: its
+ * own `max_items`, else its nearest repeating ancestor's, else 1.
+ */
+export function walkFields<F extends PlanField>(
+  nodes: PlanNode<F>[] = [],
+  inherited: MaxItems = 1,
+): { field: F; maxItems: MaxItems }[] {
+  return nodes.flatMap((node) =>
+    node.kind === "section"
+      ? walkFields(node.children, node.max_items ?? inherited)
+      : [{ field: node, maxItems: node.max_items ?? inherited }],
+  );
 }
 
 /** A plan's `required`: a boolean, or text that starts with Yes, No or Conditional. */
@@ -84,13 +107,7 @@ export function planFields(
   problems: Discrepancy[] = [],
 ): Fields {
   const fields: Fields = new Map();
-  const all = (plan.sections ?? []).flatMap((section) =>
-    section.fields.map((field) => ({
-      ...field,
-      max_occurs: field.max_occurs ?? section.max_occurs ?? 1,
-    })),
-  );
-  all.forEach((field, order) => {
+  walkFields(plan.children).forEach(({ field, maxItems }, order) => {
     const id = field[key];
     if (!id) return;
     const required = readRequired(field.required);
@@ -112,7 +129,7 @@ export function planFields(
       label: field.label,
       help: field.help_text,
       required,
-      rules: { ...rules, maxOccurs: field.max_occurs },
+      rules: { ...rules, maxOccurs: maxItems },
     });
   });
   return fields;

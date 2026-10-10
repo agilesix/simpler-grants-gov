@@ -3,10 +3,13 @@ import { describe, expect, it } from "vitest";
 import {
   categoryCounts,
   defaultCell,
+  fieldCount,
   summarize,
   visibleDifferences,
   visibleFields,
+  visibleTree,
   type Cell,
+  type ComparisonNode,
   type FieldComparison,
   type Status,
 } from "./comparison";
@@ -26,8 +29,7 @@ const field = (
     if (status in counts) counts[status as keyof typeof counts] += 1;
   return {
     id,
-    sectionIndex: 0,
-    field: { label: id, required: false, type: "string" },
+    field: { kind: "field", label: id, required: false, type: "string" },
     rows: [
       {
         attribute: "matchedBy",
@@ -64,6 +66,44 @@ describe("visibleFields", () => {
     expect(visibleFields(FIELDS, ["matches"]).map((f) => f.id)).toEqual([
       "matching",
     ]);
+  });
+});
+
+describe("visibleTree", () => {
+  const section = (
+    label: string,
+    children: ComparisonNode[],
+  ): ComparisonNode => ({
+    kind: "section",
+    section: { kind: "section", label },
+    children,
+  });
+  const leaf = (id: string): ComparisonNode => ({ kind: "field", id });
+  const TREE = [
+    leaf("matching"),
+    section("Contact", [leaf("gap"), section("Address", [leaf("mixed")])]),
+  ];
+
+  it("keeps the whole tree when every field is visible", () => {
+    expect(visibleTree(TREE, new Set(["matching", "gap", "mixed"]))).toEqual(
+      TREE,
+    );
+  });
+
+  it("drops a section once none of its fields is visible", () => {
+    expect(visibleTree(TREE, new Set(["gap"]))).toEqual([
+      section("Contact", [leaf("gap")]),
+    ]);
+  });
+
+  it("keeps the sections leading to a visible nested field", () => {
+    expect(visibleTree(TREE, new Set(["mixed"]))).toEqual([
+      section("Contact", [section("Address", [leaf("mixed")])]),
+    ]);
+  });
+
+  it("counts the fields under a section at every depth", () => {
+    expect(fieldCount(TREE[1])).toBe(2);
   });
 });
 

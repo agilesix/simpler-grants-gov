@@ -44,11 +44,13 @@ describe("readConstraints", () => {
 describe("planFields", () => {
   const plan: Plan = {
     slug: "test",
-    sections: [
+    children: [
       {
-        title: "Section",
-        fields: [
+        kind: "section",
+        label: "Section",
+        children: [
           {
+            kind: "field",
             label: "First Name",
             dat_field: "7-04",
             required: true,
@@ -57,6 +59,7 @@ describe("planFields", () => {
             xml_path: "Form:ContactName/globLib:FirstName",
           },
           {
+            kind: "field",
             label: "Odd",
             required: "Maybe",
             json_path: "odd",
@@ -82,24 +85,40 @@ describe("planFields", () => {
     ]);
   });
 
-  describe("max_occurs", () => {
+  describe("max_items", () => {
     const repeating: Plan = {
       slug: "test",
-      sections: [
+      children: [
+        { kind: "field", label: "Name", required: true, json_path: "name" },
         {
-          title: "Single",
-          fields: [{ label: "Name", required: true, json_path: "name" }],
-        },
-        {
-          title: "Contacts",
-          max_occurs: 4,
-          fields: [
-            { label: "Role", required: true, json_path: "contacts[].role" },
+          kind: "section",
+          label: "Contacts",
+          max_items: 4,
+          children: [
             {
+              kind: "field",
+              label: "Role",
+              required: true,
+              json_path: "contacts[].role",
+            },
+            {
+              kind: "section",
+              label: "Address",
+              children: [
+                {
+                  kind: "field",
+                  label: "City",
+                  required: true,
+                  json_path: "contacts[].address.city",
+                },
+              ],
+            },
+            {
+              kind: "field",
               label: "Attachment",
               required: false,
               json_path: "contacts[].files[]",
-              max_occurs: "unbounded",
+              max_items: "unbounded",
             },
           ],
         },
@@ -112,12 +131,25 @@ describe("planFields", () => {
       expect(occurs("name")).toBe(1);
     });
 
-    it("inherits from section", () => {
+    it("inherits from the repeating section", () => {
       expect(occurs("contacts[].role")).toBe(4);
     });
 
-    it("lets field override section", () => {
+    it("inherits through a section nested in the repeating one", () => {
+      expect(occurs("contacts[].address.city")).toBe(4);
+    });
+
+    it("lets a field override its section", () => {
       expect(occurs("contacts[].files[]")).toBe("unbounded");
+    });
+
+    it("keeps fields in plan order across nested sections", () => {
+      expect([...planFields(repeating, "json_path").keys()]).toEqual([
+        "name",
+        "contacts[].role",
+        "contacts[].address.city",
+        "contacts[].files[]",
+      ]);
     });
   });
 });

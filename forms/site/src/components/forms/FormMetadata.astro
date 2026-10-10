@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { TOTAL_APPS } from "../../content.config";
 import { NO_FAMILY } from "../../lib/families";
+import { countFields } from "../../lib/planTree";
 
 interface Props {
   form: CollectionEntry<"forms">;
@@ -10,7 +11,7 @@ interface Props {
 const { form } = Astro.props;
 const d = form.data;
 const pct = d.apps_count ? ((d.apps_count / TOTAL_APPS) * 100).toFixed(2) : "0.00";
-const fieldCount = d.sections.reduce((sum, sec) => sum + sec.fields.length, 0);
+const fieldCount = countFields(d.children);
 const hasLinks = d.fid_url || d.pdf_url || d.xsd_url || d.dat_url;
 ---
 

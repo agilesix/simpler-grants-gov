@@ -1,24 +1,27 @@
 ---
-import type { SectionData, FieldData } from "../../content.config";
+import type { FormNode } from "../../content.config";
+import { countFields } from "../../lib/planTree";
 import FieldRow from "./FieldRow.astro";
 
 interface Props {
-  sections: SectionData[];
+  nodes: FormNode[];
 }
 
-const { sections } = Astro.props;
+const { nodes } = Astro.props;
 ---
 
-{sections.map((section) => (
-  <details class="field-section" open>
-    <summary>
-      {section.title}
-      <span class="section-count">{section.fields.length} fields</span>
-    </summary>
-    <div class="field-section__body">
-      {section.fields.map((field: FieldData) => (
-        <FieldRow field={field} />
-      ))}
-    </div>
-  </details>
-))}
+{nodes.map((node) =>
+  node.kind === "section" ? (
+    <details class="field-section" open>
+      <summary>
+        {node.label}
+        <span class="section-count">{countFields(node.children)} fields</span>
+      </summary>
+      <div class="field-section__body">
+        <Astro.self nodes={node.children} />
+      </div>
+    </details>
+  ) : (
+    <FieldRow field={node} />
+  ),
+)}

@@ -11,12 +11,7 @@
   "dat_url": "https://apply07.grants.gov/apply/forms/sample/RR_KeyPersonExpanded_4_0-V4.0_F774.xls",
   "omb_number": "4040-0001",
   "expiration_date": "01/31/2029",
-  "widgets": [
-    "TextWidget",
-    "SelectWidget",
-    "ApplicationAttachmentWidget",
-    "FieldListWidget"
-  ],
+  "widgets": ["TextWidget", "SelectWidget", "ApplicationAttachmentWidget", "FieldListWidget"],
   "description": "Research and Related Senior/Key Person Profile (Expanded) (RR_KeyPersonExpanded_4_0) is the expanded version of the R&R Senior/Key Person Profile form. It adds Degree Type and Degree Year fields to the person profile and is the most widely used form in this category, appearing in 7.89% of all grant applications.",
   "sgg_form_id": "rr_key_person_expanded",
   "notes": [
@@ -34,11 +29,13 @@
     "The Key Person section allows up to 99 entries (XSD maxOccurs=99)",
     "State and ZIP/Postal Code show asterisks in the DAT for Key Person (implying required) but the XSD marks them optional. The XSD is authoritative for required/optional."
   ],
-  "sections": [
+  "children": [
     {
-      "title": "1. PD/PI Profile (required, single entry)",
-      "fields": [
+      "kind": "section",
+      "label": "1. PD/PI Profile (required, single entry)",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "1-01",
           "required": false,
@@ -51,6 +48,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "1-02",
           "required": true,
@@ -63,6 +61,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "1-03",
           "required": false,
@@ -75,6 +74,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "1-04",
           "required": true,
@@ -87,6 +87,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "1-05",
           "required": false,
@@ -99,6 +100,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Position/Title",
           "dat_field": "1-06",
           "required": false,
@@ -111,6 +113,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Title"
         },
         {
+          "kind": "field",
           "label": "Department",
           "dat_field": "1-07",
           "required": false,
@@ -123,6 +126,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Department"
         },
         {
+          "kind": "field",
           "label": "Organization Name",
           "dat_field": "1-08",
           "required": false,
@@ -135,6 +139,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:OrganizationName"
         },
         {
+          "kind": "field",
           "label": "Division",
           "dat_field": "1-09",
           "required": false,
@@ -147,6 +152,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Division"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "1-11",
           "required": true,
@@ -159,6 +165,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "1-12",
           "required": false,
@@ -171,6 +178,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "1-13",
           "required": true,
@@ -183,6 +191,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "dat_field": "1-14",
           "required": false,
@@ -195,6 +204,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "1-15",
           "required": "Conditional",
@@ -207,6 +217,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "dat_field": "1-15a",
           "required": "Conditional",
@@ -219,6 +230,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "1-16",
           "required": true,
@@ -231,6 +243,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "1-17",
           "required": false,
@@ -243,6 +256,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "1-18",
           "required": true,
@@ -255,6 +269,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Phone"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "1-19",
           "required": false,
@@ -267,6 +282,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Fax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "1-20",
           "required": true,
@@ -279,6 +295,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Email"
         },
         {
+          "kind": "field",
           "label": "Credential, e.g., agency login",
           "dat_field": "1-21",
           "required": false,
@@ -290,6 +307,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Credential"
         },
         {
+          "kind": "field",
           "label": "Project Role",
           "dat_field": "1-22",
           "required": true,
@@ -301,6 +319,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:ProjectRole"
         },
         {
+          "kind": "field",
           "label": "Other Project Role Category",
           "dat_field": "1-23",
           "required": "Conditional",
@@ -312,6 +331,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:OtherProjectRoleCategory"
         },
         {
+          "kind": "field",
           "label": "Degree Type",
           "dat_field": "1-24",
           "required": false,
@@ -323,6 +343,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:DegreeType"
         },
         {
+          "kind": "field",
           "label": "Degree Year",
           "dat_field": "1-25",
           "required": false,
@@ -334,6 +355,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:DegreeYear"
         },
         {
+          "kind": "field",
           "label": "Biographical Sketch",
           "dat_field": "1-26",
           "required": true,
@@ -344,6 +366,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:BioSketchAttached"
         },
         {
+          "kind": "field",
           "label": "Current & Pending Support",
           "dat_field": "1-27",
           "required": false,
@@ -356,9 +379,11 @@
       ]
     },
     {
-      "title": "2. Senior/Key Person Profile (optional, repeating, up to 99)",
-      "fields": [
+      "kind": "section",
+      "label": "2. Senior/Key Person Profile (optional, repeating, up to 99)",
+      "children": [
         {
+          "kind": "field",
           "label": "Prefix",
           "dat_field": "2-01",
           "required": false,
@@ -370,6 +395,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:PrefixName"
         },
         {
+          "kind": "field",
           "label": "First Name",
           "dat_field": "2-02",
           "required": true,
@@ -381,6 +407,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:FirstName"
         },
         {
+          "kind": "field",
           "label": "Middle Name",
           "dat_field": "2-03",
           "required": false,
@@ -392,6 +419,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:MiddleName"
         },
         {
+          "kind": "field",
           "label": "Last Name",
           "dat_field": "2-04",
           "required": true,
@@ -403,6 +431,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:LastName"
         },
         {
+          "kind": "field",
           "label": "Suffix",
           "dat_field": "2-05",
           "required": false,
@@ -414,6 +443,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name/globLib:SuffixName"
         },
         {
+          "kind": "field",
           "label": "Position/Title",
           "dat_field": "2-06",
           "required": false,
@@ -425,6 +455,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Title"
         },
         {
+          "kind": "field",
           "label": "Department",
           "dat_field": "2-07",
           "required": false,
@@ -436,6 +467,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Department"
         },
         {
+          "kind": "field",
           "label": "Organization Name",
           "dat_field": "2-08",
           "required": false,
@@ -447,6 +479,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:OrganizationName"
         },
         {
+          "kind": "field",
           "label": "Division",
           "dat_field": "2-09",
           "required": false,
@@ -458,6 +491,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Division"
         },
         {
+          "kind": "field",
           "label": "Street1",
           "dat_field": "2-11",
           "required": true,
@@ -469,6 +503,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street1"
         },
         {
+          "kind": "field",
           "label": "Street2",
           "dat_field": "2-12",
           "required": false,
@@ -480,6 +515,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Street2"
         },
         {
+          "kind": "field",
           "label": "City",
           "dat_field": "2-13",
           "required": true,
@@ -491,6 +527,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:City"
         },
         {
+          "kind": "field",
           "label": "County/Parish",
           "dat_field": "2-14",
           "required": false,
@@ -502,6 +539,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:County"
         },
         {
+          "kind": "field",
           "label": "State",
           "dat_field": "2-15",
           "required": "Conditional",
@@ -513,6 +551,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:State"
         },
         {
+          "kind": "field",
           "label": "Province",
           "dat_field": "2-15a",
           "required": "Conditional",
@@ -524,6 +563,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Province"
         },
         {
+          "kind": "field",
           "label": "Country",
           "dat_field": "2-16",
           "required": true,
@@ -535,6 +575,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:Country"
         },
         {
+          "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "2-17",
           "required": false,
@@ -546,6 +587,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "field",
           "label": "Phone Number",
           "dat_field": "2-18",
           "required": true,
@@ -557,6 +599,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Phone"
         },
         {
+          "kind": "field",
           "label": "Fax Number",
           "dat_field": "2-19",
           "required": false,
@@ -568,6 +611,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Fax"
         },
         {
+          "kind": "field",
           "label": "Email",
           "dat_field": "2-20",
           "required": true,
@@ -579,6 +623,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Email"
         },
         {
+          "kind": "field",
           "label": "Credential, e.g., agency login",
           "dat_field": "2-21",
           "required": false,
@@ -590,6 +635,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Credential"
         },
         {
+          "kind": "field",
           "label": "Project Role",
           "dat_field": "2-22",
           "required": true,
@@ -601,6 +647,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:ProjectRole"
         },
         {
+          "kind": "field",
           "label": "Other Project Role Category",
           "dat_field": "2-23",
           "required": "Conditional",
@@ -612,6 +659,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:OtherProjectRoleCategory"
         },
         {
+          "kind": "field",
           "label": "Degree Type",
           "dat_field": "2-24",
           "required": false,
@@ -623,6 +671,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:DegreeType"
         },
         {
+          "kind": "field",
           "label": "Degree Year",
           "dat_field": "2-25",
           "required": false,
@@ -634,6 +683,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:DegreeYear"
         },
         {
+          "kind": "field",
           "label": "Biographical Sketch",
           "dat_field": "2-26",
           "required": false,
@@ -644,6 +694,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:BioSketchAttached"
         },
         {
+          "kind": "field",
           "label": "Current & Pending Support",
           "dat_field": "2-27",
           "required": false,
@@ -656,9 +707,11 @@
       ]
     },
     {
-      "title": "3. Attachments",
-      "fields": [
+      "kind": "section",
+      "label": "3. Attachments",
+      "children": [
         {
+          "kind": "field",
           "label": "Additional Profiles",
           "required": false,
           "type": "File upload",
@@ -668,6 +721,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:AdditionalProfilesAttached/RR_KeyPersonExpanded_4_0:AdditionalProfileAttached"
         },
         {
+          "kind": "field",
           "label": "Additional Biographical Sketches",
           "required": false,
           "type": "File upload",
@@ -677,6 +731,7 @@
           "xml_path": "RR_KeyPersonExpanded_4_0:BioSketchsAttached/RR_KeyPersonExpanded_4_0:BioSketchAttached"
         },
         {
+          "kind": "field",
           "label": "Additional Current & Pending Support",
           "required": false,
           "type": "File upload",

@@ -3,20 +3,21 @@
  * each field differs in, and how the sheet words it. The stores in `stores/fieldComparison.ts`
  * hold the state; these only compute from it.
  */
-import type { FieldData } from "@/content.config";
+import type { FieldNode } from "@/content.config";
 import type {
   Attribute,
   AttributeRow,
   Cell,
+  ComparisonNode,
   FieldComparison as ParityField,
   FormComparison as ParityForm,
   Source,
   Status,
 } from "@parity/comparison.ts";
 
-export type { Attribute, AttributeRow, Cell, Source, Status };
-export type FieldComparison = ParityField<FieldData>;
-export type FormComparison = ParityForm<FieldData>;
+export type { Attribute, AttributeRow, Cell, ComparisonNode, Source, Status };
+export type FieldComparison = ParityField<FieldNode>;
+export type FormComparison = ParityForm<FieldNode>;
 
 /** A recorded difference's category. */
 export type DiffType = "gap" | "upstream" | "intentional";
@@ -133,6 +134,28 @@ export function visibleFields(
   );
 }
 
+/**
+ * The plan's tree cut down to the fields in `visible`, keeping each section that still holds
+ * one and dropping the rest.
+ */
+export function visibleTree(
+  nodes: readonly ComparisonNode[],
+  visible: ReadonlySet<string>,
+): ComparisonNode[] {
+  return nodes.flatMap((node): ComparisonNode[] => {
+    if (node.kind === "field") return visible.has(node.id) ? [node] : [];
+    const children = visibleTree(node.children, visible);
+    return children.length ? [{ ...node, children }] : [];
+  });
+}
+
+/** How many fields a node holds: one for a field, every field under a section. */
+export function fieldCount(node: ComparisonNode): number {
+  return node.kind === "field"
+    ? 1
+    : node.children.reduce((sum, child) => sum + fieldCount(child), 0);
+}
+
 /** For each tile: how many differences (or matching fields), and in how many fields. */
 export function categoryCounts(
   fields: readonly FieldComparison[],
@@ -211,7 +234,7 @@ export function summarize(field: FieldComparison): string {
 }
 
 /** How the field tree words a plan field's requiredness, as `FieldRow.astro` does. */
-export function requiredLabel(field: FieldData): string | undefined {
+export function requiredLabel(field: FieldNode): string | undefined {
   if (field.required === true) return "* Required";
   if (typeof field.required === "string" && field.required !== "false")
     return field.required;

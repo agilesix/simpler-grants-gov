@@ -1,5 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
+import type { FieldNode } from "../../content.config";
 import Base from "../../layouts/Base.astro";
 import FormMetadata from "../../components/forms/FormMetadata.astro";
 import FormFieldTree from "../../components/forms/FormFieldTree.astro";
@@ -19,7 +20,7 @@ export async function getStaticPaths() {
 
 const { form } = Astro.props;
 const spec = form.data.spec_id ? await loadFormSpec(form.data.spec_id) : undefined;
-const comparison = await compareForm(form.data);
+const comparison = await compareForm<FieldNode>(form.data);
 const notes = form.data.notes ?? [];
 
 const STATUS_LABELS: Record<string, string> = {
@@ -51,7 +52,7 @@ const STATUS_LABELS: Record<string, string> = {
 
     <FormMetadata form={form} />
 
-    {form.data.sections.length > 0 ? (
+    {form.data.children.length > 0 ? (
       <>
         <div class="tab-bar" role="tablist">
           <button class="tab-bar__tab tab-bar__tab--active" role="tab" aria-selected="true" data-tab="fields">
@@ -82,7 +83,7 @@ const STATUS_LABELS: Record<string, string> = {
             <FieldComparison client:load comparison={comparison} />
           ) : (
             <div class="field-tree">
-              <FormFieldTree sections={form.data.sections} />
+              <FormFieldTree nodes={form.data.children} />
             </div>
           )}
           {notes.length > 0 && (
