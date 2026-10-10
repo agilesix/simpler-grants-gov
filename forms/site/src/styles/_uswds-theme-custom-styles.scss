@@ -1318,7 +1318,12 @@ details[open] > .group-header::before {
   }
 
   > .section-meta,
-  > .field-section__body {
+  > // The summed differences sit at the row's end, where a field row's badges do.
+.section-badges {
+  margin-left: auto;
+}
+
+.field-section__body {
     margin-left: 9px;
     border-left: 2px solid color("base-lighter");
   }
@@ -1361,8 +1366,10 @@ details[open] > .group-header::before {
 }
 
 // A section's help, widget and Details, indented to its label as a field row's are.
+// Set off from the section's children by a line, as each field row is from the next.
 .section-meta {
   padding: 0 units(2) units(1) units(4);
+  border-bottom: 1px solid color("base-lighter");
 
   &:empty {
     display: none;
@@ -1374,7 +1381,6 @@ details[open] > .group-header::before {
 }
 
 .section-count {
-  margin-left: auto;
   @include u-font("sans", "3xs");
   font-weight: 600;
   color: color("base");
