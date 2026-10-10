@@ -4,6 +4,8 @@ import {
   categoryCounts,
   defaultCell,
   fieldCount,
+  repeatLabel,
+  rollupCounts,
   summarize,
   visibleDifferences,
   visibleFields,
@@ -12,6 +14,7 @@ import {
   type ComparisonNode,
   type FieldComparison,
   type Status,
+  type VisibleNode,
 } from "./comparison";
 
 const cell = (status: Status): Cell => ({ status, value: null });
@@ -83,27 +86,82 @@ describe("visibleTree", () => {
     leaf("matching"),
     section("Contact", [leaf("gap"), section("Address", [leaf("mixed")])]),
   ];
+  const labels = (nodes: VisibleNode[]): unknown[] =>
+    nodes.map((node) =>
+      node.kind === "field"
+        ? node.id
+        : { [`${node.section.label} (${node.total})`]: labels(node.children) },
+    );
 
   it("keeps the whole tree when every field is visible", () => {
-    expect(visibleTree(TREE, new Set(["matching", "gap", "mixed"]))).toEqual(
-      TREE,
-    );
+    expect(
+      labels(visibleTree(TREE, new Set(["matching", "gap", "mixed"]))),
+    ).toEqual([
+      "matching",
+      { "Contact (2)": ["gap", { "Address (1)": ["mixed"] }] },
+    ]);
   });
 
   it("drops a section once none of its fields is visible", () => {
-    expect(visibleTree(TREE, new Set(["gap"]))).toEqual([
-      section("Contact", [leaf("gap")]),
+    expect(labels(visibleTree(TREE, new Set(["gap"])))).toEqual([
+      { "Contact (2)": ["gap"] },
     ]);
   });
 
   it("keeps the sections leading to a visible nested field", () => {
-    expect(visibleTree(TREE, new Set(["mixed"]))).toEqual([
-      section("Contact", [section("Address", [leaf("mixed")])]),
+    expect(labels(visibleTree(TREE, new Set(["mixed"])))).toEqual([
+      { "Contact (2)": [{ "Address (1)": ["mixed"] }] },
     ]);
   });
 
   it("counts the fields under a section at every depth", () => {
     expect(fieldCount(TREE[1])).toBe(2);
+  });
+});
+
+describe("rollupCounts", () => {
+  const CONTACT: ComparisonNode = {
+    kind: "section",
+    section: { kind: "section", label: "Contact" },
+    children: FIELDS.map((f) => ({ kind: "field", id: f.id })),
+  };
+  const BY_ID = new Map(FIELDS.map((f) => [f.id, f]));
+
+  it("sums every category without a filter", () => {
+    expect(rollupCounts(CONTACT, BY_ID)).toEqual({
+      gap: 1,
+      upstream: 1,
+      intentional: 1,
+    });
+  });
+
+  it("sums only the filtered categories", () => {
+    expect(rollupCounts(CONTACT, BY_ID, ["gap"])).toEqual({
+      gap: 1,
+      upstream: 0,
+      intentional: 0,
+    });
+  });
+
+  it("sums nothing while only matching fields are shown", () => {
+    expect(rollupCounts(CONTACT, BY_ID, ["matches"])).toEqual({
+      gap: 0,
+      upstream: 0,
+      intentional: 0,
+    });
+  });
+});
+
+describe("repeatLabel", () => {
+  it.each([
+    [{}, undefined],
+    [{ min_items: 1, max_items: 4 }, "1–4 entries"],
+    [{ max_items: 99 }, "Up to 99 entries"],
+    [{ min_items: 2, max_items: 2 }, "2 entries"],
+    [{ min_items: 1, max_items: "unbounded" as const }, "1 or more entries"],
+    [{ max_items: "unbounded" as const }, "Any number of entries"],
+  ])("words %j as %s", (node, expected) => {
+    expect(repeatLabel(node)).toBe(expected);
   });
 });
 

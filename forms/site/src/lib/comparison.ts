@@ -134,6 +134,14 @@ export function visibleFields(
   );
 }
 
+/** A section as the tree shows it: the fields the filter left, out of `total`. */
+export type VisibleSection = Extract<ComparisonNode, { kind: "section" }> & {
+  children: VisibleNode[];
+  total: number;
+};
+export type VisibleNode =
+  Extract<ComparisonNode, { kind: "field" }> | VisibleSection;
+
 /**
  * The plan's tree cut down to the fields in `visible`, keeping each section that still holds
  * one and dropping the rest.
@@ -141,11 +149,13 @@ export function visibleFields(
 export function visibleTree(
   nodes: readonly ComparisonNode[],
   visible: ReadonlySet<string>,
-): ComparisonNode[] {
-  return nodes.flatMap((node): ComparisonNode[] => {
+): VisibleNode[] {
+  return nodes.flatMap((node): VisibleNode[] => {
     if (node.kind === "field") return visible.has(node.id) ? [node] : [];
     const children = visibleTree(node.children, visible);
-    return children.length ? [{ ...node, children }] : [];
+    return children.length
+      ? [{ ...node, children, total: fieldCount(node) }]
+      : [];
   });
 }
 
@@ -154,6 +164,43 @@ export function fieldCount(node: ComparisonNode): number {
   return node.kind === "field"
     ? 1
     : node.children.reduce((sum, child) => sum + fieldCount(child), 0);
+}
+
+/**
+ * The differences in every field under `node`, by category. While a filter is on, only its
+ * categories are summed, so a section's badges agree with the rows the filter shows.
+ */
+export function rollupCounts(
+  node: ComparisonNode,
+  fields: ReadonlyMap<string, FieldComparison>,
+  filter: readonly FilterKey[] = [],
+): Record<DiffType, number> {
+  const shown = filter.some((key) => key !== "matches")
+    ? DIFF_TYPES.filter((type) => filter.includes(type))
+    : filter.length
+      ? []
+      : DIFF_TYPES;
+  const sum: Record<DiffType, number> = { gap: 0, upstream: 0, intentional: 0 };
+  const visit = (n: ComparisonNode) => {
+    if (n.kind === "section") return n.children.forEach(visit);
+    const field = fields.get(n.id);
+    if (field) for (const type of shown) sum[type] += field.counts[type];
+  };
+  visit(node);
+  return sum;
+}
+
+/** How many entries a repeating node allows, e.g. "1–4 entries"; undefined when it does not repeat. */
+export function repeatLabel(node: {
+  min_items?: number;
+  max_items?: number | "unbounded";
+}): string | undefined {
+  const { min_items: min, max_items: max } = node;
+  if (max === undefined && min === undefined) return undefined;
+  if (max === undefined || max === "unbounded")
+    return min ? `${min} or more entries` : "Any number of entries";
+  if (min === undefined) return `Up to ${max} entries`;
+  return min === max ? `${max} entries` : `${min}–${max} entries`;
 }
 
 /** For each tile: how many differences (or matching fields), and in how many fields. */

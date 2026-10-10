@@ -2,26 +2,31 @@
 import type { FormNode } from "../../content.config";
 import { countFields } from "../../lib/planTree";
 import FieldRow from "./FieldRow.astro";
+import SectionMeta from "./SectionMeta";
+import SectionSummary from "./SectionSummary";
 
 interface Props {
   nodes: FormNode[];
+  /** 0 for the top level. */
+  depth?: number;
 }
 
-const { nodes } = Astro.props;
+const { nodes, depth = 0 } = Astro.props;
 ---
 
-{nodes.map((node) =>
-  node.kind === "section" ? (
-    <details class="field-section" open>
+{nodes.map((node) => {
+  if (node.kind === "field") return <FieldRow field={node} />;
+  const { children, ...section } = node;
+  const total = countFields(children);
+  return (
+    <details class={depth ? "field-section field-section--nested" : "field-section"} open>
       <summary>
-        {node.label}
-        <span class="section-count">{countFields(node.children)} fields</span>
+        <SectionSummary section={section} count={`${total} ${total === 1 ? "field" : "fields"}`} />
       </summary>
+      <SectionMeta section={section} />
       <div class="field-section__body">
-        <Astro.self nodes={node.children} />
+        <Astro.self nodes={children} depth={depth + 1} />
       </div>
     </details>
-  ) : (
-    <FieldRow field={node} />
-  ),
-)}
+  );
+})}

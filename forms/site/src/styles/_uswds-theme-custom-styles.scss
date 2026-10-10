@@ -1261,6 +1261,7 @@ details[open] > .group-header::before {
 
   > summary {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: units(1);
     padding: units("105") units(2);
@@ -1292,6 +1293,83 @@ details[open] > .group-header::before {
 
   &[open] > summary::before {
     transform: rotate(90deg);
+  }
+}
+
+// A section inside another: a row on a guide line rather than a card of its own.
+.field-section--nested {
+  border: none;
+  border-radius: 0;
+  margin: 0 0 0 units(2);
+  overflow: visible;
+
+  > summary {
+    padding: units("105") units(2) units("05") units("05");
+    background: none;
+    @include u-font("sans", "2xs");
+  }
+
+  > .section-meta,
+  > .field-section__body {
+    margin-left: 9px;
+    border-left: 2px solid color("base-lighter");
+  }
+
+  > .field-section__body {
+    padding: 0;
+  }
+
+  @media (max-width: 640px) {
+    margin-left: units(1);
+  }
+}
+
+.section-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px units(1);
+  border: 1px solid color("base-light");
+  border-radius: 999px;
+  background: color("white");
+  @include u-font("sans", "3xs");
+  font-weight: 600;
+  color: color("base-darker");
+}
+
+// Always visible: a section has no Compare sheet, so its IDs sit under its summary.
+.section-meta {
+  padding: units("05") units(2) units(1) units(4);
+  @include u-font("sans", "3xs");
+  color: color("base");
+
+  @media (max-width: 640px) {
+    padding-left: units(2);
+  }
+}
+
+.section-meta__help {
+  margin: 0 0 2px;
+  font-style: italic;
+  color: color("base-dark");
+}
+
+.section-meta__ids {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px units("105");
+  margin: 0;
+
+  > div {
+    display: inline-flex;
+    gap: units("05");
+    min-width: 0;
+  }
+
+  dd {
+    margin: 0;
+    font-family: family("mono");
+    color: color("base-darker");
+    overflow-wrap: anywhere;
   }
 }
 

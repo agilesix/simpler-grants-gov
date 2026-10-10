@@ -1,21 +1,50 @@
-import { fieldCount, type ComparisonNode } from "@/lib/comparison";
+import {
+  fieldCount,
+  type DiffType,
+  type VisibleSection,
+} from "@/lib/comparison";
 import type { ReactNode } from "react";
 
+import SectionMeta from "../SectionMeta";
+import SectionSummary from "../SectionSummary";
+import RollupBadges from "./RollupBadges";
+
 interface Props {
-  node: Extract<ComparisonNode, { kind: "section" }>;
+  node: VisibleSection;
+  /** 0 for a top-level section. */
+  depth: number;
+  counts: Record<DiffType, number>;
+  filtering: boolean;
   children: ReactNode;
 }
 
-export default function FieldSection({ node, children }: Props) {
-  const count = fieldCount(node);
+export default function FieldSection({
+  node,
+  depth,
+  counts,
+  filtering,
+  children,
+}: Props) {
+  const shown = fieldCount(node);
+  const unit = node.total === 1 ? "field" : "fields";
+  const count = filtering
+    ? `${shown} of ${node.total} ${unit}`
+    : `${node.total} ${unit}`;
   return (
-    <details className="field-section" open>
+    <details
+      className={
+        depth ? "field-section field-section--nested" : "field-section"
+      }
+      open
+    >
       <summary>
-        {node.section.label}
-        <span className="section-count">
-          {count} {count === 1 ? "field" : "fields"}
-        </span>
+        <SectionSummary
+          section={node.section}
+          count={count}
+          badges={<RollupBadges counts={counts} />}
+        />
       </summary>
+      <SectionMeta section={node.section} />
       <div className="field-section__body">{children}</div>
     </details>
   );

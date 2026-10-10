@@ -191,6 +191,20 @@ $statuses: match, intentional, upstream, gap, unrecorded, notCompared;
   display: contents;
 }
 
+.rollup-badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: units(1);
+}
+
+.rollup-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  @include u-font("sans", "3xs");
+  font-weight: 700;
+}
+
 .deviation-badges {
   display: flex;
   flex-wrap: wrap;
