@@ -11,6 +11,8 @@ import RollupBadges from "./RollupBadges";
 
 interface Props {
   node: VisibleSection;
+  /** The labels of the section's visible children, in order. */
+  contents: string[];
   /** 0 for a top-level section. */
   depth: number;
   counts: Record<DiffType, number>;
@@ -20,6 +22,7 @@ interface Props {
 
 export default function FieldSection({
   node,
+  contents,
   depth,
   counts,
   filtering,
@@ -42,6 +45,7 @@ export default function FieldSection({
           section={node.section}
           count={count}
           badges={<RollupBadges counts={counts} />}
+          contents={contents}
         />
       </summary>
       <SectionMeta section={node.section} />

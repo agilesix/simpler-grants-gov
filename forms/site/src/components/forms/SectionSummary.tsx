@@ -8,10 +8,20 @@ interface Props {
   count: string;
   /** Badges summing the section's differences, when the form is compared. */
   badges?: ReactNode;
+  /** Its children's labels, listed while the section is collapsed. */
+  contents: string[];
 }
 
-/** What a section's `<summary>` shows: its label, how often it repeats, and its fields. */
-export default function SectionSummary({ section, count, badges }: Props) {
+/**
+ * What a section's `<summary>` shows: its label, how often it repeats, and its fields. While
+ * the section is collapsed it also lists what it holds, which its rows show once it is open.
+ */
+export default function SectionSummary({
+  section,
+  count,
+  badges,
+  contents,
+}: Props) {
   const repeats = repeatLabel(section);
   return (
     <>
@@ -19,6 +29,9 @@ export default function SectionSummary({ section, count, badges }: Props) {
       {repeats && <span className="section-chip">↻ {repeats}</span>}
       {badges}
       <span className="section-count">{count}</span>
+      {contents.length > 0 && (
+        <span className="section-contents">{contents.join(" · ")}</span>
+      )}
     </>
   );
 }

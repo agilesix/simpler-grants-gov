@@ -21,7 +21,11 @@ const { nodes, depth = 0 } = Astro.props;
   return (
     <details class={depth ? "field-section field-section--nested" : "field-section"} open>
       <summary>
-        <SectionSummary section={section} count={`${total} ${total === 1 ? "field" : "fields"}`} />
+        <SectionSummary
+          section={section}
+          count={`${total} ${total === 1 ? "field" : "fields"}`}
+          contents={children.map((child) => child.label)}
+        />
       </summary>
       <SectionMeta section={section} />
       <div class="field-section__body">

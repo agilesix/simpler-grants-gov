@@ -23,6 +23,11 @@ export default function TreeNodes({ nodes, fields, filter, depth = 0 }: Props) {
         <FieldSection
           key={index}
           node={node}
+          contents={node.children.map((child) =>
+            child.kind === "section"
+              ? child.section.label
+              : (fields.get(child.id)?.field.label ?? ""),
+          )}
           depth={depth}
           counts={rollupCounts(node, fields, filter)}
           filtering={filter.length > 0}

@@ -1332,6 +1332,22 @@ details[open] > .group-header::before {
   }
 }
 
+// What a collapsed section holds, on its own line under the summary; its rows replace it once open.
+.section-contents {
+  flex-basis: 100%;
+  padding-left: units(2);
+  @include u-font("sans", "3xs");
+  font-weight: 400;
+  color: color("base");
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  details[open] > summary > & {
+    display: none;
+  }
+}
+
 .section-chip {
   display: inline-flex;
   align-items: center;
