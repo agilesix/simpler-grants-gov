@@ -2,12 +2,12 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import FormMetadata from "../../components/forms/FormMetadata.astro";
-import FormDeviations from "../../components/forms/FormDeviations.astro";
 import FormFieldTree from "../../components/forms/FormFieldTree.astro";
+import FieldComparison from "@/components/forms/comparison/FieldComparison";
 import FormDataPanel from "../../components/forms/preview/FormDataPanel";
 import FormPreview from "../../components/forms/preview/FormPreview";
 import { loadFormSpec } from "../../lib/formSpec";
-import { deviationsFor } from "../../../../parity/deviations.ts";
+import { compareForm } from "@parity/comparison.ts";
 
 export async function getStaticPaths() {
   const forms = await getCollection("forms");
@@ -19,9 +19,8 @@ export async function getStaticPaths() {
 
 const { form } = Astro.props;
 const spec = form.data.spec_id ? await loadFormSpec(form.data.spec_id) : undefined;
-const deviations = deviationsFor(form.data);
+const comparison = await compareForm(form.data);
 const notes = form.data.notes ?? [];
-const hasDeviations = deviations.length > 0 || notes.length > 0;
 
 const STATUS_LABELS: Record<string, string> = {
   backlog: "Backlog",
@@ -73,22 +72,30 @@ const STATUS_LABELS: Record<string, string> = {
               <button class="tab-bar__tab tab-bar__tab--disabled" disabled>Data</button>
             </>
           )}
-          {hasDeviations ? (
-            <button class="tab-bar__tab" role="tab" aria-selected="false" data-tab="deviations">
-              Deviations
-            </button>
-          ) : (
-            <button class="tab-bar__tab tab-bar__tab--disabled" disabled>Deviations</button>
-          )}
           <button class="tab-bar__tab tab-bar__tab--disabled" disabled>JSON Schema</button>
           <button class="tab-bar__tab tab-bar__tab--disabled" disabled>XML Mapping</button>
         </div>
 
         <div data-panel="fields">
           <h2 class="section-title">Fields</h2>
-          <div class="field-tree">
-            <FormFieldTree sections={form.data.sections} />
-          </div>
+          {comparison ? (
+            <FieldComparison client:load comparison={comparison} />
+          ) : (
+            <div class="field-tree">
+              <FormFieldTree sections={form.data.sections} />
+            </div>
+          )}
+          {notes.length > 0 && (
+            <>
+              <h2 class="section-title margin-top-4">Notes</h2>
+              <p class="text-base">Context from planning. Unlike the comparison above, notes are not checked.</p>
+              <ul class="plan-notes">
+                {notes.map((note) => (
+                  <li>{note}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
 
         {spec && (
@@ -100,12 +107,6 @@ const STATUS_LABELS: Record<string, string> = {
               uischema={spec.uischema}
               example={spec.example}
             />
-          </div>
-        )}
-
-        {hasDeviations && (
-          <div data-panel="deviations" hidden>
-            <FormDeviations deviations={deviations} notes={notes} />
           </div>
         )}
 

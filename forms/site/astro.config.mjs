@@ -11,7 +11,7 @@ export default defineConfig({
       dedupe: ["react", "react-dom", "@trussworks/react-uswds"],
     },
     server: {
-      // `../parity` holds the recorded deviations each form page lists.
+      // `../parity` compares each form page's fields with their Grants.gov sources.
       fs: { allow: [".", "../parity", FRONTEND_ROOT] },
     },
     css: {

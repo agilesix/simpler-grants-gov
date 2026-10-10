@@ -118,9 +118,9 @@ or out of order is recorded by path alone.
 A recorded difference that stops being real fails _recorded differences still exist_, so
 the record cannot rot.
 
-Every recorded difference is listed on the form's page in the form library, under
-Deviations (see `deviations.ts`). Context that cannot be checked goes in the plan's `notes`
-instead, which the page shows separately.
+Every recorded difference is shown on the form's page in the form library, in the field
+tree's comparison sheet (see `comparison.ts`). Context that cannot be checked goes in the
+plan's `notes` instead, which the page shows separately.
 
 ## Layout
 
@@ -131,7 +131,7 @@ they cover.
 forms.test.ts       every check, per registered form -- start here
 harness.test.ts     each check, on hand-built fields: does it report what its name says?
 diffs/              one record of known differences per form
-deviations.ts       the recorded differences as the form library's Deviations tab lists them
+comparison.ts       each plan field against every source, as the form library's field tree shows it
 sources/
   fetch.ts            the parity:fetch CLI
   sources.lock.json   SHA-256 of every cached Grants.gov file

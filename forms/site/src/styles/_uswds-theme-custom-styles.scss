@@ -1231,79 +1231,8 @@ details[open] > .group-header::before {
   @include u-font("mono", "3xs");
 }
 
-// Deviations: recorded differences from Grants.gov, checked by forms/parity
-.deviation-group {
-  margin-bottom: units(4);
-}
-
-.deviation-group__title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: units(1);
-  margin: 0 0 units("105");
-  @include u-font("sans", "sm");
-}
-
-.deviation-group__description {
-  font-weight: 400;
-  color: color("base-dark");
-}
-
-.deviation-badge {
-  @extend .status-badge;
-}
-
-.deviation-badge--upstream {
-  background: color("accent-warm-lighter");
-  color: color("accent-warm-dark");
-}
-
-.deviation-badge--intentional {
-  background: color("primary-lighter");
-  color: color("primary-darker");
-}
-
-.deviation-badge--gap {
-  background: color("base-lighter");
-  color: color("base-darker");
-}
-
-.deviation {
-  border: 1px solid color("base-lighter");
-  border-radius: radius("md");
-  padding: units(2) units(3);
-  margin-bottom: units("105");
-}
-
-.deviation__reason {
-  margin: 0 0 units(1);
-  @include u-font("sans", "xs");
-}
-
-.deviation__fields {
-  margin: 0;
-  padding-left: units(2);
-  @include u-font("sans", "2xs");
-  color: color("base-darker");
-
-  li + li {
-    margin-top: units("05");
-  }
-}
-
-.deviation__path {
-  margin-left: units(1);
-  @include u-font("mono", "3xs");
-  color: color("base-dark");
-}
-
-.deviation__comparison {
-  margin: 0 units(1);
-  color: color("base");
-}
-
-.deviation-notes {
+// Plan notes, shown under the field tree
+.plan-notes {
   @include u-font("sans", "xs");
 
   li + li {
