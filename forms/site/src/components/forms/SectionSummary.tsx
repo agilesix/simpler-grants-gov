@@ -30,7 +30,12 @@ export default function SectionSummary({
       {badges}
       <span className="section-count">{count}</span>
       {contents.length > 0 && (
-        <span className="section-contents">{contents.join(" · ")}</span>
+        // Spans, not a list: a <summary> may hold only phrasing content.
+        <span className="section-contents">
+          {contents.map((label, index) => (
+            <span key={index}>{label}</span>
+          ))}
+        </span>
       )}
     </>
   );
