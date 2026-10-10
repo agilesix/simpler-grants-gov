@@ -50,6 +50,7 @@ model KeyContact {
   // https://github.com/agilesix/simpler-forms/issues/5 is released.
   /** Enter the contact's phone, fax and email. Phone and email are required. */
   @UI.label("Contact Information")
+  @UI.widget(Rendering.Widget.CollapsibleFieldset)
   @Validation.requiredPaths("phone", "email")
   contact: Questions.Types.ContactInfo;
 }

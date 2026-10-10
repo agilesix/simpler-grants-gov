@@ -29,6 +29,7 @@ model PersonAddress is Questions.Types.Address;
 model Person {
   /** Enter the contact's name. First and last name are required. */
   @UI.label("Name")
+  @UI.widget(Rendering.Widget.CollapsibleFieldset)
   @Validation.requiredPaths("firstName", "lastName")
   name: Questions.People.PersonName;
 
@@ -38,6 +39,7 @@ model Person {
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
+  @UI.widget(Rendering.Widget.CollapsibleFieldset)
   @Validation.requiredPaths("street1", "city", "country")
   @Validation.requiredPathWhen("state", "country", Questions.Types.CountryCode.USA)
   @Validation.requiredPathWhen("zipCode", "country", Questions.Types.CountryCode.USA)
@@ -45,6 +47,7 @@ model Person {
 
   /** Enter the contact's phone, fax and email. Phone is required. */
   @UI.label("Contact Information")
+  @UI.widget(Rendering.Widget.CollapsibleFieldset)
   @Validation.requiredPaths("phone")
   contact: Questions.Types.ContactInfo;
 }

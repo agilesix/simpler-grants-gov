@@ -41,5 +41,6 @@ model KeyContacts {
   @UI.section(KeyContactsSection.keyContacts)
   @minItems(1)
   @maxItems(4)
+  @UI.widget(Rendering.Widget.CollapsibleFieldList)
   keyContacts: Questions.People.KeyContact[];
 }
