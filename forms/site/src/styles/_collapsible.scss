@@ -1,0 +1,175 @@
+// The form library's collapsible widgets (components/forms/preview/collapsible): a section or
+// list entry that collapses to a read-only list of its answers.
+@use "uswds-core" as *;
+
+.collapsible {
+  margin-top: units(2);
+  border: 1px solid color("base-lighter");
+  border-radius: radius("md");
+  background: color("white");
+  min-width: 0;
+  padding: 0;
+}
+
+.collapsible--error {
+  border: 2px solid color("error-dark");
+}
+
+.collapsible__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: units(1) units("105");
+  min-height: units(6);
+  padding: 0 units("105") 0 units(2);
+  background: color("base-lightest");
+  border-radius: radius("md");
+
+  .collapsible--open > & {
+    border-bottom: 1px solid color("base-lighter");
+    border-radius: radius("md") radius("md") 0 0;
+  }
+}
+
+.collapsible__toggle {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: units("105");
+  min-height: units(5);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  @include u-font("sans", "md");
+  color: color("ink");
+  text-align: left;
+  cursor: pointer;
+}
+
+.collapsible__caret {
+  flex-shrink: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid color("base-darker");
+  transition: transform 0.15s;
+
+  [aria-expanded="true"] > & {
+    transform: rotate(90deg);
+  }
+}
+
+.collapsible__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: units(3);
+  height: units(3);
+  padding: 0 units("05");
+  border-radius: 999px;
+  background: color("base-lighter");
+  @include u-font("sans", "3xs");
+}
+
+.collapsible__action {
+  min-height: units(5);
+  margin: 0;
+}
+
+.collapsible__action--danger {
+  color: color("error-dark");
+}
+
+.collapsible__errors {
+  display: inline-flex;
+  align-items: center;
+  gap: units("05");
+  @include u-font("sans", "2xs");
+  font-weight: 700;
+  color: color("error-dark");
+
+  &::before {
+    content: "!";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: units("205");
+    height: units("205");
+    border-radius: 50%;
+    background: color("error-dark");
+    color: color("white");
+    @include u-font("sans", "3xs");
+  }
+}
+
+.collapsible__body {
+  padding: 0 units(2) units(2);
+}
+
+// Laid out like .metadata-card: each label beside its answer.
+.collapsible__summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: units("05") units(2);
+  margin: 0;
+  padding: units(1) units(3) units(2) units(5);
+  @include u-font("sans", "2xs");
+  align-items: baseline;
+
+  @media (max-width: 640px) {
+    grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+    padding: units(1) units(2) units(2);
+  }
+}
+
+.collapsible__summary-row {
+  display: contents;
+
+  dt {
+    font-weight: 600;
+    color: color("base-dark");
+    white-space: nowrap;
+
+    @media (max-width: 640px) {
+      white-space: normal;
+    }
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.collapsible__value--blank {
+  color: color("base");
+}
+
+.collapsible__value--missing {
+  font-weight: 600;
+  color: color("error-dark");
+}
+
+.collapsible__not-started {
+  margin: 0;
+  padding: units(1) units(3) units("105") units(5);
+  font-style: italic;
+  color: color("base");
+}
+
+.collapsible-list__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: units("05") units("105");
+}
+
+.collapsible-list__count {
+  @include u-font("sans", "2xs");
+  color: color("base");
+}
+
+.collapsible-list__group {
+  margin-top: units(2);
+}

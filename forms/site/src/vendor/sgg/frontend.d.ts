@@ -53,6 +53,18 @@ declare module "@sgg/frontend/utils/applyForm/getFieldConfig" {
   };
 }
 
+declare module "@sgg/frontend/utils/applyForm/fieldListHelpers" {
+  import type { FormattedFormValidationWarning } from "@sgg/frontend/types/applyForm/types";
+
+  export const getFieldListChildErrors: (args: {
+    rawErrors?: FormattedFormValidationWarning[];
+    fieldListPath: string;
+    entryIndex: number;
+    storagePath: string[];
+    childDefinition: string;
+  }) => string[];
+}
+
 declare module "@sgg/frontend/utils/formData/formDataUtils" {
   export const getByPointer: (target: object, pointer: string) => any;
 }

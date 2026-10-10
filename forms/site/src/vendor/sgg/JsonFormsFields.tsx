@@ -1,6 +1,8 @@
 // TEMPORARY COPY of the pending frontend/src/components/apply-form/jsonforms/JsonFormsFields.tsx,
 // so the form library can render with the SGG form widgets before the JSON Forms renderer
-// lands in the frontend. Only import paths are changed. Delete src/vendor/sgg with #12695.
+// lands in the frontend. Only import paths are changed, plus `extraRenderers`, which lets the
+// form library preview its own widgets beside the SGG ones. Delete src/vendor/sgg with #12695.
+import type { JsonFormsRendererRegistryEntry } from "@jsonforms/core";
 import { JsonForms } from "@jsonforms/react";
 import {
   JsonFormsStyleContext,
@@ -32,6 +34,8 @@ const uswdsStyles = [
   { name: "control.validation", classNames: ["usa-error-message"] },
 ];
 
+const NO_EXTRA_RENDERERS: JsonFormsRendererRegistryEntry[] = [];
+
 /**
  * The body of a form whose UI schema is JSON Forms. Takes the same props as `FormFields`
  * and renders into the same `<form>`, so saving is unchanged: every widget still submits
@@ -49,6 +53,7 @@ export const JsonFormsFields = ({
   formContext,
   isFormLocked,
   print,
+  extraRenderers = NO_EXTRA_RENDERERS,
 }: {
   errors: FormattedFormValidationWarning[] | null;
   formData: object;
@@ -57,8 +62,14 @@ export const JsonFormsFields = ({
   formContext?: RootBudgetFormContext;
   isFormLocked?: boolean;
   print?: boolean;
+  /** Renderers to rank against the SGG ones, for widgets only the form library has. */
+  extraRenderers?: JsonFormsRendererRegistryEntry[];
 }) => {
   const [ruleData, setRuleData] = useState<object>(formData);
+  const allRenderers = useMemo(
+    () => [...renderers, ...extraRenderers],
+    [extraRenderers],
+  );
 
   const adapterContext = useMemo<AdapterContextValue>(
     () => ({
@@ -90,7 +101,7 @@ export const JsonFormsFields = ({
             schema={schema as object}
             uischema={uiSchema}
             data={ruleData}
-            renderers={renderers}
+            renderers={allRenderers}
             cells={vanillaCells}
             readonly={isFormLocked || print}
             validationMode="NoValidation"
