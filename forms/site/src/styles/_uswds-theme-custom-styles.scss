@@ -1299,9 +1299,17 @@ details[open] > .group-header::before {
 // A section inside another: a row on a guide line rather than a card of its own.
 .field-section--nested {
   border: none;
+  // Separates the section from the field after it, as each field row's own border does.
+  border-bottom: 1px solid color("base-lighter");
   border-radius: 0;
-  margin: 0 0 0 units(2);
+  margin: 0;
+  // Padding rather than margin, so that border spans the row like a field's.
+  padding-left: units(2);
   overflow: visible;
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   > summary {
     padding: units("105") units(2) units("05") units("05");
@@ -1320,7 +1328,7 @@ details[open] > .group-header::before {
   }
 
   @media (max-width: 640px) {
-    margin-left: units(1);
+    padding-left: units(1);
   }
 }
 
