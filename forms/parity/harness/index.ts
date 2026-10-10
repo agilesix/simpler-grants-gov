@@ -183,10 +183,30 @@ const withAsterisk = (fields: Fields): Fields =>
     ]),
   );
 
-export async function checkForm(
+/** One form's plan beside each of its other artifacts, flattened and ready to compare. */
+export interface FormPairs {
+  plan: Plan;
+  /** Plan text the suite could not read. */
+  planProblems: Discrepancy[];
+  dat: Pair;
+  xsd: Pair;
+  /** Absent for a plan without a `spec_id`. */
+  compiled?: {
+    /** The compiled schema's leaves, as walked. */
+    schema: Fields;
+    jsonSchema: Pair;
+    uiSchema: Pair;
+    jsonSchemaVsXsd: Pair;
+    /** The leaves `index.json` lists. */
+    indexLeaves: Set<string>;
+  };
+}
+
+/** Reads and flattens every artifact for one form, pairing each with the plan. */
+export async function formPairs(
   diff: FormDiff,
   plans: Map<string, Plan> = loadPlans(),
-): Promise<FormCheck> {
+): Promise<FormPairs> {
   const plan = required(plans.get(diff.slug), `plan with slug ${diff.slug}`);
   const planProblems: Discrepancy[] = [];
 
@@ -197,20 +217,46 @@ export async function checkForm(
     required(plan.xsd_url, `xsd_url in plan ${diff.slug}`),
     (url) => readSource(url).toString("utf8"),
   );
-  const dat = comparePair(
-    pair(
-      diff.dat,
-      withAsterisk(planFields(plan, "dat_field", planProblems)),
-      datSource,
-    ),
-    SPECS.dat,
+  const dat = pair(
+    diff.dat,
+    withAsterisk(planFields(plan, "dat_field", planProblems)),
+    datSource,
   );
-  const xsd = comparePair(
-    pair(diff.xsd, planFields(plan, "xml_path"), xsdSource),
-    SPECS.xsd,
-  );
+  const xsd = pair(diff.xsd, planFields(plan, "xml_path"), xsdSource);
+  if (!plan.spec_id) return { plan, planProblems, dat, xsd };
+
+  const specId = plan.spec_id;
+  const schema = jsonSchemaFields(await loadFormSchema(specId));
+  const jsonPlan = planFields(plan, "json_path");
+  const joined = joinThroughPlan(diff, plan, schema, xsdSource);
+  return {
+    plan,
+    planProblems,
+    dat,
+    xsd,
+    compiled: {
+      schema,
+      jsonSchema: pair(diff.jsonSchema, jsonPlan, schema),
+      uiSchema: pair(
+        diff.uiSchema,
+        jsonPlan,
+        uiSchemaFields(loadUiSchema(specId), schema),
+      ),
+      jsonSchemaVsXsd: pair(diff.jsonSchemaVsXsd, joined.left, joined.right),
+      indexLeaves: new Set(indexLeaves(loadIndex(specId))),
+    },
+  };
+}
+
+export async function checkForm(
+  diff: FormDiff,
+  plans: Map<string, Plan> = loadPlans(),
+): Promise<FormCheck> {
+  const { planProblems, ...pairs } = await formPairs(diff, plans);
+  const dat = comparePair(pairs.dat, SPECS.dat);
+  const xsd = comparePair(pairs.xsd, SPECS.xsd);
   const requirements = { dat, xsd };
-  if (!plan.spec_id)
+  if (!pairs.compiled)
     return {
       requirements,
       suite: {
@@ -220,21 +266,11 @@ export async function checkForm(
       },
     };
 
-  const specId = plan.spec_id;
-  const schemaSource = jsonSchemaFields(await loadFormSchema(specId));
-  const uiSource = uiSchemaFields(loadUiSchema(specId), schemaSource);
-  const jsonPlan = planFields(plan, "json_path");
-  const joined = joinThroughPlan(diff, plan, schemaSource, xsdSource);
-  const jsonSchema = comparePair(
-    pair(diff.jsonSchema, jsonPlan, schemaSource),
-    SPECS.jsonSchema,
-  );
-  const uiSchema = comparePair(
-    pair(diff.uiSchema, jsonPlan, uiSource),
-    SPECS.uiSchema,
-  );
+  const { compiled } = pairs;
+  const jsonSchema = comparePair(compiled.jsonSchema, SPECS.jsonSchema);
+  const uiSchema = comparePair(compiled.uiSchema, SPECS.uiSchema);
   const jsonSchemaVsXsd = comparePair(
-    pair(diff.jsonSchemaVsXsd, joined.left, joined.right),
+    compiled.jsonSchemaVsXsd,
     SPECS.jsonSchemaVsXsd,
   );
 
@@ -244,10 +280,7 @@ export async function checkForm(
     xml: { jsonSchemaVsXsd },
     suite: {
       planProblems,
-      indexProblems: indexDisagreements(
-        schemaSource,
-        new Set(indexLeaves(loadIndex(specId))),
-      ),
+      indexProblems: indexDisagreements(compiled.schema, compiled.indexLeaves),
       stale: [dat, xsd, jsonSchema, uiSchema, jsonSchemaVsXsd].flatMap(
         (result) => result.stale,
       ),
@@ -255,6 +288,19 @@ export async function checkForm(
   };
 }
 
-export type { PairResult } from "./compare.ts";
+export {
+  comparePair,
+  matchFields,
+  type Accepted,
+  type Pair,
+  type PairResult,
+} from "./compare.ts";
+export type { Plan, PlanField, PlanSection } from "./flatten/plan.ts";
 export { loadPlans } from "./load.ts";
-export { report, type Discrepancy, type FormDiff } from "./model.ts";
+export {
+  report,
+  type Discrepancy,
+  type Fields,
+  type FlatField,
+  type FormDiff,
+} from "./model.ts";

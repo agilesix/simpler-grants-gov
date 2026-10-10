@@ -1,0 +1,95 @@
+import { beforeAll, describe, expect, it } from "vitest";
+
+import {
+  compareForm,
+  type Attribute,
+  type FormComparison,
+  type Source,
+} from "./comparison.ts";
+import { DIFFS } from "./diffs/index.ts";
+import { loadPlans } from "./harness/index.ts";
+
+const PLANS = loadPlans();
+
+const statusOf = (
+  form: FormComparison,
+  id: string,
+  attribute: Attribute,
+  source: Source,
+) => {
+  const field = form.fields.find((f) => f.id === id);
+  return field?.rows.find((row) => row.attribute === attribute)?.cells[source]
+    .status;
+};
+
+describe("Key Contacts", () => {
+  let form: FormComparison;
+  beforeAll(async () => {
+    form = (await compareForm(PLANS.get("key-contacts")!))!;
+  });
+
+  describe("State", () => {
+    const id = "key_contacts[].address.state";
+
+    it("DAT label differs upstream", () => {
+      expect(statusOf(form, id, "label", "dat")).toBe("upstream");
+    });
+
+    it("DAT help is known gap", () => {
+      expect(statusOf(form, id, "help", "dat")).toBe("gap");
+    });
+
+    it("form options match XSD", () => {
+      expect(statusOf(form, id, "options", "form")).toBe("match");
+    });
+
+    it("XSD label is not compared", () => {
+      expect(statusOf(form, id, "label", "xsd")).toBe("notCompared");
+    });
+  });
+
+  describe("Phone Number", () => {
+    it("form names it differently on purpose", () => {
+      expect(statusOf(form, "key_contacts[].phone", "matchedBy", "form")).toBe(
+        "intentional",
+      );
+    });
+  });
+
+  describe("Applicant Organization Name", () => {
+    it("matches every source it is compared with", () => {
+      const field = form.fields.find(
+        (f) => f.id === "applicant_organization_name",
+      )!;
+      const statuses = new Set(
+        field.rows.flatMap((row) =>
+          Object.values(row.cells).map((cell) => cell.status),
+        ),
+      );
+      expect([...statuses].sort()).toEqual(["match", "notCompared"]);
+    });
+  });
+});
+
+describe.each(DIFFS)("$slug", (diff) => {
+  it("shows no unrecorded differences", async () => {
+    const form = (await compareForm(PLANS.get(diff.slug)!))!;
+    const unrecorded = form.fields.flatMap((field) =>
+      field.rows.flatMap((row) =>
+        Object.entries(row.cells)
+          .filter(([, cell]) => cell.status === "unrecorded")
+          .map(([source]) => `${field.id} ${row.attribute} (${source})`),
+      ),
+    );
+    expect(unrecorded).toEqual([]);
+  });
+});
+
+describe("form without parity record", () => {
+  it("has no comparison", async () => {
+    const plan = [...PLANS.values()].find(
+      (p) => !DIFFS.some((d) => d.slug === p.slug),
+    )!;
+    expect(await compareForm(plan)).toBeNull();
+  });
+});

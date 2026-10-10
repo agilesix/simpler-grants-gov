@@ -6,6 +6,7 @@ import {
   type Keyword,
   type Path,
   type Pinned,
+  type Recorded,
   type Registers,
   type Value,
 } from "./model.ts";
@@ -18,7 +19,7 @@ export interface Pair {
 }
 
 /** Plan path -> source path. A declared rename beats an identity match. */
-function matchFields(pair: Pair): Map<Path, Path> {
+export function matchFields(pair: Pair): Map<Path, Path> {
   const renamed = pair.registers.renamed ?? {};
   const targets = new Set(Object.values(renamed).map((entry) => entry.to));
   const matched = new Map<Path, Path>();
@@ -228,7 +229,14 @@ function ruleDifferences(
   return found;
 }
 
+/** A difference a register accepts, with the entry that accepts it. */
+export interface Accepted extends Discrepancy {
+  entry: Recorded;
+}
+
 interface Settled {
+  /** Differences a register records, at the values it records them. */
+  accepted: Accepted[];
   /** Differences no register records. */
   unexpected: Discrepancy[];
   /** Register entries that no longer describe a real difference. */
@@ -254,6 +262,7 @@ function settle(pair: Pair, found: readonly Discrepancy[]): Settled {
   const { registers } = pair;
   const entryFor = (d: Discrepancy) =>
     d.recordAs && registers[d.recordAs.register]?.[d.recordAs.key];
+  const accepted: Accepted[] = [];
   const unexpected: Discrepancy[] = [];
   for (const d of found) {
     const entry = entryFor(d);
@@ -271,6 +280,8 @@ function settle(pair: Pair, found: readonly Discrepancy[]): Settled {
         ...d,
         detail: `${d.detail}; recorded as plan ${show(entry.plan)}, source ${show(entry.source)}`,
       });
+    } else {
+      accepted.push({ ...d, entry });
     }
   }
   const entries = (
@@ -303,7 +314,7 @@ function settle(pair: Pair, found: readonly Discrepancy[]): Settled {
             : undefined;
     if (problem) stale.push({ kind: "stale entry", path, detail: problem });
   }
-  return { unexpected, stale };
+  return { accepted, unexpected, stale };
 }
 
 /**
@@ -334,6 +345,8 @@ export interface PairResult {
   fieldConstraints: Discrepancy[];
   fieldOccurrences: Discrepancy[];
   helpText: Discrepancy[];
+  /** Differences the form's record accepts. */
+  recorded: Accepted[];
   /** Recorded differences that no longer exist. */
   stale: Discrepancy[];
 }
@@ -361,7 +374,7 @@ export function comparePair(pair: Pair, spec: PairSpec): PairResult {
       ? ruleDifferences(pair, ["maxOccurs"], spec.occurrences, false)
       : []),
   ];
-  const { unexpected, stale } = settle(pair, found);
+  const { accepted, unexpected, stale } = settle(pair, found);
   const ofKind = (kind: string) => unexpected.filter((d) => d.kind === kind);
   const [lacking, adding] =
     spec.subject === "plan"
@@ -375,6 +388,7 @@ export function comparePair(pair: Pair, spec: PairSpec): PairResult {
     fieldConstraints: unexpected.filter((d) => CONSTRAINT_KINDS.has(d.kind)),
     fieldOccurrences: ofKind(OCCURRENCES_KIND),
     helpText: ofKind("help differs"),
+    recorded: accepted,
     stale,
   };
 }

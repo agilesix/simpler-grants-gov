@@ -15,8 +15,19 @@ import type { Json } from "./model.ts";
 // Locations
 // ---------------------------------------------------------------------------------------
 
-/** `forms/`, whatever directory the suite runs from. */
-export const FORMS_ROOT = fileURLToPath(new URL("../../", import.meta.url));
+/**
+ * `forms/`, whatever directory the suite runs from. Found by walking up from this module
+ * rather than by a fixed relative path, because the site bundles it into a build chunk.
+ */
+export const FORMS_ROOT = (() => {
+  let dir = path.dirname(fileURLToPath(import.meta.url));
+  while (!existsSync(path.join(dir, "tspconfig.yaml"))) {
+    const parent = path.dirname(dir);
+    if (parent === dir) throw new Error("cannot find forms/ (tspconfig.yaml)");
+    dir = parent;
+  }
+  return dir;
+})();
 
 const PLANS_DIR = path.join(FORMS_ROOT, "site", "src", "content", "forms");
 const CANONICAL_DIR = path.join(FORMS_ROOT, "dist", "canonical");

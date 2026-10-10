@@ -398,3 +398,29 @@ describe("recorded differences still exist", () => {
     expect(paths(result.stale)).toEqual(["a"]);
   });
 });
+
+describe("lists recorded differences", () => {
+  const registers: Registers = {
+    differingLabels: { a: { plan: "Name", source: "Full Name", ...WHY } },
+  };
+
+  it("lists difference with entry accepting it", () => {
+    const result = compare(
+      { a: { label: "Name" } },
+      { a: { label: "Full Name" } },
+      { labels: true, registers },
+    );
+    expect(paths(result.recorded)).toEqual(["a"]);
+    expect(result.recorded[0].entry.category).toBe("gap");
+  });
+
+  it("omits difference that changed since recorded", () => {
+    const result = compare(
+      { a: { label: "Name" } },
+      { a: { label: "Given Name" } },
+      { labels: true, registers },
+    );
+    expect(result.recorded).toEqual([]);
+    expect(paths(result.fieldLabels)).toEqual(["a"]);
+  });
+});
