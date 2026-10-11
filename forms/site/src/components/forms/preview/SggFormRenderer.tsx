@@ -6,7 +6,11 @@ import {
 } from "@sgg/frontend/utils/applyForm/applyFormUtils";
 import { useEffect, useMemo, useRef, type FormEvent } from "react";
 
-import { createAjv, toValidationWarnings } from "../../../lib/validation";
+import {
+  createAjv,
+  toValidationWarnings,
+  uniqueWarnings,
+} from "../../../lib/validation";
 import { JsonFormsFields } from "../../../vendor/sgg/JsonFormsFields";
 import { jsonFormsToUiSchema } from "../../../vendor/sgg/jsonFormsUiSchema";
 import { collapsibleRenderers } from "./collapsible/renderers";
@@ -41,11 +45,13 @@ export const SggFormRenderer = ({
   // Ajv stands in for the API's validator; the frontend attaches and words the warnings.
   const warningsFor = (next: unknown) => {
     validate(next);
-    return buildWarningTree(
-      sggUiSchema,
-      null,
-      toValidationWarnings(validate.errors ?? []),
-      formSchema,
+    return uniqueWarnings(
+      buildWarningTree(
+        sggUiSchema,
+        null,
+        toValidationWarnings(validate.errors ?? []),
+        formSchema,
+      ),
     );
   };
 

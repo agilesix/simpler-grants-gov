@@ -82,3 +82,28 @@ export const toValidationWarnings = (
       value: null,
     };
   });
+
+/**
+ * Each warning once. The frontend's `buildWarningTree` returns a warning twice when its field
+ * sits in a section inside another section, and each copy would show under the field.
+ *
+ * TODO: remove once https://github.com/HHS/simpler-grants-gov/issues/9495 is fixed in the
+ * frontend this site renders with.
+ */
+export const uniqueWarnings = <
+  W extends {
+    field?: string;
+    htmlField?: string;
+    definition?: string;
+    message: string;
+  },
+>(
+  warnings: W[],
+): W[] => [
+  ...new Map(
+    warnings.map((warning) => [
+      `${warning.htmlField ?? warning.field ?? warning.definition}-${warning.message}`,
+      warning,
+    ]),
+  ).values(),
+];

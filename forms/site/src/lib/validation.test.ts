@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createAjv, toValidationWarnings } from "./validation";
+import { createAjv, toValidationWarnings, uniqueWarnings } from "./validation";
 
 const schema = {
   type: "object",
@@ -69,5 +69,27 @@ describe("toValidationWarnings", () => {
         (w) => w.field,
       ),
     ).toEqual(["$.contacts[0].state"]);
+  });
+});
+
+describe("uniqueWarnings", () => {
+  const warning = (field: string, message: string) => ({
+    field,
+    message,
+    type: "minLength",
+    value: null,
+  });
+
+  it("keeps one of each warning a field repeats", () => {
+    expect(
+      uniqueWarnings([
+        warning("$.name.first_name", "'' is too short"),
+        warning("$.name.first_name", "'' is too short"),
+        warning("$.name.last_name", "'' is too short"),
+      ]),
+    ).toEqual([
+      warning("$.name.first_name", "'' is too short"),
+      warning("$.name.last_name", "'' is too short"),
+    ]);
   });
 });
