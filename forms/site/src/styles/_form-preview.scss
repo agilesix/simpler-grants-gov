@@ -288,8 +288,7 @@
   }
 }
 
+// Still a link back to its heading, so it keeps the link's color and underline.
 .section-breadcrumb__crumb--current {
-  color: color("ink");
   font-weight: 700;
-  text-decoration: none;
 }
