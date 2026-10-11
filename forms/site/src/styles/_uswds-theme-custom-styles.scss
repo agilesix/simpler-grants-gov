@@ -1319,12 +1319,6 @@ details[open] > .group-header::before {
     @include u-font("sans", "2xs");
   }
 
-  // Set off from the parent by the indent alone.
-  > .section-meta,
-  > .field-section__body {
-    margin-left: 9px;
-  }
-
   > .field-section__body {
     padding: 0;
   }
