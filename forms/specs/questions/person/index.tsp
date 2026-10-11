@@ -4,6 +4,7 @@ import "../types/address.tsp";
 import "../types/codes.tsp";
 import "../types/contact-info.tsp";
 import "./name.tsp";
+import "./role.tsp";
 import "./title.tsp";
 
 using SimplerForms;
@@ -32,9 +33,9 @@ model Person {
   @Validation.requiredPaths("firstName", "lastName")
   name: Questions.People.PersonName;
 
-  /** Enter the contact's position title. */
-  @UI.label("Title")
-  title?: Questions.People.ContactTitle;
+  /** Enter the contact's role. */
+  @UI.label("Role")
+  role?: Questions.People.PersonRole;
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
@@ -53,7 +54,7 @@ model Person {
 namespace Examples {
   const usContact: Questions.People.Person = #{
     name: #{ prefix: "Ms.", firstName: "Alicia", lastName: "Reyes" },
-    title: "Executive Director",
+    role: #{ title: "Executive Director" },
     address: #{
       street1: "100 Grant Avenue",
       city: "Denver",
@@ -66,7 +67,7 @@ namespace Examples {
 
   const usContactNoEmail: Questions.People.Person = #{
     name: #{ firstName: "Marcus", lastName: "Lee" },
-    title: "Controller",
+    role: #{ title: "Controller" },
     address: #{
       street1: "100 Grant Avenue",
       street2: "Suite 400",
@@ -80,7 +81,7 @@ namespace Examples {
 
   const internationalContact: Questions.People.Person = #{
     name: #{ prefix: "Dr.", firstName: "Tom", lastName: "Okafor", suffix: "PhD" },
-    title: "Lead Scientist",
+    role: #{ title: "Lead Scientist" },
     address: #{
       street1: "456 Rio",
       city: "Montevideo",

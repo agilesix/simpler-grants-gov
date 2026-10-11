@@ -70,6 +70,7 @@ describe("Key Contacts", () => {
         { "Applicant Information": [] },
         {
           "Contact Information": [
+            { Role: [] },
             { Name: [] },
             { Address: [] },
             { "Contact Info": [] },

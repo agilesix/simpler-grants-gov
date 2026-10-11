@@ -135,6 +135,13 @@ const help: Record<string, Pinned> = {
   },
 };
 
+/** Title and Organizational Affiliation join Project Role in the Role group, ahead of the name. */
+const ROLE_GROUP: Recorded = {
+  category: "intentional",
+  reason:
+    "The spec groups Project Role, Title and Organizational Affiliation into one Role question (Questions.People.KeyContactRole), so Title and Organizational Affiliation come before the name. The DAT and XSD list them after it.",
+};
+
 export const DIFF: FormDiff = {
   slug: "key-contacts",
   dat: {
@@ -147,5 +154,6 @@ export const DIFF: FormDiff = {
       "7-19": standardLabel("Fax Number", "Fax"),
     },
     differingHelp: help,
+    outOfOrder: { "7-08": ROLE_GROUP, "7-09": ROLE_GROUP },
   },
 };

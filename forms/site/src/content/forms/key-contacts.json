@@ -49,16 +49,48 @@
       "widget": "FieldListWidget",
       "children": [
         {
-          "kind": "field",
-          "label": "Project Role",
-          "dat_field": "7-01",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the individual's role on the project (e.g., project manager, fiscal contact).",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "key_contacts[].project_role",
-          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactProjectRole"
+          "kind": "section",
+          "label": "Role",
+          "json_path": "key_contacts[].role",
+          "widget": "FieldsetWidget",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Project Role",
+              "dat_field": "7-01",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the individual's role on the project (e.g., project manager, fiscal contact).",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "key_contacts[].role.project_role",
+              "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactProjectRole"
+            },
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "7-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the contact's position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "key_contacts[].role.title",
+              "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactTitle"
+            },
+            {
+              "kind": "field",
+              "label": "Organizational Affiliation",
+              "dat_field": "7-09",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the contact's organizational affiliation.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "key_contacts[].role.organizational_affiliation",
+              "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactOrganizationalAffiliation"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -128,30 +160,6 @@
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:SuffixName"
             }
           ]
-        },
-        {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "7-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the contact's position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "key_contacts[].title",
-          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactTitle"
-        },
-        {
-          "kind": "field",
-          "label": "Organizational Affiliation",
-          "dat_field": "7-09",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the contact's organizational affiliation.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "key_contacts[].organizational_affiliation",
-          "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactOrganizationalAffiliation"
         },
         {
           "kind": "section",

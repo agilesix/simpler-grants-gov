@@ -98,16 +98,24 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "B1-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the contact's position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "authorized_representative.title",
-          "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Title"
+          "kind": "section",
+          "label": "Role",
+          "json_path": "authorized_representative.role",
+          "widget": "FieldsetWidget",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "B1-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the contact's position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "authorized_representative.role.title",
+              "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Title"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -334,16 +342,24 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "B2-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the contact's position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "payee.title",
-          "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Title"
+          "kind": "section",
+          "label": "Role",
+          "json_path": "payee.role",
+          "widget": "FieldsetWidget",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "B2-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the contact's position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "payee.role.title",
+              "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Title"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -570,16 +586,24 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "B3-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the contact's position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "administrative_contact.title",
-          "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Title"
+          "kind": "section",
+          "label": "Role",
+          "json_path": "administrative_contact.role",
+          "widget": "FieldsetWidget",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "B3-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the contact's position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "administrative_contact.role.title",
+              "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Title"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -806,16 +830,24 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "B4-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the contact's position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "project_manager.title",
-          "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Title"
+          "kind": "section",
+          "label": "Role",
+          "json_path": "project_manager.role",
+          "widget": "FieldsetWidget",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "B4-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the contact's position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "project_manager.role.title",
+              "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Title"
+            }
+          ]
         },
         {
           "kind": "section",
