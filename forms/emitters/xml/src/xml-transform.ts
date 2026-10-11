@@ -72,7 +72,7 @@ export function xmlTransform(
   const rules = new Rules(program, casing, rootNs.namespace);
   return {
     _xml_config: {
-      form_name: rootElement,
+      form_name: rootNs.prefix,
       namespaces: {
         default: rootNs.namespace,
         ...declaredNamespaces(program, rootNs),

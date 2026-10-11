@@ -156,7 +156,7 @@ function lookup<T>(program: Program, reference: string): T {
 describe("xmlTransform", () => {
   it("describes the document from the root's XSD model", async () => {
     expect((await rules())?._xml_config).toEqual({
-      form_name: "FormRoot",
+      form_name: "Form",
       namespaces: {
         default: "http://example.gov/form",
         Form: "http://example.gov/form",
