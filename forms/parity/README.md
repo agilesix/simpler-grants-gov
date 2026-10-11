@@ -1,8 +1,9 @@
 # Form parity
 
 Whether each form's artifacts agree: the form plan (`site/src/content/forms/<slug>.json`),
-the Grants.gov DAT and XSD it cites, and the JSON Schema and UI schema compiled from its
-TypeSpec (`dist/canonical/forms/<spec_id>/`). It is static analysis: every artifact is
+the Grants.gov DAT and XSD it cites, the JSON Schema and UI schema compiled from its
+TypeSpec (`dist/canonical/forms/<spec_id>/`), and the XML transform rules emitted from its
+`@Mapping` links (`dist/xml/grantsGovXml/forms/<spec_id>/xml-transform.json`). It is static analysis: every artifact is
 flattened to `{path: field}` and the maps are compared. Nothing is validated or rendered.
 
 ## Running it
@@ -33,17 +34,23 @@ labels_, _matches field occurrences_, _matches field constraints_ and _matches h
 whether the plan says what Grants.gov says, so the plan is the subject. Implementation
 checks ask whether what we built does what the plan says, so the artifact is the subject.
 
-| Group          | Comparison                 | Subject      | Checks                                                        | Matched by      |
-| -------------- | -------------------------- | ------------ | ------------------------------------------------------------- | --------------- |
-| Requirements   | plan vs DAT                | plan         | missing, extra, order, labels, occurrences, constraints, help | `dat_field`     |
-| Requirements   | plan vs XSD                | plan         | missing, extra, occurrences, constraints                      | `xml_path`      |
-| Implementation | plan vs JSON schema        | JSON schema  | missing, extra, occurrences, constraints                      | `json_path`     |
-| Implementation | plan vs UI schema          | UI schema    | missing, extra, order, labels, help                           | `json_path`     |
-| Implementation | plan vs rules schema       | rules schema | not yet emitted (`it.todo`)                                   |                 |
-| Implementation | plan vs XML mapping        | XML mapping  | not yet emitted (`it.todo`)                                   |                 |
-| XML            | XML mapping vs JSON schema | XML mapping  | not yet emitted (`it.todo`)                                   |                 |
-| XML            | XML mapping vs XSD         | XML mapping  | not yet emitted (`it.todo`)                                   |                 |
-| XML            | JSON schema vs XSD         | JSON schema  | occurrences, constraints (the schema may be stricter)         | the plan's link |
+| Group          | Comparison                 | Subject      | Checks                                                        | Matched by              |
+| -------------- | -------------------------- | ------------ | ------------------------------------------------------------- | ----------------------- |
+| Requirements   | plan vs DAT                | plan         | missing, extra, order, labels, occurrences, constraints, help | `dat_field`             |
+| Requirements   | plan vs XSD                | plan         | missing, extra, occurrences, constraints                      | `xml_path`              |
+| Implementation | plan vs JSON schema        | JSON schema  | missing, extra, occurrences, constraints                      | `json_path`             |
+| Implementation | plan vs UI schema          | UI schema    | missing, extra, order, labels, help                           | `json_path`             |
+| Implementation | plan vs rules schema       | rules schema | not yet emitted (`it.todo`)                                   |                         |
+| Implementation | plan vs XML mapping        | XML mapping  | missing, extra                                                | `json_path -> xml_path` |
+| XML            | XML mapping vs JSON schema | XML mapping  | missing, extra                                                | `json_path`             |
+| XML            | XML mapping vs XSD         | XML mapping  | missing, extra, order                                         | `xml_path`              |
+| XML            | JSON schema vs XSD         | JSON schema  | occurrences, constraints (the schema may be stricter)         | the plan's link         |
+
+The XML mapping comparisons run only for a form with emitted rules, i.e. one linked with
+`@Mapping.to` in the `grantsGovXml` mapping. Plan vs XML mapping matches each field by its
+JSON path and element path together, so a field the mapping writes to a different element
+than the plan says shows as both missing and extra. Order is checked against the XSD
+because the API writes elements in the order of the rules, and the XSD is a sequence.
 
 Suite checks then confirm the results can be trusted for each form: the plan's text is
 readable, the walked JSON schema agrees with the emitter's `index.json`, and every

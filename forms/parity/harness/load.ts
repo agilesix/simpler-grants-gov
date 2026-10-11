@@ -31,6 +31,9 @@ export const FORMS_ROOT = (() => {
 
 const PLANS_DIR = path.join(FORMS_ROOT, "site", "src", "content", "forms");
 const CANONICAL_DIR = path.join(FORMS_ROOT, "dist", "canonical");
+/** The mapping `form-library-xml` writes Grants.gov XML transform rules for. */
+const XML_MAPPING = "grantsGovXml";
+const XML_DIR = path.join(FORMS_ROOT, "dist", "xml", XML_MAPPING);
 const CACHE_DIR = path.join(FORMS_ROOT, ".cache", "sources");
 export const LOCK_FILE = path.join(
   FORMS_ROOT,
@@ -96,6 +99,17 @@ export const loadUiSchema = (specId: string): Json =>
 
 export const loadIndex = (specId: string): Json =>
   readJson(formFile(specId, "index.json"));
+
+const xmlTransformFile = (specId: string) =>
+  path.join(XML_DIR, "forms", specId, "xml-transform.json");
+
+/** Whether `form-library-xml` wrote XML transform rules for the form: it is mapped. */
+export const hasXmlTransform = (specId: string): boolean =>
+  existsSync(xmlTransformFile(specId));
+
+/** The form's emitted XML transform rules, or undefined for a form that is not mapped. */
+export const loadXmlTransform = (specId: string): Json | undefined =>
+  hasXmlTransform(specId) ? readJson(xmlTransformFile(specId)) : undefined;
 
 // ---------------------------------------------------------------------------------------
 // Grants.gov sources (`npm run parity:fetch`)

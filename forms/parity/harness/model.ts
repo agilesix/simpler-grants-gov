@@ -176,6 +176,12 @@ export interface FormDiff {
   uiSchema?: Registers;
   /** Keyed by the compiled schema's path. */
   jsonSchemaVsXsd?: Registers;
+  /** Keyed `<json_path> -> <xml_path>`, as the plan links them. */
+  xmlMapping?: Registers;
+  /** Keyed by the XML mapping's JSON path. */
+  xmlMappingVsJsonSchema?: Registers;
+  /** Keyed by the XML mapping's element path. */
+  xmlMappingVsXsd?: Registers;
 }
 
 // ---------------------------------------------------------------------------------------

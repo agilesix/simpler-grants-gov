@@ -17,11 +17,13 @@ import { indexLeaves, jsonSchemaFields } from "./flatten/jsonSchema.ts";
 import { planFields, walkFields, type Plan } from "./flatten/plan.ts";
 import { uiSchemaFields } from "./flatten/uiSchema.ts";
 import { xsdFields } from "./flatten/xsd.ts";
+import { link, xmlTransformFields } from "./flatten/xmlTransform.ts";
 import {
   loadFormSchema,
   loadIndex,
   loadPlans,
   loadUiSchema,
+  loadXmlTransform,
   readSource,
 } from "./load.ts";
 import {
@@ -78,6 +80,11 @@ export const SPECS = {
     occurrences: "equal",
   },
   uiSchema: { subject: "source", order: true, labels: true, help: true },
+  /** Each field the plan links to an element, mapped to that element. */
+  xmlMapping: { subject: "source" },
+  xmlMappingVsJsonSchema: { subject: "plan" },
+  /** Order too: the API writes elements in rule order, and the XSD is a sequence. */
+  xmlMappingVsXsd: { subject: "plan", order: true },
   jsonSchemaVsXsd: {
     subject: "plan",
     fields: false,
@@ -100,8 +107,18 @@ export const SPECS = {
 export interface FormCheck {
   requirements: { dat: PairResult; xsd: PairResult };
   /** Absent for a plan without a `spec_id`: there is nothing compiled to check. */
-  implementation?: { jsonSchema: PairResult; uiSchema: PairResult };
-  xml?: { jsonSchemaVsXsd: PairResult };
+  implementation?: {
+    jsonSchema: PairResult;
+    uiSchema: PairResult;
+    /** Absent for a form with no emitted XML transform. */
+    xmlMapping?: PairResult;
+  };
+  xml?: {
+    jsonSchemaVsXsd: PairResult;
+    /** Absent for a form with no emitted XML transform. */
+    xmlMappingVsJsonSchema?: PairResult;
+    xmlMappingVsXsd?: PairResult;
+  };
   suite: {
     /** Plan text the suite could not read. */
     planProblems: Discrepancy[];
@@ -151,6 +168,19 @@ function joinThroughPlan(
   return { left, right };
 }
 
+/** The plan's links from a JSON path to an element, keyed as `xmlTransformFields` keys them. */
+function planLinks(plan: Plan): Fields {
+  const links: Fields = new Map();
+  walkFields(plan.children).forEach(({ field }, order) => {
+    if (field.json_path && field.xml_path)
+      links.set(link(field.json_path, fromXmlPath(field.xml_path)), {
+        order,
+        rules: {},
+      });
+  });
+  return links;
+}
+
 /** Leaves of the walked schema and of `index.json` that the other does not have. */
 function indexDisagreements(
   schema: Fields,
@@ -197,6 +227,8 @@ export interface FormPairs {
     jsonSchemaVsXsd: Pair;
     /** The leaves `index.json` lists. */
     indexLeaves: Set<string>;
+    /** Absent for a form with no emitted XML transform. */
+    xmlMapping?: { plan: Pair; jsonSchema: Pair; xsd: Pair };
   };
 }
 
@@ -227,6 +259,8 @@ export async function formPairs(
   const schema = jsonSchemaFields(await loadFormSchema(specId));
   const jsonPlan = planFields(plan, "json_path");
   const joined = joinThroughPlan(diff, plan, schema, xsdSource);
+  const rules = loadXmlTransform(specId);
+  const mapped = rules && xmlTransformFields(rules);
   return {
     plan,
     planProblems,
@@ -242,6 +276,15 @@ export async function formPairs(
       ),
       jsonSchemaVsXsd: pair(diff.jsonSchemaVsXsd, joined.left, joined.right),
       indexLeaves: new Set(indexLeaves(loadIndex(specId))),
+      xmlMapping: mapped && {
+        plan: pair(diff.xmlMapping, planLinks(plan), mapped.byLink),
+        jsonSchema: pair(
+          diff.xmlMappingVsJsonSchema,
+          mapped.byJsonPath,
+          schema,
+        ),
+        xsd: pair(diff.xmlMappingVsXsd, mapped.byXmlPath, xsdSource),
+      },
     },
   };
 }
@@ -271,17 +314,30 @@ export async function checkForm(
     compiled.jsonSchemaVsXsd,
     SPECS.jsonSchemaVsXsd,
   );
+  const mapping = compiled.xmlMapping;
+  const xmlMapping = mapping && comparePair(mapping.plan, SPECS.xmlMapping);
+  const xmlMappingVsJsonSchema =
+    mapping && comparePair(mapping.jsonSchema, SPECS.xmlMappingVsJsonSchema);
+  const xmlMappingVsXsd =
+    mapping && comparePair(mapping.xsd, SPECS.xmlMappingVsXsd);
 
   return {
     requirements,
-    implementation: { jsonSchema, uiSchema },
-    xml: { jsonSchemaVsXsd },
+    implementation: { jsonSchema, uiSchema, xmlMapping },
+    xml: { jsonSchemaVsXsd, xmlMappingVsJsonSchema, xmlMappingVsXsd },
     suite: {
       planProblems,
       indexProblems: indexDisagreements(compiled.schema, compiled.indexLeaves),
-      stale: [dat, xsd, jsonSchema, uiSchema, jsonSchemaVsXsd].flatMap(
-        (result) => result.stale,
-      ),
+      stale: [
+        dat,
+        xsd,
+        jsonSchema,
+        uiSchema,
+        jsonSchemaVsXsd,
+        xmlMapping,
+        xmlMappingVsJsonSchema,
+        xmlMappingVsXsd,
+      ].flatMap((result) => result?.stale ?? []),
     },
   };
 }
@@ -301,7 +357,7 @@ export type {
   PlanSection,
 } from "./flatten/plan.ts";
 export { walkFields } from "./flatten/plan.ts";
-export { loadPlans } from "./load.ts";
+export { hasXmlTransform, loadPlans } from "./load.ts";
 export {
   report,
   type Discrepancy,
