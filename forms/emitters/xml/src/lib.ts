@@ -35,6 +35,12 @@ export const $lib = createTypeSpecLibrary({
         default: paramMessage`mapping-targets names "${"name"}", which is not a member of any enum declared with @Mapping.targets (members: ${"members"}).`,
       },
     },
+    "xml-transform-collision": {
+      severity: "error",
+      messages: {
+        default: paramMessage`Form ${"form"} is linked in both ${"first"} and ${"second"}, but writes one xml-transform.json. Configure mapping-targets with only one of them.`,
+      },
+    },
     "xml-root-namespace-missing": {
       severity: "error",
       messages: {

@@ -46,12 +46,7 @@ describe("key-contacts fixture", () => {
     const read = async (file: string) =>
       JSON.parse(await readFile(file, "utf8")) as unknown;
     expect(
-      await read(
-        path.join(
-          outputDir,
-          "grantsGovXml/forms/key-contacts/xml-transform.json",
-        ),
-      ),
+      await read(path.join(outputDir, "forms/key-contacts/xml-transform.json")),
     ).toEqual(
       await read(
         fileURLToPath(
@@ -80,7 +75,7 @@ const spec = (body: string) => `
   using TypeSpec.Xml;
 
   @Mapping.targets(Target)
-  namespace Mappings { enum Target { xml, csv } }
+  namespace Mappings { enum Target { xml, xmlNext, csv } }
 
   namespace Wire {
     @nsDeclarations
@@ -131,6 +126,7 @@ const FORM = `
   @Meta.form(#{ id: "example", formName: "Example", shortFormName: "Example", formVersion: "1.0" })
   @Mapping.to(Mappings.Target.xml, Wire.Root)
   @Mapping.to(Mappings.Target.csv, Flat.Row)
+  @Mapping.to(Mappings.Target.xmlNext, Wire.Root)
   model Example {
     @Mapping.to(Mappings.Target.xml, Wire.Root.note) footNote?: string;
     @Mapping.to(Mappings.Target.xml, Wire.Root.people) contacts: Contact[];
@@ -238,6 +234,15 @@ describe("$onEmit", () => {
     }).diagnose(spec(FORM));
     expectDiagnostics(diagnostics, {
       code: "form-library-xml/mapping-target-unknown",
+    });
+  });
+
+  it("rejects two mappings that would write one form's file", async () => {
+    const diagnostics = await Tester.emit("form-library-xml", {
+      "mapping-targets": ["xml", "xmlNext"],
+    }).diagnose(spec(FORM));
+    expectDiagnostics(diagnostics, {
+      code: "form-library-xml/xml-transform-collision",
     });
   });
 });

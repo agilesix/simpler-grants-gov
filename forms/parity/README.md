@@ -3,7 +3,7 @@
 Whether each form's artifacts agree: the form plan (`site/src/content/forms/<slug>.json`),
 the Grants.gov DAT and XSD it cites, the JSON Schema and UI schema compiled from its
 TypeSpec (`dist/canonical/forms/<spec_id>/`), and the XML transform rules emitted from its
-`@Mapping` links (`dist/xml/grantsGovXml/forms/<spec_id>/xml-transform.json`). It is static analysis: every artifact is
+`@Mapping` links (`xml-transform.json`, in the same directory). It is static analysis: every artifact is
 flattened to `{path: field}` and the maps are compared. Nothing is validated or rendered.
 
 ## Running it
