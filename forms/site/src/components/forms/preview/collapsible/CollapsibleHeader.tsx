@@ -1,38 +1,52 @@
+import { crumbAttributes, headingTag } from "@/lib/breadcrumbs";
 import type { ReactNode } from "react";
 
 interface Props {
   title: ReactNode;
+  /** What the breadcrumb calls this section. */
+  label: string;
+  /** The section's depth, which sets its heading level. */
+  level: number;
+  headingId: string;
   collapsed: boolean;
   onToggle: () => void;
   /** Errors in the section's fields, shown while it is collapsed. */
   errorCount?: number;
   /** Further actions after Edit/Collapse, e.g. a list entry's Delete. */
   actions?: ReactNode;
-  /** Ties the section's fields to this heading for screen readers. */
-  headingId?: string;
 }
 
-/** A collapsible section's header: a toggle naming the section, and Edit or Collapse. */
+/**
+ * A collapsible section's header: a heading whose button toggles the section, and Edit or
+ * Collapse. The heading is a breadcrumb anchor, like any other section's.
+ */
 export default function CollapsibleHeader({
   title,
+  label,
+  level,
+  headingId,
   collapsed,
   onToggle,
   errorCount = 0,
   actions,
-  headingId,
 }: Props) {
+  const Heading = headingTag(level);
   return (
     <div className="collapsible__header">
-      <button
-        type="button"
-        id={headingId}
-        className="collapsible__toggle"
-        aria-expanded={!collapsed}
-        onClick={onToggle}
+      <Heading
+        className={`collapsible__heading form-section__heading--${level}`}
+        {...crumbAttributes(headingId, label, level)}
       >
-        <span className="collapsible__caret" aria-hidden="true" />
-        {title}
-      </button>
+        <button
+          type="button"
+          className="collapsible__toggle"
+          aria-expanded={!collapsed}
+          onClick={onToggle}
+        >
+          <span className="collapsible__caret" aria-hidden="true" />
+          {title}
+        </button>
+      </Heading>
       {collapsed && errorCount > 0 && (
         <span className="collapsible__errors">
           {errorCount} {errorCount === 1 ? "error" : "errors"}

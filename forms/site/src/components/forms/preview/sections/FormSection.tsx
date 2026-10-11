@@ -1,0 +1,58 @@
+import { crumbAttributes, headingTag } from "@/lib/breadcrumbs";
+import type { GroupLayout, LayoutProps } from "@jsonforms/core";
+import { JsonFormsDispatch } from "@jsonforms/react";
+import { useContext, useId } from "react";
+
+import { groupName } from "../../../../vendor/sgg/jsonFormsUiSchema";
+import { AdapterContext } from "../../../../vendor/sgg/renderers";
+import { SectionDepth } from "./SectionDepth";
+
+/**
+ * A labeled group, drawn flat like the SGG fieldset but with a heading sized to its depth, so
+ * a section inside another reads as part of it without any indenting. Its heading is a
+ * breadcrumb anchor. The root layout is the form itself and stays a plain run of fields.
+ */
+export default function FormSection({
+  uischema,
+  schema,
+  path,
+  enabled,
+  visible,
+  renderers,
+  cells,
+}: LayoutProps) {
+  const context = useContext(AdapterContext);
+  const depth = useContext(SectionDepth);
+  const headingId = useId();
+  if (!visible) return null;
+
+  const layout = uischema as GroupLayout;
+  const children = layout.elements.map((element, index) => (
+    <JsonFormsDispatch
+      key={`${path}-${index}`}
+      uischema={element}
+      schema={schema}
+      path={path}
+      enabled={enabled}
+      renderers={renderers}
+      cells={cells}
+    />
+  ));
+  if (uischema === context?.rootUiSchema || !layout.label)
+    return <>{children}</>;
+
+  const level = depth + 1;
+  const name = groupName(layout.label);
+  const Heading = headingTag(level);
+  return (
+    <fieldset className="usa-fieldset form-section" id={`form-section-${name}`}>
+      <Heading
+        className={`form-section__heading form-section__heading--${level}`}
+        {...crumbAttributes(headingId, layout.label, level)}
+      >
+        {layout.label}
+      </Heading>
+      <SectionDepth.Provider value={level}>{children}</SectionDepth.Provider>
+    </fieldset>
+  );
+}

@@ -13,7 +13,7 @@ import {
 } from "../../../lib/validation";
 import { JsonFormsFields } from "../../../vendor/sgg/JsonFormsFields";
 import { jsonFormsToUiSchema } from "../../../vendor/sgg/jsonFormsUiSchema";
-import { collapsibleRenderers } from "./collapsible/renderers";
+import { previewRenderers } from "./renderers";
 import type { FormRendererProps } from "./types";
 
 /**
@@ -99,7 +99,7 @@ export const SggFormRenderer = ({
         formData={data as object}
         schema={formSchema}
         uiSchema={uischema}
-        extraRenderers={collapsibleRenderers}
+        extraRenderers={previewRenderers}
       />
     </form>
   );

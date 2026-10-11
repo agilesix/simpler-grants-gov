@@ -1,9 +1,10 @@
 import type { JsonSchema, UISchemaElement } from "@jsonforms/core";
 import { useStore } from "@nanostores/react";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { FormRenderer } from ".";
 import { $previewData } from "../../../stores/formPreview";
+import SectionBreadcrumb from "./sections/SectionBreadcrumb";
 
 interface Props {
   schema: JsonSchema;
@@ -17,6 +18,7 @@ export default function FormPreview({ schema, uischema, example }: Props) {
   const data = useStore($previewData);
   const [warnings, setWarnings] = useState<string[]>([]);
   const [showErrors, setShowErrors] = useState(false);
+  const form = useRef<HTMLDivElement>(null);
 
   const onChange = useCallback((next: unknown, nextWarnings: string[]) => {
     $previewData.set(next);
@@ -86,7 +88,8 @@ export default function FormPreview({ schema, uischema, example }: Props) {
         </div>
       )}
 
-      <div className="form-preview__form">
+      <SectionBreadcrumb container={form} />
+      <div className="form-preview__form" ref={form}>
         <FormRenderer
           schema={schema}
           uischema={uischema}

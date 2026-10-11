@@ -1,7 +1,9 @@
+import { crumbAttributes, headingTag } from "@/lib/breadcrumbs";
 import {
   entryFields,
   entryLayout,
   entryTitle,
+  summarySections,
   type EntryNode,
   type SummaryItem,
 } from "@/lib/collapsible";
@@ -11,10 +13,11 @@ import type { FormattedFormValidationWarning } from "@sgg/frontend/types/applyFo
 import { isFieldRequired } from "@sgg/frontend/utils/applyForm/applyFormUtils";
 import { getFieldListChildErrors } from "@sgg/frontend/utils/applyForm/fieldListHelpers";
 import { getFieldConfig } from "@sgg/frontend/utils/applyForm/getFieldConfig";
-import { useContext, useRef, useState } from "react";
+import { useContext, useId, useRef, useState, type ReactNode } from "react";
 
 import { controlToNodes } from "../../../../vendor/sgg/jsonFormsUiSchema";
 import { AdapterContext } from "../../../../vendor/sgg/renderers";
+import { SectionDepth } from "../sections/SectionDepth";
 import CollapsibleHeader from "./CollapsibleHeader";
 import SummaryList from "./SummaryList";
 
@@ -44,6 +47,8 @@ interface ListProps {
   requiredFields?: string[];
   detail?: UISchemaElement;
   disabled?: boolean;
+  /** How many sections enclose the list, which sets its heading levels. */
+  depth: number;
 }
 
 interface Entry {
@@ -87,9 +92,9 @@ const ATTACHMENTS = new Set(["Attachment", "AttachmentArray"]);
 
 /**
  * A FieldList whose entries each collapse to a read-only list of their answers, and whose
- * entries draw the groups their layout gives them (Name, Address) rather than one run of
- * fields. Entries are stored and named exactly as the stock FieldList stores them, so the
- * form saves the same data.
+ * entries draw the groups their layout gives them (Name, Address) as flat sections rather than
+ * one run of fields. Entries are stored and named exactly as the stock FieldList stores them,
+ * so the form saves the same data. Its headings are breadcrumb anchors like every section's.
  */
 function CollapsibleFieldList({
   name,
@@ -103,7 +108,9 @@ function CollapsibleFieldList({
   requiredFields = [],
   detail,
   disabled = false,
+  depth,
 }: ListProps) {
+  const headingId = useId();
   const nextId = useRef(0);
   const entry = (entryValue: Value): Entry => ({
     id: nextId.current++,
@@ -123,6 +130,8 @@ function CollapsibleFieldList({
   const canAdd =
     !disabled && (maxItems === undefined || entries.length < maxItems);
   const canDelete = !disabled && entries.length > minItems;
+  const level = depth + 1;
+  const ListHeading = headingTag(level);
 
   return (
     <div
@@ -130,7 +139,12 @@ function CollapsibleFieldList({
       className="field-list-widget collapsible-list border border-base-lighter radius-md padding-2 margin-y-2"
     >
       <div className="collapsible-list__heading">
-        <h3 className="margin-0">{label}</h3>
+        <ListHeading
+          className={`margin-0 form-section__heading--${level}`}
+          {...crumbAttributes(headingId, label, level)}
+        >
+          {label}
+        </ListHeading>
         {maxItems !== undefined && (
           <span className="collapsible-list__count">
             {entries.length} of {maxItems} entries
@@ -139,105 +153,34 @@ function CollapsibleFieldList({
       </div>
       {description && <p>{description}</p>}
 
-      {entries.map((current, index) => {
-        const headingId = `${name}-entry-${index + 1}-heading`;
-        const errorsFor = (item: ListItem) =>
-          getFieldListChildErrors({
-            rawErrors,
-            fieldListPath: listPath,
-            entryIndex: index,
-            storagePath: item.storagePath,
-            childDefinition: item.definition,
-          });
-        const summaryOf = (
-          item: ListItem,
-        ): SummaryItem & { storagePath: string[] } => ({
-          label:
-            item.generalProps.schema?.title ?? item.storagePath.at(-1) ?? "",
-          value: valueAt(current.value, item.storagePath),
-          required: isFieldRequired(item.definition, requiredFields),
-          enumOptions: item.generalProps.options?.enumOptions,
-          attachment: ATTACHMENTS.has(item.widget),
-          storagePath: item.storagePath,
-        });
-        const renderItem = (item: ListItem) => {
-          const id = item.baseId.replace(INDEX_TOKEN, String(index));
-          return renderWidget({
-            type: item.widget,
-            props: {
-              ...item.generalProps,
-              id,
-              name: id,
-              key: `${current.id}-${item.storagePath.join(".")}`,
-              value: valueAt(current.value, item.storagePath),
-              rawErrors: errorsFor(item),
-              required: isFieldRequired(item.definition, requiredFields),
-              updateOnInput: true,
-              additionalDescribedById: headingId,
-              disabled,
-              readOnly: disabled,
-              isFormLocked: disabled,
-              onChange: (next: unknown) =>
-                update(current.id, (e) => ({
-                  ...e,
-                  value: withValueAt(e.value, item.storagePath, next),
-                })),
-            },
-          });
-        };
-        const errorCount = entryFields(layout).reduce(
-          (sum, item) => sum + errorsFor(item).length,
-          0,
-        );
-        return (
-          <div
-            key={current.id}
-            className={`collapsible collapsible--entry${current.collapsed ? "" : " collapsible--open"}${current.collapsed && errorCount ? " collapsible--error" : ""}`}
-          >
-            <CollapsibleHeader
-              headingId={headingId}
-              title={
-                <>
-                  <span className="collapsible__number">{index + 1}</span>
-                  <span className="collapsible__title">
-                    {entryTitle(
-                      entryFields(layout).map(summaryOf),
-                      `${label} ${index + 1}`,
-                    )}
-                  </span>
-                </>
-              }
-              collapsed={current.collapsed}
-              errorCount={errorCount}
-              onToggle={() =>
-                update(current.id, (e) => ({ ...e, collapsed: !e.collapsed }))
-              }
-              actions={
-                <button
-                  type="button"
-                  className="usa-button usa-button--unstyled collapsible__action collapsible__action--danger"
-                  disabled={!canDelete}
-                  onClick={() =>
-                    setEntries((all) => all.filter((e) => e.id !== current.id))
-                  }
-                >
-                  Delete
-                </button>
-              }
-            />
-            {current.collapsed && (
-              <SummaryList items={entryFields(layout).map(summaryOf)} />
-            )}
-            <div className="collapsible__body" hidden={current.collapsed}>
-              <EntryNodes
-                nodes={layout}
-                renderItem={renderItem}
-                summaryOf={summaryOf}
-              />
-            </div>
-          </div>
-        );
-      })}
+      {entries.map((current, index) => (
+        <ListEntry
+          key={current.id}
+          entry={current}
+          index={index}
+          name={name}
+          label={label}
+          level={level + 1}
+          layout={layout}
+          listPath={listPath}
+          rawErrors={rawErrors}
+          requiredFields={requiredFields}
+          disabled={disabled}
+          canDelete={canDelete}
+          onToggle={() =>
+            update(current.id, (e) => ({ ...e, collapsed: !e.collapsed }))
+          }
+          onChange={(path, next) =>
+            update(current.id, (e) => ({
+              ...e,
+              value: withValueAt(e.value, path, next),
+            }))
+          }
+          onDelete={() =>
+            setEntries((all) => all.filter((e) => e.id !== current.id))
+          }
+        />
+      ))}
 
       <button
         type="button"
@@ -253,15 +196,133 @@ function CollapsibleFieldList({
   );
 }
 
-/** An entry's fields and groups, each group collapsible when its layout asks for it. */
+function ListEntry({
+  entry,
+  index,
+  name,
+  label,
+  level,
+  layout,
+  listPath,
+  rawErrors,
+  requiredFields,
+  disabled,
+  canDelete,
+  onToggle,
+  onChange,
+  onDelete,
+}: {
+  entry: Entry;
+  index: number;
+  name: string;
+  label: string;
+  level: number;
+  layout: EntryNode<ListItem>[];
+  listPath: string;
+  rawErrors?: FormattedFormValidationWarning[];
+  requiredFields: string[];
+  disabled: boolean;
+  canDelete: boolean;
+  onToggle: () => void;
+  onChange: (path: string[], next: unknown) => void;
+  onDelete: () => void;
+}) {
+  const headingId = useId();
+  const number = index + 1;
+  const errorsFor = (item: ListItem) =>
+    getFieldListChildErrors({
+      rawErrors,
+      fieldListPath: listPath,
+      entryIndex: index,
+      storagePath: item.storagePath,
+      childDefinition: item.definition,
+    });
+  const summaryOf = (
+    item: ListItem,
+  ): SummaryItem & { storagePath: string[] } => ({
+    label: item.generalProps.schema?.title ?? item.storagePath.at(-1) ?? "",
+    value: valueAt(entry.value, item.storagePath),
+    required: isFieldRequired(item.definition, requiredFields),
+    enumOptions: item.generalProps.options?.enumOptions,
+    attachment: ATTACHMENTS.has(item.widget),
+    storagePath: item.storagePath,
+  });
+  const renderItem = (item: ListItem) => {
+    const id = item.baseId.replace(INDEX_TOKEN, String(index));
+    return renderWidget({
+      type: item.widget,
+      props: {
+        ...item.generalProps,
+        id,
+        name: id,
+        key: `${entry.id}-${item.storagePath.join(".")}`,
+        value: valueAt(entry.value, item.storagePath),
+        rawErrors: errorsFor(item),
+        required: isFieldRequired(item.definition, requiredFields),
+        updateOnInput: true,
+        additionalDescribedById: headingId,
+        disabled,
+        readOnly: disabled,
+        isFormLocked: disabled,
+        onChange: (next: unknown) => onChange(item.storagePath, next),
+      },
+    });
+  };
+  const fields = entryFields(layout);
+  const errorCount = fields.reduce(
+    (sum, item) => sum + errorsFor(item).length,
+    0,
+  );
+  return (
+    <div
+      id={`${name}-entry-${number}`}
+      className={`collapsible collapsible--entry${entry.collapsed ? "" : " collapsible--open"}${entry.collapsed && errorCount ? " collapsible--error" : ""}`}
+    >
+      <CollapsibleHeader
+        headingId={headingId}
+        label={`${label} ${number}`}
+        level={level}
+        title={
+          <>
+            <span className="collapsible__number">{number}</span>
+            <span className="collapsible__title">
+              {entryTitle(fields.map(summaryOf), `${label} ${number}`)}
+            </span>
+          </>
+        }
+        collapsed={entry.collapsed}
+        errorCount={errorCount}
+        onToggle={onToggle}
+        actions={
+          <button
+            type="button"
+            className="usa-button usa-button--unstyled collapsible__action collapsible__action--danger"
+            disabled={!canDelete}
+            onClick={onDelete}
+          >
+            Delete
+          </button>
+        }
+      />
+      {entry.collapsed && (
+        <SummaryList sections={summarySections(layout, summaryOf)} />
+      )}
+      <div className="collapsible__body" hidden={entry.collapsed}>
+        <EntryNodes nodes={layout} level={level + 1} renderItem={renderItem} />
+      </div>
+    </div>
+  );
+}
+
+/** An entry's fields, and its groups as flat sections headed at `level`. */
 function EntryNodes({
   nodes,
+  level,
   renderItem,
-  summaryOf,
 }: {
   nodes: EntryNode<ListItem>[];
-  renderItem: (item: ListItem) => React.ReactNode;
-  summaryOf: (item: ListItem) => SummaryItem;
+  level: number;
+  renderItem: (item: ListItem) => ReactNode;
 }) {
   return nodes.map((node, index) =>
     node.kind === "field" ? (
@@ -270,8 +331,8 @@ function EntryNodes({
       <EntryGroup
         key={index}
         node={node}
+        level={level}
         renderItem={renderItem}
-        summaryOf={summaryOf}
       />
     ),
   );
@@ -279,46 +340,28 @@ function EntryNodes({
 
 function EntryGroup({
   node,
+  level,
   renderItem,
-  summaryOf,
 }: {
   node: Extract<EntryNode<ListItem>, { kind: "group" }>;
-  renderItem: (item: ListItem) => React.ReactNode;
-  summaryOf: (item: ListItem) => SummaryItem;
+  level: number;
+  renderItem: (item: ListItem) => ReactNode;
 }) {
-  const items = entryFields(node.children).map(summaryOf);
-  const [collapsed, setCollapsed] = useState(
-    () =>
-      node.collapsible &&
-      items.some((item) => item.value !== undefined && item.value !== ""),
-  );
-  const body = (
-    <EntryNodes
-      nodes={node.children}
-      renderItem={renderItem}
-      summaryOf={summaryOf}
-    />
-  );
-  if (!node.collapsible)
-    return (
-      <fieldset className="usa-fieldset collapsible-list__group">
-        <legend className="usa-legend font-sans-md">{node.label}</legend>
-        {body}
-      </fieldset>
-    );
+  const headingId = useId();
+  const Heading = headingTag(level);
   return (
-    <fieldset
-      className={`usa-fieldset collapsible collapsible--fieldset${collapsed ? "" : " collapsible--open"}`}
-    >
-      <CollapsibleHeader
-        title={<span className="collapsible__title">{node.label}</span>}
-        collapsed={collapsed}
-        onToggle={() => setCollapsed(!collapsed)}
+    <fieldset className="usa-fieldset form-section">
+      <Heading
+        className={`form-section__heading form-section__heading--${level}`}
+        {...crumbAttributes(headingId, node.label, level)}
+      >
+        {node.label}
+      </Heading>
+      <EntryNodes
+        nodes={node.children}
+        level={level + 1}
+        renderItem={renderItem}
       />
-      {collapsed && <SummaryList items={items} />}
-      <div className="collapsible__body" hidden={collapsed}>
-        {body}
-      </div>
     </fieldset>
   );
 }
@@ -330,6 +373,7 @@ export function CollapsibleListControl({
   enabled,
 }: ControlProps) {
   const context = useContext(AdapterContext);
+  const depth = useContext(SectionDepth);
   if (!visible || !context) return null;
   const [node] = controlToNodes(uischema, context.schema);
   if (node?.type !== "fieldList") return null;
@@ -342,11 +386,12 @@ export function CollapsibleListControl({
   });
   return (
     <CollapsibleFieldList
-      {...(props as unknown as ListProps)}
+      {...(props as unknown as Omit<ListProps, "depth">)}
       detail={
         (uischema.options as { detail?: UISchemaElement } | undefined)?.detail
       }
       disabled={!enabled || !!context.isFormLocked}
+      depth={depth}
     />
   );
 }

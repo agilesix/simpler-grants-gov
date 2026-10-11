@@ -8,6 +8,7 @@ import {
   entryTitle,
   scopePath,
   summaryRows,
+  summarySections,
   type EntryNode,
 } from "./collapsible";
 
@@ -35,7 +36,6 @@ describe("entryLayout", () => {
       {
         type: "Group",
         label: "Name",
-        options: { widget: "CollapsibleFieldset" },
         elements: [
           { type: "Control", scope: "#/properties/name/properties/first_name" },
           { type: "Control", scope: "#/properties/name/properties/last_name" },
@@ -48,17 +48,13 @@ describe("entryLayout", () => {
     nodes.map((node) =>
       node.kind === "field"
         ? node.field.storagePath.join(".")
-        : {
-            [`${node.label}${node.collapsible ? " (collapsible)" : ""}`]: shape(
-              node.children,
-            ),
-          },
+        : { [node.label]: shape(node.children) },
     );
 
   it("keeps each group's fields under it, in the detail's order", () => {
     expect(shape(entryLayout(DETAIL, FIELDS))).toEqual([
       "project_role",
-      { "Name (collapsible)": ["name.first_name", "name.last_name"] },
+      { Name: ["name.first_name", "name.last_name"] },
       "extra",
     ]);
   });
@@ -76,8 +72,53 @@ describe("entryLayout", () => {
     ]);
   });
 
+  it("does not head the entry with the detail's own group", () => {
+    const wrapped = {
+      type: "Group",
+      label: "Key Contact",
+      elements: [
+        { type: "Control", scope: "#/properties/project_role" },
+        {
+          type: "Group",
+          label: "Name",
+          elements: [{ type: "Control", scope: "#/properties/name" }],
+        },
+      ],
+    } as UISchemaElement;
+    expect(shape(entryLayout(wrapped, FIELDS))).toEqual([
+      "project_role",
+      { Name: ["name.first_name", "name.last_name"] },
+      "extra",
+    ]);
+  });
+
   it("lists every field in order without a detail", () => {
     expect(entryFields(entryLayout(undefined, FIELDS))).toEqual(FIELDS);
+  });
+});
+
+describe("summarySections", () => {
+  const field = (...storagePath: string[]) => ({ storagePath });
+  const NODES: EntryNode<{ storagePath: string[] }>[] = [
+    { kind: "field", field: field("project_role") },
+    { kind: "field", field: field("title") },
+    {
+      kind: "group",
+      label: "Name",
+      children: [
+        { kind: "field", field: field("name", "first_name") },
+        { kind: "field", field: field("name", "last_name") },
+      ],
+    },
+    { kind: "field", field: field("email") },
+  ];
+
+  it("lists ungrouped fields in runs and each group under its label", () => {
+    expect(summarySections(NODES, (f) => f.storagePath.join("."))).toEqual([
+      { items: ["project_role", "title"] },
+      { label: "Name", items: ["name.first_name", "name.last_name"] },
+      { items: ["email"] },
+    ]);
   });
 });
 

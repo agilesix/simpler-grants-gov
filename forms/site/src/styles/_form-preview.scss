@@ -1,5 +1,6 @@
-// The form library's collapsible widgets (components/forms/preview/collapsible): a section or
-// list entry that collapses to a read-only list of its answers.
+// The form library preview's own rendering (components/forms/preview): flat sections with
+// headings sized by depth, the breadcrumb that names them, and the collapsible list whose
+// entries collapse to a read-only list of their answers.
 @use "uswds-core" as *;
 
 .collapsible {
@@ -42,7 +43,6 @@
   background: none;
   font: inherit;
   font-weight: 700;
-  @include u-font("sans", "md");
   color: color("ink");
   text-align: left;
   cursor: pointer;
@@ -107,19 +107,39 @@
   padding: 0 units(2) units(2);
 }
 
-// Laid out like .metadata-card: each label beside its answer.
+// A collapsed entry's answers, under its groups' headings.
 .collapsible__summary {
+  padding: units(1) units(3) units(2) units(5);
+
+  @media (max-width: 640px) {
+    padding: units(1) units(2) units(2);
+  }
+}
+
+.collapsible__summary-section + .collapsible__summary-section {
+  margin-top: units("105");
+}
+
+.collapsible__summary-heading {
+  margin: 0 0 units("05");
+  @include u-font("sans", "3xs");
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color("base-dark");
+}
+
+// Laid out like .metadata-card: each label beside its answer.
+.collapsible__summary-list {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: units("05") units(2);
   margin: 0;
-  padding: units(1) units(3) units(2) units(5);
   @include u-font("sans", "2xs");
   align-items: baseline;
 
   @media (max-width: 640px) {
     grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
-    padding: units(1) units(2) units(2);
   }
 }
 
@@ -170,6 +190,106 @@
   color: color("base");
 }
 
-.collapsible-list__group {
-  margin-top: units(2);
+// The entry heading wraps the toggle; the toggle carries the heading's size.
+.collapsible__heading {
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+// Sections: flat, with a heading sized to how deep the section sits (FormSection).
+.form-section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.form-section__heading {
+  margin: units(5) 0 units("05");
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.form-section__heading--1 {
+  @include u-font("sans", "lg");
+}
+
+.form-section__heading--2 {
+  @include u-font("sans", "md");
+}
+
+.form-section__heading--3 {
+  @include u-font("sans", "sm");
+  margin-top: units(4);
+}
+
+.form-section__heading--4 {
+  @include u-font("sans", "xs");
+  margin-top: units(3);
+  color: color("base-darker");
+}
+
+// Where the reader is in the form: sticks to the top of the window while the form scrolls.
+.section-breadcrumb {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  min-height: units(6);
+  margin: units(2) 0 0;
+  padding: 0 units(1);
+  background: color("white");
+  border-bottom: 1px solid color("base-lighter");
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.section-breadcrumb__top {
+  padding: 0 units(1);
+  @include u-font("sans", "2xs");
+  color: color("base-dark");
+}
+
+.section-breadcrumb__list {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-breadcrumb__item + .section-breadcrumb__item::before {
+  content: "›";
+  padding: 0 units("05");
+  color: color("base");
+}
+
+.section-breadcrumb__crumb {
+  min-height: units(5);
+  padding: 0 units("05");
+  border: 0;
+  border-radius: radius("sm");
+  background: none;
+  font: inherit;
+  @include u-font("sans", "2xs");
+  color: color("primary");
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background: color("primary-lightest");
+  }
+
+  &:focus-visible {
+    outline: 3px solid color("blue-40v");
+    outline-offset: 0;
+  }
+}
+
+.section-breadcrumb__crumb--current {
+  color: color("ink");
+  font-weight: 700;
+  text-decoration: none;
 }

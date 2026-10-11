@@ -30,9 +30,6 @@ enum Widget {
   FieldList,
   Table,
 
-  /** A group that collapses to a read-only list of its answers. Preview only. */
-  CollapsibleFieldset,
-
   /** A FieldList whose entries each collapse to a read-only list of their answers. Preview only. */
   CollapsibleFieldList,
 }

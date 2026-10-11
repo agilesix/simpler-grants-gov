@@ -1,11 +1,10 @@
 /**
- * Pure helpers for the form library's collapsible widgets (`components/forms/preview/
- * collapsible/`): how a list entry's fields group, and how a collapsed section reads.
+ * Pure helpers for the form library's collapsible list (`components/forms/preview/
+ * collapsible/`): how a list entry's fields group, and how a collapsed entry reads.
  */
 import type { UISchemaElement } from "@jsonforms/core";
 
-/** The widget names `specs/ui/widgets.tsp` declares for these components. */
-export const COLLAPSIBLE_FIELDSET = "CollapsibleFieldset";
+/** The widget name `specs/ui/widgets.tsp` declares for the collapsible list. */
 export const COLLAPSIBLE_FIELD_LIST = "CollapsibleFieldList";
 
 export const widgetOf = (element: UISchemaElement): unknown =>
@@ -25,17 +24,12 @@ const startsWith = (path: readonly string[], prefix: readonly string[]) =>
 /** A list entry laid out by the list's `options.detail`: its groups, and the fields in them. */
 export type EntryNode<F> =
   | { kind: "field"; field: F }
-  | {
-      kind: "group";
-      label: string;
-      collapsible: boolean;
-      children: EntryNode<F>[];
-    };
+  | { kind: "group"; label: string; children: EntryNode<F>[] };
 
 /**
- * An entry's fields arranged by the detail layout: each labeled group keeps its fields, and
- * a control takes every field stored beneath its path. Fields the layout never names follow
- * at the end, so none is lost.
+ * An entry's fields arranged by the detail layout: each labeled group inside it keeps its
+ * fields, and a control takes every field stored beneath its path. Fields the layout never
+ * names follow at the end, so none is lost.
  */
 export function entryLayout<F extends { storagePath: string[] }>(
   detail: UISchemaElement | undefined,
@@ -64,17 +58,16 @@ export function entryLayout<F extends { storagePath: string[] }>(
       typeof label === "string" &&
       children.length
     )
-      return [
-        {
-          kind: "group",
-          label,
-          collapsible: widgetOf(element) === COLLAPSIBLE_FIELDSET,
-          children,
-        },
-      ];
+      return [{ kind: "group", label, children }];
     return children;
   };
-  const laidOut = detail ? walk(detail) : [];
+  // The detail's own group is the entry itself, which the list already heads.
+  const laidOut =
+    detail && "elements" in detail && Array.isArray(detail.elements)
+      ? (detail.elements as UISchemaElement[]).flatMap(walk)
+      : detail
+        ? walk(detail)
+        : [];
   const rest = fields.filter((field) => !placed.has(field));
   return [
     ...laidOut,
@@ -87,6 +80,37 @@ export function entryFields<F>(nodes: readonly EntryNode<F>[]): F[] {
   return nodes.flatMap((node) =>
     node.kind === "field" ? [node.field] : entryFields(node.children),
   );
+}
+
+/** A run of a collapsed entry's answers, under the group they belong to if any. */
+export interface SummarySection<S> {
+  label?: string;
+  items: S[];
+}
+
+/**
+ * A collapsed entry's answers split the way its layout groups them: the fields outside any
+ * group in runs of their own, and each group's fields, nested ones included, under its label.
+ */
+export function summarySections<F, S>(
+  nodes: readonly EntryNode<F>[],
+  summaryOf: (field: F) => S,
+): SummarySection<S>[] {
+  const sections: SummarySection<S>[] = [];
+  for (const node of nodes) {
+    if (node.kind === "group") {
+      sections.push({
+        label: node.label,
+        items: entryFields(node.children).map(summaryOf),
+      });
+    } else {
+      const last = sections.at(-1);
+      if (last && last.label === undefined)
+        last.items.push(summaryOf(node.field));
+      else sections.push({ items: [summaryOf(node.field)] });
+    }
+  }
+  return sections;
 }
 
 /** One answer as a collapsed section lists it. */
