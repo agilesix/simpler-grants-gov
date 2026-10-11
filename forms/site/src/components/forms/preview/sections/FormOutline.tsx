@@ -11,8 +11,8 @@ interface Props {
 /**
  * The form's sections beside it, ported from the frontend's `LeftHandFormNav` (the USWDS
  * in-page navigation on the apply form). That one lists only the top-level sections; this one
- * nests each section's own under it, marks the sections the reader is in, and lets a top-level
- * section collapse. The one the reader is in opens by itself until it is toggled.
+ * nests each section's own under it, marks the sections the reader is in, and lets any section
+ * with sections of its own collapse. The ones the reader is in open by themselves until toggled.
  */
 export default function FormOutline({ sections, trail, goTo }: Props) {
   const [toggled, setToggled] = useState<Record<string, boolean>>({});
@@ -35,12 +35,13 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
     </a>
   );
 
+  // Every row leads with a caret, or the caret's space, so titles at one depth line up.
   const list = (nodes: OutlineNode[], sub: boolean) => (
     <ul
       className={`usa-in-page-nav__list${sub ? " form-outline__sublist" : ""}`}
     >
       {nodes.map((node) => {
-        const collapsible = !sub && node.children.length > 0;
+        const collapsible = node.children.length > 0;
         const open = !collapsible || isOpen(node.id);
         const listId = `${node.id}-outline`;
         return (
@@ -48,8 +49,10 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
             key={node.id}
             className={`usa-in-page-nav__item${sub ? " usa-in-page-nav__item--sub" : ""}`}
           >
-            {collapsible ? (
-              <div className="form-outline__row">
+            <div
+              className={`form-outline__row${collapsible ? "" : " form-outline__row--leaf"}`}
+            >
+              {collapsible && (
                 <button
                   type="button"
                   className="form-outline__toggle"
@@ -62,16 +65,10 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
                 >
                   <span className="form-outline__caret" aria-hidden="true" />
                 </button>
-                {link(node)}
-              </div>
-            ) : sub ? (
-              link(node)
-            ) : (
-              <div className="form-outline__row form-outline__row--leaf">
-                {link(node)}
-              </div>
-            )}
-            {node.children.length > 0 && (
+              )}
+              {link(node)}
+            </div>
+            {collapsible && (
               <div id={listId} hidden={!open}>
                 {list(node.children, true)}
               </div>
@@ -84,7 +81,7 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
 
   return (
     <aside
-      className="usa-in-page-nav form-outline order-1 margin-left-0 desktop:margin-right-5"
+      className="usa-in-page-nav form-outline order-1"
       aria-label="Sections in this form"
     >
       <nav className="usa-in-page-nav__nav padding-x-0">

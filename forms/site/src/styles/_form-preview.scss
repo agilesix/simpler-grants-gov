@@ -309,26 +309,32 @@
 
 // The outline nests each section's own under it, which the frontend's flat list does not.
 // Only the top level keeps the USWDS rail; a nested list is set off by its indent alone.
-// Starts where the parent's title does (caret, gap, padding), and each link indents from there.
+// Each depth starts one step in from its parent's caret.
 .usa-in-page-nav__list.form-outline__sublist {
-  margin-left: units(5);
+  margin-left: units(2);
   border-left: none;
+}
 
-  .usa-in-page-nav__link {
-    padding-left: units(2);
+// Narrow, and close to the form. On a screen wide enough to hold it in the page's left margin,
+// it hangs out there, so the form's fields line up with the actions above them.
+$form-outline-width: 12rem;
+$form-outline-gap: units(3);
+
+.usa-in-page-nav.form-outline {
+  flex: 0 0 auto;
+  width: $form-outline-width;
+  max-width: $form-outline-width;
+  margin-left: 0;
+  margin-right: $form-outline-gap;
+
+  // The 75rem page container leaves room for the outline in its margin from about 100rem.
+  @media (min-width: 100rem) {
+    margin-left: calc(-1 * (#{$form-outline-width} + #{$form-outline-gap}));
   }
 }
 
-// A little wider than the frontend's card-width nav, so a long section title keeps room beside
-// its caret. Not scrollable, so the caret's focus ring is not clipped.
-.usa-in-page-nav.form-outline {
-  flex: 0 0 auto;
-  width: units("card-lg");
-  max-width: units("card-lg");
-}
-
-// A top-level section's caret, which shows or hides its sections, then its link. A section
-// with none of its own gets the caret's space, so every title lines up.
+// A section's caret, which shows or hides its sections, then its link. A section with none of
+// its own gets the caret's space, so every title at one depth lines up.
 .form-outline__row {
   display: flex;
   align-items: center;
@@ -337,7 +343,7 @@
 
 .form-outline__row--leaf::before {
   content: "";
-  flex: 0 0 units(4);
+  flex: 0 0 units(3);
 }
 
 // The title sits right after its caret rather than after the link's usual padding. Scoped
@@ -353,8 +359,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: units(4);
-  height: units(4);
+  width: units(3);
+  height: units(3);
   padding: 0;
   border: 0;
   border-radius: radius("sm");
