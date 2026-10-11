@@ -81,7 +81,7 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
 
   return (
     <aside
-      className="usa-in-page-nav form-outline order-1"
+      className="usa-in-page-nav form-outline order-1 margin-left-0"
       aria-label="Sections in this form"
     >
       <nav className="usa-in-page-nav__nav padding-x-0">

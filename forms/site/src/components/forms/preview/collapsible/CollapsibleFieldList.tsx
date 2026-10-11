@@ -377,13 +377,17 @@ export function CollapsibleListControl({
   if (!visible || !context) return null;
   const [node] = controlToNodes(uischema, context.schema);
   if (node?.type !== "fieldList") return null;
-  const { props } = getFieldConfig({
+  const config = getFieldConfig({
     uiFieldObject: node,
     formSchema: context.schema,
     errors: context.errors ?? null,
     formData: context.formData,
     requiredField: false,
   });
+  // `key` is React's, not a prop: spread it and React warns.
+  const props = Object.fromEntries(
+    Object.entries(config.props).filter(([name]) => name !== "key"),
+  );
   return (
     <CollapsibleFieldList
       {...(props as unknown as Omit<ListProps, "depth">)}

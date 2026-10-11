@@ -315,32 +315,11 @@
   border-left: none;
 }
 
-// Narrow, and close to the form. Where the page's left margin can hold it, it hangs out there,
-// outside the tab panel, so the form's fields line up with the actions above them.
-$form-outline-width: 12rem;
-$form-outline-min-width: 9rem;
-$form-outline-gap: units(3);
-
+// Narrower than USWDS's in-page nav, so the form keeps most of the panel.
 .usa-in-page-nav.form-outline {
   flex: 0 0 auto;
-  width: $form-outline-width;
-  max-width: $form-outline-width;
-  margin-left: 0;
-  margin-right: $form-outline-gap;
-
-  // The margin beside the 75rem page container: half what is left of the window, plus the
-  // container's 2rem padding. It holds the narrowest outline from about 92rem wide, and the
-  // outline grows with it up to its full width.
-  @media (min-width: 92rem) {
-    --form-outline-width: clamp(
-      #{$form-outline-min-width},
-      calc((100vw - 75rem) / 2 + 2rem - #{$form-outline-gap}),
-      #{$form-outline-width}
-    );
-    width: var(--form-outline-width);
-    max-width: var(--form-outline-width);
-    margin-left: calc(-1 * (var(--form-outline-width) + #{$form-outline-gap}));
-  }
+  width: 12rem;
+  margin-right: units(3);
 }
 
 // A section's caret, which shows or hides its sections, then its link. A section with none of
