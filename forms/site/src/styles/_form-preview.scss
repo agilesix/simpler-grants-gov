@@ -314,12 +314,35 @@
   border-left: none;
 }
 
-// A top-level section's link, with the caret that shows or hides its sections.
+// Wider than the frontend's card-width nav, so a long section title keeps room beside its
+// caret. Not scrollable, so the caret's focus ring is not clipped.
+.usa-in-page-nav.form-outline {
+  flex: 0 0 auto;
+  width: units("card-lg");
+  max-width: units("card-lg");
+
+  @include at-media("desktop") {
+    width: 18rem;
+    max-width: 18rem;
+  }
+}
+
+// A top-level section's caret, which shows or hides its sections, then its link. A section
+// with none of its own gets the caret's space, so every title lines up.
 .form-outline__row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: units(1);
+  gap: units("05");
+}
+
+.form-outline__row--leaf::before {
+  content: "";
+  flex: 0 0 units(4);
+}
+
+.form-outline__row > .usa-in-page-nav__link {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .form-outline__toggle {

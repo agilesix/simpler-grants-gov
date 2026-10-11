@@ -50,7 +50,6 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
           >
             {collapsible ? (
               <div className="form-outline__row">
-                {link(node)}
                 <button
                   type="button"
                   className="form-outline__toggle"
@@ -63,9 +62,14 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
                 >
                   <span className="form-outline__caret" aria-hidden="true" />
                 </button>
+                {link(node)}
               </div>
-            ) : (
+            ) : sub ? (
               link(node)
+            ) : (
+              <div className="form-outline__row form-outline__row--leaf">
+                {link(node)}
+              </div>
             )}
             {node.children.length > 0 && (
               <div id={listId} hidden={!open}>
@@ -80,7 +84,7 @@ export default function FormOutline({ sections, trail, goTo }: Props) {
 
   return (
     <aside
-      className="usa-in-page-nav form-outline maxw-card order-1 margin-left-0 desktop:margin-right-5 overflow-auto"
+      className="usa-in-page-nav form-outline order-1 margin-left-0 desktop:margin-right-5"
       aria-label="Sections in this form"
     >
       <nav className="usa-in-page-nav__nav padding-x-0">
