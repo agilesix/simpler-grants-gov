@@ -259,6 +259,12 @@
   list-style: none;
 }
 
+// Each crumb centered in its own row, so the bold current one lines up with the rest.
+.section-breadcrumb__item {
+  display: flex;
+  align-items: center;
+}
+
 .section-breadcrumb__item + .section-breadcrumb__item::before {
   content: "›";
   padding: 0 units("05");
@@ -266,6 +272,8 @@
 }
 
 .section-breadcrumb__crumb {
+  display: inline-flex;
+  align-items: center;
   min-height: units(5);
   padding: 0 units("05");
   border: 0;
@@ -274,6 +282,7 @@
   font: inherit;
   @include u-font("sans", "2xs");
   color: color("primary");
+  line-height: 1.2;
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
