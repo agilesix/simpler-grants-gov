@@ -301,3 +301,18 @@
 .section-breadcrumb__crumb--current {
   font-weight: 700;
 }
+
+// The form beside its outline, as the apply form lays out its in-page navigation.
+.form-preview__main {
+  min-width: 0;
+}
+
+// The outline nests each section's own under it, which the frontend's flat list does not.
+.form-outline__sublist {
+  margin-left: units(2);
+}
+
+// The sections the reader is in, not only the current one, so the path reads at a glance.
+.form-outline__link--inside {
+  font-weight: 700;
+}

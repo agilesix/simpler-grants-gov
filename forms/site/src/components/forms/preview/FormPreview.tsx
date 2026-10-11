@@ -4,7 +4,9 @@ import { useCallback, useRef, useState } from "react";
 
 import { FormRenderer } from ".";
 import { $previewData } from "../../../stores/formPreview";
+import FormOutline from "./sections/FormOutline";
 import SectionBreadcrumb from "./sections/SectionBreadcrumb";
+import { useSectionTrail } from "./sections/useSectionTrail";
 
 interface Props {
   schema: JsonSchema;
@@ -19,6 +21,8 @@ export default function FormPreview({ schema, uischema, example }: Props) {
   const [warnings, setWarnings] = useState<string[]>([]);
   const [showErrors, setShowErrors] = useState(false);
   const form = useRef<HTMLDivElement>(null);
+  const bar = useRef<HTMLElement>(null);
+  const { sections, trail, goTo } = useSectionTrail(form, bar);
 
   const onChange = useCallback((next: unknown, nextWarnings: string[]) => {
     $previewData.set(next);
@@ -88,15 +92,20 @@ export default function FormPreview({ schema, uischema, example }: Props) {
         </div>
       )}
 
-      <SectionBreadcrumb container={form} />
-      <div className="form-preview__form" ref={form}>
-        <FormRenderer
-          schema={schema}
-          uischema={uischema}
-          data={data}
-          showErrors={showErrors}
-          onChange={onChange}
-        />
+      <div className="usa-in-page-nav-container form-preview__body">
+        <div className="order-2 width-full form-preview__main">
+          <SectionBreadcrumb ref={bar} trail={trail} goTo={goTo} />
+          <div className="form-preview__form" ref={form}>
+            <FormRenderer
+              schema={schema}
+              uischema={uischema}
+              data={data}
+              showErrors={showErrors}
+              onChange={onChange}
+            />
+          </div>
+        </div>
+        <FormOutline sections={sections} trail={trail} goTo={goTo} />
       </div>
     </div>
   );

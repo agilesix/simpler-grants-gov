@@ -37,3 +37,22 @@ export const crumbAttributes = (id: string, label: string, level: number) => ({
 /** A heading tag for a section at `level`, from h3 (the form's own heading is h2) to h6. */
 export const headingTag = (level: number) =>
   `h${Math.min(Math.max(level + 2, 3), 6)}` as "h3" | "h4" | "h5" | "h6";
+
+/** A section in the form outline, with the sections inside it. */
+export interface OutlineNode extends Crumb {
+  children: OutlineNode[];
+}
+
+/** The sections, nested by level, from their headings in document order. */
+export function outlineTree(crumbs: readonly Crumb[]): OutlineNode[] {
+  const roots: OutlineNode[] = [];
+  const open: OutlineNode[] = [];
+  for (const crumb of crumbs) {
+    const node: OutlineNode = { ...crumb, children: [] };
+    while (open.length && open[open.length - 1].level >= crumb.level)
+      open.pop();
+    (open.length ? open[open.length - 1].children : roots).push(node);
+    open.push(node);
+  }
+  return roots;
+}
