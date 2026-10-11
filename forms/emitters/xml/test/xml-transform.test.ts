@@ -10,20 +10,21 @@ import { xmlTransform } from "../src/xml-transform.js";
 
 const FORMS_ROOT = fileURLToPath(new URL("../../..", import.meta.url));
 
-describe("key-contacts fixture", () => {
-  /**
-   * `fixtures/key-contacts.xml-transform.json` is the hand-written
-   * `simpler-grants-gov/forms/specs/xml/key-contacts.json`, changed only where this spec
-   * differs from the one that mapping was written for:
-   *
-   *   - `phone`, `fax` and `email` sit in a `contact` group, because this spec nests them in
-   *     `contact` where that one has them flat. The group has no element of its own, so the
-   *     elements written are the same. (The API's transformer honors a group only at the
-   *     root today: inside an array's `items` it skips a rule without `xml_transform`.)
-   *   - `_xml_config` has no `description`, `version` or `null_handling_options`, which the
-   *     API never reads.
-   */
-  it("emits the hand-written Key Contacts mapping", async () => {
+/**
+ * Each fixture is the form's hand-written mapping in
+ * `simpler-grants-gov/forms/specs/xml/<form>.json`, changed only where this spec differs from
+ * the one that mapping was written for:
+ *
+ *   - `phone`, `fax` and `email` sit in a `contact` group, because this spec nests them in
+ *     `contact` where that one has them flat. The group has no element of its own, so the
+ *     elements written are the same. (The API's transformer honors a group only at the root
+ *     today: inside an array's `items` or a `nested_object` it skips a rule without
+ *     `xml_transform`.)
+ *   - `_xml_config` has no `description`, `version` or `null_handling_options`, which the API
+ *     never reads.
+ */
+describe.each(["key-contacts", "epa-key-contacts"])("%s fixture", (form) => {
+  it("emits the hand-written mapping", async () => {
     const outputDir = await mkdtemp(path.join(tmpdir(), "form-library-xml-"));
     const program = await compile(
       NodeHost,
@@ -46,11 +47,11 @@ describe("key-contacts fixture", () => {
     const read = async (file: string) =>
       JSON.parse(await readFile(file, "utf8")) as unknown;
     expect(
-      await read(path.join(outputDir, "forms/key-contacts/xml-transform.json")),
+      await read(path.join(outputDir, `forms/${form}/xml-transform.json`)),
     ).toEqual(
       await read(
         fileURLToPath(
-          new URL("fixtures/key-contacts.xml-transform.json", import.meta.url),
+          new URL(`fixtures/${form}.xml-transform.json`, import.meta.url),
         ),
       ),
     );

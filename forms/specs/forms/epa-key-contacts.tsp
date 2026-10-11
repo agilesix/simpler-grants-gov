@@ -1,6 +1,8 @@
 import "simpler-forms";
 import "./index.tsp";
 import "../questions/person/index.tsp";
+import "../mapping/targets.tsp";
+import "../xsd/epa-key-contacts-2-0.tsp";
 
 using SimplerForms;
 
@@ -32,6 +34,7 @@ enum EPAKeyContactsSection {
   ombNumber: "2030-0020",
 })
 @UI.sections(EPAKeyContactsSection)
+@Mapping.to(Mappings.Target.grantsGovXml, XSD.EPAKeyContacts20.Root)
 @example(#{
   authorizedRepresentative: Questions.People.Examples.usContact,
   payee: Questions.People.Examples.usContactNoEmail,
@@ -52,20 +55,24 @@ model EPAKeyContacts {
   /** Original awards and amendments will be sent to this individual for review and acceptance, unless otherwise indicated. */
   @UI.label("Authorized Representative")
   @UI.section(EPAKeyContactsSection.authorizedRepresentative)
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.EPAKeyContacts20.Root.authorizedRepresentative)
   authorizedRepresentative?: Questions.People.Person;
 
   /** Individual authorized to accept payments. */
   @UI.label("Payee")
   @UI.section(EPAKeyContactsSection.payee)
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.EPAKeyContacts20.Root.payee)
   payee?: Questions.People.Person;
 
   /** Individual from Sponsored Programs Office to contact concerning administrative matters (i.e., indirect cost rate computation, rebudgeting requests etc). */
   @UI.label("Administrative Contact")
   @UI.section(EPAKeyContactsSection.administrativeContact)
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.EPAKeyContacts20.Root.administrativeContact)
   administrativeContact?: Questions.People.Person;
 
   /** Individual responsible for the technical completion of the proposed work. */
   @UI.label("Project Manager")
   @UI.section(EPAKeyContactsSection.projectManager)
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.EPAKeyContacts20.Root.projectManager)
   projectManager?: Questions.People.Person;
 }

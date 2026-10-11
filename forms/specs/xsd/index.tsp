@@ -11,3 +11,4 @@
 // where the parity suite compares them against the JSON schema.
 import "./global-library.tsp";
 import "./key-contacts-2-0.tsp";
+import "./epa-key-contacts-2-0.tsp";

@@ -27,7 +27,8 @@ scalar ProjectRole extends string;
 @Meta.tag(TagName.person, TagName.role)
 @UI.label("Key Contact")
 @example(Questions.People.Examples.principalInvestigator)
-// `name`, `title` and `address` come from `Person` by spread, so their links are declared here.
+// `name`, `title` and `address` come from `Person` by spread, bringing its links to
+// `ContactPersonDataTypeV3`; the paths here point them into `RoleOnProject` instead.
 // `contact` has no element of its own in `RoleOnProject`: its fields are flattened into it.
 @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject)
 @Mapping.path(Mappings.Target.grantsGovXml, "name", XSD.KeyContacts20.RoleOnProject.contactName)
