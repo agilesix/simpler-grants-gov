@@ -927,7 +927,9 @@ h2.results-count {
   padding: units("205") units(3);
   text-decoration: none !important;
   color: inherit !important;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .form-card:hover {
@@ -1317,15 +1319,10 @@ details[open] > .group-header::before {
     @include u-font("sans", "2xs");
   }
 
+  // Set off from the parent by the indent alone.
   > .section-meta,
-  > // The summed differences sit at the row's end, where a field row's badges do.
-.section-badges {
-  margin-left: auto;
-}
-
-.field-section__body {
+  > .field-section__body {
     margin-left: 9px;
-    border-left: 2px solid color("base-lighter");
   }
 
   > .field-section__body {
@@ -1378,6 +1375,11 @@ details[open] > .group-header::before {
   @media (max-width: 640px) {
     padding-left: units(2);
   }
+}
+
+// The summed differences sit at the row's end, where a field row's badges do.
+.section-badges {
+  margin-left: auto;
 }
 
 .section-count {
