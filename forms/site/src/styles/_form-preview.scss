@@ -308,8 +308,52 @@
 }
 
 // The outline nests each section's own under it, which the frontend's flat list does not.
-.form-outline__sublist {
+// Only the top level keeps the USWDS rail; a nested list is set off by its indent alone.
+.usa-in-page-nav__list.form-outline__sublist {
   margin-left: units(2);
+  border-left: none;
+}
+
+// A top-level section's link, with the caret that shows or hides its sections.
+.form-outline__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: units(1);
+}
+
+.form-outline__toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: units(4);
+  height: units(4);
+  padding: 0;
+  border: 0;
+  border-radius: radius("sm");
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    background: color("base-lightest");
+  }
+
+  &:focus-visible {
+    outline: 3px solid color("blue-40v");
+    outline-offset: 0;
+  }
+}
+
+.form-outline__caret {
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid color("base-dark");
+  transition: transform 0.15s;
+
+  [aria-expanded="true"] > & {
+    transform: rotate(90deg);
+  }
 }
 
 // The sections the reader is in, not only the current one, so the path reads at a glance.
