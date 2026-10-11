@@ -23,7 +23,7 @@ export type XmlTransformRules = Record<string, unknown>;
 /**
  * `form`'s XML transform rules in `mapping`, or undefined if `form` is not linked in it.
  *
- * The rules are read off the form's links and the XSD mirror they point into:
+ * The rules are read off the form's links and the XSD TypeSpec models they point into:
  *
  *   - an element's name is its `@Xml.name`, or its property name;
  *   - an element's namespace is its own `@Xml.ns`, or else its model's, which is how an XSD
@@ -35,7 +35,7 @@ export type XmlTransformRules = Record<string, unknown>;
  *   - a literal-typed `@Xml.attribute` on the root is a fixed root attribute.
  *
  * Rule order is load-bearing -- the API writes elements in the order of the rules -- so rules
- * follow the order the mirror declares its properties in, which is the XSD's sequence, not
+ * follow the order the XSD TypeSpec model declares its properties in, which is the XSD's sequence, not
  * the order the form asks its questions in.
  */
 export function xmlTransform(

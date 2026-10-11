@@ -80,6 +80,8 @@ export const KEYWORDS = [
   "enumType",
   /** How many times the field can appear in one form: 1, a bound, or `"unbounded"`. */
   "maxOccurs",
+  /** The XML namespace an element is in, as a URI. Only XML artifacts state it. */
+  "namespace",
 ] as const;
 
 export type Keyword = (typeof KEYWORDS)[number];

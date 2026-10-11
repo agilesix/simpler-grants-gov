@@ -64,8 +64,9 @@ const Tester = createTester(FORMS_ROOT, {
 });
 
 /**
- * Two mappings, an XML mirror for the first and a column layout for the second. Sources
- * are written in an order the mirror does not use, so ordering is visible.
+ * Two mappings, an XSD TypeSpec model as the target of the first and a column layout as
+ * the second's. Sources are written in an order the XSD model does not use, so ordering is
+ * visible.
  */
 const spec = (body: string) => `
   import "simpler-forms";
@@ -153,7 +154,7 @@ function lookup<T>(program: Program, reference: string): T {
 }
 
 describe("xmlTransform", () => {
-  it("describes the document from the root's mirror", async () => {
+  it("describes the document from the root's XSD model", async () => {
     expect((await rules())?._xml_config).toEqual({
       form_name: "FormRoot",
       namespaces: {
@@ -170,7 +171,7 @@ describe("xmlTransform", () => {
     });
   });
 
-  it("orders rules by the mirror's sequence, not the form's", async () => {
+  it("orders rules by the XSD model's sequence, not the form's", async () => {
     const result = (await rules())!;
     expect(Object.keys(result)).toEqual([
       "_xml_config",
@@ -211,7 +212,7 @@ describe("xmlTransform", () => {
     });
   });
 
-  it("is undefined for a mapping whose target is not an XML mirror", async () => {
+  it("is undefined for a mapping whose target is not an XSD model", async () => {
     // The csv links exist, but Flat.Row has no @Xml.ns, so there is no document to describe.
     const { program } = await Tester.compile(spec(FORM));
     const result = xmlTransform(

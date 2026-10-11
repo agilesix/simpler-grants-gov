@@ -34,6 +34,8 @@ const childNamed = (node: XNode, local: string) =>
 interface Schema {
   url: string;
   targetNamespace: string;
+  /** Whether a locally declared element is in `targetNamespace` unless it says otherwise. */
+  qualified: boolean;
   prefixes: Map<string, string>;
   simpleTypes: Map<string, XNode>;
   complexTypes: Map<string, XNode>;
@@ -64,6 +66,7 @@ class Schemas {
     const schema: Schema = {
       url,
       targetNamespace: declared.targetNamespace ?? "",
+      qualified: declared.elementFormDefault === "qualified",
       prefixes: new Map(
         Object.entries(declared)
           .filter(([key]) => key === "xmlns" || key.startsWith("xmlns:"))
@@ -140,6 +143,8 @@ class Walker {
   private readonly schemas: Schemas;
   /** How many times the element being walked can appear in one form. */
   private repeats: MaxOccurs = 1;
+  /** The namespace of the element being walked; empty for an unqualified one. */
+  private namespace = "";
 
   /** Walks `body` inside something that repeats up to `maxOccurs` times. */
   private repeating(maxOccurs: string | undefined, body: () => void) {
@@ -193,15 +198,30 @@ class Walker {
     return rules;
   }
 
-  leaf(path: Path, required: boolean, rules: Rules) {
+  /** An element's own namespace is recorded; an attribute's is not. */
+  leaf(path: Path, required: boolean, rules: Rules, element = true) {
     this.fields.set(path, {
       order: this.fields.size,
       required: required ? "yes" : "no",
-      rules: { ...rules, maxOccurs: this.repeats },
+      rules: {
+        ...rules,
+        maxOccurs: this.repeats,
+        ...(element ? { namespace: this.namespace } : {}),
+      },
     });
   }
 
-  element(node: XNode, schema: Schema, parent: Path, required: boolean): void {
+  /**
+   * `global` for an element declared at the top level of `schema`, which is always in its
+   * target namespace; a local one is only if the schema or the element qualifies it.
+   */
+  element(
+    node: XNode,
+    schema: Schema,
+    parent: Path,
+    required: boolean,
+    global = false,
+  ): void {
     const declared = attrs(node);
     if (declared.ref) {
       const global = this.schemas.find("elements", declared.ref, schema);
@@ -210,14 +230,23 @@ class Walker {
         ...global.node,
         ":@": { ...attrs(global.node), ...declared, ref: undefined },
       };
-      return this.element(merged, global.schema, parent, required);
+      return this.element(merged, global.schema, parent, required, true);
     }
     if (declared.fixed !== undefined) return;
     const path = parent ? `${parent}/${declared.name}` : declared.name;
     const own = required && Number(declared.minOccurs ?? 1) > 0;
-    this.repeating(declared.maxOccurs, () =>
-      this.contents(node, schema, declared, path, own),
-    );
+    const qualified =
+      global ||
+      (declared.form ?? (schema.qualified ? "qualified" : "")) === "qualified";
+    const outer = this.namespace;
+    this.namespace = qualified ? schema.targetNamespace : "";
+    try {
+      this.repeating(declared.maxOccurs, () =>
+        this.contents(node, schema, declared, path, own),
+      );
+    } finally {
+      this.namespace = outer;
+    }
   }
 
   /** What an element holds: a complex type to walk, or a simple type that makes it a leaf. */
@@ -332,6 +361,7 @@ class Walker {
       `${path}/@${name}`,
       required && use === "required",
       named ? this.simpleRules(named.node, named.schema, named.name) : {},
+      false,
     );
   }
 }
