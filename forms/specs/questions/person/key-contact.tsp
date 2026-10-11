@@ -2,6 +2,8 @@ import "simpler-forms";
 import "../index.tsp";
 import "../organization/index.tsp";
 import "./index.tsp";
+import "../../mapping/targets.tsp";
+import "../../xsd/key-contacts-2-0.tsp";
 
 using SimplerForms;
 
@@ -25,6 +27,15 @@ scalar ProjectRole extends string;
 @Meta.tag(TagName.person, TagName.role)
 @UI.label("Key Contact")
 @example(Questions.People.Examples.principalInvestigator)
+// `name`, `title` and `address` come from `Person` by spread, so their links are declared here.
+// `contact` has no element of its own in `RoleOnProject`: its fields are flattened into it.
+@Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject)
+@Mapping.path(Mappings.Target.grantsGovXml, "name", XSD.KeyContacts20.RoleOnProject.contactName)
+@Mapping.path(Mappings.Target.grantsGovXml, "title", XSD.KeyContacts20.RoleOnProject.contactTitle)
+@Mapping.path(Mappings.Target.grantsGovXml, "address", XSD.KeyContacts20.RoleOnProject.contactAddress)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.phone", XSD.KeyContacts20.RoleOnProject.contactPhone)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.fax", XSD.KeyContacts20.RoleOnProject.contactFax)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.email", XSD.KeyContacts20.RoleOnProject.contactEmail)
 @UI.order(
   KeyContact.projectRole,
   KeyContact.name,
@@ -36,12 +47,14 @@ scalar ProjectRole extends string;
 model KeyContact {
   /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
   @UI.label("Project Role")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactProjectRole)
   projectRole: Questions.People.ProjectRole;
 
   ...OmitProperties<Questions.People.Person, "contact">;
 
   /** Enter the contact's organizational affiliation. */
   @UI.label("Organizational Affiliation")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactOrganizationalAffiliation)
   organizationalAffiliation?: Questions.Organizations.OrganizationName;
 
   // Redeclared rather than tightened with a model-level `@Validation.requiredPaths("contact.email")`:
