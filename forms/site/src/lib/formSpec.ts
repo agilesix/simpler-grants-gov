@@ -22,80 +22,8 @@ export interface FormSpec {
   example?: Record<string, unknown>;
 }
 
-type UiNode = {
-  type: string;
-  scope?: string;
-  label?: string;
-  elements?: UiNode[];
-  options?: Record<string, unknown>;
-};
-
 const readJson = async (file: string) =>
   JSON.parse(await readFile(file, "utf8")) as Record<string, unknown>;
-
-/** Split `#/properties/a/properties/b` into its property names, or undefined. */
-const scopeProps = (scope: string): string[] | undefined => {
-  if (!scope.startsWith("#/properties/")) return undefined;
-  const tokens = scope.slice(2).split("/");
-  const props: string[] = [];
-  for (let i = 0; i < tokens.length; i += 2) {
-    if (tokens[i] !== "properties" || !tokens[i + 1]) return undefined;
-    props.push(tokens[i + 1]);
-  }
-  return props;
-};
-
-const schemaAt = (schema: JsonSchema, props: string[]) =>
-  props.reduce<JsonSchema | undefined>(
-    (node, prop) => node?.properties?.[prop],
-    schema,
-  );
-
-const controlScopes = (node: UiNode): string[] =>
-  node.scope
-    ? [node.scope]
-    : (node.elements ?? []).flatMap((child) => controlScopes(child));
-
-/**
- * Workaround for simpler-forms 0.1.0-alpha.1: a nested question's Group takes the question's
- * label ("Contact Person") rather than the property's ("Payee"). Relabel a Group with the
- * `title` of the property all of its controls sit under, when that is deeper than its parent's.
- *
- * TODO: remove once https://github.com/agilesix/simpler-forms/issues/7 is released.
- */
-const labelGroups = (
-  node: UiNode,
-  schema: JsonSchema,
-  parentDepth = 0,
-): UiNode => {
-  const out: UiNode = { ...node };
-  let depth = parentDepth;
-  if (node.type === "Group") {
-    const scopes = controlScopes(node).map(scopeProps);
-    if (scopes.length && scopes.every(Boolean)) {
-      const paths = scopes as string[][];
-      const common: string[] = [];
-      for (
-        let i = 0;
-        paths.every((p) => p.length > i + 1 && p[i] === paths[0][i]);
-        i++
-      ) {
-        common.push(paths[0][i]);
-      }
-      if (common.length > parentDepth) {
-        const title = schemaAt(schema, common)?.title;
-        if (title) out.label = title;
-        depth = common.length;
-      }
-    }
-  }
-  if (node.elements) {
-    out.elements = node.elements.map((child) =>
-      labelGroups(child, schema, depth),
-    );
-  }
-  return out;
-};
 
 /**
  * Drop every `$id` and nested `$schema` once refs are inlined: a shared question appears at
@@ -144,7 +72,8 @@ export async function loadFormSpec(specId: string): Promise<FormSpec> {
   const schema = stripIds(resolved) as JsonSchema & {
     examples?: Record<string, unknown>[];
   };
-  const ui = (await readJson(path.join(formDir, "ui.json"))) as UiNode;
-  const uischema = labelGroups(ui, schema) as UISchemaElement;
+  const uischema = (await readJson(
+    path.join(formDir, "ui.json"),
+  )) as unknown as UISchemaElement;
   return { schema, uischema, example: schema.examples?.[0] };
 }

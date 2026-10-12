@@ -24,6 +24,27 @@ const addressOrder: Record<string, Recorded> = Object.fromEntries(
   ]),
 );
 
+const NOT_ASKED: Recorded = {
+  category: "intentional",
+  reason:
+    "ContactPersonDataTypeV3 permits County and Province, but neither appears on the official PDF or in the current SGG form, so the form does not ask for them.",
+};
+
+/** County and Province for every role, keyed by `path(role, field)`. */
+const notAsked = (path: (role: number, field: string) => string) =>
+  Object.fromEntries(
+    ROLES.flatMap((_, role) =>
+      ["County", "Province"].map((field) => [path(role, field), NOT_ASKED]),
+    ),
+  );
+
+const XSD_ROLES = [
+  "AuthorizedRepresentative",
+  "Payee",
+  "AdminstrativeContact",
+  "ProjectManager",
+];
+
 const US_ZIP_HELP: Recorded = {
   category: "intentional",
   reason:
@@ -424,6 +445,16 @@ export const DIFF: FormDiff = {
       ]),
     ),
     differingHelp: help,
+  },
+  xsd: {
+    absentFromPlan: notAsked(
+      (role, field) => `${XSD_ROLES[role]}/Address/${field}`,
+    ),
+  },
+  jsonSchema: {
+    absentFromPlan: notAsked(
+      (role, field) => `${ROLES[role]}.address.${field.toLowerCase()}`,
+    ),
   },
   uiSchema: { outOfOrder: addressOrder },
 };

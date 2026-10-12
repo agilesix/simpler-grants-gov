@@ -122,10 +122,8 @@ describe("UI layout", () => {
     );
     expect(list?.options?.detail?.label).toBe("Key Contact");
   });
-});
 
-describe("UI workarounds for simpler-forms 0.1.0-alpha.1", () => {
-  it("labels each EPA role group with its property title", async () => {
+  it("labels each EPA role section from its layout", async () => {
     const { uischema } = await loadFormSpec("epa-key-contacts");
     expect(groupLabels(uischema as unknown as UiNode)).toEqual(
       expect.arrayContaining([
@@ -135,5 +133,11 @@ describe("UI workarounds for simpler-forms 0.1.0-alpha.1", () => {
         "Project Manager",
       ]),
     );
+  });
+
+  it("leaves County and Province out of each EPA contact's address", async () => {
+    const { uischema } = await loadFormSpec("epa-key-contacts");
+    const text = JSON.stringify(uischema);
+    expect(text).not.toMatch(/properties\/(county|province)"/);
   });
 });
