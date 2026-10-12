@@ -2,7 +2,7 @@
 // Generated from Grants.gov UniversalCodes-V2.0.xsd, with only the import and namespace
 // retargeted for this question bank.
 
-import "../index.tsp";
+import "#questions/index.tsp";
 
 namespace Questions.Types;
 

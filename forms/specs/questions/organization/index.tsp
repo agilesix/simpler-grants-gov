@@ -1,6 +1,6 @@
 import "simpler-forms";
-import "../index.tsp";
-import "../types/address.tsp";
+import "#questions/index.tsp";
+import "#questions/types/address.tsp";
 
 using SimplerForms;
 

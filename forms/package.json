@@ -8,6 +8,13 @@
   "workspaces": [
     "emitters/xml"
   ],
+  "imports": {
+    "#forms/*": "./specs/forms/*",
+    "#questions/*": "./specs/questions/*",
+    "#xsd/*": "./specs/xsd/*",
+    "#mapping/*": "./specs/mapping/*",
+    "#ui/*": "./specs/ui/*"
+  },
   "scripts": {
     "build": "npm run build -w emitters/xml",
     "precompile": "npm run build",

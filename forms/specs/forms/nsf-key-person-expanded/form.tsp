@@ -1,6 +1,6 @@
 import "simpler-forms";
-import "../index.tsp";
-import "../../questions/research/index.tsp";
+import "#forms/index.tsp";
+import "#questions/research/index.tsp";
 import "./profile.tsp";
 
 using SimplerForms;

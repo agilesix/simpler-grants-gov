@@ -1,5 +1,5 @@
 import "simpler-forms";
-import "../index.tsp";
+import "#questions/index.tsp";
 
 using SimplerForms;
 

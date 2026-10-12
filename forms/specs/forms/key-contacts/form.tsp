@@ -1,8 +1,8 @@
 import "simpler-forms";
-import "../index.tsp";
-import "../../questions/organization/index.tsp";
+import "#forms/index.tsp";
+import "#questions/organization/index.tsp";
 import "./key-contact.tsp";
-import "../../mapping/targets.tsp";
+import "#mapping/targets.tsp";
 import "./xsd.tsp";
 
 using SimplerForms;
