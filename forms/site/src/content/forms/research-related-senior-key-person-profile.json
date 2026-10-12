@@ -173,7 +173,7 @@
               "required": true,
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "`ProjectRoleDataType` in RR_KeyPerson_3_0-V3.0.xsd.",
+              "help_text": "Select the person's role on the project.",
               "constraints": "ProjectRoleDataType",
               "json_path": "principal_investigator.profile.project_role",
               "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:ProjectRole"
@@ -536,7 +536,7 @@
               "required": "Conditional (required for each senior/key person)",
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "`ProjectRoleDataType` in RR_KeyPerson_3_0-V3.0.xsd.",
+              "help_text": "Select the person's role on the project.",
               "constraints": "ProjectRoleDataType",
               "json_path": "senior_key_persons[].profile.project_role",
               "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:ProjectRole"

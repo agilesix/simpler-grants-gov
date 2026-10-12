@@ -8,7 +8,8 @@ using SimplerForms;
 
 namespace Forms.RRKeyPersonExpanded;
 
-/** `ProjectRoleDataType` in RR_KeyPersonExpanded_4_0-V4.0.xsd. */
+// `ProjectRoleDataType` in RR_KeyPersonExpanded_4_0-V4.0.xsd.
+/** Select the person's role on the project. */
 @UI.label("Project Role")
 enum RRExpandedProjectRole {
   pdPi: "PD/PI",

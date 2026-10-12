@@ -178,7 +178,7 @@
               "required": true,
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "`ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd.",
+              "help_text": "Select the person's role on the project.",
               "constraints": "ProjectRoleDataType",
               "json_path": "principal_investigator.profile.project_role",
               "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:ProjectRole"
@@ -553,7 +553,7 @@
               "required": "Conditional (required for each senior/key person)",
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "`ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd.",
+              "help_text": "Select the person's role on the project.",
               "constraints": "ProjectRoleDataType",
               "json_path": "senior_key_persons[].profile.project_role",
               "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:ProjectRole"

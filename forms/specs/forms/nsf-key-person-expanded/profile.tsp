@@ -8,7 +8,8 @@ using SimplerForms;
 
 namespace Forms.NSFKeyPersonExpanded;
 
-/** `ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd. */
+// `ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd.
+/** Select the person's role on the project. */
 @UI.label("Project Role")
 enum NSFProjectRole {
   pdPi: "PD/PI",
