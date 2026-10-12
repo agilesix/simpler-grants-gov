@@ -229,6 +229,13 @@
   color: color("base-darker");
 }
 
+// A section's description: a hint under its heading, smaller and quieter than a field's text.
+.form-section__description {
+  margin: 0 0 units(1);
+  max-width: measure(4);
+  @include u-font("sans", "2xs");
+}
+
 // Where the reader is in the form: sticks to the top of the window while the form scrolls.
 .section-breadcrumb {
   position: sticky;

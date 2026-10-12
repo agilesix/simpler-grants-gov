@@ -59,7 +59,12 @@ export default function FormSection({
         ?.split("\n")
         .filter(Boolean)
         .map((paragraph, i) => (
-          <p key={`${name}-section-description-paragraph-${i}`}>{paragraph}</p>
+          <p
+            key={`${name}-section-description-paragraph-${i}`}
+            className="usa-hint form-section__description"
+          >
+            {paragraph}
+          </p>
         ))}
       <SectionDepth.Provider value={level}>{children}</SectionDepth.Provider>
     </fieldset>
