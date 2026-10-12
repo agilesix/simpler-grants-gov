@@ -9,11 +9,14 @@ import {
   type Recorded,
   type Registers,
   type Value,
+  type Wording,
 } from "./model.ts";
 
 /** A form plan beside one other artifact, and the differences already known between them. */
 export interface Pair {
   registers: Registers;
+  /** Label and help differences accepted wholesale. */
+  wording?: Wording;
   plan: Fields;
   source: Fields;
 }
@@ -260,8 +263,15 @@ const isPinned = (entry: unknown): entry is Pinned =>
  */
 function settle(pair: Pair, found: readonly Discrepancy[]): Settled {
   const { registers } = pair;
+  const wholesale = (d: Discrepancy) =>
+    d.kind === TEXT.label.kind
+      ? pair.wording?.labels
+      : d.kind === TEXT.help.kind
+        ? pair.wording?.help
+        : undefined;
   const entryFor = (d: Discrepancy) =>
-    d.recordAs && registers[d.recordAs.register]?.[d.recordAs.key];
+    (d.recordAs && registers[d.recordAs.register]?.[d.recordAs.key]) ??
+    wholesale(d);
   const accepted: Accepted[] = [];
   const unexpected: Discrepancy[] = [];
   for (const d of found) {
@@ -301,6 +311,18 @@ function settle(pair: Pair, found: readonly Discrepancy[]): Settled {
         detail: `${register} records a difference that no longer exists`,
       })),
   );
+  for (const attribute of ["label", "help"] as const) {
+    const { kind } = TEXT[attribute];
+    if (
+      pair.wording?.[attribute === "label" ? "labels" : "help"] &&
+      !found.some((d) => d.kind === kind)
+    )
+      stale.push({
+        kind: "stale entry",
+        path: attribute === "label" ? "wording.labels" : "wording.help",
+        detail: `accepts ${attribute} differences, but there are none`,
+      });
+  }
   for (const [path, { to: target }] of Object.entries(
     registers.renamed ?? {},
   )) {

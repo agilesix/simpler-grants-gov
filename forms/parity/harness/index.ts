@@ -247,11 +247,14 @@ export async function formPairs(
     required(plan.xsd_url, `xsd_url in plan ${diff.slug}`),
     (url) => readSource(url).toString("utf8"),
   );
-  const dat = pair(
-    diff.dat,
-    withAsterisk(planFields(plan, "dat_field", planProblems)),
-    datSource,
-  );
+  const dat = {
+    ...pair(
+      diff.dat,
+      withAsterisk(planFields(plan, "dat_field", planProblems)),
+      datSource,
+    ),
+    wording: diff.wording,
+  };
   const xsd = pair(diff.xsd, planFields(plan, "xml_path"), xsdSource);
   if (!plan.spec_id) return { plan, planProblems, dat, xsd };
 

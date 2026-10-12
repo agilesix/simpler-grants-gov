@@ -168,10 +168,23 @@ export interface Registers {
   outOfOrder?: Record<Path, Recorded>;
 }
 
+/**
+ * Differences a form accepts wholesale rather than field by field: every label, or every help
+ * text, that differs, for one reason. Each is still compared and reported with both values,
+ * so the form library shows them side by side; only a field's own entry in `differingLabels`
+ * or `differingHelp` pins its values.
+ */
+export interface Wording {
+  labels?: Recorded;
+  help?: Recorded;
+}
+
 /** Everything known to differ between one form's plan and its other artifacts. */
 export interface FormDiff {
   /** The plan's `slug`. Its `spec_id` names the compiled form. */
   slug: string;
+  /** Labels and help the form takes from its questions rather than from the DAT. */
+  wording?: Wording;
   dat?: Registers;
   xsd?: Registers;
   jsonSchema?: Registers;

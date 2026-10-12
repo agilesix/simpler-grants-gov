@@ -5,7 +5,7 @@
 import { describe, expect, it } from "vitest";
 
 import { comparePair, type PairSpec } from "./harness/compare.ts";
-import type { Fields, FlatField, Registers } from "./harness/model.ts";
+import type { Fields, FlatField, Registers, Wording } from "./harness/model.ts";
 
 type Spec = Partial<PairSpec>;
 
@@ -18,10 +18,14 @@ const fields = (entries: Record<string, Partial<FlatField>>): Fields =>
 const compare = (
   plan: Record<string, Partial<FlatField>>,
   source: Record<string, Partial<FlatField>>,
-  { registers = {}, ...spec }: Spec & { registers?: Registers } = {},
+  {
+    registers = {},
+    wording,
+    ...spec
+  }: Spec & { registers?: Registers; wording?: Wording } = {},
 ) =>
   comparePair(
-    { registers, plan: fields(plan), source: fields(source) },
+    { registers, wording, plan: fields(plan), source: fields(source) },
     { subject: "plan", ...spec },
   );
 
@@ -168,6 +172,33 @@ describe("matches help text", () => {
       { help: true, registers: recorded },
     );
     expect(paths(result.helpText)).toEqual(["a"]);
+  });
+});
+
+describe("accepts the form's own wording", () => {
+  const wording = { labels: WHY, help: WHY };
+
+  it("lists every differing label and help text as recorded, with both values", () => {
+    const result = compare(
+      { a: { label: "Title", help: "Enter the title." } },
+      { a: { label: "Position/Title", help: "The title of the PD/PI." } },
+      { labels: true, help: true, wording },
+    );
+    expect(result.fieldLabels).toEqual([]);
+    expect(result.helpText).toEqual([]);
+    expect(result.recorded.map((d) => d.values)).toEqual([
+      { plan: "Title", source: "Position/Title" },
+      { plan: "Enter the title.", source: "The title of the PD/PI." },
+    ]);
+  });
+
+  it("flags itself once nothing differs", () => {
+    const result = compare(
+      { a: { label: "Title", help: "Enter it." } },
+      { a: { label: "Title", help: "Enter it." } },
+      { labels: true, help: true, wording },
+    );
+    expect(paths(result.stale)).toEqual(["wording.labels", "wording.help"]);
   });
 });
 
