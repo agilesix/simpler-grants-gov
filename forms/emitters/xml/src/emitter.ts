@@ -20,6 +20,7 @@ export async function $onEmit(
 ): Promise<void> {
   const { program, options } = context;
   const casing = options["property-casing"] ?? "preserve";
+  const direction = options["mapping-direction"] ?? "to";
   const declared = mappingTargets(program);
   const emitted = new Map<Model, string>();
 
@@ -44,7 +45,7 @@ export async function $onEmit(
       forms.map((form) => [form.submission.model as Model, form.submission]),
     );
     for (const [model, submission] of submissions) {
-      const rules = xmlTransform(program, model, mapping, casing);
+      const rules = xmlTransform(program, model, mapping, casing, direction);
       if (!rules) continue;
       const first = emitted.get(model);
       if (first) {

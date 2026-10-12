@@ -12,18 +12,16 @@ const FORMS_ROOT = fileURLToPath(new URL("../../..", import.meta.url));
 
 /**
  * Each fixture is the form's hand-written mapping in
- * `simpler-grants-gov/forms/specs/xml/<form>.json`, changed only where this spec differs from
- * the one that mapping was written for:
- *
- *   - `phone`, `fax` and `email` sit in a `contact` group, because this spec nests them in
- *     `contact` where that one has them flat. The group has no element of its own, so the
- *     elements written are the same. (The API's transformer honors a group only at the root
- *     today: inside an array's `items` or a `nested_object` it skips a rule without
- *     `xml_transform`.)
- *   - `_xml_config` has no `description`, `version` or `null_handling_options`, which the API
- *     never reads.
+ * `simpler-grants-gov/forms/specs/xml/<form>.json`, less the `_xml_config` keys the API never
+ * reads (`description`, `version`, `null_handling_options`). Read from `@Mapping.to` on the
+ * forms or from `@Mapping.from` on the XSD TypeSpec models, the rules are the same.
  */
-describe.each(["key-contacts", "epa-key-contacts"])("%s fixture", (form) => {
+describe.each([
+  { form: "key-contacts", direction: "to" },
+  { form: "key-contacts", direction: "from" },
+  { form: "epa-key-contacts", direction: "to" },
+  { form: "epa-key-contacts", direction: "from" },
+])("$form fixture, mapping-direction $direction", ({ form, direction }) => {
   it("emits the hand-written mapping", async () => {
     const outputDir = await mkdtemp(path.join(tmpdir(), "form-library-xml-"));
     const program = await compile(
@@ -36,6 +34,7 @@ describe.each(["key-contacts", "epa-key-contacts"])("%s fixture", (form) => {
             "emitter-output-dir": outputDir,
             "mapping-targets": ["grantsGovXml"],
             "property-casing": "snake",
+            "mapping-direction": direction,
           },
         },
       },

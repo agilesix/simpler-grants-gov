@@ -12,6 +12,7 @@ import {
   jsonPropertyName,
   modelProperties,
   resolveMapping,
+  resolveMappingFrom,
   type MappingNode,
   type PropertyCasing,
 } from "./simpler-forms.js";
@@ -23,7 +24,8 @@ export type XmlTransformRules = Record<string, unknown>;
 /**
  * `form`'s XML transform rules in `mapping`, or undefined if `form` is not linked in it.
  *
- * The rules are read off the form's links and the XSD TypeSpec models they point into:
+ * The rules are read off the form's links and the XSD TypeSpec models they point into --
+ * `@Mapping.to` on the form, or with `direction` "from", `@Mapping.from` on the XSD models:
  *
  *   - an element's name is its `@Xml.name`, or its property name;
  *   - an element's namespace is its own `@Xml.ns`, or else its model's, which is how an XSD
@@ -43,8 +45,12 @@ export function xmlTransform(
   form: Model,
   mapping: EnumMember,
   casing: PropertyCasing,
+  direction: "to" | "from" = "to",
 ): XmlTransformRules | undefined {
-  const resolved = resolveMapping(program, form, mapping);
+  const resolved =
+    direction === "from"
+      ? resolveMappingFrom(program, form, mapping)?.resolved
+      : resolveMapping(program, form, mapping);
   if (!resolved) return undefined;
   const root = resolved.target;
   const rootNs = getNs(program, root);

@@ -55,6 +55,11 @@ export const resolveMapping = sf.resolveMapping as unknown as (
   model: Model,
   mapping: EnumMember,
 ) => ResolvedMapping | undefined;
+export const resolveMappingFrom = sf.resolveMappingFrom as unknown as (
+  program: Program,
+  form: Model,
+  mapping: EnumMember,
+) => { resolved: ResolvedMapping } | undefined;
 export const modelProperties = sf.modelProperties as unknown as (
   model: Model,
 ) => ModelProperty[];
