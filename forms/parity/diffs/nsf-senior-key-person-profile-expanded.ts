@@ -1,5 +1,10 @@
 import type { FormDiff, Recorded } from "../harness/model.ts";
-import { ADDRESS_HEADING, BANK_WORDING, PROFILE_GROUPS } from "./common.ts";
+import {
+  ADDRESS_HEADING,
+  BANK_WORDING,
+  unmappedAttachments,
+  PROFILE_GROUPS,
+} from "./common.ts";
 
 /** Key-person fields the DAT allows once, though the XSD allows 99 key persons. */
 const ONCE: Recorded = {
@@ -40,4 +45,52 @@ export const DIFF: FormDiff = {
       },
     },
   },
+  ...unmappedAttachments([
+    [
+      "principal_investigator.profile.biographical_sketch",
+      "PDPI/Profile/BioSketchsAttached/BioSketchAttached",
+    ],
+    [
+      "principal_investigator.profile.current_pending_support",
+      "PDPI/Profile/SupportsAttached/SupportAttached",
+    ],
+    [
+      "principal_investigator.profile.collaborators",
+      "PDPI/Profile/CollaboratorsAttached/CollaboratorAttached",
+    ],
+    [
+      "principal_investigator.profile.synergistic_activities",
+      "PDPI/Profile/SynergisticActivitiesAttached/SynergisticAttached",
+    ],
+    [
+      "senior_key_persons[].profile.biographical_sketch",
+      "KeyPerson/Profile/BioSketchsAttached/BioSketchAttached",
+    ],
+    [
+      "senior_key_persons[].profile.current_pending_support",
+      "KeyPerson/Profile/SupportsAttached/SupportAttached",
+    ],
+    [
+      "senior_key_persons[].profile.collaborators",
+      "KeyPerson/Profile/CollaboratorsAttached/CollaboratorAttached",
+    ],
+    [
+      "senior_key_persons[].profile.synergistic_activities",
+      "KeyPerson/Profile/SynergisticActivitiesAttached/SynergisticAttached",
+    ],
+    [
+      "additional_profiles",
+      "AdditionalProfilesAttached/AdditionalProfileAttached",
+    ],
+    [
+      "additional_biographical_sketches",
+      "BioSketchsAttached/BioSketchAttached",
+    ],
+    ["additional_current_pending_support", "SupportsAttached/SupportAttached"],
+    ["additional_collaborators", "CollaboratorsAttached/CollaboratorAttached"],
+    [
+      "additional_synergistic_activities",
+      "SynergisticActivitiesAttached/SynergisticAttached",
+    ],
+  ]),
 };

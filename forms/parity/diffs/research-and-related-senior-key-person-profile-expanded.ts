@@ -1,5 +1,10 @@
 import type { FormDiff } from "../harness/model.ts";
-import { ADDRESS_HEADING, BANK_WORDING, PROFILE_GROUPS } from "./common.ts";
+import {
+  ADDRESS_HEADING,
+  BANK_WORDING,
+  unmappedAttachments,
+  PROFILE_GROUPS,
+} from "./common.ts";
 
 export const DIFF: FormDiff = {
   slug: "research-and-related-senior-key-person-profile-expanded",
@@ -26,4 +31,31 @@ export const DIFF: FormDiff = {
       },
     },
   },
+  ...unmappedAttachments([
+    [
+      "principal_investigator.profile.biographical_sketch",
+      "PDPI/Profile/BioSketchsAttached/BioSketchAttached",
+    ],
+    [
+      "principal_investigator.profile.current_pending_support",
+      "PDPI/Profile/SupportsAttached/SupportAttached",
+    ],
+    [
+      "senior_key_persons[].profile.biographical_sketch",
+      "KeyPerson/Profile/BioSketchsAttached/BioSketchAttached",
+    ],
+    [
+      "senior_key_persons[].profile.current_pending_support",
+      "KeyPerson/Profile/SupportsAttached/SupportAttached",
+    ],
+    [
+      "additional_profiles",
+      "AdditionalProfilesAttached/AdditionalProfileAttached",
+    ],
+    [
+      "additional_biographical_sketches",
+      "BioSketchsAttached/BioSketchAttached",
+    ],
+    ["additional_current_pending_support", "SupportsAttached/SupportAttached"],
+  ]),
 };

@@ -10,4 +10,5 @@
 //
 // Only the structure is modeled. Facets (lengths, patterns, code lists) stay in the XSD,
 // where the parity suite compares them against the JSON schema.
+import "./attachments.tsp";
 import "./global-library.tsp";
