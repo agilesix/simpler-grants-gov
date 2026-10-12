@@ -1,0 +1,32 @@
+import "simpler-forms";
+import "../index.tsp";
+import "../../questions/research/index.tsp";
+import "./profile.tsp";
+
+using SimplerForms;
+
+namespace Forms.NSFKeyPersonExpanded;
+
+// The data only: how an applicant is shown it is in layout.tsp.
+/** NSF Senior/Key Person Profile (Expanded), Grants.gov version 3.3. */
+@Meta.submission(#{
+  id: "nsf-key-person-expanded",
+  legacyFormId: 828,
+  shortFormName: "NSF_KeyPersonExpanded",
+  formVersion: "3.3",
+  agencyCode: "SGG",
+  ombNumber: "3145-0058",
+})
+model NSFKeyPersonExpanded {
+  principalInvestigator: NSFPrincipalInvestigator;
+
+  @maxItems(99)
+  @UI.widget(Rendering.Widget.CollapsibleFieldList)
+  seniorKeyPersons?: NSFSeniorKeyPerson[];
+
+  additionalProfiles?: Questions.Research.AdditionalProfiles;
+  additionalBiographicalSketches?: Questions.Research.AdditionalBiographicalSketches;
+  additionalCurrentPendingSupport?: Questions.Research.AdditionalCurrentPendingSupport;
+  additionalCollaborators?: Questions.Research.AdditionalCollaborators;
+  additionalSynergisticActivities?: Questions.Research.AdditionalSynergisticActivities;
+}
