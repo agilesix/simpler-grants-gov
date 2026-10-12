@@ -120,10 +120,12 @@ const AdaptedLayout = ({
   if (uischema === context.rootUiSchema || !layout.label) {
     return <>{children}</>;
   }
+  const description = layout.options?.description as string | undefined;
   return wrapSection({
     label: layout.label,
     fieldName: groupName(layout.label),
     sectionFields: <>{children}</>,
+    description,
   });
 };
 

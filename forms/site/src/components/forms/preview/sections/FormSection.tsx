@@ -10,7 +10,8 @@ import { SectionDepth } from "./SectionDepth";
 /**
  * A labeled group, drawn flat like the SGG fieldset but with a heading sized to its depth, so
  * a section inside another reads as part of it without any indenting. Its heading is a
- * breadcrumb anchor. The root layout is the form itself and stays a plain run of fields.
+ * breadcrumb anchor, followed by the group's description. The root layout is the form itself
+ * and stays a plain run of fields.
  */
 export default function FormSection({
   uischema,
@@ -43,6 +44,8 @@ export default function FormSection({
 
   const level = depth + 1;
   const name = groupName(layout.label);
+  // Shown as the SGG fieldset shows a section's description: a paragraph per line.
+  const description = layout.options?.description as string | undefined;
   const Heading = headingTag(level);
   return (
     <fieldset className="usa-fieldset form-section" id={`form-section-${name}`}>
@@ -52,6 +55,12 @@ export default function FormSection({
       >
         {layout.label}
       </Heading>
+      {description
+        ?.split("\n")
+        .filter(Boolean)
+        .map((paragraph, i) => (
+          <p key={`${name}-section-description-paragraph-${i}`}>{paragraph}</p>
+        ))}
       <SectionDepth.Provider value={level}>{children}</SectionDepth.Provider>
     </fieldset>
   );
