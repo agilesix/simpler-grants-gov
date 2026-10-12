@@ -21,9 +21,9 @@ model KeyContactsLayout {
     /** Enter the contact's role on the project, title and organizational affiliation. */
     @UI.label("Role")
     role: {
-      projectRole: Questions.People.KeyContact.projectRole;
-      title: Questions.People.KeyContact.title;
-      organizationalAffiliation: Questions.People.KeyContact.organizationalAffiliation;
+      projectRole: Forms.KeyContacts.KeyContact.projectRole;
+      title: Forms.KeyContacts.KeyContact.title;
+      organizationalAffiliation: Forms.KeyContacts.KeyContact.organizationalAffiliation;
     };
   };
 }

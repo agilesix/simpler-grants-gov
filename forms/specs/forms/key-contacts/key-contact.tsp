@@ -1,13 +1,13 @@
 import "simpler-forms";
 import "../index.tsp";
-import "../organization/index.tsp";
-import "./index.tsp";
+import "../../questions/organization/index.tsp";
+import "../../questions/person/index.tsp";
 import "../../mapping/targets.tsp";
 import "../../xsd/key-contacts-2-0.tsp";
 
 using SimplerForms;
 
-namespace Questions.People;
+namespace Forms.KeyContacts;
 
 /** Enter the key contact's free-text role on this project. */
 @Meta.question(#{ id: "person/key-contact/project-role" })
@@ -26,7 +26,7 @@ scalar ProjectRole extends string;
 @Meta.question(#{ id: "person/key-contact" })
 @Meta.tag(TagName.person, TagName.role)
 @UI.label("Key Contact")
-@example(Questions.People.Examples.principalInvestigator)
+@example(Forms.KeyContacts.Examples.principalInvestigator)
 // `name`, `title` and `address` come from `Person` by spread, bringing its links to
 // `ContactPersonDataTypeV3`; the paths here point them into `RoleOnProject` instead.
 // `contact` has no element of its own in `RoleOnProject`: its fields are flattened into it.
@@ -49,7 +49,7 @@ model KeyContact {
   /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
   @UI.label("Project Role")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactProjectRole)
-  projectRole: Questions.People.ProjectRole;
+  projectRole: Forms.KeyContacts.ProjectRole;
 
   ...OmitProperties<Questions.People.Person, "contact">;
 
@@ -70,7 +70,7 @@ model KeyContact {
 
 /** Sample key contacts, type-checked against `KeyContact` and reused by the form's example. */
 namespace Examples {
-  const principalInvestigator: Questions.People.KeyContact = #{
+  const principalInvestigator: Forms.KeyContacts.KeyContact = #{
     projectRole: "Principal Investigator",
     name: #{
       prefix: "Doctor",
@@ -92,7 +92,7 @@ namespace Examples {
     contact: #{ phone: "1234567890", fax: "1112223333", email: "example@example.com" },
   };
 
-  const projectManager: Questions.People.KeyContact = #{
+  const projectManager: Forms.KeyContacts.KeyContact = #{
     projectRole: "Project Manager",
     name: #{ firstName: "Joe", lastName: "Smithers" },
     address: #{

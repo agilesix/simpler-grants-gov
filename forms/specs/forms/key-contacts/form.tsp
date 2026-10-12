@@ -1,7 +1,7 @@
 import "simpler-forms";
 import "../index.tsp";
 import "../../questions/organization/index.tsp";
-import "../../questions/person/key-contact.tsp";
+import "./key-contact.tsp";
 import "../../mapping/targets.tsp";
 import "../../xsd/key-contacts-2-0.tsp";
 
@@ -22,8 +22,8 @@ namespace Forms.KeyContacts;
 @example(#{
   applicantOrganizationName: "Acme Corporation",
   keyContacts: #[
-    Questions.People.Examples.principalInvestigator,
-    Questions.People.Examples.projectManager
+    Forms.KeyContacts.Examples.principalInvestigator,
+    Forms.KeyContacts.Examples.projectManager
   ],
 })
 model KeyContacts {
@@ -38,5 +38,5 @@ model KeyContacts {
   @maxItems(4)
   @UI.widget(Rendering.Widget.CollapsibleFieldList)
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.Root.roleOnProject)
-  keyContacts: Questions.People.KeyContact[];
+  keyContacts: Forms.KeyContacts.KeyContact[];
 }
