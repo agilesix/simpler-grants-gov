@@ -9,6 +9,9 @@ using SimplerForms;
 
 namespace Forms.KeyContacts;
 
+alias GrantsGovXml = Mappings.Target.grantsGovXml;
+alias RoleOnProject = XSD.KeyContacts20.RoleOnProject;
+
 /** Enter the key contact's free-text role on this project. */
 @Meta.question(#{ id: "person/key-contact/project-role" })
 @Meta.role(ResponseRole.applicantInput)
@@ -27,46 +30,46 @@ scalar ProjectRole extends string;
 @Meta.tag(TagName.person, TagName.role)
 @UI.label("Key Contact")
 @example(Forms.KeyContacts.Examples.principalInvestigator)
-@Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject)
+@Mapping.to(GrantsGovXml, RoleOnProject)
 model KeyContact {
   /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
   @UI.label("Project Role")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactProjectRole)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactProjectRole)
   projectRole: Forms.KeyContacts.ProjectRole;
 
   /** Enter the contact's name. First and last name are required. */
   @UI.label("Name")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactName)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactName)
   name: Questions.People.PersonName;
 
   /** Enter the contact's position title. */
   @UI.label("Title")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactTitle)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactTitle)
   title?: Questions.People.ContactTitle;
 
   /** Enter the contact's organizational affiliation. */
   @UI.label("Organizational Affiliation")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactOrganizationalAffiliation)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactOrganizationalAffiliation)
   organizationalAffiliation?: Questions.Organizations.OrganizationName;
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactAddress)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactAddress)
   address: Questions.People.PersonAddress;
 
   /** Enter the daytime Telephone Number. */
   @UI.label("Phone Number")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactPhone)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactPhone)
   phone: Questions.Types.PhoneNumber;
 
   /** Enter the Fax Number. */
   @UI.label("Fax Number")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactFax)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactFax)
   fax?: Questions.Types.PhoneNumber;
 
   /** Enter a valid email Address. */
   @UI.label("Email")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactEmail)
+  @Mapping.to(GrantsGovXml, RoleOnProject.contactEmail)
   email: Questions.Types.EmailAddress;
 }
 
