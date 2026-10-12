@@ -2,6 +2,8 @@ import "simpler-forms";
 import "../index.tsp";
 import "../../questions/organization/index.tsp";
 import "../../questions/person/key-contact.tsp";
+import "../../mapping/targets.tsp";
+import "../../xsd/key-contacts-2-0.tsp";
 
 using SimplerForms;
 
@@ -16,7 +18,7 @@ namespace Forms.KeyContacts;
   agencyCode: "SGG",
   ombNumber: "4040-0010",
 })
-@Meta.form(#{ formName: "KEY CONTACTS" })
+@Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.Root)
 @example(#{
   applicantOrganizationName: "Acme Corporation",
   keyContacts: #[
@@ -27,6 +29,7 @@ namespace Forms.KeyContacts;
 model KeyContacts {
   /** Enter the legal name of the applicant that will undertake the assistance activity. This field is required. */
   @UI.label("Applicant Organization Name")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.Root.applicantOrganizationName)
   applicantOrganizationName: Questions.Organizations.OrganizationName;
 
   /** You may enter up to four (4) Key Contacts. At least 1 (one) contact person is required. Additional contacts are optional. */
@@ -34,5 +37,6 @@ model KeyContacts {
   @minItems(1)
   @maxItems(4)
   @UI.widget(Rendering.Widget.CollapsibleFieldList)
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.Root.roleOnProject)
   keyContacts: Questions.People.KeyContact[];
 }

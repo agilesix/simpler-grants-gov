@@ -2,6 +2,8 @@ import "simpler-forms";
 import "../index.tsp";
 import "../organization/index.tsp";
 import "./index.tsp";
+import "../../mapping/targets.tsp";
+import "../../xsd/key-contacts-2-0.tsp";
 
 using SimplerForms;
 
@@ -16,45 +18,45 @@ namespace Questions.People;
 scalar ProjectRole extends string;
 
 /**
- * A key contact's role: their position title, plus their role on the project and the
- * organization they belong to. The XSD keeps these three beside the contact's name.
- */
-@Meta.question(#{ id: "person/key-contact/role" })
-@Meta.tag(TagName.person, TagName.role)
-@UI.label("Role")
-@UI.order(
-  KeyContactRole.projectRole,
-  KeyContactRole.title,
-  KeyContactRole.organizationalAffiliation
-)
-model KeyContactRole {
-  /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
-  @UI.label("Project Role")
-  projectRole: Questions.People.ProjectRole;
-
-  ...Questions.People.PersonRole;
-
-  /** Enter the contact's organizational affiliation. */
-  @UI.label("Organizational Affiliation")
-  organizationalAffiliation?: Questions.Organizations.OrganizationName;
-}
-
-/**
  * A contact person named for their role on the project (Key Contacts `RoleOnProject`).
  *
- * The same globLib leaves as `Person`, with a fuller role, and the email is required.
+ * The same globLib leaves as `Person`, plus a free-text role and an affiliation, and the
+ * email is required.
  */
 @Meta.question(#{ id: "person/key-contact" })
 @Meta.tag(TagName.person, TagName.role)
 @UI.label("Key Contact")
 @example(Questions.People.Examples.principalInvestigator)
-@UI.order(KeyContact.role, KeyContact.name, KeyContact.address, KeyContact.contact)
+// `name`, `title` and `address` come from `Person` by spread, bringing its links to
+// `ContactPersonDataTypeV3`; the paths here point them into `RoleOnProject` instead.
+// `contact` has no element of its own in `RoleOnProject`: its fields are flattened into it.
+@Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject)
+@Mapping.path(Mappings.Target.grantsGovXml, "name", XSD.KeyContacts20.RoleOnProject.contactName)
+@Mapping.path(Mappings.Target.grantsGovXml, "title", XSD.KeyContacts20.RoleOnProject.contactTitle)
+@Mapping.path(Mappings.Target.grantsGovXml, "address", XSD.KeyContacts20.RoleOnProject.contactAddress)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.phone", XSD.KeyContacts20.RoleOnProject.contactPhone)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.fax", XSD.KeyContacts20.RoleOnProject.contactFax)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.email", XSD.KeyContacts20.RoleOnProject.contactEmail)
+@UI.order(
+  KeyContact.projectRole,
+  KeyContact.name,
+  KeyContact.title,
+  KeyContact.organizationalAffiliation,
+  KeyContact.address,
+  KeyContact.contact
+)
 model KeyContact {
-  /** Enter the contact's role on the project, title and organizational affiliation. */
-  @UI.label("Role")
-  role: Questions.People.KeyContactRole;
+  /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
+  @UI.label("Project Role")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactProjectRole)
+  projectRole: Questions.People.ProjectRole;
 
-  ...OmitProperties<Questions.People.Person, "contact" | "role">;
+  ...OmitProperties<Questions.People.Person, "contact">;
+
+  /** Enter the contact's organizational affiliation. */
+  @UI.label("Organizational Affiliation")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactOrganizationalAffiliation)
+  organizationalAffiliation?: Questions.Organizations.OrganizationName;
 
   // Redeclared rather than tightened with a model-level `@Validation.requiredPaths("contact.email")`:
   // in simpler-forms 0.1.0-alpha.1 that replaces the model's `required` list instead of adding to it.
@@ -69,11 +71,7 @@ model KeyContact {
 /** Sample key contacts, type-checked against `KeyContact` and reused by the form's example. */
 namespace Examples {
   const principalInvestigator: Questions.People.KeyContact = #{
-    role: #{
-      projectRole: "Principal Investigator",
-      title: "Director",
-      organizationalAffiliation: "Acme University",
-    },
+    projectRole: "Principal Investigator",
     name: #{
       prefix: "Doctor",
       firstName: "Sue",
@@ -81,6 +79,8 @@ namespace Examples {
       lastName: "Storm",
       suffix: "Esquire",
     },
+    title: "Director",
+    organizationalAffiliation: "Acme University",
     address: #{
       street1: "123 Main Street",
       street2: "Apt 123",
@@ -93,7 +93,7 @@ namespace Examples {
   };
 
   const projectManager: Questions.People.KeyContact = #{
-    role: #{ projectRole: "Project Manager" },
+    projectRole: "Project Manager",
     name: #{ firstName: "Joe", lastName: "Smithers" },
     address: #{
       street1: "456 Rio",

@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { DIFFS } from "./diffs/index.ts";
 import {
   checkForm,
+  hasXmlTransform,
   loadPlans,
   report,
   type Discrepancy,
@@ -17,6 +18,12 @@ const PLANS = loadPlans();
 
 /** Whether a form has a compiled spec. A record without one gets requirements checks only. */
 const compiled = (slug: string) => Boolean(PLANS.get(slug)?.spec_id);
+
+/** Whether a form has emitted XML transform rules: whether it is mapped to the XSD yet. */
+const mapped = (slug: string) => {
+  const specId = PLANS.get(slug)?.spec_id;
+  return Boolean(specId && hasXmlTransform(specId));
+};
 
 describe("registry", () => {
   it("lists every plan with spec_id", () => {
@@ -156,29 +163,73 @@ describe.each(DIFFS)("$slug", (diff) => {
       });
     });
 
-    // Not emitted yet: the rules schema and the XML mapping will come from the mapping and
-    // the SGG decorators.
+    // Not emitted yet: the rules schema will come from the SGG decorators.
     describe("plan vs rules schema", () => {
       it.todo("rules schema has no missing rules");
       it.todo("rules schema has no extra rules");
     });
 
-    describe("plan vs XML mapping", () => {
-      it.todo("XML mapping has no missing fields");
-      it.todo("XML mapping has no extra fields");
+    // Fields are compared as `<json_path> -> <xml_path>`, so a field mapped to a different
+    // element than the plan says is both missing and extra.
+    describe.skipIf(!mapped(diff.slug))("plan vs XML mapping", () => {
+      const mapping = () => form.implementation!.xmlMapping!;
+
+      it("XML mapping has no missing fields", () => {
+        expectNone(
+          mapping().missingFields,
+          "Plan links the XML mapping lacks:",
+        );
+      });
+
+      it("XML mapping has no extra fields", () => {
+        expectNone(mapping().extraFields, "XML mapping links the plan lacks:");
+      });
     });
   });
 
   // Will the XML we send pass Grants.gov's validation?
   describe.skipIf(!compiled(diff.slug))("XML checks", () => {
-    describe("XML mapping vs JSON schema", () => {
-      it.todo("XML mapping has no missing fields");
-      it.todo("XML mapping has no extra fields");
+    describe.skipIf(!mapped(diff.slug))("XML mapping vs JSON schema", () => {
+      const mapping = () => form.xml!.xmlMappingVsJsonSchema!;
+
+      it("XML mapping has no missing fields", () => {
+        expectNone(
+          mapping().missingFields,
+          "JSON schema fields the XML mapping lacks:",
+        );
+      });
+
+      it("XML mapping has no extra fields", () => {
+        expectNone(
+          mapping().extraFields,
+          "XML mapping fields the JSON schema lacks:",
+        );
+      });
     });
 
-    describe("XML mapping vs XSD", () => {
-      it.todo("XML mapping has no missing fields");
-      it.todo("XML mapping has no extra fields");
+    describe.skipIf(!mapped(diff.slug))("XML mapping vs XSD", () => {
+      const mapping = () => form.xml!.xmlMappingVsXsd!;
+
+      it("XML mapping has no missing fields", () => {
+        expectNone(
+          mapping().missingFields,
+          "XSD elements the XML mapping lacks:",
+        );
+      });
+
+      it("XML mapping has no extra fields", () => {
+        expectNone(
+          mapping().extraFields,
+          "XML mapping elements the XSD lacks:",
+        );
+      });
+
+      it("XML mapping matches field order", () => {
+        expectNone(
+          mapping().fieldOrder,
+          "XML mapping elements out of XSD order:",
+        );
+      });
     });
 
     describe("JSON schema vs XSD", () => {

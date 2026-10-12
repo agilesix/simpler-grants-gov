@@ -97,6 +97,17 @@ export const loadUiSchema = (specId: string): Json =>
 export const loadIndex = (specId: string): Json =>
   readJson(formFile(specId, "index.json"));
 
+const xmlTransformFile = (specId: string) =>
+  formFile(specId, "xml-transform.json");
+
+/** Whether `form-library-xml` wrote XML transform rules for the form: it is mapped. */
+export const hasXmlTransform = (specId: string): boolean =>
+  existsSync(xmlTransformFile(specId));
+
+/** The form's emitted XML transform rules, or undefined for a form that is not mapped. */
+export const loadXmlTransform = (specId: string): Json | undefined =>
+  hasXmlTransform(specId) ? readJson(xmlTransformFile(specId)) : undefined;
+
 // ---------------------------------------------------------------------------------------
 // Grants.gov sources (`npm run parity:fetch`)
 // ---------------------------------------------------------------------------------------

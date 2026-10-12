@@ -40,7 +40,7 @@ describe("xsdFields", () => {
     expect(flat.get("Name")).toEqual({
       order: 0,
       required: "yes",
-      rules: { minLength: 1, maxLength: 60, maxOccurs: 1 },
+      rules: { minLength: 1, maxLength: 60, maxOccurs: 1, namespace: "" },
     });
   });
 
@@ -77,6 +77,18 @@ describe("xsdFields", () => {
       "Contact/State",
       "Contact/Province",
     ]);
+  });
+
+  it("places an element in its declaring schema's namespace only if qualified", () => {
+    const qualified = (xsd: string) =>
+      xsd.replace(
+        /targetNamespace=/,
+        'elementFormDefault="qualified" targetNamespace=',
+      );
+    const fields = xsdFields(FORM, (url) => qualified(files[url]));
+    expect(flat.get("Contact/Phone")?.rules.namespace).toBe("");
+    expect(fields.get("Name")?.rules.namespace).toBe("urn:form");
+    expect(fields.get("Contact/Phone")?.rules.namespace).toBe("urn:lib");
   });
 
   it("rejects unsupported constructs", () => {

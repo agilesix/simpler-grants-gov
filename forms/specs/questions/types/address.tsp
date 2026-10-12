@@ -1,6 +1,8 @@
 import "simpler-forms";
 import "../index.tsp";
 import "./codes.tsp";
+import "../../mapping/targets.tsp";
+import "../../xsd/global-library.tsp";
 
 using SimplerForms;
 
@@ -52,38 +54,47 @@ namespace AddressParts {
 @Meta.question(#{ id: "types/address" })
 @Meta.tag(TagName.address)
 @UI.label("Address")
+@Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3)
 model Address {
   /** Enter the first line of the Street Address. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.street1)
   @UI.label("Street1")
   street1?: Questions.Types.AddressParts.Street1;
 
   /** Enter the second line of the Street Address. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.street2)
   @UI.label("Street2")
   street2?: Questions.Types.AddressParts.Street2;
 
   /** Enter the city. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.city)
   @UI.label("City")
   city?: Questions.Types.AddressParts.City;
 
   /** Enter the County or Parish. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.county)
   @UI.label("County/Parish")
   county?: Questions.Types.AddressParts.County;
 
   /** Enter the state. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.state)
   @UI.label("State")
   @UI.enabledWhen(Address.country, Questions.Types.CountryCode.USA)
   state?: Questions.Types.StateCode;
 
   /** Enter the province. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.province)
   @UI.label("Province")
   @UI.hiddenWhen(Address.country, Questions.Types.CountryCode.USA)
   province?: Questions.Types.AddressParts.Province;
 
   /** Enter the country. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.country)
   @UI.label("Country")
   country?: Questions.Types.CountryCode;
 
   /** Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States. */
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.zipPostalCode)
   @UI.label("Zip / Postal Code")
   zipCode?: Questions.Types.AddressParts.ZipCode;
 }

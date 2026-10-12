@@ -4,8 +4,9 @@ import "../types/address.tsp";
 import "../types/codes.tsp";
 import "../types/contact-info.tsp";
 import "./name.tsp";
-import "./role.tsp";
 import "./title.tsp";
+import "../../mapping/targets.tsp";
+import "../../xsd/global-library.tsp";
 
 using SimplerForms;
 
@@ -24,6 +25,10 @@ model PersonAddress is Questions.Types.Address;
  * key contact's project role, is a separate question that spreads this one.
  */
 @Meta.question(#{ id: "person" })
+@Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.phone", XSD.GlobLib.ContactPersonDataTypeV3.phone)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.fax", XSD.GlobLib.ContactPersonDataTypeV3.fax)
+@Mapping.path(Mappings.Target.grantsGovXml, "contact.email", XSD.GlobLib.ContactPersonDataTypeV3.email)
 @Meta.tag(TagName.person, TagName.details)
 @UI.label("Contact Person")
 @example(Questions.People.Examples.usContact)
@@ -31,17 +36,20 @@ model Person {
   /** Enter the contact's name. First and last name are required. */
   @UI.label("Name")
   @Validation.requiredPaths("firstName", "lastName")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.name)
   name: Questions.People.PersonName;
 
-  /** Enter the contact's role. */
-  @UI.label("Role")
-  role?: Questions.People.PersonRole;
+  /** Enter the contact's position title. */
+  @UI.label("Title")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.title)
+  title?: Questions.People.ContactTitle;
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
   @Validation.requiredPaths("street1", "city", "country")
   @Validation.requiredPathWhen("state", "country", Questions.Types.CountryCode.USA)
   @Validation.requiredPathWhen("zipCode", "country", Questions.Types.CountryCode.USA)
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.address)
   address: Questions.People.PersonAddress;
 
   /** Enter the contact's phone, fax and email. Phone is required. */
@@ -54,7 +62,7 @@ model Person {
 namespace Examples {
   const usContact: Questions.People.Person = #{
     name: #{ prefix: "Ms.", firstName: "Alicia", lastName: "Reyes" },
-    role: #{ title: "Executive Director" },
+    title: "Executive Director",
     address: #{
       street1: "100 Grant Avenue",
       city: "Denver",
@@ -67,7 +75,7 @@ namespace Examples {
 
   const usContactNoEmail: Questions.People.Person = #{
     name: #{ firstName: "Marcus", lastName: "Lee" },
-    role: #{ title: "Controller" },
+    title: "Controller",
     address: #{
       street1: "100 Grant Avenue",
       street2: "Suite 400",
@@ -81,7 +89,7 @@ namespace Examples {
 
   const internationalContact: Questions.People.Person = #{
     name: #{ prefix: "Dr.", firstName: "Tom", lastName: "Okafor", suffix: "PhD" },
-    role: #{ title: "Lead Scientist" },
+    title: "Lead Scientist",
     address: #{
       street1: "456 Rio",
       city: "Montevideo",

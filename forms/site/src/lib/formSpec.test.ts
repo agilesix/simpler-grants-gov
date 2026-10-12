@@ -115,12 +115,18 @@ describe("validation rules", () => {
 });
 
 describe("UI layout", () => {
-  it("lays out each key contacts entry with the item question's UI", async () => {
+  it("lays out each key contacts entry with its Role group first", async () => {
     const { uischema } = await loadFormSpec("key-contacts");
-    const list = (uischema as unknown as UiNode).elements?.find(
-      (el) => el.scope === "#/properties/key_contacts",
-    );
-    expect(list?.options?.detail?.label).toBe("Key Contact");
+    const [, contacts] = (uischema as unknown as UiNode).elements ?? [];
+    expect(contacts?.label).toBe("Contact Information");
+    const list = contacts?.elements?.[0];
+    expect(list?.scope).toBe("#/properties/key_contacts");
+    expect(groupLabels(list?.options?.detail ?? { type: "Group" })).toEqual([
+      "Role",
+      "Name",
+      "Address",
+      "Contact Information",
+    ]);
   });
 
   it("labels each EPA role section from its layout", async () => {

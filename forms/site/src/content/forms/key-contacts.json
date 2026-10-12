@@ -51,7 +51,6 @@
         {
           "kind": "section",
           "label": "Role",
-          "json_path": "key_contacts[].role",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -63,7 +62,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the individual's role on the project (e.g., project manager, fiscal contact).",
               "constraints": "minLength 1, maxLength 45",
-              "json_path": "key_contacts[].role.project_role",
+              "json_path": "key_contacts[].project_role",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactProjectRole"
             },
             {
@@ -75,7 +74,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the contact's position title.",
               "constraints": "minLength 1, maxLength 45",
-              "json_path": "key_contacts[].role.title",
+              "json_path": "key_contacts[].title",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactTitle"
             },
             {
@@ -87,7 +86,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the contact's organizational affiliation.",
               "constraints": "minLength 1, maxLength 60",
-              "json_path": "key_contacts[].role.organizational_affiliation",
+              "json_path": "key_contacts[].organizational_affiliation",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactOrganizationalAffiliation"
             }
           ]

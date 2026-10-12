@@ -139,7 +139,7 @@ const help: Record<string, Pinned> = {
 const ROLE_GROUP: Recorded = {
   category: "intentional",
   reason:
-    "The spec groups Project Role, Title and Organizational Affiliation into one Role question (Questions.People.KeyContactRole), so Title and Organizational Affiliation come before the name. The DAT and XSD list them after it.",
+    "The form's layout groups Project Role, Title and Organizational Affiliation under a Role heading, so Title and Organizational Affiliation come before the name. The DAT and XSD list them after it, as the data does.",
 };
 
 export const DIFF: FormDiff = {
