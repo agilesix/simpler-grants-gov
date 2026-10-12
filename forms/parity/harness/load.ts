@@ -68,6 +68,24 @@ const readJson = (file: string) =>
   JSON.parse(readFileSync(file, "utf8")) as Json;
 
 /**
+ * A `$ref` with keywords beside it, as an `allOf` of the two. JSON Schema applies both, but
+ * dereferencing merges them shallowly, so a `required` beside a `$ref` would replace the
+ * referenced schema's own list. The local keywords come first, so their annotations win.
+ */
+const refsBesideKeywords = (node: unknown): unknown => {
+  if (Array.isArray(node)) return node.map(refsBesideKeywords);
+  if (typeof node !== "object" || node === null) return node;
+  const { $ref, ...rest } = Object.fromEntries(
+    Object.entries(node).map(([key, value]) => [
+      key,
+      refsBesideKeywords(value),
+    ]),
+  ) as Json;
+  if ($ref === undefined) return rest;
+  return Object.keys(rest).length ? { allOf: [rest, { $ref }] } : { $ref };
+};
+
+/**
  * Reads each schema file without its top-level `$id`, as `loadFormSpec` in
  * `site/src/lib/formSpec.ts` does: the emitter's `$id`s are relative to a hosting base, so
  * resolving against them would re-base the relative `$ref`s.
@@ -80,7 +98,7 @@ const fileWithoutId = {
       file.url.startsWith("file:") ? fileURLToPath(file.url) : file.url,
     );
     delete schema.$id;
-    return JSON.stringify(schema);
+    return JSON.stringify(refsBesideKeywords(schema));
   },
 };
 
