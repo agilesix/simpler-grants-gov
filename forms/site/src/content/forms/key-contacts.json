@@ -51,6 +51,7 @@
         {
           "kind": "section",
           "label": "Role",
+          "help_text": "Enter the contact's role on the project, title and organizational affiliation.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -94,6 +95,7 @@
         {
           "kind": "section",
           "label": "Name",
+          "help_text": "Enter the contact's name. First and last name are required.",
           "json_path": "key_contacts[].name",
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName",
           "widget": "FieldsetWidget",
@@ -163,6 +165,7 @@
         {
           "kind": "section",
           "label": "Address",
+          "help_text": "Enter the contact's complete address.",
           "json_path": "key_contacts[].address",
           "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress",
           "widget": "FieldsetWidget",
@@ -268,6 +271,7 @@
         {
           "kind": "section",
           "label": "Contact Info",
+          "help_text": "Enter the contact's phone, fax and email. Phone and email are required.",
           "widget": "FieldsetWidget",
           "children": [
             {

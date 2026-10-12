@@ -39,10 +39,12 @@
     {
       "kind": "section",
       "label": "PD/PI Profile",
+      "help_text": "Enter the profile of the Project Director/Principal Investigator (PD/PI).",
       "children": [
         {
           "kind": "section",
           "label": "Name",
+          "help_text": "Enter the person's name. First and last name are required.",
           "json_path": "principal_investigator.profile.name",
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name",
           "widget": "FieldsetWidget",
@@ -117,6 +119,7 @@
         {
           "kind": "section",
           "label": "Role",
+          "help_text": "Enter the person's position, organization and role on the project.",
           "children": [
             {
               "kind": "field",
@@ -199,6 +202,7 @@
         {
           "kind": "section",
           "label": "Address",
+          "help_text": "Enter the person's complete address.",
           "json_path": "principal_investigator.profile.address",
           "xml_path": "RR_KeyPersonExpanded_4_0:PDPI/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address",
           "widget": "FieldsetWidget",
@@ -312,6 +316,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
+          "help_text": "Enter the person's phone, fax and email. Phone and email are required.",
           "children": [
             {
               "kind": "field",
@@ -357,6 +362,7 @@
         {
           "kind": "section",
           "label": "Credentials",
+          "help_text": "Enter the person's agency credential, if they have one, and their highest degree.",
           "children": [
             {
               "kind": "field",
@@ -399,6 +405,7 @@
         {
           "kind": "section",
           "label": "Attachments",
+          "help_text": "Attach the person's biographical sketch and current & pending support.",
           "children": [
             {
               "kind": "field",
@@ -439,6 +446,7 @@
         {
           "kind": "section",
           "label": "Name",
+          "help_text": "Enter the person's name. First and last name are required.",
           "json_path": "senior_key_persons[].profile.name",
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Name",
           "widget": "FieldsetWidget",
@@ -508,6 +516,7 @@
         {
           "kind": "section",
           "label": "Role",
+          "help_text": "Enter the person's position, organization and role on the project.",
           "children": [
             {
               "kind": "field",
@@ -586,6 +595,7 @@
         {
           "kind": "section",
           "label": "Address",
+          "help_text": "Enter the person's complete address.",
           "json_path": "senior_key_persons[].profile.address",
           "xml_path": "RR_KeyPersonExpanded_4_0:KeyPerson/RR_KeyPersonExpanded_4_0:Profile/RR_KeyPersonExpanded_4_0:Address",
           "widget": "FieldsetWidget",
@@ -691,6 +701,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
+          "help_text": "Enter the person's phone, fax and email. Phone and email are required.",
           "children": [
             {
               "kind": "field",
@@ -733,6 +744,7 @@
         {
           "kind": "section",
           "label": "Credentials",
+          "help_text": "Enter the person's agency credential, if they have one, and their highest degree.",
           "children": [
             {
               "kind": "field",
@@ -775,6 +787,7 @@
         {
           "kind": "section",
           "label": "Attachments",
+          "help_text": "Attach the person's biographical sketch and current & pending support.",
           "children": [
             {
               "kind": "field",
@@ -802,11 +815,13 @@
             }
           ]
         }
-      ]
+      ],
+      "help_text": "Enter a profile for each senior/key person on the project, up to 99."
     },
     {
       "kind": "section",
       "label": "Additional Profiles and Attachments",
+      "help_text": "If the project has more than 99 senior/key persons, attach the rest of their profiles and supporting documents, each kind in a single file.",
       "children": [
         {
           "kind": "field",
