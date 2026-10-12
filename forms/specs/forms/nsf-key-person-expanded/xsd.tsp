@@ -18,7 +18,6 @@ alias grantsGovXml = Mappings.Target.grantsGovXml;
 alias KeyPersonForm = Forms.NSFKeyPersonExpanded.NSFKeyPersonExpanded;
 alias PrincipalInvestigator = Forms.NSFKeyPersonExpanded.NSFPrincipalInvestigator;
 alias SeniorKeyPerson = Forms.NSFKeyPersonExpanded.NSFSeniorKeyPerson;
-alias ProfileBase = Forms.NSFKeyPersonExpanded.NSFProfileBase;
 alias PrincipalInvestigatorProfile = Forms.NSFKeyPersonExpanded.NSFPrincipalInvestigatorProfile;
 alias SeniorKeyPersonProfile = Forms.NSFKeyPersonExpanded.NSFSeniorKeyPersonProfile;
 alias GlobLib = XSD.GlobLib;
@@ -84,27 +83,27 @@ model PersonProfileDataType {
 /** The PD/PI's profile, which names the organization. */
 @ns(Namespaces.NSF_KeyPersonExpanded_3_3)
 model PDPIProfile {
-  @Mapping.from(grantsGovXml, ProfileBase.name)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.name)
   @name("Name")
   name: GlobLib.HumanNameDataType;
 
-  @Mapping.from(grantsGovXml, ProfileBase.title)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.title)
   @name("Title")
   title?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.address)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.address)
   @name("Address")
   address: GlobLib.AddressDataTypeV3;
 
-  @Mapping.from(grantsGovXml, ProfileBase.phone)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.phone)
   @name("Phone")
   phone: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.fax)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.fax)
   @name("Fax")
   fax?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.email)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.email)
   @name("Email")
   email: string;
 
@@ -112,19 +111,19 @@ model PDPIProfile {
   @name("OrganizationName")
   organizationName?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.department)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.department)
   @name("Department")
   department?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.division)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.division)
   @name("Division")
   division?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.projectRole)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.projectRole)
   @name("ProjectRole")
   projectRole: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.nsfId)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.nsfId)
   @name("NSFID")
   nsfId?: string;
 
@@ -134,27 +133,27 @@ model PDPIProfile {
 /** A senior/key person's profile, which gives the organization's UEI. */
 @ns(Namespaces.NSF_KeyPersonExpanded_3_3)
 model PersonProfile {
-  @Mapping.from(grantsGovXml, ProfileBase.name)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.name)
   @name("Name")
   name: GlobLib.HumanNameDataType;
 
-  @Mapping.from(grantsGovXml, ProfileBase.title)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.title)
   @name("Title")
   title?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.address)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.address)
   @name("Address")
   address: GlobLib.AddressDataTypeV3;
 
-  @Mapping.from(grantsGovXml, ProfileBase.phone)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.phone)
   @name("Phone")
   phone: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.fax)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.fax)
   @name("Fax")
   fax?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.email)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.email)
   @name("Email")
   email: string;
 
@@ -162,19 +161,19 @@ model PersonProfile {
   @name("OrganizationUEIID")
   organizationUeiId?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.department)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.department)
   @name("Department")
   department?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.division)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.division)
   @name("Division")
   division?: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.projectRole)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.projectRole)
   @name("ProjectRole")
   projectRole: string;
 
-  @Mapping.from(grantsGovXml, ProfileBase.nsfId)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.nsfId)
   @name("NSFID")
   nsfId?: string;
 
@@ -199,7 +198,8 @@ model ProfileAttachments {
 /** The profile's biographical sketch. */
 @ns(Namespaces.NSF_KeyPersonExpanded_3_3)
 model BioSketchsAttached {
-  @Mapping.from(grantsGovXml, ProfileBase.biographicalSketch)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.biographicalSketch)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.biographicalSketch)
   @name("BioSketchAttached")
   bioSketchAttached: Att.AttachedFileDataType;
 }
@@ -207,7 +207,8 @@ model BioSketchsAttached {
 /** The profile's current and pending (other) support. */
 @ns(Namespaces.NSF_KeyPersonExpanded_3_3)
 model SupportsAttached {
-  @Mapping.from(grantsGovXml, ProfileBase.currentPendingSupport)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.currentPendingSupport)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.currentPendingSupport)
   @name("SupportAttached")
   supportAttached: Att.AttachedFileDataType;
 }
@@ -215,7 +216,8 @@ model SupportsAttached {
 /** The profile's collaborators and other affiliations. */
 @ns(Namespaces.NSF_KeyPersonExpanded_3_3)
 model CollaboratorsAttached {
-  @Mapping.from(grantsGovXml, ProfileBase.collaborators)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.collaborators)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.collaborators)
   @name("CollaboratorAttached")
   collaboratorAttached: Att.AttachedFileDataType;
 }
@@ -223,7 +225,8 @@ model CollaboratorsAttached {
 /** The profile's synergistic activities. */
 @ns(Namespaces.NSF_KeyPersonExpanded_3_3)
 model SynergisticActivitiesAttached {
-  @Mapping.from(grantsGovXml, ProfileBase.synergisticActivities)
+  @Mapping.from(grantsGovXml, PrincipalInvestigatorProfile.synergisticActivities)
+  @Mapping.from(grantsGovXml, SeniorKeyPersonProfile.synergisticActivities)
   @name("SynergisticAttached")
   synergisticAttached: Att.AttachedFileDataType;
 }
