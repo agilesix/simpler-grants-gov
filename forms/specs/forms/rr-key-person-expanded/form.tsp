@@ -17,6 +17,14 @@ namespace Forms.RRKeyPersonExpanded;
   agencyCode: "SGG",
   ombNumber: "4040-0001",
 })
+@example(#{
+  principalInvestigator: #{
+    profile: Forms.RRKeyPersonExpanded.Examples.principalInvestigator,
+  },
+  seniorKeyPersons: #[
+    #{ profile: Forms.RRKeyPersonExpanded.Examples.engineer }
+  ],
+})
 model RRKeyPersonExpanded {
   // The XSD makes every sketch optional; the form requires the PD/PI's, as the DAT does.
   @Validation.requiredPaths("profile.biographicalSketch")

@@ -11,4 +11,4 @@ namespace Questions.People;
 @UI.label("Title")
 @minLength(1)
 @maxLength(45)
-scalar ContactTitle extends string;
+scalar PersonTitle extends string;

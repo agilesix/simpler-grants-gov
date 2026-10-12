@@ -30,7 +30,7 @@ model KeyContacts {
   /** Enter the legal name of the applicant that will undertake the assistance activity. This field is required. */
   @UI.label("Applicant Organization Name")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.Root.applicantOrganizationName)
-  applicantOrganizationName: Questions.Organizations.OrganizationName;
+  applicantOrganizationName: Questions.Organizations.OrgName;
 
   /** You may enter up to four (4) Key Contacts. At least 1 (one) contact person is required. Additional contacts are optional. */
   @UI.label("Key Contacts")

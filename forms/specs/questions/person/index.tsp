@@ -17,6 +17,24 @@ namespace Questions.People;
 @UI.label("Address")
 model PersonAddress is Questions.Types.Address;
 
+/** Enter the daytime Telephone Number. */
+@Meta.question(#{ id: "person/phone-number" })
+@Meta.tag(TagName.person, TagName.phone)
+@UI.label("Phone Number")
+scalar PersonPhoneNumber extends Questions.Types.PhoneNumber;
+
+/** Enter the Fax Number. */
+@Meta.question(#{ id: "person/fax-number" })
+@Meta.tag(TagName.person, TagName.phone)
+@UI.label("Fax Number")
+scalar PersonFaxNumber extends Questions.Types.PhoneNumber;
+
+/** Enter a valid email Address. */
+@Meta.question(#{ id: "person/email" })
+@Meta.tag(TagName.person, TagName.email)
+@UI.label("Email")
+scalar PersonEmail extends Questions.Types.EmailAddress;
+
 /**
  * A person and how to reach them: `globLib:ContactPersonDataTypeV3`.
  *
@@ -38,7 +56,7 @@ model Person {
   /** Enter the contact's position title. */
   @UI.label("Title")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.title)
-  title?: Questions.People.ContactTitle;
+  title?: Questions.People.PersonTitle;
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
@@ -50,17 +68,17 @@ model Person {
   /** Enter the daytime Telephone Number. */
   @UI.label("Phone Number")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.phone)
-  phone: Questions.Types.PhoneNumber;
+  phone: Questions.People.PersonPhoneNumber;
 
   /** Enter the Fax Number. */
   @UI.label("Fax Number")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.fax)
-  fax?: Questions.Types.PhoneNumber;
+  fax?: Questions.People.PersonFaxNumber;
 
   /** Enter a valid email Address. */
   @UI.label("Email")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.email)
-  email?: Questions.Types.EmailAddress;
+  email?: Questions.People.PersonEmail;
 }
 
 /** Sample people, type-checked against `Person` and reused by the forms' examples. */

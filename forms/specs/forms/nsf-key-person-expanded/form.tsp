@@ -17,6 +17,14 @@ namespace Forms.NSFKeyPersonExpanded;
   agencyCode: "SGG",
   ombNumber: "3145-0058",
 })
+@example(#{
+  principalInvestigator: #{
+    profile: Forms.NSFKeyPersonExpanded.Examples.principalInvestigator,
+  },
+  seniorKeyPersons: #[
+    #{ profile: Forms.NSFKeyPersonExpanded.Examples.engineer }
+  ],
+})
 model NSFKeyPersonExpanded {
   principalInvestigator: NSFPrincipalInvestigator;
 

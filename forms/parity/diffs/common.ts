@@ -50,3 +50,10 @@ export const ADDRESS_HEADING: Recorded = {
   reason:
     "The DAT numbers the Address heading as a field. It has no answer of its own and no element in the XSD; its fields follow it.",
 };
+
+/** Fields the key-person forms' groups place differently from the DAT. */
+export const PROFILE_GROUPS: Recorded = {
+  category: "intentional",
+  reason:
+    "Every key-person form lays a profile out in the same groups: Name, Role, Address, Contact Information, Credentials, Attachments. Role puts the organization before the department and the project role after the division, where the DAT lists them elsewhere.",
+};

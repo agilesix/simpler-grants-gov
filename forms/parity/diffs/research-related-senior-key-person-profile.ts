@@ -1,5 +1,5 @@
 import type { FormDiff, Recorded } from "../harness/model.ts";
-import { ADDRESS_HEADING, BANK_WORDING } from "./common.ts";
+import { ADDRESS_HEADING, BANK_WORDING, PROFILE_GROUPS } from "./common.ts";
 
 /** Key-person fields the DAT allows once, though the XSD allows 7 key persons. */
 const ONCE: Recorded = {
@@ -20,6 +20,14 @@ export const DIFF: FormDiff = {
   wording: BANK_WORDING,
   dat: {
     absentFromPlan: { "1-10": ADDRESS_HEADING, "2-10": ADDRESS_HEADING },
+    outOfOrder: {
+      "1-07": PROFILE_GROUPS,
+      "1-22": PROFILE_GROUPS,
+      "1-23": PROFILE_GROUPS,
+      "2-07": PROFILE_GROUPS,
+      "2-22": PROFILE_GROUPS,
+      "2-23": PROFILE_GROUPS,
+    },
     differingRules: {
       "2-01/maxOccurs": { plan: 7, source: 1, ...ONCE },
       "2-02/maxOccurs": { plan: 7, source: 1, ...ONCE },

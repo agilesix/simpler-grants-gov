@@ -116,56 +116,74 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "1-06",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "pre_populated": "SF424(R&R) field 14-6 (deferred)",
-          "json_path": "principal_investigator.profile.title",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Title"
-        },
-        {
-          "kind": "field",
-          "label": "Department",
-          "dat_field": "1-07",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "pre_populated": "SF424(R&R) field 14-8 (deferred)",
-          "json_path": "principal_investigator.profile.department",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Department"
-        },
-        {
-          "kind": "field",
-          "label": "Organization Name",
-          "dat_field": "1-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the legal name of the organization.",
-          "constraints": "minLength 1, maxLength 60",
-          "pre_populated": "SF424(R&R) field 14-7 (deferred)",
-          "json_path": "principal_investigator.profile.organization_name",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:OrganizationName"
-        },
-        {
-          "kind": "field",
-          "label": "Division",
-          "dat_field": "1-09",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the division, office or major subdivision within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "pre_populated": "SF424(R&R) field 14-9 (deferred)",
-          "json_path": "principal_investigator.profile.division",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Division"
+          "kind": "section",
+          "label": "Role",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "1-06",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "pre_populated": "SF424(R&R) field 14-6 (deferred)",
+              "json_path": "principal_investigator.profile.title",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Title"
+            },
+            {
+              "kind": "field",
+              "label": "Organization Name",
+              "dat_field": "1-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the legal name of the organization.",
+              "constraints": "minLength 1, maxLength 60",
+              "pre_populated": "SF424(R&R) field 14-7 (deferred)",
+              "json_path": "principal_investigator.profile.organization_name",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:OrganizationName"
+            },
+            {
+              "kind": "field",
+              "label": "Department",
+              "dat_field": "1-07",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "pre_populated": "SF424(R&R) field 14-8 (deferred)",
+              "json_path": "principal_investigator.profile.department",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Department"
+            },
+            {
+              "kind": "field",
+              "label": "Division",
+              "dat_field": "1-09",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the division, office or major subdivision within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "pre_populated": "SF424(R&R) field 14-9 (deferred)",
+              "json_path": "principal_investigator.profile.division",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Division"
+            },
+            {
+              "kind": "field",
+              "label": "Project Role",
+              "dat_field": "1-21",
+              "required": true,
+              "type": "Dropdown",
+              "widget": "SelectWidget",
+              "help_text": "`ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd.",
+              "constraints": "ProjectRoleDataType",
+              "json_path": "principal_investigator.profile.project_role",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:ProjectRole"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -281,115 +299,121 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Phone Number",
-          "dat_field": "1-18",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the daytime Telephone Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "pre_populated": "SF424(R&R) field 14-11 (deferred)",
-          "json_path": "principal_investigator.profile.phone",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Phone"
+          "kind": "section",
+          "label": "Contact Information",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Phone Number",
+              "dat_field": "1-18",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the daytime Telephone Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "pre_populated": "SF424(R&R) field 14-11 (deferred)",
+              "json_path": "principal_investigator.profile.phone",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Phone"
+            },
+            {
+              "kind": "field",
+              "label": "Fax Number",
+              "dat_field": "1-19",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the Fax Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "pre_populated": "SF424(R&R) field 14-12 (deferred)",
+              "json_path": "principal_investigator.profile.fax",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Fax"
+            },
+            {
+              "kind": "field",
+              "label": "Email",
+              "dat_field": "1-20",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter a valid email Address.",
+              "constraints": "minLength 1, maxLength 60, format email",
+              "pre_populated": "SF424(R&R) field 14-13 (deferred)",
+              "json_path": "principal_investigator.profile.email",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Email"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Fax Number",
-          "dat_field": "1-19",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the Fax Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "pre_populated": "SF424(R&R) field 14-12 (deferred)",
-          "json_path": "principal_investigator.profile.fax",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Fax"
+          "kind": "section",
+          "label": "Credentials",
+          "children": [
+            {
+              "kind": "field",
+              "label": "NSF ID",
+              "dat_field": "1-23",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the person's NSF ID, if they have one.",
+              "constraints": "pattern [0-9A-Z]{9}",
+              "json_path": "principal_investigator.profile.nsf_id",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:NSFID"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Email",
-          "dat_field": "1-20",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter a valid email Address.",
-          "constraints": "minLength 1, maxLength 60, format email",
-          "pre_populated": "SF424(R&R) field 14-13 (deferred)",
-          "json_path": "principal_investigator.profile.email",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Email"
-        },
-        {
-          "kind": "field",
-          "label": "Project Role",
-          "dat_field": "1-21",
-          "required": true,
-          "type": "Dropdown",
-          "widget": "SelectWidget",
-          "help_text": "`ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd.",
-          "constraints": "ProjectRoleDataType",
-          "json_path": "principal_investigator.profile.project_role",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:ProjectRole"
-        },
-        {
-          "kind": "field",
-          "label": "NSF ID",
-          "dat_field": "1-23",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the person's NSF ID, if they have one.",
-          "constraints": "pattern [0-9A-Z]{9}",
-          "json_path": "principal_investigator.profile.nsf_id",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:NSFID"
-        },
-        {
-          "kind": "field",
-          "label": "Biographical Sketch",
-          "dat_field": "1-27",
-          "required": true,
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
-          "constraints": "format uuid",
-          "json_path": "principal_investigator.profile.biographical_sketch",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:BioSketchsAttached/NSF_KeyPersonExpanded_3_3:BioSketchAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Current & Pending Support",
-          "dat_field": "1-28",
-          "required": true,
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
-          "constraints": "format uuid",
-          "json_path": "principal_investigator.profile.current_pending_support",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SupportsAttached/NSF_KeyPersonExpanded_3_3:SupportAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Collaborators & Other Affiliations",
-          "dat_field": "1-29",
-          "required": true,
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a list of all collaborators and other affiliations.",
-          "constraints": "format uuid",
-          "json_path": "principal_investigator.profile.collaborators",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:CollaboratorsAttached/NSF_KeyPersonExpanded_3_3:CollaboratorAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Synergistic Activities",
-          "dat_field": "1-30",
-          "required": true,
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a description of synergistic activities.",
-          "constraints": "format uuid",
-          "json_path": "principal_investigator.profile.synergistic_activities",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SynergisticActivitiesAttached/NSF_KeyPersonExpanded_3_3:SynergisticAttached"
+          "kind": "section",
+          "label": "Attachments",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Biographical Sketch",
+              "dat_field": "1-27",
+              "required": true,
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
+              "constraints": "format uuid",
+              "json_path": "principal_investigator.profile.biographical_sketch",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:BioSketchsAttached/NSF_KeyPersonExpanded_3_3:BioSketchAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Current & Pending Support",
+              "dat_field": "1-28",
+              "required": true,
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
+              "constraints": "format uuid",
+              "json_path": "principal_investigator.profile.current_pending_support",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SupportsAttached/NSF_KeyPersonExpanded_3_3:SupportAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Collaborators & Other Affiliations",
+              "dat_field": "1-29",
+              "required": true,
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a list of all collaborators and other affiliations.",
+              "constraints": "format uuid",
+              "json_path": "principal_investigator.profile.collaborators",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:CollaboratorsAttached/NSF_KeyPersonExpanded_3_3:CollaboratorAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Synergistic Activities",
+              "dat_field": "1-30",
+              "required": true,
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a description of synergistic activities.",
+              "constraints": "format uuid",
+              "json_path": "principal_investigator.profile.synergistic_activities",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SynergisticActivitiesAttached/NSF_KeyPersonExpanded_3_3:SynergisticAttached"
+            }
+          ]
         }
       ]
     },
@@ -471,52 +495,70 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "2-06",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "senior_key_persons[].profile.title",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Title"
-        },
-        {
-          "kind": "field",
-          "label": "Department",
-          "dat_field": "2-07",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "json_path": "senior_key_persons[].profile.department",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Department"
-        },
-        {
-          "kind": "field",
-          "label": "Organization UEI",
-          "dat_field": "2-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the organization's Unique Entity Identifier (UEI) from SAM.gov.",
-          "constraints": "minLength 12, maxLength 12",
-          "json_path": "senior_key_persons[].profile.organization_uei",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:OrganizationUEIID"
-        },
-        {
-          "kind": "field",
-          "label": "Division",
-          "dat_field": "2-09",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the division, office or major subdivision within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "json_path": "senior_key_persons[].profile.division",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Division"
+          "kind": "section",
+          "label": "Role",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "2-06",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "senior_key_persons[].profile.title",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Title"
+            },
+            {
+              "kind": "field",
+              "label": "Organization UEI",
+              "dat_field": "2-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the organization's Unique Entity Identifier (UEI) from SAM.gov.",
+              "constraints": "minLength 12, maxLength 12",
+              "json_path": "senior_key_persons[].profile.organization_uei",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:OrganizationUEIID"
+            },
+            {
+              "kind": "field",
+              "label": "Department",
+              "dat_field": "2-07",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "json_path": "senior_key_persons[].profile.department",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Department"
+            },
+            {
+              "kind": "field",
+              "label": "Division",
+              "dat_field": "2-09",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the division, office or major subdivision within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "json_path": "senior_key_persons[].profile.division",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Division"
+            },
+            {
+              "kind": "field",
+              "label": "Project Role",
+              "dat_field": "2-21",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "Dropdown",
+              "widget": "SelectWidget",
+              "help_text": "`ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd.",
+              "constraints": "ProjectRoleDataType",
+              "json_path": "senior_key_persons[].profile.project_role",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:ProjectRole"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -624,112 +666,118 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Phone Number",
-          "dat_field": "2-18",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the daytime Telephone Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "senior_key_persons[].profile.phone",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Phone"
+          "kind": "section",
+          "label": "Contact Information",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Phone Number",
+              "dat_field": "2-18",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the daytime Telephone Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "senior_key_persons[].profile.phone",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Phone"
+            },
+            {
+              "kind": "field",
+              "label": "Fax Number",
+              "dat_field": "2-19",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the Fax Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "senior_key_persons[].profile.fax",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Fax"
+            },
+            {
+              "kind": "field",
+              "label": "Email",
+              "dat_field": "2-20",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter a valid email Address.",
+              "constraints": "minLength 1, maxLength 60, format email",
+              "json_path": "senior_key_persons[].profile.email",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Email"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Fax Number",
-          "dat_field": "2-19",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the Fax Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "senior_key_persons[].profile.fax",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Fax"
+          "kind": "section",
+          "label": "Credentials",
+          "children": [
+            {
+              "kind": "field",
+              "label": "NSF ID",
+              "dat_field": "2-23",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the person's NSF ID, if they have one.",
+              "constraints": "pattern [0-9A-Z]{9}",
+              "json_path": "senior_key_persons[].profile.nsf_id",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:NSFID"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Email",
-          "dat_field": "2-20",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter a valid email Address.",
-          "constraints": "minLength 1, maxLength 60, format email",
-          "json_path": "senior_key_persons[].profile.email",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:Email"
-        },
-        {
-          "kind": "field",
-          "label": "Project Role",
-          "dat_field": "2-21",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "Dropdown",
-          "widget": "SelectWidget",
-          "help_text": "`ProjectRoleDataType` in NSF_KeyPersonExpanded_3_3-V3.3.xsd.",
-          "constraints": "ProjectRoleDataType",
-          "json_path": "senior_key_persons[].profile.project_role",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:ProjectRole"
-        },
-        {
-          "kind": "field",
-          "label": "NSF ID",
-          "dat_field": "2-23",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the person's NSF ID, if they have one.",
-          "constraints": "pattern [0-9A-Z]{9}",
-          "json_path": "senior_key_persons[].profile.nsf_id",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:NSFID"
-        },
-        {
-          "kind": "field",
-          "label": "Biographical Sketch",
-          "dat_field": "2-27",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
-          "constraints": "format uuid",
-          "json_path": "senior_key_persons[].profile.biographical_sketch",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:BioSketchsAttached/NSF_KeyPersonExpanded_3_3:BioSketchAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Current & Pending Support",
-          "dat_field": "2-28",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
-          "constraints": "format uuid",
-          "json_path": "senior_key_persons[].profile.current_pending_support",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SupportsAttached/NSF_KeyPersonExpanded_3_3:SupportAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Collaborators & Other Affiliations",
-          "dat_field": "2-29",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a list of all collaborators and other affiliations.",
-          "constraints": "format uuid",
-          "json_path": "senior_key_persons[].profile.collaborators",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:CollaboratorsAttached/NSF_KeyPersonExpanded_3_3:CollaboratorAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Synergistic Activities",
-          "dat_field": "2-30",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a description of synergistic activities.",
-          "constraints": "format uuid",
-          "json_path": "senior_key_persons[].profile.synergistic_activities",
-          "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SynergisticActivitiesAttached/NSF_KeyPersonExpanded_3_3:SynergisticAttached"
+          "kind": "section",
+          "label": "Attachments",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Biographical Sketch",
+              "dat_field": "2-27",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
+              "constraints": "format uuid",
+              "json_path": "senior_key_persons[].profile.biographical_sketch",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:BioSketchsAttached/NSF_KeyPersonExpanded_3_3:BioSketchAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Current & Pending Support",
+              "dat_field": "2-28",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
+              "constraints": "format uuid",
+              "json_path": "senior_key_persons[].profile.current_pending_support",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SupportsAttached/NSF_KeyPersonExpanded_3_3:SupportAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Collaborators & Other Affiliations",
+              "dat_field": "2-29",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a list of all collaborators and other affiliations.",
+              "constraints": "format uuid",
+              "json_path": "senior_key_persons[].profile.collaborators",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:CollaboratorsAttached/NSF_KeyPersonExpanded_3_3:CollaboratorAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Synergistic Activities",
+              "dat_field": "2-30",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a description of synergistic activities.",
+              "constraints": "format uuid",
+              "json_path": "senior_key_persons[].profile.synergistic_activities",
+              "xml_path": "NSF_KeyPersonExpanded_3_3:KeyPerson/NSF_KeyPersonExpanded_3_3:Profile/NSF_KeyPersonExpanded_3_3:SynergisticActivitiesAttached/NSF_KeyPersonExpanded_3_3:SynergisticAttached"
+            }
+          ]
         }
       ]
     },

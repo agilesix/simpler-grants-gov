@@ -12,12 +12,12 @@ namespace Questions.Organizations;
 @UI.label("Organization Name")
 @minLength(1)
 @maxLength(60)
-scalar OrganizationName extends string;
+scalar OrgName extends string;
 
 /** An organization's address. */
 @Meta.question(#{ id: "organization/address" })
 @UI.label("Address")
-model OrganizationAddress is Questions.Types.Address;
+model OrgAddress is Questions.Types.Address;
 
 /** Enter the name of the department, service, laboratory or equivalent within the organization. */
 @Meta.question(#{ id: "organization/department" })
@@ -25,7 +25,7 @@ model OrganizationAddress is Questions.Types.Address;
 @UI.label("Department")
 @minLength(1)
 @maxLength(100)
-scalar DepartmentName extends string;
+scalar OrgDepartment extends string;
 
 /** Enter the name of the division, office or major subdivision within the organization. */
 @Meta.question(#{ id: "organization/division" })
@@ -33,7 +33,7 @@ scalar DepartmentName extends string;
 @UI.label("Division")
 @minLength(1)
 @maxLength(100)
-scalar DivisionName extends string;
+scalar OrgDivision extends string;
 
 /** Enter the organization's Unique Entity Identifier (UEI) from SAM.gov. */
 @Meta.question(#{ id: "organization/uei" })
@@ -41,4 +41,4 @@ scalar DivisionName extends string;
 @UI.label("Organization UEI")
 @minLength(12)
 @maxLength(12)
-scalar OrganizationUei extends string;
+scalar OrgUei extends string;

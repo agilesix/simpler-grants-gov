@@ -111,56 +111,86 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "1-06",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "pre_populated": "SF424(R&R) field 14-6 (deferred)",
-          "json_path": "principal_investigator.profile.title",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Title"
-        },
-        {
-          "kind": "field",
-          "label": "Department",
-          "dat_field": "1-07",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "pre_populated": "SF424(R&R) field 14-8 (deferred)",
-          "json_path": "principal_investigator.profile.department",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Department"
-        },
-        {
-          "kind": "field",
-          "label": "Organization Name",
-          "dat_field": "1-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the legal name of the organization.",
-          "constraints": "minLength 1, maxLength 60",
-          "pre_populated": "SF424(R&R) field 14-7 (deferred)",
-          "json_path": "principal_investigator.profile.organization_name",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OrganizationName"
-        },
-        {
-          "kind": "field",
-          "label": "Division",
-          "dat_field": "1-09",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the division, office or major subdivision within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "pre_populated": "SF424(R&R) field 14-9 (deferred)",
-          "json_path": "principal_investigator.profile.division",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Division"
+          "kind": "section",
+          "label": "Role",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "1-06",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "pre_populated": "SF424(R&R) field 14-6 (deferred)",
+              "json_path": "principal_investigator.profile.title",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Title"
+            },
+            {
+              "kind": "field",
+              "label": "Organization Name",
+              "dat_field": "1-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the legal name of the organization.",
+              "constraints": "minLength 1, maxLength 60",
+              "pre_populated": "SF424(R&R) field 14-7 (deferred)",
+              "json_path": "principal_investigator.profile.organization_name",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OrganizationName"
+            },
+            {
+              "kind": "field",
+              "label": "Department",
+              "dat_field": "1-07",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "pre_populated": "SF424(R&R) field 14-8 (deferred)",
+              "json_path": "principal_investigator.profile.department",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Department"
+            },
+            {
+              "kind": "field",
+              "label": "Division",
+              "dat_field": "1-09",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the division, office or major subdivision within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "pre_populated": "SF424(R&R) field 14-9 (deferred)",
+              "json_path": "principal_investigator.profile.division",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Division"
+            },
+            {
+              "kind": "field",
+              "label": "Project Role",
+              "dat_field": "1-22",
+              "required": true,
+              "type": "Dropdown",
+              "widget": "SelectWidget",
+              "help_text": "`ProjectRoleDataType` in RR_KeyPerson_3_0-V3.0.xsd.",
+              "constraints": "ProjectRoleDataType",
+              "json_path": "principal_investigator.profile.project_role",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:ProjectRole"
+            },
+            {
+              "kind": "field",
+              "label": "Other Project Role Category",
+              "dat_field": "1-23",
+              "required": "Conditional (when Project Role is \"Other Professional\" or \"Other (Specify)\")",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Complete if the project role is \"Other Professional\" or \"Other (Specify)\", e.g., Engineer, Chemist.",
+              "constraints": "minLength 1, maxLength 40",
+              "json_path": "principal_investigator.profile.other_project_role_category",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OtherProjectRoleCategory"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -276,103 +306,97 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Phone Number",
-          "dat_field": "1-18",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the daytime Telephone Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "pre_populated": "SF424(R&R) field 14-11 (deferred)",
-          "json_path": "principal_investigator.profile.phone",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Phone"
+          "kind": "section",
+          "label": "Contact Information",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Phone Number",
+              "dat_field": "1-18",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the daytime Telephone Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "pre_populated": "SF424(R&R) field 14-11 (deferred)",
+              "json_path": "principal_investigator.profile.phone",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Phone"
+            },
+            {
+              "kind": "field",
+              "label": "Fax Number",
+              "dat_field": "1-19",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the Fax Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "pre_populated": "SF424(R&R) field 14-12 (deferred)",
+              "json_path": "principal_investigator.profile.fax",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Fax"
+            },
+            {
+              "kind": "field",
+              "label": "Email",
+              "dat_field": "1-20",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter a valid email Address.",
+              "constraints": "minLength 1, maxLength 60, format email",
+              "pre_populated": "SF424(R&R) field 14-13 (deferred)",
+              "json_path": "principal_investigator.profile.email",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Email"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Fax Number",
-          "dat_field": "1-19",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the Fax Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "pre_populated": "SF424(R&R) field 14-12 (deferred)",
-          "json_path": "principal_investigator.profile.fax",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Fax"
+          "kind": "section",
+          "label": "Credentials",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Credential, e.g., agency login",
+              "dat_field": "1-21",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "If you have an established personal profile with the agency (e.g., NIH), enter its agency ID.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "principal_investigator.profile.credential",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Credential"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Email",
-          "dat_field": "1-20",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter a valid email Address.",
-          "constraints": "minLength 1, maxLength 60, format email",
-          "pre_populated": "SF424(R&R) field 14-13 (deferred)",
-          "json_path": "principal_investigator.profile.email",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Email"
-        },
-        {
-          "kind": "field",
-          "label": "Credential, e.g., agency login",
-          "dat_field": "1-21",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "If you have an established personal profile with the agency (e.g., NIH), enter its agency ID.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "principal_investigator.profile.credential",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Credential"
-        },
-        {
-          "kind": "field",
-          "label": "Project Role",
-          "dat_field": "1-22",
-          "required": true,
-          "type": "Dropdown",
-          "widget": "SelectWidget",
-          "help_text": "`ProjectRoleDataType` in RR_KeyPerson_3_0-V3.0.xsd.",
-          "constraints": "ProjectRoleDataType",
-          "json_path": "principal_investigator.profile.project_role",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:ProjectRole"
-        },
-        {
-          "kind": "field",
-          "label": "Other Project Role Category",
-          "dat_field": "1-23",
-          "required": "Conditional (when Project Role is \"Other Professional\" or \"Other (Specify)\")",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Complete if the project role is \"Other Professional\" or \"Other (Specify)\", e.g., Engineer, Chemist.",
-          "constraints": "minLength 1, maxLength 40",
-          "json_path": "principal_investigator.profile.other_project_role_category",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OtherProjectRoleCategory"
-        },
-        {
-          "kind": "field",
-          "label": "Biographical Sketch",
-          "dat_field": "1-24",
-          "required": true,
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
-          "constraints": "format uuid",
-          "json_path": "principal_investigator.profile.biographical_sketch",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:BioSketchsAttached/RR_KeyPerson_3_0:BioSketchAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Current & Pending Support",
-          "dat_field": "1-25",
-          "required": false,
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
-          "constraints": "format uuid",
-          "json_path": "principal_investigator.profile.current_pending_support",
-          "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:SupportsAttached/RR_KeyPerson_3_0:SupportAttached"
+          "kind": "section",
+          "label": "Attachments",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Biographical Sketch",
+              "dat_field": "1-24",
+              "required": true,
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
+              "constraints": "format uuid",
+              "json_path": "principal_investigator.profile.biographical_sketch",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:BioSketchsAttached/RR_KeyPerson_3_0:BioSketchAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Current & Pending Support",
+              "dat_field": "1-25",
+              "required": false,
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
+              "constraints": "format uuid",
+              "json_path": "principal_investigator.profile.current_pending_support",
+              "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:SupportsAttached/RR_KeyPerson_3_0:SupportAttached"
+            }
+          ]
         }
       ]
     },
@@ -454,52 +478,82 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "2-06",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "senior_key_persons[].profile.title",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Title"
-        },
-        {
-          "kind": "field",
-          "label": "Department",
-          "dat_field": "2-07",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "json_path": "senior_key_persons[].profile.department",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Department"
-        },
-        {
-          "kind": "field",
-          "label": "Organization Name",
-          "dat_field": "2-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the legal name of the organization.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "senior_key_persons[].profile.organization_name",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OrganizationName"
-        },
-        {
-          "kind": "field",
-          "label": "Division",
-          "dat_field": "2-09",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the division, office or major subdivision within the organization.",
-          "constraints": "minLength 1, maxLength 100",
-          "json_path": "senior_key_persons[].profile.division",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Division"
+          "kind": "section",
+          "label": "Role",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "2-06",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "senior_key_persons[].profile.title",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Title"
+            },
+            {
+              "kind": "field",
+              "label": "Organization Name",
+              "dat_field": "2-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the legal name of the organization.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "senior_key_persons[].profile.organization_name",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OrganizationName"
+            },
+            {
+              "kind": "field",
+              "label": "Department",
+              "dat_field": "2-07",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the department, service, laboratory or equivalent within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "json_path": "senior_key_persons[].profile.department",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Department"
+            },
+            {
+              "kind": "field",
+              "label": "Division",
+              "dat_field": "2-09",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of the division, office or major subdivision within the organization.",
+              "constraints": "minLength 1, maxLength 100",
+              "json_path": "senior_key_persons[].profile.division",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Division"
+            },
+            {
+              "kind": "field",
+              "label": "Project Role",
+              "dat_field": "2-22",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "Dropdown",
+              "widget": "SelectWidget",
+              "help_text": "`ProjectRoleDataType` in RR_KeyPerson_3_0-V3.0.xsd.",
+              "constraints": "ProjectRoleDataType",
+              "json_path": "senior_key_persons[].profile.project_role",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:ProjectRole"
+            },
+            {
+              "kind": "field",
+              "label": "Other Project Role Category",
+              "dat_field": "2-23",
+              "required": "Conditional (when Project Role is \"Other Professional\" or \"Other (Specify)\")",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Complete if the project role is \"Other Professional\" or \"Other (Specify)\", e.g., Engineer, Chemist.",
+              "constraints": "minLength 1, maxLength 40",
+              "json_path": "senior_key_persons[].profile.other_project_role_category",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OtherProjectRoleCategory"
+            }
+          ]
         },
         {
           "kind": "section",
@@ -607,100 +661,94 @@
           ]
         },
         {
-          "kind": "field",
-          "label": "Phone Number",
-          "dat_field": "2-18",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the daytime Telephone Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "senior_key_persons[].profile.phone",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Phone"
+          "kind": "section",
+          "label": "Contact Information",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Phone Number",
+              "dat_field": "2-18",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the daytime Telephone Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "senior_key_persons[].profile.phone",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Phone"
+            },
+            {
+              "kind": "field",
+              "label": "Fax Number",
+              "dat_field": "2-19",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the Fax Number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "senior_key_persons[].profile.fax",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Fax"
+            },
+            {
+              "kind": "field",
+              "label": "Email",
+              "dat_field": "2-20",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter a valid email Address.",
+              "constraints": "minLength 1, maxLength 60, format email",
+              "json_path": "senior_key_persons[].profile.email",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Email"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Fax Number",
-          "dat_field": "2-19",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the Fax Number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "senior_key_persons[].profile.fax",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Fax"
+          "kind": "section",
+          "label": "Credentials",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Credential, e.g., agency login",
+              "dat_field": "2-21",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "If you have an established personal profile with the agency (e.g., NIH), enter its agency ID.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "senior_key_persons[].profile.credential",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Credential"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Email",
-          "dat_field": "2-20",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter a valid email Address.",
-          "constraints": "minLength 1, maxLength 60, format email",
-          "json_path": "senior_key_persons[].profile.email",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Email"
-        },
-        {
-          "kind": "field",
-          "label": "Credential, e.g., agency login",
-          "dat_field": "2-21",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "If you have an established personal profile with the agency (e.g., NIH), enter its agency ID.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "senior_key_persons[].profile.credential",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Credential"
-        },
-        {
-          "kind": "field",
-          "label": "Project Role",
-          "dat_field": "2-22",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "Dropdown",
-          "widget": "SelectWidget",
-          "help_text": "`ProjectRoleDataType` in RR_KeyPerson_3_0-V3.0.xsd.",
-          "constraints": "ProjectRoleDataType",
-          "json_path": "senior_key_persons[].profile.project_role",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:ProjectRole"
-        },
-        {
-          "kind": "field",
-          "label": "Other Project Role Category",
-          "dat_field": "2-23",
-          "required": "Conditional (when Project Role is \"Other Professional\" or \"Other (Specify)\")",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Complete if the project role is \"Other Professional\" or \"Other (Specify)\", e.g., Engineer, Chemist.",
-          "constraints": "minLength 1, maxLength 40",
-          "json_path": "senior_key_persons[].profile.other_project_role_category",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:OtherProjectRoleCategory"
-        },
-        {
-          "kind": "field",
-          "label": "Biographical Sketch",
-          "dat_field": "2-24",
-          "required": "Conditional (required for each senior/key person)",
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
-          "constraints": "format uuid",
-          "json_path": "senior_key_persons[].profile.biographical_sketch",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:BioSketchsAttached/RR_KeyPerson_3_0:BioSketchAttached"
-        },
-        {
-          "kind": "field",
-          "label": "Current & Pending Support",
-          "dat_field": "2-25",
-          "required": false,
-          "type": "File upload",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
-          "constraints": "format uuid",
-          "json_path": "senior_key_persons[].profile.current_pending_support",
-          "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:SupportsAttached/RR_KeyPerson_3_0:SupportAttached"
+          "kind": "section",
+          "label": "Attachments",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Biographical Sketch",
+              "dat_field": "2-24",
+              "required": "Conditional (required for each senior/key person)",
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a biographical sketch: education and training, research and professional experience, collaborators and affiliations, publications and synergistic activities.",
+              "constraints": "format uuid",
+              "json_path": "senior_key_persons[].profile.biographical_sketch",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:BioSketchsAttached/RR_KeyPerson_3_0:BioSketchAttached"
+            },
+            {
+              "kind": "field",
+              "label": "Current & Pending Support",
+              "dat_field": "2-25",
+              "required": false,
+              "type": "File upload",
+              "widget": "ApplicationAttachmentWidget",
+              "help_text": "Attach a list of all current and pending support for ongoing projects and pending proposals.",
+              "constraints": "format uuid",
+              "json_path": "senior_key_persons[].profile.current_pending_support",
+              "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:SupportsAttached/RR_KeyPerson_3_0:SupportAttached"
+            }
+          ]
         }
       ]
     },

@@ -45,12 +45,12 @@ model KeyContact {
   /** Enter the contact's position title. */
   @UI.label("Title")
   @Mapping.to(GrantsGovXml, RoleOnProject.contactTitle)
-  title?: Questions.People.ContactTitle;
+  title?: Questions.People.PersonTitle;
 
   /** Enter the contact's organizational affiliation. */
   @UI.label("Organizational Affiliation")
   @Mapping.to(GrantsGovXml, RoleOnProject.contactOrganizationalAffiliation)
-  organizationalAffiliation?: Questions.Organizations.OrganizationName;
+  organizationalAffiliation?: Questions.Organizations.OrgName;
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
@@ -60,17 +60,17 @@ model KeyContact {
   /** Enter the daytime Telephone Number. */
   @UI.label("Phone Number")
   @Mapping.to(GrantsGovXml, RoleOnProject.contactPhone)
-  phone: Questions.Types.PhoneNumber;
+  phone: Questions.People.PersonPhoneNumber;
 
   /** Enter the Fax Number. */
   @UI.label("Fax Number")
   @Mapping.to(GrantsGovXml, RoleOnProject.contactFax)
-  fax?: Questions.Types.PhoneNumber;
+  fax?: Questions.People.PersonFaxNumber;
 
   /** Enter a valid email Address. */
   @UI.label("Email")
   @Mapping.to(GrantsGovXml, RoleOnProject.contactEmail)
-  email: Questions.Types.EmailAddress;
+  email: Questions.People.PersonEmail;
 }
 
 /** Sample key contacts, type-checked against `KeyContact` and reused by the form's example. */

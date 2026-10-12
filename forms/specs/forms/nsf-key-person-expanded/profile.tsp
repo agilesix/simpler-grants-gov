@@ -27,14 +27,14 @@ scalar NSFID extends string;
 /** The PD/PI's profile. */
 model NSFPrincipalInvestigatorProfile {
   name: Questions.People.PersonName;
-  title?: Questions.People.ContactTitle;
-  department?: Questions.Organizations.DepartmentName;
-  organizationName?: Questions.Organizations.OrganizationName;
-  division?: Questions.Organizations.DivisionName;
+  title?: Questions.People.PersonTitle;
+  organizationName?: Questions.Organizations.OrgName;
+  department?: Questions.Organizations.OrgDepartment;
+  division?: Questions.Organizations.OrgDivision;
   address: Questions.People.PersonAddress;
-  phone: Questions.Types.PhoneNumber;
-  fax?: Questions.Types.FaxNumber;
-  email: Questions.Types.EmailAddress;
+  phone: Questions.People.PersonPhoneNumber;
+  fax?: Questions.People.PersonFaxNumber;
+  email: Questions.People.PersonEmail;
   projectRole: NSFProjectRole;
   nsfId?: NSFID;
   biographicalSketch: Questions.Research.BiographicalSketch;
@@ -46,14 +46,14 @@ model NSFPrincipalInvestigatorProfile {
 /** A senior/key person's profile, which gives the organization's UEI instead of its name. */
 model NSFSeniorKeyPersonProfile {
   name: Questions.People.PersonName;
-  title?: Questions.People.ContactTitle;
-  department?: Questions.Organizations.DepartmentName;
-  organizationUei?: Questions.Organizations.OrganizationUei;
-  division?: Questions.Organizations.DivisionName;
+  title?: Questions.People.PersonTitle;
+  organizationUei?: Questions.Organizations.OrgUei;
+  department?: Questions.Organizations.OrgDepartment;
+  division?: Questions.Organizations.OrgDivision;
   address: Questions.People.PersonAddress;
-  phone: Questions.Types.PhoneNumber;
-  fax?: Questions.Types.FaxNumber;
-  email: Questions.Types.EmailAddress;
+  phone: Questions.People.PersonPhoneNumber;
+  fax?: Questions.People.PersonFaxNumber;
+  email: Questions.People.PersonEmail;
   projectRole: NSFProjectRole;
   nsfId?: NSFID;
   biographicalSketch: Questions.Research.BiographicalSketch;
@@ -70,4 +70,50 @@ model NSFPrincipalInvestigator {
 /** A person on the form, holding their profile as the XSD's `Profile` element does. */
 model NSFSeniorKeyPerson {
   profile: NSFSeniorKeyPersonProfile;
+}
+
+/** Sample people, type-checked against the profiles and used by the form's example. */
+namespace Examples {
+  const principalInvestigator: Forms.NSFKeyPersonExpanded.NSFPrincipalInvestigatorProfile = #{
+    name: #{ prefix: "Dr.", firstName: "Maria", lastName: "Chen" },
+    title: "Professor of Biology",
+    organizationName: "University of Wisconsin-Madison",
+    department: "Department of Biology",
+    address: #{
+      street1: "1200 University Avenue",
+      city: "Madison",
+      state: Questions.Types.StateCode.WI,
+      zipCode: "53706-1380",
+      country: Questions.Types.CountryCode.USA,
+    },
+    phone: "6085550100",
+    email: "maria.chen@example.edu",
+    projectRole: NSFProjectRole.pdPi,
+    nsfId: "000123456",
+    biographicalSketch: "3f1c2a9e-5b7d-4c1e-9a2b-1d4e6f8a0b11",
+    currentPendingSupport: "7a2e4c6b-8d1f-4a3e-b5c7-2e4f6a8b0c22",
+    collaborators: "b4d6f8a0-1c3e-4f5a-8b7c-3e5f7a9b1d33",
+    synergisticActivities: "c5e7a9b1-2d4f-4a6b-9c8d-4f6a8b0c2e44",
+  };
+
+  const engineer: Forms.NSFKeyPersonExpanded.NSFSeniorKeyPersonProfile = #{
+    name: #{ prefix: "Mr.", firstName: "Tom", lastName: "Okafor" },
+    title: "Research Engineer",
+    organizationUei: "ABCDEFGH1234",
+    department: "Department of Engineering",
+    address: #{
+      street1: "25 King's Parade",
+      city: "Cambridge",
+      province: "Cambridgeshire",
+      zipCode: "CB2 1ST",
+      country: Questions.Types.CountryCode.GBR,
+    },
+    phone: "6085550100",
+    email: "tom.okafor@example.ac.uk",
+    projectRole: NSFProjectRole.otherSeniorPersonnel,
+    biographicalSketch: "3f1c2a9e-5b7d-4c1e-9a2b-1d4e6f8a0b11",
+    currentPendingSupport: "7a2e4c6b-8d1f-4a3e-b5c7-2e4f6a8b0c22",
+    collaborators: "b4d6f8a0-1c3e-4f5a-8b7c-3e5f7a9b1d33",
+    synergisticActivities: "c5e7a9b1-2d4f-4a6b-9c8d-4f6a8b0c2e44",
+  };
 }

@@ -43,40 +43,41 @@ const groupLabels = (node: UiNode): string[] => [
 
 const clone = <T>(value: T): T => structuredClone(value);
 
-describe.each(["key-contacts", "epa-key-contacts"])(
-  "loadFormSpec(%s)",
-  (specId) => {
-    let spec: FormSpec;
-    beforeAll(async () => {
-      spec = await loadFormSpec(specId);
-    });
+describe.each([
+  "key-contacts",
+  "epa-key-contacts",
+  "rr-key-person",
+  "rr-key-person-expanded",
+  "nsf-key-person-expanded",
+])("loadFormSpec(%s)", (specId) => {
+  let spec: FormSpec;
+  beforeAll(async () => {
+    spec = await loadFormSpec(specId);
+  });
 
-    it("inlines every $ref", () => {
-      expect(JSON.stringify(spec.schema)).not.toContain('"$ref"');
-    });
+  it("inlines every $ref", () => {
+    expect(JSON.stringify(spec.schema)).not.toContain('"$ref"');
+  });
 
-    it("resolves every UI scope against the schema", () => {
-      const found = controls(spec.uischema as unknown as UiNode, spec.schema);
-      expect(found.length).toBeGreaterThan(0);
-      for (const [scope, schema] of found) {
-        expect(resolveScope(schema, scope), scope).toBeDefined();
-      }
-    });
+  it("resolves every UI scope against the schema", () => {
+    const found = controls(spec.uischema as unknown as UiNode, spec.schema);
+    expect(found.length).toBeGreaterThan(0);
+    for (const [scope, schema] of found) {
+      expect(resolveScope(schema, scope), scope).toBeDefined();
+    }
+  });
 
-    it("draws every control with an SGG widget", () => {
-      const { formSchema } = processFormSchema(spec.schema);
-      expect(unadaptableScopes(spec.uischema, formSchema)).toEqual([]);
-    });
+  it("draws every control with an SGG widget", () => {
+    const { formSchema } = processFormSchema(spec.schema);
+    expect(unadaptableScopes(spec.uischema, formSchema)).toEqual([]);
+  });
 
-    it("has an example from the TypeSpec that passes validation", () => {
-      expect(spec.example).toBeDefined();
-      const validate = createAjv().compile(spec.schema);
-      expect(validate(spec.example), JSON.stringify(validate.errors)).toBe(
-        true,
-      );
-    });
-  },
-);
+  it("has an example from the TypeSpec that passes validation", () => {
+    expect(spec.example).toBeDefined();
+    const validate = createAjv().compile(spec.schema);
+    expect(validate(spec.example), JSON.stringify(validate.errors)).toBe(true);
+  });
+});
 
 describe("validation rules", () => {
   it("requires state and zip code for a US address", async () => {
