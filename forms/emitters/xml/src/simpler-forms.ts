@@ -1,4 +1,5 @@
 import type {
+  Diagnostic,
   EnumMember,
   Model,
   ModelProperty,
@@ -59,7 +60,7 @@ export const resolveMappingFrom = sf.resolveMappingFrom as unknown as (
   program: Program,
   form: Model,
   mapping: EnumMember,
-) => { resolved: ResolvedMapping } | undefined;
+) => { resolved: ResolvedMapping; problems: Diagnostic[] } | undefined;
 export const modelProperties = sf.modelProperties as unknown as (
   model: Model,
 ) => ModelProperty[];
