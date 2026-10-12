@@ -41,6 +41,9 @@
       "kind": "section",
       "label": "PD/PI Profile",
       "help_text": "Enter the profile of the Project Director/Principal Investigator (PD/PI).",
+      "json_path": "principal_investigator.profile",
+      "xml_path": "NSF_KeyPersonExpanded_3_3:PDPI/NSF_KeyPersonExpanded_3_3:Profile",
+      "widget": "FieldsetWidget",
       "children": [
         {
           "kind": "section",
@@ -121,6 +124,7 @@
           "kind": "section",
           "label": "Role",
           "help_text": "Enter the person's position, organization and role on the project.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -306,6 +310,7 @@
           "kind": "section",
           "label": "Contact Information",
           "help_text": "Enter the person's phone, fax and email. Phone and email are required.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -352,6 +357,7 @@
           "kind": "section",
           "label": "Credentials",
           "help_text": "Enter the person's NSF ID, if they have one.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -371,6 +377,7 @@
           "kind": "section",
           "label": "Attachments",
           "help_text": "Attach the person's biographical sketch, current & pending (other) support, collaborators and other affiliations, and synergistic activities.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -506,6 +513,7 @@
           "kind": "section",
           "label": "Role",
           "help_text": "Enter the person's position, organization and role on the project.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -679,6 +687,7 @@
           "kind": "section",
           "label": "Contact Information",
           "help_text": "Enter the person's phone, fax and email. Phone and email are required.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -722,6 +731,7 @@
           "kind": "section",
           "label": "Credentials",
           "help_text": "Enter the person's NSF ID, if they have one.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -741,6 +751,7 @@
           "kind": "section",
           "label": "Attachments",
           "help_text": "Attach the person's biographical sketch, current & pending (other) support, collaborators and other affiliations, and synergistic activities.",
+          "widget": "FieldsetWidget",
           "children": [
             {
               "kind": "field",
@@ -799,6 +810,7 @@
       "kind": "section",
       "label": "Additional Profiles and Attachments",
       "help_text": "If the project has more than 99 senior/key persons, attach the rest of their profiles and supporting documents, each kind in a single file.",
+      "widget": "FieldsetWidget",
       "children": [
         {
           "kind": "field",

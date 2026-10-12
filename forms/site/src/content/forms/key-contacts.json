@@ -23,6 +23,7 @@
     {
       "kind": "section",
       "label": "Applicant Information",
+      "widget": "FieldsetWidget",
       "children": [
         {
           "kind": "field",
@@ -270,7 +271,7 @@
         },
         {
           "kind": "section",
-          "label": "Contact Info",
+          "label": "Contact Information",
           "help_text": "Enter the contact's phone, fax and email. Phone and email are required.",
           "widget": "FieldsetWidget",
           "children": [

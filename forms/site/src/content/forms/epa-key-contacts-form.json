@@ -27,6 +27,7 @@
       "label": "1. Authorized Representative",
       "json_path": "authorized_representative",
       "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative",
+      "widget": "FieldsetWidget",
       "children": [
         {
           "kind": "section",
@@ -202,7 +203,7 @@
         },
         {
           "kind": "section",
-          "label": "Contact Info",
+          "label": "Contact Information",
           "help_text": "Enter the contact's phone, fax and email. Phone is required.",
           "widget": "FieldsetWidget",
           "children": [
@@ -251,6 +252,7 @@
       "label": "2. Payee",
       "json_path": "payee",
       "xml_path": "EPA_KeyContacts_2_0:Payee",
+      "widget": "FieldsetWidget",
       "children": [
         {
           "kind": "section",
@@ -426,7 +428,7 @@
         },
         {
           "kind": "section",
-          "label": "Contact Info",
+          "label": "Contact Information",
           "help_text": "Enter the contact's phone, fax and email. Phone is required.",
           "widget": "FieldsetWidget",
           "children": [
@@ -475,6 +477,7 @@
       "label": "3. Administrative Contact",
       "json_path": "administrative_contact",
       "xml_path": "EPA_KeyContacts_2_0:AdministrativeContact",
+      "widget": "FieldsetWidget",
       "children": [
         {
           "kind": "section",
@@ -650,7 +653,7 @@
         },
         {
           "kind": "section",
-          "label": "Contact Info",
+          "label": "Contact Information",
           "help_text": "Enter the contact's phone, fax and email. Phone is required.",
           "widget": "FieldsetWidget",
           "children": [
@@ -699,6 +702,7 @@
       "label": "4. Project Manager",
       "json_path": "project_manager",
       "xml_path": "EPA_KeyContacts_2_0:ProjectManager",
+      "widget": "FieldsetWidget",
       "children": [
         {
           "kind": "section",
@@ -874,7 +878,7 @@
         },
         {
           "kind": "section",
-          "label": "Contact Info",
+          "label": "Contact Information",
           "help_text": "Enter the contact's phone, fax and email. Phone is required.",
           "widget": "FieldsetWidget",
           "children": [
