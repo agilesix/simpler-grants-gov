@@ -46,8 +46,8 @@ checks ask whether what we built does what the plan says, so the artifact is the
 | XML            | XML mapping vs XSD         | XML mapping  | missing, extra, order                                         | `xml_path`              |
 | XML            | JSON schema vs XSD         | JSON schema  | occurrences, constraints (the schema may be stricter)         | the plan's link         |
 
-The XML mapping comparisons run only for a form with emitted rules, i.e. one linked with
-`@Mapping.to` in the `grantsGovXml` mapping. Plan vs XML mapping matches each field by its
+The XML mapping comparisons run only for a form with emitted rules, i.e. one whose XSD
+TypeSpec model names it with `@Mapping.from` in the `grantsGovXml` mapping. Plan vs XML mapping matches each field by its
 JSON path and element path together, so a field the mapping writes to a different element
 than the plan says shows as both missing and extra. Order is checked against the XSD
 because the API writes elements in the order of the rules, and the XSD is a sequence.

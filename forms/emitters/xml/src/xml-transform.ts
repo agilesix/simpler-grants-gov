@@ -24,8 +24,8 @@ export type XmlTransformRules = Record<string, unknown>;
 /**
  * `form`'s XML transform rules in `mapping`, or undefined if `form` is not linked in it.
  *
- * The rules are read off the form's links and the XSD TypeSpec models they point into --
- * `@Mapping.to` on the form, or with `direction` "from", `@Mapping.from` on the XSD models:
+ * The rules are read off the XSD TypeSpec models and the links between them and the form --
+ * `@Mapping.from` on the XSD models, or with `direction` "to", `@Mapping.to` on the form:
  *
  *   - an element's name is its `@Xml.name`, or its property name;
  *   - an element's namespace is its own `@Xml.ns`, or else its model's, which is how an XSD
@@ -45,7 +45,7 @@ export function xmlTransform(
   form: Model,
   mapping: EnumMember,
   casing: PropertyCasing,
-  direction: "to" | "from" = "to",
+  direction: "to" | "from" = "from",
 ): XmlTransformRules | undefined {
   const resolved =
     direction === "from"

@@ -10,8 +10,8 @@ export interface XmlEmitterOptions {
   /** Must match the `simpler-forms` emitter's, so rule keys name the schema's properties. */
   "property-casing"?: "preserve" | "snake";
   /**
-   * Which links the rules are read from: `@Mapping.to` on the form (`to`, the default), or
-   * `@Mapping.from` on the XSD TypeSpec models (`from`). Either gives the same rules.
+   * Which links the rules are read from: `@Mapping.from` on the XSD TypeSpec models (`from`,
+   * the default), or `@Mapping.to` on the forms (`to`).
    */
   "mapping-direction"?: "to" | "from";
 }
@@ -31,7 +31,7 @@ const EmitterOptionsSchema: JSONSchemaType<XmlEmitterOptions> = {
       type: "string",
       enum: ["to", "from"],
       nullable: true,
-      default: "to",
+      default: "from",
     },
   },
   required: ["mapping-targets"],

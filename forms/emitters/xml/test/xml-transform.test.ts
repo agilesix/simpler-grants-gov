@@ -13,15 +13,10 @@ const FORMS_ROOT = fileURLToPath(new URL("../../..", import.meta.url));
 /**
  * Each fixture is the form's hand-written mapping in
  * `simpler-grants-gov/forms/specs/xml/<form>.json`, less the `_xml_config` keys the API never
- * reads (`description`, `version`, `null_handling_options`). Read from `@Mapping.to` on the
- * forms or from `@Mapping.from` on the XSD TypeSpec models, the rules are the same.
+ * reads (`description`, `version`, `null_handling_options`). The rules are read from the
+ * `@Mapping.from` links on the XSD TypeSpec models.
  */
-describe.each([
-  { form: "key-contacts", direction: "to" },
-  { form: "key-contacts", direction: "from" },
-  { form: "epa-key-contacts", direction: "to" },
-  { form: "epa-key-contacts", direction: "from" },
-])("$form fixture, mapping-direction $direction", ({ form, direction }) => {
+describe.each(["key-contacts", "epa-key-contacts"])("%s fixture", (form) => {
   it("emits the hand-written mapping", async () => {
     const outputDir = await mkdtemp(path.join(tmpdir(), "form-library-xml-"));
     const program = await compile(
@@ -34,7 +29,6 @@ describe.each([
             "emitter-output-dir": outputDir,
             "mapping-targets": ["grantsGovXml"],
             "property-casing": "snake",
-            "mapping-direction": direction,
           },
         },
       },
@@ -145,6 +139,7 @@ const rules = async (mapping = "xml") => {
     lookup<Model>(program, "Forms.Example"),
     lookup<EnumMember>(program, `Mappings.Target.${mapping}`),
     "snake",
+    "to",
   );
 };
 
@@ -221,6 +216,7 @@ describe("xmlTransform", () => {
       lookup<Model>(program, "Forms.Example"),
       lookup<EnumMember>(program, "Mappings.Target.csv"),
       "snake",
+      "to",
     );
     expect(result).toBeUndefined();
     expectDiagnostics(program.diagnostics, {
@@ -242,6 +238,7 @@ describe("$onEmit", () => {
   it("rejects two mappings that would write one form's file", async () => {
     const diagnostics = await Tester.emit("form-library-xml", {
       "mapping-targets": ["xml", "xmlNext"],
+      "mapping-direction": "to",
     }).diagnose(spec(FORM));
     expectDiagnostics(diagnostics, {
       code: "form-library-xml/xml-transform-collision",

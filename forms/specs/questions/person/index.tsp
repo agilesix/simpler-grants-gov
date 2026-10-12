@@ -1,11 +1,9 @@
 import "simpler-forms";
 
-import "#mapping/targets.tsp";
 import "#questions/index.tsp";
 import "#questions/types/address.tsp";
 import "#questions/types/codes.tsp";
 import "#questions/types/contact-info.tsp";
-import "#xsd/global-library.tsp";
 
 import "./name.tsp";
 import "./title.tsp";
@@ -45,41 +43,34 @@ scalar PersonEmail extends Questions.Types.EmailAddress;
  * key contact's project role, is a separate question that spreads this one.
  */
 @Meta.question(#{ id: "person" })
-@Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3)
 @Meta.tag(TagName.person, TagName.details)
 @UI.label("Contact Person")
 @example(Questions.People.Examples.usContact)
 model Person {
   /** Enter the contact's name. First and last name are required. */
   @UI.label("Name")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.name)
   name: Questions.People.PersonName;
 
   /** Enter the contact's position title. */
   @UI.label("Title")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.title)
   title?: Questions.People.PersonTitle;
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.address)
   address: Questions.People.PersonAddress;
 
   // `ContactPersonDataTypeV3` makes the phone optional; the forms that ask for a contact
   // person require it.
   /** Enter the daytime Telephone Number. */
   @UI.label("Phone Number")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.phone)
   phone: Questions.People.PersonPhoneNumber;
 
   /** Enter the Fax Number. */
   @UI.label("Fax Number")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.fax)
   fax?: Questions.People.PersonFaxNumber;
 
   /** Enter a valid email Address. */
   @UI.label("Email")
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.email)
   email?: Questions.People.PersonEmail;
 }
 

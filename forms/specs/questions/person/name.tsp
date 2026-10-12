@@ -1,8 +1,6 @@
 import "simpler-forms";
 
-import "#mapping/targets.tsp";
 import "#questions/index.tsp";
-import "#xsd/global-library.tsp";
 
 using SimplerForms;
 
@@ -46,25 +44,19 @@ namespace NameParts {
 @Meta.question(#{ id: "person/name" })
 @Meta.tag(TagName.person, TagName.name)
 @UI.label("Name")
-@Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType)
 model PersonName {
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.prefixName)
   @UI.label("Prefix")
   prefix?: Questions.People.NameParts.Prefix;
 
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.firstName)
   @UI.label("First Name")
   firstName: Questions.People.NameParts.FirstName;
 
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.middleName)
   @UI.label("Middle Name")
   middleName?: Questions.People.NameParts.MiddleName;
 
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.lastName)
   @UI.label("Last Name")
   lastName: Questions.People.NameParts.LastName;
 
-  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.suffixName)
   @UI.label("Suffix")
   suffix?: Questions.People.NameParts.Suffix;
 }

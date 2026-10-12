@@ -20,7 +20,7 @@ export async function $onEmit(
 ): Promise<void> {
   const { program, options } = context;
   const casing = options["property-casing"] ?? "preserve";
-  const direction = options["mapping-direction"] ?? "to";
+  const direction = options["mapping-direction"] ?? "from";
   const declared = mappingTargets(program);
   const emitted = new Map<Model, string>();
 
