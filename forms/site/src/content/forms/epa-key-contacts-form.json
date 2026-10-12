@@ -154,17 +154,6 @@
             },
             {
               "kind": "field",
-              "label": "County/Parish",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the County or Parish.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "authorized_representative.address.county",
-              "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:County"
-            },
-            {
-              "kind": "field",
               "label": "State",
               "dat_field": "B1-13",
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -174,17 +163,6 @@
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "authorized_representative.address.state",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:State"
-            },
-            {
-              "kind": "field",
-              "label": "Province",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the province.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "authorized_representative.address.province",
-              "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Province"
             },
             {
               "kind": "field",
@@ -390,17 +368,6 @@
             },
             {
               "kind": "field",
-              "label": "County/Parish",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the County or Parish.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "payee.address.county",
-              "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:County"
-            },
-            {
-              "kind": "field",
               "label": "State",
               "dat_field": "B2-13",
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -410,17 +377,6 @@
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "payee.address.state",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:State"
-            },
-            {
-              "kind": "field",
-              "label": "Province",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the province.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "payee.address.province",
-              "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Province"
             },
             {
               "kind": "field",
@@ -626,17 +582,6 @@
             },
             {
               "kind": "field",
-              "label": "County/Parish",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the County or Parish.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "administrative_contact.address.county",
-              "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:County"
-            },
-            {
-              "kind": "field",
               "label": "State",
               "dat_field": "B3-13",
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -646,17 +591,6 @@
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "administrative_contact.address.state",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:State"
-            },
-            {
-              "kind": "field",
-              "label": "Province",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the province.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "administrative_contact.address.province",
-              "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Province"
             },
             {
               "kind": "field",
@@ -862,17 +796,6 @@
             },
             {
               "kind": "field",
-              "label": "County/Parish",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the County or Parish.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "project_manager.address.county",
-              "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:County"
-            },
-            {
-              "kind": "field",
               "label": "State",
               "dat_field": "B4-13",
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
@@ -882,17 +805,6 @@
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "project_manager.address.state",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:State"
-            },
-            {
-              "kind": "field",
-              "label": "Province",
-              "required": false,
-              "type": "Text input",
-              "widget": "TextWidget",
-              "help_text": "Enter the province.",
-              "constraints": "minLength 1, maxLength 30",
-              "json_path": "project_manager.address.province",
-              "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Province"
             },
             {
               "kind": "field",

@@ -33,13 +33,20 @@ export interface ResolvedMapping {
 
 export interface Block {
   model: Model | Scalar;
-  kind: "question" | "form";
+  kind: "question" | "submission";
   id: string;
 }
 
-export const allBlocks = sf.allBlocks as unknown as (
+/** One `@Meta.form`, published as `forms/<id>/`, and the submission it presents. */
+export interface PublishedForm {
+  id: string;
+  model: Model;
+  submission: Block;
+}
+
+export const resolveForms = sf.resolveForms as unknown as (
   program: Program,
-) => Block[];
+) => { forms: PublishedForm[] };
 export const mappingTargets = sf.mappingTargets as unknown as (
   program: Program,
 ) => EnumMember[];
