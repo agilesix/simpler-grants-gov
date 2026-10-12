@@ -1,4 +1,5 @@
 import {
+  attributeCounts,
   categoryCounts,
   defaultCell,
   differences,
@@ -7,6 +8,7 @@ import {
   visibleDifferences,
   visibleFields,
   visibleTree,
+  type Attribute,
   type CellRef,
   type DiffType,
   type FilterKey,
@@ -19,6 +21,8 @@ export type SheetTab = "comparison" | "differences";
 /** The form's comparison, set once by the island that shows it. */
 export const $comparison = atom<FormComparison>({ children: [], fields: [] });
 export const $categoryFilter = atom<FilterKey[]>([]);
+/** Attributes the tree is narrowed to: only differences in them count. */
+export const $attributeFilter = atom<Attribute[]>([]);
 export const $selectedFieldId = atom<string | null>(null);
 export const $sheetTab = atom<SheetTab>("comparison");
 /** The cell chosen in the matrix; null shows the field's first difference. */
@@ -26,8 +30,9 @@ export const $selectedCell = atom<CellRef | null>(null);
 export const $diffTypeFilter = atom<DiffType[]>([]);
 
 export const $visibleFields = computed(
-  [$comparison, $categoryFilter],
-  (comparison, filter) => visibleFields(comparison.fields, filter),
+  [$comparison, $categoryFilter, $attributeFilter],
+  (comparison, filter, attributes) =>
+    visibleFields(comparison.fields, filter, attributes),
 );
 
 /** The plan's tree, showing only the fields the filter shows. */
@@ -37,8 +42,14 @@ export const $visibleTree = computed(
     visibleTree(comparison.children, new Set(fields.map((field) => field.id))),
 );
 
-export const $categoryCounts = computed($comparison, (comparison) =>
-  categoryCounts(comparison.fields),
+export const $categoryCounts = computed(
+  [$comparison, $attributeFilter],
+  (comparison, attributes) => categoryCounts(comparison.fields, attributes),
+);
+
+export const $attributeCounts = computed(
+  [$comparison, $categoryFilter],
+  (comparison, filter) => attributeCounts(comparison.fields, filter),
 );
 
 export const $selectedField = computed(
@@ -84,7 +95,14 @@ const toggle = <T>(list: readonly T[], item: T) =>
 export const toggleCategory = (key: FilterKey) =>
   $categoryFilter.set(toggle($categoryFilter.get(), key));
 
-export const clearCategories = () => $categoryFilter.set([]);
+export const toggleAttribute = (attribute: Attribute) =>
+  $attributeFilter.set(toggle($attributeFilter.get(), attribute));
+
+/** Clears both the category and the attribute filter. */
+export const clearCategories = () => {
+  $categoryFilter.set([]);
+  $attributeFilter.set([]);
+};
 
 /** Opens the sheet on a field, starting from its first difference with no type filter. */
 export function openField(id: string) {

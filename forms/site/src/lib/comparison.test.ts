@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  attributeCounts,
   categoryCounts,
   defaultCell,
   fieldCount,
@@ -220,5 +221,76 @@ describe("summarize", () => {
     expect(summarize(field("broken", "unrecorded"))).toMatch(
       /1 difference is not recorded/,
     );
+  });
+});
+
+describe("filtering by attribute", () => {
+  /** GAP, plus an intentional position difference from the DAT. */
+  const MOVED = {
+    ...field("moved", "match"),
+    rows: [
+      ...field("moved", "match").rows,
+      {
+        attribute: "position",
+        plan: null,
+        cells: {
+          dat: cell("intentional"),
+          xsd: cell("notCompared"),
+          form: cell("match"),
+        },
+      },
+    ],
+    counts: { gap: 0, upstream: 0, intentional: 1 },
+  } as FieldComparison;
+  const ALL = [...FIELDS, MOVED];
+
+  it("shows fields that differ in a selected attribute", () => {
+    expect(visibleFields(ALL, [], ["position"]).map((f) => f.id)).toEqual([
+      "moved",
+    ]);
+  });
+
+  it("combines attributes with categories", () => {
+    expect(
+      visibleFields(ALL, ["intentional"], ["label"]).map((f) => f.id),
+    ).toEqual(["mixed"]);
+    expect(
+      visibleFields(ALL, ["matches"], ["position"]).map((f) => f.id),
+    ).toEqual(["matching", "gap", "mixed"]);
+  });
+
+  it("counts each attribute's differences, within the selected categories", () => {
+    expect(attributeCounts(ALL)).toEqual([
+      { attribute: "label", count: 3, fields: 2 },
+      { attribute: "position", count: 1, fields: 1 },
+    ]);
+    expect(attributeCounts(ALL, ["gap"])).toEqual([
+      { attribute: "label", count: 1, fields: 1 },
+    ]);
+  });
+
+  it("counts categories within the selected attributes", () => {
+    expect(categoryCounts(ALL, ["position"]).intentional).toEqual({
+      count: 1,
+      fields: 1,
+    });
+    expect(categoryCounts(ALL, ["position"]).gap).toEqual({
+      count: 0,
+      fields: 0,
+    });
+  });
+
+  it("sums a section's badges within the selected attributes", () => {
+    const SECTION: ComparisonNode = {
+      kind: "section",
+      section: { kind: "section", label: "All" },
+      children: ALL.map((f) => ({ kind: "field", id: f.id })),
+    };
+    const byId = new Map(ALL.map((f) => [f.id, f]));
+    expect(rollupCounts(SECTION, byId, [], ["position"])).toEqual({
+      gap: 0,
+      upstream: 0,
+      intentional: 1,
+    });
   });
 });

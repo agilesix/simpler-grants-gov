@@ -123,6 +123,55 @@ $statuses: match, intentional, upstream, gap, unrecorded, notCompared;
   color: color("base-dark");
 }
 
+// Attribute chips: a quiet row under the tiles that narrows them to what differs
+.attribute-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: units("05");
+  margin-top: units(1);
+}
+
+.attribute-filter__label {
+  margin-right: units("05");
+  @include u-font("sans", "3xs");
+  color: color("base-dark");
+}
+
+.attribute-filter__chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: units("05");
+  padding: 1px units(1);
+  border: 1px solid color("base-lighter");
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  @include u-font("sans", "3xs");
+  color: color("base-darker");
+
+  &:hover {
+    border-color: color("base-light");
+  }
+
+  &[aria-pressed="true"] {
+    border-color: color("ink");
+    background: color("base-lightest");
+    color: color("ink");
+  }
+
+  &:focus-visible {
+    outline: 2px solid color("blue-40v");
+    outline-offset: 1px;
+  }
+}
+
+.attribute-filter__count {
+  font-variant-numeric: tabular-nums;
+  color: color("base-dark");
+}
+
 .deviation-tiles__clear {
   margin: units(1) 0 0;
   @include u-font("sans", "3xs");

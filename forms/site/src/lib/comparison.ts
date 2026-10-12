@@ -121,17 +121,52 @@ export function differences(field: FieldComparison): Difference[] {
 export const matchesEverySource = (field: FieldComparison) =>
   differences(field).length === 0;
 
-/** Fields any selected filter selects; every field when none is selected. */
+/** The field's differences in the selected attributes; all of them when none is selected. */
+export function differencesIn(
+  field: FieldComparison,
+  attributes: readonly Attribute[] = [],
+): Difference[] {
+  const all = differences(field);
+  return attributes.length
+    ? all.filter(({ attribute }) => attributes.includes(attribute))
+    : all;
+}
+
+/** How many of the field's differences in the selected attributes fall in each category. */
+export function countsIn(
+  field: FieldComparison,
+  attributes: readonly Attribute[] = [],
+): Record<DiffType, number> {
+  if (!attributes.length) return field.counts;
+  const counts: Record<DiffType, number> = {
+    gap: 0,
+    upstream: 0,
+    intentional: 0,
+  };
+  for (const { cell } of differencesIn(field, attributes))
+    if (isDiffType(cell.status)) counts[cell.status] += 1;
+  return counts;
+}
+
+/**
+ * Fields any selected category selects, counting only differences in the selected attributes;
+ * every field when nothing is selected. With attributes and no category, a field shows if it
+ * differs in any of them.
+ */
 export function visibleFields(
   fields: readonly FieldComparison[],
   filter: readonly FilterKey[],
+  attributes: readonly Attribute[] = [],
 ): FieldComparison[] {
-  if (!filter.length) return [...fields];
-  return fields.filter((field) =>
-    filter.some((key) =>
-      key === "matches" ? matchesEverySource(field) : field.counts[key] > 0,
-    ),
-  );
+  if (!filter.length && !attributes.length) return [...fields];
+  return fields.filter((field) => {
+    const differs = differencesIn(field, attributes).length > 0;
+    if (!filter.length) return differs;
+    const counts = countsIn(field, attributes);
+    return filter.some((key) =>
+      key === "matches" ? !differs : counts[key] > 0,
+    );
+  });
 }
 
 /** A section as the tree shows it: the fields the filter left, out of `total`. */
@@ -168,12 +203,13 @@ export function fieldCount(node: ComparisonNode): number {
 
 /**
  * The differences in every field under `node`, by category. While a filter is on, only its
- * categories are summed, so a section's badges agree with the rows the filter shows.
+ * categories and attributes are summed, so a section's badges agree with the rows it shows.
  */
 export function rollupCounts(
   node: ComparisonNode,
   fields: ReadonlyMap<string, FieldComparison>,
   filter: readonly FilterKey[] = [],
+  attributes: readonly Attribute[] = [],
 ): Record<DiffType, number> {
   const shown = filter.some((key) => key !== "matches")
     ? DIFF_TYPES.filter((type) => filter.includes(type))
@@ -184,7 +220,10 @@ export function rollupCounts(
   const visit = (n: ComparisonNode) => {
     if (n.kind === "section") return n.children.forEach(visit);
     const field = fields.get(n.id);
-    if (field) for (const type of shown) sum[type] += field.counts[type];
+    if (field) {
+      const counts = countsIn(field, attributes);
+      for (const type of shown) sum[type] += counts[type];
+    }
   };
   visit(node);
   return sum;
@@ -203,21 +242,55 @@ export function repeatLabel(node: {
   return min === max ? `${max} entries` : `${min}–${max} entries`;
 }
 
-/** For each tile: how many differences (or matching fields), and in how many fields. */
+/**
+ * For each tile: how many differences (or matching fields), and in how many fields. Only
+ * differences in the selected attributes count.
+ */
 export function categoryCounts(
   fields: readonly FieldComparison[],
+  attributes: readonly Attribute[] = [],
 ): Record<FilterKey, { count: number; fields: number }> {
-  const matching = fields.filter(matchesEverySource).length;
+  const matching = fields.filter(
+    (field) => differencesIn(field, attributes).length === 0,
+  ).length;
   const counts = { matches: { count: matching, fields: matching } } as Record<
     FilterKey,
     { count: number; fields: number }
   >;
-  for (const type of DIFF_TYPES)
+  for (const type of DIFF_TYPES) {
+    const each = fields.map((field) => countsIn(field, attributes)[type]);
     counts[type] = {
-      count: fields.reduce((sum, field) => sum + field.counts[type], 0),
-      fields: fields.filter((field) => field.counts[type] > 0).length,
+      count: each.reduce((sum, n) => sum + n, 0),
+      fields: each.filter((n) => n > 0).length,
     };
+  }
   return counts;
+}
+
+/**
+ * For each attribute that differs anywhere: how many differences, and in how many fields. While
+ * a category is selected, only its differences count.
+ */
+export function attributeCounts(
+  fields: readonly FieldComparison[],
+  filter: readonly FilterKey[] = [],
+): { attribute: Attribute; count: number; fields: number }[] {
+  const types = DIFF_TYPES.filter((type) => filter.includes(type));
+  const counted = (d: Difference) =>
+    !types.length ||
+    (isDiffType(d.cell.status) && types.includes(d.cell.status));
+  return (Object.keys(ATTRIBUTE_LABELS) as Attribute[])
+    .map((attribute) => {
+      const each = fields.map(
+        (field) => differencesIn(field, [attribute]).filter(counted).length,
+      );
+      return {
+        attribute,
+        count: each.reduce((sum, n) => sum + n, 0),
+        fields: each.filter((n) => n > 0).length,
+      };
+    })
+    .filter(({ count }) => count > 0);
 }
 
 /** The cell selected when a field opens: its first difference, if it has one. */

@@ -1,5 +1,6 @@
 import { FILTER_KEYS } from "@/lib/comparison";
 import {
+  $attributeFilter,
   $categoryFilter,
   $comparison,
   $visibleFields,
@@ -7,11 +8,14 @@ import {
 } from "@/stores/fieldComparison";
 import { useStore } from "@nanostores/react";
 
+import AttributeFilter from "./AttributeFilter";
 import DeviationTile from "./DeviationTile";
 
-/** The filter tiles above the field tree, and a way back to every field. */
+/** The filter tiles and attribute chips above the field tree, and a way back to every field. */
 export default function DeviationTiles() {
-  const filtering = useStore($categoryFilter).length > 0;
+  const categories = useStore($categoryFilter);
+  const attributes = useStore($attributeFilter);
+  const filtering = categories.length > 0 || attributes.length > 0;
   const shown = useStore($visibleFields).length;
   const total = useStore($comparison).fields.length;
   return (
@@ -25,6 +29,7 @@ export default function DeviationTiles() {
           <DeviationTile key={key} filterKey={key} />
         ))}
       </div>
+      <AttributeFilter />
       {filtering && (
         <p className="deviation-tiles__clear">
           <button
