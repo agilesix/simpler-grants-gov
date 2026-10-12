@@ -21,14 +21,13 @@ enum NSFProjectRole {
 @pattern("[0-9A-Z]{9}")
 scalar NSFID extends string;
 
-// The PD/PI's and each senior/key person's profiles are different XSD types that differ in
-// one field: the organization's name, or its UEI.
-
-/** The PD/PI's profile. */
-model NSFPrincipalInvestigatorProfile {
+/**
+ * What the PD/PI's and each senior/key person's profiles share. They are different XSD
+ * types that differ in one field: the organization's name, or its UEI.
+ */
+model NSFProfileBase {
   name: Questions.People.PersonName;
   title?: Questions.People.PersonTitle;
-  organizationName?: Questions.Organizations.OrgName;
   department?: Questions.Organizations.OrgDepartment;
   division?: Questions.Organizations.OrgDivision;
   address: Questions.People.PersonAddress;
@@ -43,23 +42,16 @@ model NSFPrincipalInvestigatorProfile {
   synergisticActivities: Questions.Research.SynergisticActivities;
 }
 
+/** The PD/PI's profile, which names the organization. */
+model NSFPrincipalInvestigatorProfile {
+  ...NSFProfileBase;
+  organizationName?: Questions.Organizations.OrgName;
+}
+
 /** A senior/key person's profile, which gives the organization's UEI instead of its name. */
 model NSFSeniorKeyPersonProfile {
-  name: Questions.People.PersonName;
-  title?: Questions.People.PersonTitle;
+  ...NSFProfileBase;
   organizationUei?: Questions.Organizations.OrgUei;
-  department?: Questions.Organizations.OrgDepartment;
-  division?: Questions.Organizations.OrgDivision;
-  address: Questions.People.PersonAddress;
-  phone: Questions.People.PersonPhoneNumber;
-  fax?: Questions.People.PersonFaxNumber;
-  email: Questions.People.PersonEmail;
-  projectRole: NSFProjectRole;
-  nsfId?: NSFID;
-  biographicalSketch: Questions.Research.BiographicalSketch;
-  currentPendingSupport: Questions.Research.CurrentPendingSupport;
-  collaborators: Questions.Research.Collaborators;
-  synergisticActivities: Questions.Research.SynergisticActivities;
 }
 
 /** A person on the form, holding their profile as the XSD's `Profile` element does. */
