@@ -10,6 +10,11 @@ using SimplerForms;
 /** GlobalLibrary-V2.0.xsd: the data types every Grants.gov form shares. */
 namespace XSD.GlobLib;
 
+alias grantsGovXml = Mappings.Target.grantsGovXml;
+alias PersonName = Questions.People.PersonName;
+alias Address = Questions.Types.Address;
+alias Person = Questions.People.Person;
+
 @nsDeclarations
 enum Namespaces {
   globLib: "http://apply.grants.gov/system/GlobalLibrary-V2.0",
@@ -19,52 +24,87 @@ enum Namespaces {
 /** `globLib:HumanNameDataType` */
 @ns(Namespaces.globLib)
 model HumanNameDataType {
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.PersonName.prefix)
-  @name("PrefixName") prefixName?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.PersonName.firstName)
-  @name("FirstName") firstName: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.PersonName.middleName)
-  @name("MiddleName") middleName?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.PersonName.lastName)
-  @name("LastName") lastName: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.PersonName.suffix)
-  @name("SuffixName") suffixName?: string;
+  @Mapping.from(grantsGovXml, PersonName.prefix)
+  @name("PrefixName")
+  prefixName?: string;
+
+  @Mapping.from(grantsGovXml, PersonName.firstName)
+  @name("FirstName")
+  firstName: string;
+
+  @Mapping.from(grantsGovXml, PersonName.middleName)
+  @name("MiddleName")
+  middleName?: string;
+
+  @Mapping.from(grantsGovXml, PersonName.lastName)
+  @name("LastName")
+  lastName: string;
+
+  @Mapping.from(grantsGovXml, PersonName.suffix)
+  @name("SuffixName")
+  suffixName?: string;
 }
 
 /** `globLib:AddressDataTypeV3`. State and Province are an `xs:choice`. */
 @ns(Namespaces.globLib)
 model AddressDataTypeV3 {
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.street1)
-  @name("Street1") street1: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.street2)
-  @name("Street2") street2?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.city)
-  @name("City") city: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.county)
-  @name("County") county?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.state)
-  @name("State") state?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.province)
-  @name("Province") province?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.zipCode)
-  @name("ZipPostalCode") zipPostalCode?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.Types.Address.country)
-  @name("Country") country: string;
+  @Mapping.from(grantsGovXml, Address.street1)
+  @name("Street1")
+  street1: string;
+
+  @Mapping.from(grantsGovXml, Address.street2)
+  @name("Street2")
+  street2?: string;
+
+  @Mapping.from(grantsGovXml, Address.city)
+  @name("City")
+  city: string;
+
+  @Mapping.from(grantsGovXml, Address.county)
+  @name("County")
+  county?: string;
+
+  @Mapping.from(grantsGovXml, Address.state)
+  @name("State")
+  state?: string;
+
+  @Mapping.from(grantsGovXml, Address.province)
+  @name("Province")
+  province?: string;
+
+  @Mapping.from(grantsGovXml, Address.zipCode)
+  @name("ZipPostalCode")
+  zipPostalCode?: string;
+
+  @Mapping.from(grantsGovXml, Address.country)
+  @name("Country")
+  country: string;
 }
 
 /** `globLib:ContactPersonDataTypeV3` */
 @ns(Namespaces.globLib)
 model ContactPersonDataTypeV3 {
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.Person.name)
-  @name("Name") name: HumanNameDataType;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.Person.title)
-  @name("Title") title?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.Person.address)
-  @name("Address") address: AddressDataTypeV3;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.Person.phone)
-  @name("Phone") phone?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.Person.fax)
-  @name("Fax") fax?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Questions.People.Person.email)
-  @name("Email") email?: string;
+  @Mapping.from(grantsGovXml, Person.name)
+  @name("Name")
+  name: HumanNameDataType;
+
+  @Mapping.from(grantsGovXml, Person.title)
+  @name("Title")
+  title?: string;
+
+  @Mapping.from(grantsGovXml, Person.address)
+  @name("Address")
+  address: AddressDataTypeV3;
+
+  @Mapping.from(grantsGovXml, Person.phone)
+  @name("Phone")
+  phone?: string;
+
+  @Mapping.from(grantsGovXml, Person.fax)
+  @name("Fax")
+  fax?: string;
+
+  @Mapping.from(grantsGovXml, Person.email)
+  @name("Email")
+  email?: string;
 }

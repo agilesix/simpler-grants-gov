@@ -11,6 +11,11 @@ using SimplerForms;
 /** Key_Contacts_2_0-V2.0.xsd */
 namespace XSD.KeyContacts20;
 
+alias grantsGovXml = Mappings.Target.grantsGovXml;
+alias KeyContacts = Forms.KeyContacts.KeyContacts;
+alias KeyContact = Forms.KeyContacts.KeyContact;
+alias GlobLib = XSD.GlobLib;
+
 @nsDeclarations
 enum Namespaces {
   Key_Contacts_2_0: "http://apply.grants.gov/forms/Key_Contacts_2_0-V2.0",
@@ -21,31 +26,51 @@ enum Namespaces {
 @name("Key_Contacts_2_0")
 @ns(Namespaces.Key_Contacts_2_0)
 @GrantsGov.xsd("https://apply07.grants.gov/apply/forms/schemas/Key_Contacts_2_0-V2.0.xsd")
-@Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContacts)
+@Mapping.from(grantsGovXml, KeyContacts)
 model Root {
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContacts.applicantOrganizationName)
-  @name("ApplicantOrganizationName") applicantOrganizationName: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContacts.keyContacts)
-  @name("RoleOnProject") @maxItems(4) roleOnProject: RoleOnProject[];
+  @Mapping.from(grantsGovXml, KeyContacts.applicantOrganizationName)
+  @name("ApplicantOrganizationName")
+  applicantOrganizationName: string;
+
+  @Mapping.from(grantsGovXml, KeyContacts.keyContacts)
+  @name("RoleOnProject")
+  @maxItems(4)
+  roleOnProject: RoleOnProject[];
+
   @attribute @name("FormVersion") formVersion: "2.0";
 }
 
 @ns(Namespaces.Key_Contacts_2_0)
 model RoleOnProject {
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.projectRole)
-  @name("ContactProjectRole") contactProjectRole: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.name)
-  @name("ContactName") contactName: XSD.GlobLib.HumanNameDataType;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.title)
-  @name("ContactTitle") contactTitle?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.organizationalAffiliation)
-  @name("ContactOrganizationalAffiliation") contactOrganizationalAffiliation?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.address)
-  @name("ContactAddress") contactAddress: XSD.GlobLib.AddressDataTypeV3;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.phone)
-  @name("ContactPhone") contactPhone: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.fax)
-  @name("ContactFax") contactFax?: string;
-  @Mapping.from(Mappings.Target.grantsGovXml, Forms.KeyContacts.KeyContact.email)
-  @name("ContactEmail") contactEmail: string;
+  @Mapping.from(grantsGovXml, KeyContact.projectRole)
+  @name("ContactProjectRole")
+  contactProjectRole: string;
+
+  @Mapping.from(grantsGovXml, KeyContact.name)
+  @name("ContactName")
+  contactName: GlobLib.HumanNameDataType;
+
+  @Mapping.from(grantsGovXml, KeyContact.title)
+  @name("ContactTitle")
+  contactTitle?: string;
+
+  @Mapping.from(grantsGovXml, KeyContact.organizationalAffiliation)
+  @name("ContactOrganizationalAffiliation")
+  contactOrganizationalAffiliation?: string;
+
+  @Mapping.from(grantsGovXml, KeyContact.address)
+  @name("ContactAddress")
+  contactAddress: GlobLib.AddressDataTypeV3;
+
+  @Mapping.from(grantsGovXml, KeyContact.phone)
+  @name("ContactPhone")
+  contactPhone: string;
+
+  @Mapping.from(grantsGovXml, KeyContact.fax)
+  @name("ContactFax")
+  contactFax?: string;
+
+  @Mapping.from(grantsGovXml, KeyContact.email)
+  @name("ContactEmail")
+  contactEmail: string;
 }
