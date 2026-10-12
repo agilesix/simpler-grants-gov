@@ -1,8 +1,10 @@
 import "simpler-forms";
-import "#questions/index.tsp";
-import "./codes.tsp";
+
 import "#mapping/targets.tsp";
+import "#questions/index.tsp";
 import "#xsd/global-library.tsp";
+
+import "./codes.tsp";
 
 using SimplerForms;
 

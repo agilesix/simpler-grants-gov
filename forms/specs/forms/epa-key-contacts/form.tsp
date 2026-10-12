@@ -1,7 +1,9 @@
 import "simpler-forms";
+
 import "#forms/index.tsp";
-import "#questions/person/index.tsp";
 import "#mapping/targets.tsp";
+import "#questions/person/index.tsp";
+
 import "./xsd.tsp";
 
 using SimplerForms;

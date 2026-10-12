@@ -1,9 +1,11 @@
 import "@typespec/xml";
-import "./form.tsp";
-import "#mapping/targets.tsp";
-import "simpler-forms";
 import "form-library-xml";
+import "simpler-forms";
+
+import "#mapping/targets.tsp";
 import "#xsd/global-library.tsp";
+
+import "./form.tsp";
 
 using TypeSpec.Xml;
 using SimplerForms;

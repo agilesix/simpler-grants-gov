@@ -1,8 +1,9 @@
 import "@typespec/xml";
-import "#questions/types/address.tsp";
-import "#questions/person/index.tsp";
-import "#mapping/targets.tsp";
 import "simpler-forms";
+
+import "#mapping/targets.tsp";
+import "#questions/person/index.tsp";
+import "#questions/types/address.tsp";
 
 using TypeSpec.Xml;
 using SimplerForms;

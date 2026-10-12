@@ -1,12 +1,14 @@
 import "simpler-forms";
+
+import "#mapping/targets.tsp";
 import "#questions/index.tsp";
 import "#questions/types/address.tsp";
 import "#questions/types/codes.tsp";
 import "#questions/types/contact-info.tsp";
+import "#xsd/global-library.tsp";
+
 import "./name.tsp";
 import "./title.tsp";
-import "#mapping/targets.tsp";
-import "#xsd/global-library.tsp";
 
 using SimplerForms;
 
