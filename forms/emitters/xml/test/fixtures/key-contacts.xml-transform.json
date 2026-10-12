@@ -132,21 +132,19 @@
           }
         }
       },
-      "contact": {
-        "phone": {
-          "xml_transform": {
-            "target": "ContactPhone"
-          }
-        },
-        "fax": {
-          "xml_transform": {
-            "target": "ContactFax"
-          }
-        },
-        "email": {
-          "xml_transform": {
-            "target": "ContactEmail"
-          }
+      "phone": {
+        "xml_transform": {
+          "target": "ContactPhone"
+        }
+      },
+      "fax": {
+        "xml_transform": {
+          "target": "ContactFax"
+        }
+      },
+      "email": {
+        "xml_transform": {
+          "target": "ContactEmail"
         }
       }
     }

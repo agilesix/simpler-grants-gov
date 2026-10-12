@@ -41,7 +41,7 @@ namespace NameParts {
   scalar Suffix extends string;
 }
 
-/** A person's name, in five parts. */
+/** A person's name, in five parts. `HumanNameDataType` requires the first and last name. */
 @Meta.question(#{ id: "person/name" })
 @Meta.tag(TagName.person, TagName.name)
 @UI.label("Name")
@@ -53,7 +53,7 @@ model PersonName {
 
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.firstName)
   @UI.label("First Name")
-  firstName?: Questions.People.NameParts.FirstName;
+  firstName: Questions.People.NameParts.FirstName;
 
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.middleName)
   @UI.label("Middle Name")
@@ -61,7 +61,7 @@ model PersonName {
 
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.lastName)
   @UI.label("Last Name")
-  lastName?: Questions.People.NameParts.LastName;
+  lastName: Questions.People.NameParts.LastName;
 
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.HumanNameDataType.suffixName)
   @UI.label("Suffix")

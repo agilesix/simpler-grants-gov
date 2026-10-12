@@ -19,6 +19,16 @@ model EPAContact {
     title: Questions.People.Person.title;
   };
 
+  address: Questions.People.Person.address;
+
+  /** Enter the contact's phone, fax and email. Phone is required. */
+  @UI.label("Contact Information")
+  contact: {
+    phone: Questions.People.Person.phone;
+    fax: Questions.People.Person.fax;
+    email: Questions.People.Person.email;
+  };
+
   @UI.omit county: Questions.People.Person.address::type.county;
   @UI.omit province: Questions.People.Person.address::type.province;
 }

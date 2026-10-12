@@ -121,13 +121,13 @@ const help: Record<string, Pinned> = {
     source:
       "Enter the Postal Code (e.g., ZIP code). This field is required if Country is the United States.",
   },
-  // key_contacts[].contact.phone
+  // key_contacts[].phone
   "7-18": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Enter the daytime Telephone Number. This field is required.",
   },
-  // key_contacts[].contact.email
+  // key_contacts[].email
   "7-20": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",

@@ -200,7 +200,6 @@
         {
           "kind": "section",
           "label": "Contact Info",
-          "json_path": "authorized_representative.contact",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -212,7 +211,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the daytime Telephone Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "authorized_representative.contact.phone",
+              "json_path": "authorized_representative.phone",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Phone"
             },
             {
@@ -224,7 +223,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the Fax Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "authorized_representative.contact.fax",
+              "json_path": "authorized_representative.fax",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Fax"
             },
             {
@@ -236,7 +235,7 @@
               "widget": "TextWidget",
               "help_text": "Enter a valid email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
-              "json_path": "authorized_representative.contact.email",
+              "json_path": "authorized_representative.email",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Email"
             }
           ]
@@ -421,7 +420,6 @@
         {
           "kind": "section",
           "label": "Contact Info",
-          "json_path": "payee.contact",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -433,7 +431,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the daytime Telephone Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "payee.contact.phone",
+              "json_path": "payee.phone",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Phone"
             },
             {
@@ -445,7 +443,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the Fax Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "payee.contact.fax",
+              "json_path": "payee.fax",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Fax"
             },
             {
@@ -457,7 +455,7 @@
               "widget": "TextWidget",
               "help_text": "Enter a valid email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
-              "json_path": "payee.contact.email",
+              "json_path": "payee.email",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Email"
             }
           ]
@@ -642,7 +640,6 @@
         {
           "kind": "section",
           "label": "Contact Info",
-          "json_path": "administrative_contact.contact",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -654,7 +651,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the daytime Telephone Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "administrative_contact.contact.phone",
+              "json_path": "administrative_contact.phone",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Phone"
             },
             {
@@ -666,7 +663,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the Fax Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "administrative_contact.contact.fax",
+              "json_path": "administrative_contact.fax",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Fax"
             },
             {
@@ -678,7 +675,7 @@
               "widget": "TextWidget",
               "help_text": "Enter a valid email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
-              "json_path": "administrative_contact.contact.email",
+              "json_path": "administrative_contact.email",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Email"
             }
           ]
@@ -863,7 +860,6 @@
         {
           "kind": "section",
           "label": "Contact Info",
-          "json_path": "project_manager.contact",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -875,7 +871,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the daytime Telephone Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "project_manager.contact.phone",
+              "json_path": "project_manager.phone",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Phone"
             },
             {
@@ -887,7 +883,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the Fax Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "project_manager.contact.fax",
+              "json_path": "project_manager.fax",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Fax"
             },
             {
@@ -899,7 +895,7 @@
               "widget": "TextWidget",
               "help_text": "Enter a valid email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
-              "json_path": "project_manager.contact.email",
+              "json_path": "project_manager.email",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Email"
             }
           ]

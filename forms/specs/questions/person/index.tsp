@@ -26,16 +26,12 @@ model PersonAddress is Questions.Types.Address;
  */
 @Meta.question(#{ id: "person" })
 @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3)
-@Mapping.path(Mappings.Target.grantsGovXml, "contact.phone", XSD.GlobLib.ContactPersonDataTypeV3.phone)
-@Mapping.path(Mappings.Target.grantsGovXml, "contact.fax", XSD.GlobLib.ContactPersonDataTypeV3.fax)
-@Mapping.path(Mappings.Target.grantsGovXml, "contact.email", XSD.GlobLib.ContactPersonDataTypeV3.email)
 @Meta.tag(TagName.person, TagName.details)
 @UI.label("Contact Person")
 @example(Questions.People.Examples.usContact)
 model Person {
   /** Enter the contact's name. First and last name are required. */
   @UI.label("Name")
-  @Validation.requiredPaths("firstName", "lastName")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.name)
   name: Questions.People.PersonName;
 
@@ -46,16 +42,25 @@ model Person {
 
   /** Enter the contact's complete address. */
   @UI.label("Address")
-  @Validation.requiredPaths("street1", "city", "country")
-  @Validation.requiredPathWhen("state", "country", Questions.Types.CountryCode.USA)
-  @Validation.requiredPathWhen("zipCode", "country", Questions.Types.CountryCode.USA)
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.address)
   address: Questions.People.PersonAddress;
 
-  /** Enter the contact's phone, fax and email. Phone is required. */
-  @UI.label("Contact Information")
-  @Validation.requiredPaths("phone")
-  contact: Questions.Types.ContactInfo;
+  // `ContactPersonDataTypeV3` makes the phone optional; the forms that ask for a contact
+  // person require it.
+  /** Enter the daytime Telephone Number. */
+  @UI.label("Phone Number")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.phone)
+  phone: Questions.Types.PhoneNumber;
+
+  /** Enter the Fax Number. */
+  @UI.label("Fax Number")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.fax)
+  fax?: Questions.Types.PhoneNumber;
+
+  /** Enter a valid email Address. */
+  @UI.label("Email")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.ContactPersonDataTypeV3.email)
+  email?: Questions.Types.EmailAddress;
 }
 
 /** Sample people, type-checked against `Person` and reused by the forms' examples. */
@@ -70,7 +75,8 @@ namespace Examples {
       zipCode: "80202-1234",
       country: Questions.Types.CountryCode.USA,
     },
-    contact: #{ phone: "3035550100", email: "alicia.reyes@example.org" },
+    phone: "3035550100",
+    email: "alicia.reyes@example.org",
   };
 
   const usContactNoEmail: Questions.People.Person = #{
@@ -84,7 +90,8 @@ namespace Examples {
       zipCode: "80202-1234",
       country: Questions.Types.CountryCode.USA,
     },
-    contact: #{ phone: "3035550101", fax: "3035550199" },
+    phone: "3035550101",
+    fax: "3035550199",
   };
 
   const internationalContact: Questions.People.Person = #{
@@ -96,6 +103,7 @@ namespace Examples {
       province: "Montevideo",
       country: Questions.Types.CountryCode.URY,
     },
-    contact: #{ phone: "1234567890", email: "tom.okafor@example.edu" },
+    phone: "1234567890",
+    email: "tom.okafor@example.edu",
   };
 }

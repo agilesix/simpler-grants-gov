@@ -98,18 +98,18 @@ describe("validation rules", () => {
   it("requires a key contact's email", async () => {
     const { schema, example } = await loadFormSpec("key-contacts");
     const data = clone(example) as {
-      key_contacts: { contact: Record<string, string> }[];
+      key_contacts: Record<string, unknown>[];
     };
-    delete data.key_contacts[0].contact.email;
+    delete data.key_contacts[0].email;
     expect(createAjv().compile(schema)(data)).toBe(false);
   });
 
   it("does not require an EPA contact's email", async () => {
     const { schema, example } = await loadFormSpec("epa-key-contacts");
     const data = clone(example) as {
-      payee: { contact: Record<string, string> };
+      payee: Record<string, unknown>;
     };
-    expect(data.payee.contact.email).toBeUndefined();
+    expect(data.payee.email).toBeUndefined();
     expect(createAjv().compile(schema)(data)).toBe(true);
   });
 });

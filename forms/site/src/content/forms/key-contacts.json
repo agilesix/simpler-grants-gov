@@ -268,7 +268,6 @@
         {
           "kind": "section",
           "label": "Contact Info",
-          "json_path": "key_contacts[].contact",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -280,7 +279,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the daytime Telephone Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "key_contacts[].contact.phone",
+              "json_path": "key_contacts[].phone",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactPhone"
             },
             {
@@ -292,7 +291,7 @@
               "widget": "TextWidget",
               "help_text": "Enter the Fax Number.",
               "constraints": "minLength 1, maxLength 25",
-              "json_path": "key_contacts[].contact.fax",
+              "json_path": "key_contacts[].fax",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactFax"
             },
             {
@@ -304,7 +303,7 @@
               "widget": "TextWidget",
               "help_text": "Enter a valid email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
-              "json_path": "key_contacts[].contact.email",
+              "json_path": "key_contacts[].email",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactEmail"
             }
           ]

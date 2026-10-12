@@ -119,24 +119,22 @@
         }
       }
     },
-    "contact": {
-      "phone": {
-        "xml_transform": {
-          "target": "Phone",
-          "namespace": "globLib"
-        }
-      },
-      "fax": {
-        "xml_transform": {
-          "target": "Fax",
-          "namespace": "globLib"
-        }
-      },
-      "email": {
-        "xml_transform": {
-          "target": "Email",
-          "namespace": "globLib"
-        }
+    "phone": {
+      "xml_transform": {
+        "target": "Phone",
+        "namespace": "globLib"
+      }
+    },
+    "fax": {
+      "xml_transform": {
+        "target": "Fax",
+        "namespace": "globLib"
+      }
+    },
+    "email": {
+      "xml_transform": {
+        "target": "Email",
+        "namespace": "globLib"
       }
     }
   },
@@ -243,24 +241,22 @@
         }
       }
     },
-    "contact": {
-      "phone": {
-        "xml_transform": {
-          "target": "Phone",
-          "namespace": "globLib"
-        }
-      },
-      "fax": {
-        "xml_transform": {
-          "target": "Fax",
-          "namespace": "globLib"
-        }
-      },
-      "email": {
-        "xml_transform": {
-          "target": "Email",
-          "namespace": "globLib"
-        }
+    "phone": {
+      "xml_transform": {
+        "target": "Phone",
+        "namespace": "globLib"
+      }
+    },
+    "fax": {
+      "xml_transform": {
+        "target": "Fax",
+        "namespace": "globLib"
+      }
+    },
+    "email": {
+      "xml_transform": {
+        "target": "Email",
+        "namespace": "globLib"
       }
     }
   },
@@ -367,24 +363,22 @@
         }
       }
     },
-    "contact": {
-      "phone": {
-        "xml_transform": {
-          "target": "Phone",
-          "namespace": "globLib"
-        }
-      },
-      "fax": {
-        "xml_transform": {
-          "target": "Fax",
-          "namespace": "globLib"
-        }
-      },
-      "email": {
-        "xml_transform": {
-          "target": "Email",
-          "namespace": "globLib"
-        }
+    "phone": {
+      "xml_transform": {
+        "target": "Phone",
+        "namespace": "globLib"
+      }
+    },
+    "fax": {
+      "xml_transform": {
+        "target": "Fax",
+        "namespace": "globLib"
+      }
+    },
+    "email": {
+      "xml_transform": {
+        "target": "Email",
+        "namespace": "globLib"
       }
     }
   },
@@ -491,24 +485,22 @@
         }
       }
     },
-    "contact": {
-      "phone": {
-        "xml_transform": {
-          "target": "Phone",
-          "namespace": "globLib"
-        }
-      },
-      "fax": {
-        "xml_transform": {
-          "target": "Fax",
-          "namespace": "globLib"
-        }
-      },
-      "email": {
-        "xml_transform": {
-          "target": "Email",
-          "namespace": "globLib"
-        }
+    "phone": {
+      "xml_transform": {
+        "target": "Phone",
+        "namespace": "globLib"
+      }
+    },
+    "fax": {
+      "xml_transform": {
+        "target": "Fax",
+        "namespace": "globLib"
+      }
+    },
+    "email": {
+      "xml_transform": {
+        "target": "Email",
+        "namespace": "globLib"
       }
     }
   }

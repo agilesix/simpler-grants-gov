@@ -131,19 +131,19 @@ const help: Record<string, Pinned> = {
     source:
       "Please enter the Authorized Representative's Country. Select from the pull down menu.",
   },
-  // authorized_representative.contact.phone
+  // authorized_representative.phone
   "B1-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Authorized Representative's Phone Number.",
   },
-  // authorized_representative.contact.fax
+  // authorized_representative.fax
   "B1-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Authorized Representative's Fax Number.",
   },
-  // authorized_representative.contact.email
+  // authorized_representative.email
   "B1-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -223,19 +223,19 @@ const help: Record<string, Pinned> = {
     plan: "Enter the country.",
     source: "Please enter the Payee's Country. Select from the pull down menu.",
   },
-  // payee.contact.phone
+  // payee.phone
   "B2-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Payee's Phone Number.",
   },
-  // payee.contact.fax
+  // payee.fax
   "B2-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Payee's Fax Number.",
   },
-  // payee.contact.email
+  // payee.email
   "B2-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -319,19 +319,19 @@ const help: Record<string, Pinned> = {
     source:
       "Please enter the Administrative Contact's Country. Select from the pull down menu.",
   },
-  // administrative_contact.contact.phone
+  // administrative_contact.phone
   "B3-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Administrative Contact's Phone Number.",
   },
-  // administrative_contact.contact.fax
+  // administrative_contact.fax
   "B3-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Administrative Contact's Fax Number.",
   },
-  // administrative_contact.contact.email
+  // administrative_contact.email
   "B3-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",
@@ -415,19 +415,19 @@ const help: Record<string, Pinned> = {
     source:
       "Please enter the Project Manager's Country. Select from the pull down menu.",
   },
-  // project_manager.contact.phone
+  // project_manager.phone
   "B4-16": {
     ...SHARED_HELP,
     plan: "Enter the daytime Telephone Number.",
     source: "Please enter the Project Manager's Phone Number.",
   },
-  // project_manager.contact.fax
+  // project_manager.fax
   "B4-17": {
     ...SHARED_HELP,
     plan: "Enter the Fax Number.",
     source: "Please enter the Project Manager's Fax Number.",
   },
-  // project_manager.contact.email
+  // project_manager.email
   "B4-18": {
     ...SHARED_HELP,
     plan: "Enter a valid email Address.",

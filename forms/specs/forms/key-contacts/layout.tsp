@@ -25,5 +25,16 @@ model KeyContactsLayout {
       title: Forms.KeyContacts.KeyContact.title;
       organizationalAffiliation: Forms.KeyContacts.KeyContact.organizationalAffiliation;
     };
+
+    name: Forms.KeyContacts.KeyContact.name;
+    address: Forms.KeyContacts.KeyContact.address;
+
+    /** Enter the contact's phone, fax and email. Phone and email are required. */
+    @UI.label("Contact Information")
+    contact: {
+      phone: Forms.KeyContacts.KeyContact.phone;
+      fax: Forms.KeyContacts.KeyContact.fax;
+      email: Forms.KeyContacts.KeyContact.email;
+    };
   };
 }

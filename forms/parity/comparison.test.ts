@@ -50,10 +50,10 @@ describe("Key Contacts", () => {
   });
 
   describe("Phone Number", () => {
-    it("form matches it by its path in the Contact Info group", () => {
-      expect(
-        statusOf(form, "key_contacts[].contact.phone", "matchedBy", "form"),
-      ).toBe("match");
+    it("form matches it by its path in the key contact", () => {
+      expect(statusOf(form, "key_contacts[].phone", "matchedBy", "form")).toBe(
+        "match",
+      );
     });
   });
 

@@ -3,7 +3,6 @@ import "../index.tsp";
 
 using SimplerForms;
 
-// Leaves map to globLib Phone, Fax and Email, grouped so a contact stays shallow.
 namespace Questions.Types;
 
 /** A telephone or fax number. */
@@ -24,20 +23,3 @@ scalar PhoneNumber extends string;
 @minLength(1)
 @maxLength(60)
 scalar EmailAddress extends string;
-
-/** The ways to reach someone. */
-@Meta.question(#{ id: "types/contact-info" })
-@UI.label("Contact Information")
-model ContactInfo {
-  /** Enter the daytime Telephone Number. */
-  @UI.label("Phone Number")
-  phone?: Questions.Types.PhoneNumber;
-
-  /** Enter the Fax Number. */
-  @UI.label("Fax Number")
-  fax?: Questions.Types.PhoneNumber;
-
-  /** Enter a valid email Address. */
-  @UI.label("Email")
-  email?: Questions.Types.EmailAddress;
-}

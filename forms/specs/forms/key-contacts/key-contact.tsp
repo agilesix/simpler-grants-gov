@@ -18,54 +18,56 @@ namespace Forms.KeyContacts;
 scalar ProjectRole extends string;
 
 /**
- * A contact person named for their role on the project (Key Contacts `RoleOnProject`).
+ * A contact person named for their role on the project: Key Contacts `RoleOnProject`.
  *
- * The same globLib leaves as `Person`, plus a free-text role and an affiliation, and the
- * email is required.
+ * The same questions as `Person`, plus a free-text role and an affiliation, and the email is
+ * required. Fields are declared in the order the form asks them.
  */
 @Meta.question(#{ id: "person/key-contact" })
 @Meta.tag(TagName.person, TagName.role)
 @UI.label("Key Contact")
 @example(Forms.KeyContacts.Examples.principalInvestigator)
-// `name`, `title` and `address` come from `Person` by spread, bringing its links to
-// `ContactPersonDataTypeV3`; the paths here point them into `RoleOnProject` instead.
-// `contact` has no element of its own in `RoleOnProject`: its fields are flattened into it.
 @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject)
-@Mapping.path(Mappings.Target.grantsGovXml, "name", XSD.KeyContacts20.RoleOnProject.contactName)
-@Mapping.path(Mappings.Target.grantsGovXml, "title", XSD.KeyContacts20.RoleOnProject.contactTitle)
-@Mapping.path(Mappings.Target.grantsGovXml, "address", XSD.KeyContacts20.RoleOnProject.contactAddress)
-@Mapping.path(Mappings.Target.grantsGovXml, "contact.phone", XSD.KeyContacts20.RoleOnProject.contactPhone)
-@Mapping.path(Mappings.Target.grantsGovXml, "contact.fax", XSD.KeyContacts20.RoleOnProject.contactFax)
-@Mapping.path(Mappings.Target.grantsGovXml, "contact.email", XSD.KeyContacts20.RoleOnProject.contactEmail)
-@UI.order(
-  KeyContact.projectRole,
-  KeyContact.name,
-  KeyContact.title,
-  KeyContact.organizationalAffiliation,
-  KeyContact.address,
-  KeyContact.contact
-)
 model KeyContact {
   /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
   @UI.label("Project Role")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactProjectRole)
   projectRole: Forms.KeyContacts.ProjectRole;
 
-  ...OmitProperties<Questions.People.Person, "contact">;
+  /** Enter the contact's name. First and last name are required. */
+  @UI.label("Name")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactName)
+  name: Questions.People.PersonName;
+
+  /** Enter the contact's position title. */
+  @UI.label("Title")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactTitle)
+  title?: Questions.People.ContactTitle;
 
   /** Enter the contact's organizational affiliation. */
   @UI.label("Organizational Affiliation")
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactOrganizationalAffiliation)
   organizationalAffiliation?: Questions.Organizations.OrganizationName;
 
-  // Redeclared rather than tightened with a model-level `@Validation.requiredPaths("contact.email")`:
-  // in simpler-forms 0.1.0-alpha.1 that replaces the model's `required` list instead of adding to it.
-  // TODO: switch to the model-level decorator once
-  // https://github.com/agilesix/simpler-forms/issues/5 is released.
-  /** Enter the contact's phone, fax and email. Phone and email are required. */
-  @UI.label("Contact Information")
-  @Validation.requiredPaths("phone", "email")
-  contact: Questions.Types.ContactInfo;
+  /** Enter the contact's complete address. */
+  @UI.label("Address")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactAddress)
+  address: Questions.People.PersonAddress;
+
+  /** Enter the daytime Telephone Number. */
+  @UI.label("Phone Number")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactPhone)
+  phone: Questions.Types.PhoneNumber;
+
+  /** Enter the Fax Number. */
+  @UI.label("Fax Number")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactFax)
+  fax?: Questions.Types.PhoneNumber;
+
+  /** Enter a valid email Address. */
+  @UI.label("Email")
+  @Mapping.to(Mappings.Target.grantsGovXml, XSD.KeyContacts20.RoleOnProject.contactEmail)
+  email: Questions.Types.EmailAddress;
 }
 
 /** Sample key contacts, type-checked against `KeyContact` and reused by the form's example. */
@@ -89,7 +91,9 @@ namespace Examples {
       zipCode: "56789-1234",
       country: Questions.Types.CountryCode.USA,
     },
-    contact: #{ phone: "1234567890", fax: "1112223333", email: "example@example.com" },
+    phone: "1234567890",
+    fax: "1112223333",
+    email: "example@example.com",
   };
 
   const projectManager: Forms.KeyContacts.KeyContact = #{
@@ -101,6 +105,7 @@ namespace Examples {
       province: "Montevideo",
       country: Questions.Types.CountryCode.URY,
     },
-    contact: #{ phone: "1234567890", email: "person@place.com" },
+    phone: "1234567890",
+    email: "person@place.com",
   };
 }

@@ -50,16 +50,20 @@ namespace AddressParts {
 // State and Province are alternatives, not independent fields. `AddressDataTypeV3` in
 // GlobalLibrary-V2.0.xsd wraps them in an `xs:choice`, so the rule lives on the question
 // rather than on each form: State is enabled only for a US address, Province is hidden for one.
+// `AddressDataTypeV3` requires Street1, City and Country; Grants.gov requires State and Zip for
+// a US address.
 /** Enter an address. */
 @Meta.question(#{ id: "types/address" })
 @Meta.tag(TagName.address)
 @UI.label("Address")
 @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3)
+@Validation.requiredPathWhen("state", "country", Questions.Types.CountryCode.USA)
+@Validation.requiredPathWhen("zipCode", "country", Questions.Types.CountryCode.USA)
 model Address {
   /** Enter the first line of the Street Address. */
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.street1)
   @UI.label("Street1")
-  street1?: Questions.Types.AddressParts.Street1;
+  street1: Questions.Types.AddressParts.Street1;
 
   /** Enter the second line of the Street Address. */
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.street2)
@@ -69,7 +73,7 @@ model Address {
   /** Enter the city. */
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.city)
   @UI.label("City")
-  city?: Questions.Types.AddressParts.City;
+  city: Questions.Types.AddressParts.City;
 
   /** Enter the County or Parish. */
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.county)
@@ -91,7 +95,7 @@ model Address {
   /** Enter the country. */
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.country)
   @UI.label("Country")
-  country?: Questions.Types.CountryCode;
+  country: Questions.Types.CountryCode;
 
   /** Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States. */
   @Mapping.to(Mappings.Target.grantsGovXml, XSD.GlobLib.AddressDataTypeV3.zipPostalCode)
