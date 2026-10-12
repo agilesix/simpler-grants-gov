@@ -5,15 +5,18 @@ import { xsdFields } from "./xsd.ts";
 describe("xsdFields", () => {
   const FORM = "https://example.test/Form.xsd";
   const LIB = "https://example.test/Lib.xsd";
+  const ATT = "https://example.test/Att.xsd";
   const files: Record<string, string> = {
     [FORM]: `<?xml version="1.0"?>
-      <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:lib="urn:lib" xmlns:f="urn:form" targetNamespace="urn:form">
+      <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:lib="urn:lib" xmlns:f="urn:form" xmlns:att="http://apply.grants.gov/system/Attachments-V1.0" targetNamespace="urn:form">
         <xs:import namespace="urn:lib" schemaLocation="Lib.xsd"/>
+        <xs:import namespace="http://apply.grants.gov/system/Attachments-V1.0" schemaLocation="Att.xsd"/>
         <xs:element name="Form">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Name" type="lib:Name"/>
               <xs:element name="Contact" maxOccurs="4" minOccurs="0" type="lib:Contact"/>
+              <xs:element name="Sketch" type="att:AttachedFileDataType"/>
             </xs:sequence>
             <xs:attribute name="FormVersion" type="xs:string" fixed="1.0"/>
           </xs:complexType>
@@ -33,6 +36,15 @@ describe("xsdFields", () => {
           </xs:sequence>
         </xs:complexType>
       </xs:schema>`,
+    [ATT]: `<?xml version="1.0"?>
+      <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apply.grants.gov/system/Attachments-V1.0">
+        <xs:complexType name="AttachedFileDataType">
+          <xs:sequence>
+            <xs:element name="FileName" type="xs:string"/>
+            <xs:element name="MimeType" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:schema>`,
   };
   const flat = xsdFields(FORM, (url) => files[url]);
 
@@ -42,6 +54,17 @@ describe("xsdFields", () => {
       required: "yes",
       rules: { minLength: 1, maxLength: 60, maxOccurs: 1, namespace: "" },
     });
+  });
+
+  it("reads an attached file as one answer", () => {
+    expect(flat.get("Sketch")).toEqual({
+      order: 4,
+      required: "yes",
+      rules: { maxOccurs: 1, namespace: "" },
+    });
+    expect([...flat.keys()].some((key) => key.startsWith("Sketch/"))).toBe(
+      false,
+    );
   });
 
   it("multiplies maxOccurs of repeating ancestors", () => {
@@ -76,6 +99,7 @@ describe("xsdFields", () => {
       "Contact/Phone",
       "Contact/State",
       "Contact/Province",
+      "Sketch",
     ]);
   });
 

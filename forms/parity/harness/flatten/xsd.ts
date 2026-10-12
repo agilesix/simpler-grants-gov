@@ -12,6 +12,13 @@ import type { Fields, Path, Rules } from "../model.ts";
 
 const XS = "http://www.w3.org/2001/XMLSchema";
 
+/**
+ * `att:AttachedFileDataType`: one attached file. The applicant answers it with a file, and the
+ * file's name, type, location and hash are written from the upload, so it is one leaf.
+ */
+const ATTACHMENTS = "http://apply.grants.gov/system/Attachments-V1.0";
+const ATTACHED_FILE = "AttachedFileDataType";
+
 type XNode = Record<string, unknown>;
 
 const parser = new XMLParser({
@@ -272,6 +279,8 @@ class Walker {
       );
     const type = this.schemas.find("complexTypes", declared.type, schema);
     if (!type) throw new Error(`unknown type ${declared.type} on ${path}`);
+    if (type.schema.targetNamespace === ATTACHMENTS && type.name === ATTACHED_FILE)
+      return this.leaf(path, own, {});
     this.complex(type.node, type.schema, path, own);
   }
 
