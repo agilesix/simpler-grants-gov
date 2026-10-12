@@ -3,7 +3,7 @@ import "../index.tsp";
 import "../../questions/organization/index.tsp";
 import "../../questions/person/index.tsp";
 import "../../mapping/targets.tsp";
-import "../../xsd/key-contacts-2-0.tsp";
+import "./xsd.tsp";
 
 using SimplerForms;
 

@@ -10,10 +10,10 @@ import { comparePair, report, type Discrepancy } from "./harness/index.ts";
 import { FORMS_ROOT, readSource } from "./harness/load.ts";
 
 /**
- * Whether each XSD TypeSpec model in `specs/xsd/` says what the Grants.gov XSD it models
- * says. The XML transform rules are read off these models, so an element misnamed, put in
- * the wrong namespace, out of sequence, or required where the XSD makes it optional here
- * would be emitted that way.
+ * Whether each XSD TypeSpec model (a form's `xsd.tsp`, or a shared one in `specs/xsd/`) says
+ * what the Grants.gov XSD it models says. The XML transform rules are read off these models,
+ * so an element misnamed, put in the wrong namespace, out of sequence, or required where the
+ * XSD makes it optional here would be emitted that way.
  *
  * Compiled in memory, not read from an emitted file: nothing is written, and a model
  * no form links to yet is checked all the same.
