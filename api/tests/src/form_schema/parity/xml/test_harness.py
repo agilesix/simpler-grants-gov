@@ -25,17 +25,19 @@ def declaring(**registers) -> FormDiff:
 
 def flat(**overrides) -> compare.FlatForm:
     """A form with nothing in it, so each test declares only what it is about."""
-    return compare.FlatForm(**{
-        "diff": NOTHING_DECLARED,
-        "targets": {},
-        "unreadable": {},
-        "declared": {},
-        "attachments": frozenset(),
-        "by_path": {},
-        "inputs": frozenset(),
-        "transformed": {},
-        **overrides,
-    })
+    return compare.FlatForm(
+        **{
+            "diff": NOTHING_DECLARED,
+            "targets": {},
+            "unreadable": {},
+            "declared": {},
+            "attachments": frozenset(),
+            "by_path": {},
+            "inputs": frozenset(),
+            "transformed": {},
+            **overrides,
+        }
+    )
 
 
 def element(required=False, position=0, primitive=None, **rules) -> flatten_xsd.Element:

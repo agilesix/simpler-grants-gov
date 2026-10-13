@@ -26,16 +26,18 @@ COMBINING = frozenset({"properties", "required", "allOf", "$defs", "definitions"
 
 # Keywords that describe rather than constrain, so two values are not a contradiction.
 # The node's own wins: a form overriding a shared question's label is the ordinary case.
-ANNOTATION = frozenset({
-    "title",
-    "description",
-    "examples",
-    "default",
-    "$comment",
-    "deprecated",
-    "readOnly",
-    "writeOnly",
-})
+ANNOTATION = frozenset(
+    {
+        "title",
+        "description",
+        "examples",
+        "default",
+        "$comment",
+        "deprecated",
+        "readOnly",
+        "writeOnly",
+    }
+)
 
 
 class AmbiguousComposition(Exception):

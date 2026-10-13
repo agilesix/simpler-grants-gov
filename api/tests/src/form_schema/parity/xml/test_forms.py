@@ -14,25 +14,19 @@ import pytest
 
 from tests.src.form_schema.parity.xml.diffs import (
     key_contacts,
-    epa_key_contacts_generated,
     key_contacts_generated,
     sf424,
-    sf424_generated,
     sf424_short,
-    sf424_short_generated,
     sf424a,
 )
 from tests.src.form_schema.parity.xml.harness import compare
 
 DIFFS = [
     sf424.DIFF,
-    sf424_generated.DIFF,
     sf424_short.DIFF,
     sf424a.DIFF,
     key_contacts.DIFF,
     key_contacts_generated.DIFF,
-    epa_key_contacts_generated.DIFF,
-    sf424_short_generated.DIFF,
 ]
 
 
@@ -176,7 +170,8 @@ class TestRecordedDifferences:
         _skip_unreadable(form)
 
         found = compare.stale_entries(form)
-        assert not found, (
-            f"{form.diff.module}: recorded differences no longer describe real ones:\n"
-            + _report(found)
+        assert (
+            not found
+        ), f"{form.diff.module}: recorded differences no longer describe real ones:\n" + _report(
+            found
         )

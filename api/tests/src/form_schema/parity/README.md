@@ -10,7 +10,7 @@ hand-written form it mirrors.
 make test args="tests/src/form_schema/parity"
 
 # One form, when a failure needs chasing.
-make test args="tests/src/form_schema/parity -k sf424_short_generated"
+make test args="tests/src/form_schema/parity -k key_contacts_generated"
 ```
 
 Running natively rather than in the container is much faster, and needs the environment
