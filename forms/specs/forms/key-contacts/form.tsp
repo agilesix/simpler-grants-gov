@@ -1,5 +1,6 @@
 import "form-library-xml";
 import "simpler-forms";
+import "simpler-forms-sgg";
 
 import "#forms/index.tsp";
 import "#questions/organization/index.tsp";
@@ -12,6 +13,7 @@ namespace Forms.KeyContacts;
 
 /** KEY CONTACTS (Grants.gov FID 683, v2.0) */
 @Meta.form(#{ id: "key-contacts", formName: "KEY CONTACTS" })
+@Sgg.sync
 @GrantsGov.form(#{
   legacyFormId: 683,
   shortFormName: "Key_Contacts",
