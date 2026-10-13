@@ -118,7 +118,7 @@ const FORM = `
     @Mapping.to(Mappings.Target.xml, Wire.Person.personName) name: PersonName;
   }
 
-  @Meta.submission(#{ id: "example", shortFormName: "Example", formVersion: "1.0" })
+  @Meta.submission(#{ id: "example" })
   @Meta.form(#{ formName: "Example" })
   @Mapping.to(Mappings.Target.xml, Wire.Root)
   @Mapping.to(Mappings.Target.csv, Flat.Row)

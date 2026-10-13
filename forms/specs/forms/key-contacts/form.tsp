@@ -1,3 +1,4 @@
+import "form-library-xml";
 import "simpler-forms";
 
 import "#forms/index.tsp";
@@ -10,8 +11,8 @@ using SimplerForms;
 namespace Forms.KeyContacts;
 
 /** KEY CONTACTS (Grants.gov FID 683, v2.0) */
-@Meta.submission(#{
-  id: "key-contacts",
+@Meta.submission(#{ id: "key-contacts" })
+@GrantsGov.form(#{
   legacyFormId: 683,
   shortFormName: "Key_Contacts",
   formVersion: "2.0",

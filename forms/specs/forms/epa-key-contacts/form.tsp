@@ -1,3 +1,4 @@
+import "form-library-xml";
 import "simpler-forms";
 
 import "#forms/index.tsp";
@@ -12,8 +13,8 @@ namespace Forms.EPAKeyContacts;
 //
 // The data only: how an applicant is shown it is `EPAKeyContactsLayout`, in layout.tsp.
 /** EPA KEY CONTACTS FORM, Grants.gov version 2.0. */
-@Meta.submission(#{
-  id: "epa-key-contacts",
+@Meta.submission(#{ id: "epa-key-contacts" })
+@GrantsGov.form(#{
   legacyFormId: 674,
   shortFormName: "EPA_KeyContacts",
   formVersion: "2.0",

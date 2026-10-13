@@ -66,7 +66,7 @@ export const $lib = createTypeSpecLibrary({
     },
   },
   emitter: { options: EmitterOptionsSchema },
-  state: { xsd: {} },
+  state: { xsd: {}, form: {} },
 } as const);
 
 export const { reportDiagnostic, stateKeys } = $lib;
