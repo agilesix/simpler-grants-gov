@@ -12,6 +12,7 @@ from .epa_key_contacts_generated import FORM as EPAKeyContactsGenerated_v1_0
 from .gg_lobbying_form import GG_LobbyingForm_v1_1
 from .key_contacts import KeyContacts_v2_0
 from .key_contacts_generated import FORM as KeyContactsGenerated_v1_0
+from .nsf_key_person_expanded_generated import FORM as NSFKeyPersonExpandedGenerated_v1_0
 from .other_narrative_attachment import OtherNarrativeAttachment_v1_2
 from .project_abstract import ProjectAbstract_v1_2
 from .project_abstract_summary import ProjectAbstractSummary_v2_0
@@ -60,6 +61,7 @@ _ALL_FORMS: list[Form] = [
     # registers alone rather than beside one.
     RRKeyPersonGenerated_v1_0,
     RRKeyPersonExpandedGenerated_v1_0,
+    NSFKeyPersonExpandedGenerated_v1_0,
 ]
 
 
