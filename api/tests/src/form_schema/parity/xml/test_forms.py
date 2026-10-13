@@ -13,6 +13,7 @@ Each form declares a `FormDiff` in `diffs/` recording its known gaps, and
 import pytest
 
 from tests.src.form_schema.parity.xml.diffs import (
+    epa_key_contacts_generated,
     key_contacts,
     key_contacts_generated,
     sf424,
@@ -27,6 +28,7 @@ DIFFS = [
     sf424a.DIFF,
     key_contacts.DIFF,
     key_contacts_generated.DIFF,
+    epa_key_contacts_generated.DIFF,
 ]
 
 
