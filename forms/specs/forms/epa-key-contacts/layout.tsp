@@ -9,20 +9,23 @@ namespace Forms.EPAKeyContacts;
 /**
  * One EPA contact: their title under a Role heading after the name, and no County or
  * Province, which `globLib:ContactPersonDataTypeV3` permits but neither the official PDF
- * nor the existing SGG form asks. Relative to `Person`, so one model serves every role.
+ * nor the existing SGG form asks. Relative to `Person`, so one model serves every role;
+ * `Whose` names the role in each group's description, as the DAT does: "the Payee's ".
  */
-model EPAContact {
+model EPAContact<Whose extends valueof string> {
+  @doc("Enter ${Whose}name. First and last name are required.")
   name: Questions.People.Person.name;
 
-  /** Enter the contact's role. */
+  @doc("Enter ${Whose}position title.")
   @UI.label("Role")
   role: {
     title: Questions.People.Person.title;
   };
 
+  @doc("Enter ${Whose}complete address.")
   address: Questions.People.Person.address;
 
-  /** Enter the contact's phone, fax and email. Phone is required. */
+  @doc("Enter ${Whose}phone number, fax number and email. Phone number is required.")
   @UI.label("Contact Information")
   contact: {
     phone: Questions.People.Person.phone;
@@ -40,17 +43,17 @@ model EPAContact {
 model EPAKeyContactsLayout {
   @UI.label("Authorized Representative")
   @UI.field(EPAKeyContacts.authorizedRepresentative)
-  authorizedRepresentative: EPAContact;
+  authorizedRepresentative: EPAContact<"the Authorized Representative's ">;
 
   @UI.label("Payee")
   @UI.field(EPAKeyContacts.payee)
-  payee: EPAContact;
+  payee: EPAContact<"the Payee's ">;
 
   @UI.label("Administrative Contact")
   @UI.field(EPAKeyContacts.administrativeContact)
-  administrativeContact: EPAContact;
+  administrativeContact: EPAContact<"the Administrative Contact's ">;
 
   @UI.label("Project Manager")
   @UI.field(EPAKeyContacts.projectManager)
-  projectManager: EPAContact;
+  projectManager: EPAContact<"the Project Manager's ">;
 }

@@ -8,10 +8,10 @@ namespace Forms.NSFKeyPersonExpanded;
 
 /** The PD/PI's profile, in the groups every key-person form shares. */
 model NSFPrincipalInvestigatorProfileLayout {
-  /** Enter the person's name. First and last name are required. */
+  /** Enter the PD/PI's name. First and last name are required. */
   name: NSFPrincipalInvestigatorProfile.name;
 
-  /** Enter the person's position, organization and role on the project. */
+  /** Enter the PD/PI's position, organization and role on the project. */
   @UI.label("Role")
   role: {
     title: NSFPrincipalInvestigatorProfile.title;
@@ -21,10 +21,10 @@ model NSFPrincipalInvestigatorProfileLayout {
     projectRole: NSFPrincipalInvestigatorProfile.projectRole;
   };
 
-  /** Enter the person's complete address. */
+  /** Enter the PD/PI's complete address. */
   address: NSFPrincipalInvestigatorProfile.address;
 
-  /** Enter the person's phone, fax and email. Phone and email are required. */
+  /** Enter the PD/PI's phone, fax and email. Phone and email are required. */
   @UI.label("Contact Information")
   contact: {
     phone: NSFPrincipalInvestigatorProfile.phone;
@@ -32,13 +32,13 @@ model NSFPrincipalInvestigatorProfileLayout {
     email: NSFPrincipalInvestigatorProfile.email;
   };
 
-  /** Enter the person's NSF ID, if they have one. */
+  /** Enter the PD/PI's NSF ID, if they have one. */
   @UI.label("Credentials")
   credentials: {
     nsfId: NSFPrincipalInvestigatorProfile.nsfId;
   };
 
-  /** Attach the person's biographical sketch, current & pending (other) support, collaborators and other affiliations, and synergistic activities. */
+  /** Attach the PD/PI's biographical sketch, current & pending (other) support, collaborators and other affiliations, and synergistic activities. */
   @UI.label("Attachments")
   attachments: {
     biographicalSketch: NSFPrincipalInvestigatorProfile.biographicalSketch;
@@ -50,10 +50,10 @@ model NSFPrincipalInvestigatorProfileLayout {
 
 /** A senior/key person's profile, in the groups every key-person form shares. */
 model NSFSeniorKeyPersonProfileLayout {
-  /** Enter the person's name. First and last name are required. */
+  /** Enter the senior/key person's name. First and last name are required. */
   name: NSFSeniorKeyPersonProfile.name;
 
-  /** Enter the person's position, organization and role on the project. */
+  /** Enter the senior/key person's position, organization and role on the project. */
   @UI.label("Role")
   role: {
     title: NSFSeniorKeyPersonProfile.title;
@@ -63,10 +63,10 @@ model NSFSeniorKeyPersonProfileLayout {
     projectRole: NSFSeniorKeyPersonProfile.projectRole;
   };
 
-  /** Enter the person's complete address. */
+  /** Enter the senior/key person's complete address. */
   address: NSFSeniorKeyPersonProfile.address;
 
-  /** Enter the person's phone, fax and email. Phone and email are required. */
+  /** Enter the senior/key person's phone, fax and email. Phone and email are required. */
   @UI.label("Contact Information")
   contact: {
     phone: NSFSeniorKeyPersonProfile.phone;
@@ -74,13 +74,13 @@ model NSFSeniorKeyPersonProfileLayout {
     email: NSFSeniorKeyPersonProfile.email;
   };
 
-  /** Enter the person's NSF ID, if they have one. */
+  /** Enter the senior/key person's NSF ID, if they have one. */
   @UI.label("Credentials")
   credentials: {
     nsfId: NSFSeniorKeyPersonProfile.nsfId;
   };
 
-  /** Attach the person's biographical sketch, current & pending (other) support, collaborators and other affiliations, and synergistic activities. */
+  /** Attach the senior/key person's biographical sketch, current & pending (other) support, collaborators and other affiliations, and synergistic activities. */
   @UI.label("Attachments")
   attachments: {
     biographicalSketch: NSFSeniorKeyPersonProfile.biographicalSketch;

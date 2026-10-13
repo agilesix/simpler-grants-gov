@@ -33,7 +33,7 @@
         {
           "kind": "section",
           "label": "Name",
-          "help_text": "Enter the person's name. First and last name are required.",
+          "help_text": "Enter the Authorized Representative's name. First and last name are required.",
           "json_path": "authorized_representative.name",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Name",
           "widget": "FieldsetWidget",
@@ -103,7 +103,7 @@
         {
           "kind": "section",
           "label": "Role",
-          "help_text": "Enter the contact's role.",
+          "help_text": "Enter the Authorized Representative's position title.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -123,7 +123,7 @@
         {
           "kind": "section",
           "label": "Address",
-          "help_text": "Enter the person's complete address.",
+          "help_text": "Enter the Authorized Representative's complete address.",
           "json_path": "authorized_representative.address",
           "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address",
           "widget": "FieldsetWidget",
@@ -205,7 +205,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
-          "help_text": "Enter the contact's phone, fax and email. Phone is required.",
+          "help_text": "Enter the Authorized Representative's phone number, fax number and email. Phone number is required.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -259,7 +259,7 @@
         {
           "kind": "section",
           "label": "Name",
-          "help_text": "Enter the person's name. First and last name are required.",
+          "help_text": "Enter the Payee's name. First and last name are required.",
           "json_path": "payee.name",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Name",
           "widget": "FieldsetWidget",
@@ -329,7 +329,7 @@
         {
           "kind": "section",
           "label": "Role",
-          "help_text": "Enter the contact's role.",
+          "help_text": "Enter the Payee's position title.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -349,7 +349,7 @@
         {
           "kind": "section",
           "label": "Address",
-          "help_text": "Enter the person's complete address.",
+          "help_text": "Enter the Payee's complete address.",
           "json_path": "payee.address",
           "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address",
           "widget": "FieldsetWidget",
@@ -431,7 +431,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
-          "help_text": "Enter the contact's phone, fax and email. Phone is required.",
+          "help_text": "Enter the Payee's phone number, fax number and email. Phone number is required.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -485,7 +485,7 @@
         {
           "kind": "section",
           "label": "Name",
-          "help_text": "Enter the person's name. First and last name are required.",
+          "help_text": "Enter the Administrative Contact's name. First and last name are required.",
           "json_path": "administrative_contact.name",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Name",
           "widget": "FieldsetWidget",
@@ -555,7 +555,7 @@
         {
           "kind": "section",
           "label": "Role",
-          "help_text": "Enter the contact's role.",
+          "help_text": "Enter the Administrative Contact's position title.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -575,7 +575,7 @@
         {
           "kind": "section",
           "label": "Address",
-          "help_text": "Enter the person's complete address.",
+          "help_text": "Enter the Administrative Contact's complete address.",
           "json_path": "administrative_contact.address",
           "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address",
           "widget": "FieldsetWidget",
@@ -657,7 +657,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
-          "help_text": "Enter the contact's phone, fax and email. Phone is required.",
+          "help_text": "Enter the Administrative Contact's phone number, fax number and email. Phone number is required.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -711,7 +711,7 @@
         {
           "kind": "section",
           "label": "Name",
-          "help_text": "Enter the person's name. First and last name are required.",
+          "help_text": "Enter the Project Manager's name. First and last name are required.",
           "json_path": "project_manager.name",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Name",
           "widget": "FieldsetWidget",
@@ -781,7 +781,7 @@
         {
           "kind": "section",
           "label": "Role",
-          "help_text": "Enter the contact's role.",
+          "help_text": "Enter the Project Manager's position title.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -801,7 +801,7 @@
         {
           "kind": "section",
           "label": "Address",
-          "help_text": "Enter the person's complete address.",
+          "help_text": "Enter the Project Manager's complete address.",
           "json_path": "project_manager.address",
           "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address",
           "widget": "FieldsetWidget",
@@ -883,7 +883,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
-          "help_text": "Enter the contact's phone, fax and email. Phone is required.",
+          "help_text": "Enter the Project Manager's phone number, fax number and email. Phone number is required.",
           "widget": "FieldsetWidget",
           "children": [
             {

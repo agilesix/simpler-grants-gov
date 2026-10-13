@@ -6,12 +6,15 @@ using SimplerForms;
 
 namespace Forms.RRKeyPersonExpanded;
 
-/** One person's profile, in the groups every key-person form shares. */
-model RRExpandedKeyPersonProfileLayout {
-  /** Enter the person's name. First and last name are required. */
+/**
+ * One person's profile, in the groups every key-person form shares. `Whose` names the person
+ * in each group's description: "the PD/PI's " or "the senior/key person's ".
+ */
+model RRExpandedKeyPersonProfileLayout<Whose extends valueof string> {
+  @doc("Enter ${Whose}name. First and last name are required.")
   name: RRExpandedKeyPersonProfile.name;
 
-  /** Enter the person's position, organization and role on the project. */
+  @doc("Enter ${Whose}position, organization and role on the project.")
   @UI.label("Role")
   role: {
     title: RRExpandedKeyPersonProfile.title;
@@ -22,10 +25,10 @@ model RRExpandedKeyPersonProfileLayout {
     otherProjectRoleCategory: RRExpandedKeyPersonProfile.otherProjectRoleCategory;
   };
 
-  /** Enter the person's complete address. */
+  @doc("Enter ${Whose}complete address.")
   address: RRExpandedKeyPersonProfile.address;
 
-  /** Enter the person's phone, fax and email. Phone and email are required. */
+  @doc("Enter ${Whose}phone, fax and email. Phone and email are required.")
   @UI.label("Contact Information")
   contact: {
     phone: RRExpandedKeyPersonProfile.phone;
@@ -33,7 +36,7 @@ model RRExpandedKeyPersonProfileLayout {
     email: RRExpandedKeyPersonProfile.email;
   };
 
-  /** Enter the person's agency credential, if they have one, and their highest degree. */
+  @doc("Enter ${Whose}agency credential, if they have one, and their highest degree.")
   @UI.label("Credentials")
   credentials: {
     credential: RRExpandedKeyPersonProfile.credential;
@@ -41,7 +44,7 @@ model RRExpandedKeyPersonProfileLayout {
     degreeYear: RRExpandedKeyPersonProfile.degreeYear;
   };
 
-  /** Attach the person's biographical sketch and current & pending support. */
+  @doc("Attach ${Whose}biographical sketch and current & pending support.")
   @UI.label("Attachments")
   attachments: {
     biographicalSketch: RRExpandedKeyPersonProfile.biographicalSketch;
@@ -63,7 +66,7 @@ model RRKeyPersonExpandedLayout {
   principalInvestigator: {
     @UI.field(RRExpandedKeyPersonEntry.profile)
     @UI.flatten
-    profile: RRExpandedKeyPersonProfileLayout;
+    profile: RRExpandedKeyPersonProfileLayout<"the PD/PI's ">;
   };
 
   /** Enter a profile for each senior/key person on the project, up to 99. */
@@ -72,7 +75,7 @@ model RRKeyPersonExpandedLayout {
   seniorKeyPersons: {
     @UI.field(RRExpandedKeyPersonEntry.profile)
     @UI.flatten
-    profile: RRExpandedKeyPersonProfileLayout;
+    profile: RRExpandedKeyPersonProfileLayout<"the senior/key person's ">;
   };
 
   /** If the project has more than 99 senior/key persons, attach the rest of their profiles and supporting documents, each kind in a single file. */

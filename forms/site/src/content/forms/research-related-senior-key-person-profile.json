@@ -43,7 +43,7 @@
         {
           "kind": "section",
           "label": "Name",
-          "help_text": "Enter the person's name. First and last name are required.",
+          "help_text": "Enter the PD/PI's name. First and last name are required.",
           "json_path": "principal_investigator.profile.name",
           "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Name",
           "widget": "FieldsetWidget",
@@ -118,7 +118,7 @@
         {
           "kind": "section",
           "label": "Role",
-          "help_text": "Enter the person's position, organization and role on the project.",
+          "help_text": "Enter the PD/PI's position, organization and role on the project.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -202,7 +202,7 @@
         {
           "kind": "section",
           "label": "Address",
-          "help_text": "Enter the person's complete address.",
+          "help_text": "Enter the PD/PI's complete address.",
           "json_path": "principal_investigator.profile.address",
           "xml_path": "RR_KeyPerson_3_0:PDPI/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Address",
           "widget": "FieldsetWidget",
@@ -316,7 +316,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
-          "help_text": "Enter the person's phone, fax and email. Phone and email are required.",
+          "help_text": "Enter the PD/PI's phone, fax and email. Phone and email are required.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -363,7 +363,7 @@
         {
           "kind": "section",
           "label": "Credentials",
-          "help_text": "Enter the person's agency credential, if they have one.",
+          "help_text": "Enter the PD/PI's agency credential, if they have one.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -383,7 +383,7 @@
         {
           "kind": "section",
           "label": "Attachments",
-          "help_text": "Attach the person's biographical sketch and current & pending support.",
+          "help_text": "Attach the PD/PI's biographical sketch and current & pending support.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -425,7 +425,7 @@
         {
           "kind": "section",
           "label": "Name",
-          "help_text": "Enter the person's name. First and last name are required.",
+          "help_text": "Enter the senior/key person's name. First and last name are required.",
           "json_path": "senior_key_persons[].profile.name",
           "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Name",
           "widget": "FieldsetWidget",
@@ -495,7 +495,7 @@
         {
           "kind": "section",
           "label": "Role",
-          "help_text": "Enter the person's position, organization and role on the project.",
+          "help_text": "Enter the senior/key person's position, organization and role on the project.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -575,7 +575,7 @@
         {
           "kind": "section",
           "label": "Address",
-          "help_text": "Enter the person's complete address.",
+          "help_text": "Enter the senior/key person's complete address.",
           "json_path": "senior_key_persons[].profile.address",
           "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Address",
           "widget": "FieldsetWidget",
@@ -681,7 +681,7 @@
         {
           "kind": "section",
           "label": "Contact Information",
-          "help_text": "Enter the person's phone, fax and email. Phone and email are required.",
+          "help_text": "Enter the senior/key person's phone, fax and email. Phone and email are required.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -725,7 +725,7 @@
         {
           "kind": "section",
           "label": "Credentials",
-          "help_text": "Enter the person's agency credential, if they have one.",
+          "help_text": "Enter the senior/key person's agency credential, if they have one.",
           "widget": "FieldsetWidget",
           "children": [
             {
@@ -745,7 +745,7 @@
         {
           "kind": "section",
           "label": "Attachments",
-          "help_text": "Attach the person's biographical sketch and current & pending support.",
+          "help_text": "Attach the senior/key person's biographical sketch and current & pending support.",
           "widget": "FieldsetWidget",
           "children": [
             {
