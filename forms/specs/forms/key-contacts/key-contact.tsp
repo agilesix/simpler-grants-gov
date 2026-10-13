@@ -19,45 +19,23 @@ scalar ProjectRole extends string;
 /**
  * A contact person named for their role on the project: Key Contacts `RoleOnProject`.
  *
- * The same questions as `Person`, plus a free-text role and an affiliation, and the email is
- * required. Fields are declared in the order the form asks them.
+ * A `Person`, plus a free-text role and an affiliation, and the email is required.
  */
 @Meta.question(#{ id: "person/key-contact" })
 @Meta.tag(TagName.person, TagName.role)
 @UI.label("Key Contact")
 @example(Forms.KeyContacts.Examples.principalInvestigator)
+@Validation.requiredPaths("email")
 model KeyContact {
   /** Enter the individual's role on the project (e.g., project manager, fiscal contact). */
   @UI.label("Project Role")
   projectRole: Forms.KeyContacts.ProjectRole;
 
-  /** Enter the contact's name. First and last name are required. */
-  @UI.label("Name")
-  name: Questions.People.PersonName;
-
-  /** Enter the contact's position title. */
-  @UI.label("Title")
-  title?: Questions.People.PersonTitle;
+  ...Questions.People.Person;
 
   /** Enter the contact's organizational affiliation. */
   @UI.label("Organizational Affiliation")
   organizationalAffiliation?: Questions.Organizations.OrgName;
-
-  /** Enter the contact's complete address. */
-  @UI.label("Address")
-  address: Questions.People.PersonAddress;
-
-  /** Enter the daytime Telephone Number. */
-  @UI.label("Phone Number")
-  phone: Questions.People.PersonPhoneNumber;
-
-  /** Enter the Fax Number. */
-  @UI.label("Fax Number")
-  fax?: Questions.People.PersonFaxNumber;
-
-  /** Enter a valid email Address. */
-  @UI.label("Email")
-  email: Questions.People.PersonEmail;
 }
 
 /** Sample key contacts, type-checked against `KeyContact` and reused by the form's example. */
