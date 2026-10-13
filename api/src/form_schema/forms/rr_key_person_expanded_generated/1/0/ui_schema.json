@@ -1,0 +1,566 @@
+{
+  "type": "Group",
+  "elements": [
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/name/properties/prefix",
+              "label": "Prefix"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/name/properties/first_name",
+              "label": "First Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/name/properties/middle_name",
+              "label": "Middle Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/name/properties/last_name",
+              "label": "Last Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/name/properties/suffix",
+              "label": "Suffix"
+            }
+          ],
+          "label": "Name",
+          "options": {
+            "description": "Enter the PD/PI's name. First and last name are required."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/title",
+              "label": "Title"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/organization_name",
+              "label": "Organization Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/department",
+              "label": "Department"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/division",
+              "label": "Division"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/project_role",
+              "label": "Project Role"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/other_project_role_category",
+              "label": "Other Project Role Category",
+              "rule": {
+                "effect": "ENABLE",
+                "condition": {
+                  "scope": "#/properties/principal_investigator/properties/profile/properties/project_role",
+                  "schema": {
+                    "enum": [
+                      "Other Professional",
+                      "Other (Specify)"
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "label": "Role",
+          "options": {
+            "description": "Enter the PD/PI's position, organization and role on the project."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/street1",
+              "label": "Street1"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/street2",
+              "label": "Street2"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/city",
+              "label": "City"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/county",
+              "label": "County/Parish"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/state",
+              "label": "State",
+              "rule": {
+                "effect": "ENABLE",
+                "condition": {
+                  "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/country",
+                  "schema": {
+                    "const": "USA: UNITED STATES"
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/province",
+              "label": "Province",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/country",
+                  "schema": {
+                    "allOf": [
+                      {
+                        "not": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "const": ""
+                            },
+                            {
+                              "type": "array",
+                              "maxItems": 0
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "not": {
+                          "const": "USA: UNITED STATES"
+                        }
+                      }
+                    ]
+                  },
+                  "failWhenUndefined": true
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/country",
+              "label": "Country"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/address/properties/zip_code",
+              "label": "Zip / Postal Code"
+            }
+          ],
+          "label": "Address",
+          "options": {
+            "description": "Enter the PD/PI's complete address."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/phone",
+              "label": "Phone Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/fax",
+              "label": "Fax Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/email",
+              "label": "Email"
+            }
+          ],
+          "label": "Contact Information",
+          "options": {
+            "description": "Enter the PD/PI's phone, fax and email. Phone and email are required."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/credential",
+              "label": "Credential, e.g., agency login"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/degree_type",
+              "label": "Degree Type"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/degree_year",
+              "label": "Degree Year"
+            }
+          ],
+          "label": "Credentials",
+          "options": {
+            "description": "Enter the PD/PI's agency credential, if they have one, and their highest degree."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/biographical_sketch",
+              "label": "Biographical Sketch",
+              "options": {
+                "widget": "Attachment"
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/principal_investigator/properties/profile/properties/current_pending_support",
+              "label": "Current & Pending Support",
+              "options": {
+                "widget": "Attachment"
+              }
+            }
+          ],
+          "label": "Attachments",
+          "options": {
+            "description": "Attach the PD/PI's biographical sketch and current & pending support."
+          }
+        }
+      ],
+      "label": "PD/PI Profile",
+      "options": {
+        "description": "Enter the profile of the Project Director/Principal Investigator (PD/PI)."
+      }
+    },
+    {
+      "type": "Group",
+      "label": "Senior/Key Person Profiles",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/senior_key_persons",
+          "options": {
+            "detail": {
+              "type": "Group",
+              "elements": [
+                {
+                  "type": "Group",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/name/properties/prefix",
+                      "label": "Prefix"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/name/properties/first_name",
+                      "label": "First Name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/name/properties/middle_name",
+                      "label": "Middle Name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/name/properties/last_name",
+                      "label": "Last Name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/name/properties/suffix",
+                      "label": "Suffix"
+                    }
+                  ],
+                  "label": "Name",
+                  "options": {
+                    "description": "Enter the senior/key person's name. First and last name are required."
+                  }
+                },
+                {
+                  "type": "Group",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/title",
+                      "label": "Title"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/organization_name",
+                      "label": "Organization Name"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/department",
+                      "label": "Department"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/division",
+                      "label": "Division"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/project_role",
+                      "label": "Project Role"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/other_project_role_category",
+                      "label": "Other Project Role Category",
+                      "rule": {
+                        "effect": "ENABLE",
+                        "condition": {
+                          "scope": "#/properties/profile/properties/project_role",
+                          "schema": {
+                            "enum": [
+                              "Other Professional",
+                              "Other (Specify)"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "label": "Role",
+                  "options": {
+                    "description": "Enter the senior/key person's position, organization and role on the project."
+                  }
+                },
+                {
+                  "type": "Group",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/street1",
+                      "label": "Street1"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/street2",
+                      "label": "Street2"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/city",
+                      "label": "City"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/county",
+                      "label": "County/Parish"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/state",
+                      "label": "State",
+                      "rule": {
+                        "effect": "ENABLE",
+                        "condition": {
+                          "scope": "#/properties/profile/properties/address/properties/country",
+                          "schema": {
+                            "const": "USA: UNITED STATES"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/province",
+                      "label": "Province",
+                      "rule": {
+                        "effect": "SHOW",
+                        "condition": {
+                          "scope": "#/properties/profile/properties/address/properties/country",
+                          "schema": {
+                            "allOf": [
+                              {
+                                "not": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "const": ""
+                                    },
+                                    {
+                                      "type": "array",
+                                      "maxItems": 0
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "not": {
+                                  "const": "USA: UNITED STATES"
+                                }
+                              }
+                            ]
+                          },
+                          "failWhenUndefined": true
+                        }
+                      }
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/country",
+                      "label": "Country"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/address/properties/zip_code",
+                      "label": "Zip / Postal Code"
+                    }
+                  ],
+                  "label": "Address",
+                  "options": {
+                    "description": "Enter the senior/key person's complete address."
+                  }
+                },
+                {
+                  "type": "Group",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/phone",
+                      "label": "Phone Number"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/fax",
+                      "label": "Fax Number"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/email",
+                      "label": "Email"
+                    }
+                  ],
+                  "label": "Contact Information",
+                  "options": {
+                    "description": "Enter the senior/key person's phone, fax and email. Phone and email are required."
+                  }
+                },
+                {
+                  "type": "Group",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/credential",
+                      "label": "Credential, e.g., agency login"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/degree_type",
+                      "label": "Degree Type"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/degree_year",
+                      "label": "Degree Year"
+                    }
+                  ],
+                  "label": "Credentials",
+                  "options": {
+                    "description": "Enter the senior/key person's agency credential, if they have one, and their highest degree."
+                  }
+                },
+                {
+                  "type": "Group",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/biographical_sketch",
+                      "label": "Biographical Sketch",
+                      "options": {
+                        "widget": "Attachment"
+                      }
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/profile/properties/current_pending_support",
+                      "label": "Current & Pending Support",
+                      "options": {
+                        "widget": "Attachment"
+                      }
+                    }
+                  ],
+                  "label": "Attachments",
+                  "options": {
+                    "description": "Attach the senior/key person's biographical sketch and current & pending support."
+                  }
+                }
+              ]
+            },
+            "widget": "CollapsibleFieldList"
+          },
+          "label": "Senior/Key Person Profiles"
+        }
+      ],
+      "options": {
+        "description": "Enter a profile for each senior/key person on the project, up to 99."
+      }
+    },
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/additional_profiles",
+          "label": "Additional Senior/Key Person Profile(s)",
+          "options": {
+            "widget": "Attachment"
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/additional_biographical_sketches",
+          "label": "Additional Biographical Sketch(es)",
+          "options": {
+            "widget": "Attachment"
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/additional_current_pending_support",
+          "label": "Additional Current & Pending Support",
+          "options": {
+            "widget": "Attachment"
+          }
+        }
+      ],
+      "label": "Additional Profiles and Attachments",
+      "options": {
+        "description": "If the project has more than 99 senior/key persons, attach the rest of their profiles and supporting documents, each kind in a single file."
+      }
+    }
+  ],
+  "label": "Research and Related Senior/Key Person Profile (Expanded), Grants.gov version 4.0."
+}
