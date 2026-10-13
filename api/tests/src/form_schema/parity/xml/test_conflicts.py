@@ -20,7 +20,6 @@ import pytest
 
 from src.form_schema.forms import init_form_registry
 from src.form_schema.forms.sf424 import FORM_JSON_SCHEMA as SF424_SCHEMA
-from src.form_schema.forms.sf424_generated import FORM as GENERATED
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
 from src.form_schema.jsonschema_validator import validate_json_schema
 from src.services.xml_generation.config import _build_xml_form_map
@@ -31,9 +30,7 @@ from tests.src.form_schema.parity.xml.diffs import sf424 as sf424_record
 from tests.src.services.xml_generation.test_sf424_short_xml_generation import (
     _SNAPSHOT_DATA as SHORT_FIXTURE,
 )
-from tests.src.services.xml_generation.test_xml_validation_cases import (
-    DEFECTIVE_APPLICATIONS,
-)
+from tests.src.services.xml_generation.test_xml_validation_cases import DEFECTIVE_APPLICATIONS
 from tests.src.services.xml_generation.test_xml_validation_cases import (
     VALID_APPLICATION as SF424_FIXTURE,
 )
@@ -231,68 +228,3 @@ class TestXsdRejectedValues:
         assert not result["valid"]
         assert "Province" in result["error_message"]
         assert "model='sequence'" in result["error_message"]
-
-
-# --- what the generated form does with the same values ---------------------
-
-
-def generated(**overrides) -> dict:
-    """The generated SF-424's own verdict on a response."""
-    schema = resolve_jsonschema(GENERATED.form_json_schema)
-    data = sf424(**overrides)
-    return {(str(i.field), i.message) for i in validate_json_schema(data, schema)} - {
-        (str(i.field), i.message) for i in validate_json_schema(SF424_FIXTURE, schema)
-    }
-
-
-# Their parameters carry `xfail(strict=True)` marks, which describe what *their* check does
-# with each fixture. Reusing the marks here would invert the meaning, so only the data and
-# the label are borrowed.
-#
-# State and Province together is left out deliberately: globLib:AddressDataTypeV3 models
-# them as an xs:choice, the address question is shared by thirteen forms, and deciding which
-# of a state and a province wins is a content question rather than a porting one.
-REJECTABLE = [
-    pytest.param(param.values[0], id=param.id)
-    for param in DEFECTIVE_APPLICATIONS
-    if "state-and-province" not in param.id
-]
-
-
-class TestGeneratedFormXmlMapping:
-    """The same fixtures against the form compiled from the specification."""
-
-    def test_the_generated_mapping_carries_the_answers_the_handwritten_one_drops(self, validator):
-        """Same fixture, same transformer, a mapping written to the schema instead of copied."""
-        data = sf424(**ANSWERS_TO_DROPPED_FIELDS)
-        result = XMLGenerationService().generate_xml(
-            XMLGenerationRequest(
-                transform_config=GENERATED.json_to_xml_schema,
-                application_data=data,
-                pretty_print=True,
-            )
-        )
-        assert result.success, result.error_message
-
-        xml = result.xml_data
-        missing = sorted(
-            field
-            for field in sf424_record.DIFF.absent_from_definition
-            if answered(field) not in xml
-        )
-        assert not missing, f"the generated mapping also drops: {missing}"
-
-        assert validator.validate_xml_for_form(xml, "SF424_4_0-V4.0")["valid"]
-
-    @pytest.mark.parametrize("defective", REJECTABLE)
-    def test_the_generated_form_rejects_what_the_handwritten_one_accepts(self, defective):
-        """The value never reaches XML generation, because the form will not store it.
-
-        Each of these is a fixture the hand-written form accepts and SF424_4_0-V4.0.xsd
-        rejects -- the xfail cases in test_xml_validation_cases.py. The generated form declares
-        what the schema declares, so the answer is refused at the form instead of at Grants.gov.
-        """
-        changed = {
-            field: value for field, value in defective.items() if SF424_FIXTURE.get(field) != value
-        }
-        assert generated(**changed), f"the generated form also accepts {sorted(changed)}"

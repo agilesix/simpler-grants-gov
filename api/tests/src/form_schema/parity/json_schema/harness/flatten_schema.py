@@ -52,26 +52,28 @@ from .merge_schema import merge_allof
 # Every keyword that can make a payload invalid. Anything else a schema carries (title,
 # description, examples, $comment) changes what an applicant reads, not what they may
 # submit, and belongs to the UI checks.
-VALIDATION_KEYWORDS = frozenset({
-    "type",
-    "enum",
-    "const",
-    "format",
-    "pattern",
-    "maxLength",
-    "minLength",
-    "maximum",
-    "minimum",
-    "exclusiveMaximum",
-    "exclusiveMinimum",
-    "multipleOf",
-    "maxItems",
-    "minItems",
-    "uniqueItems",
-    "maxProperties",
-    "minProperties",
-    "dependentRequired",
-})
+VALIDATION_KEYWORDS = frozenset(
+    {
+        "type",
+        "enum",
+        "const",
+        "format",
+        "pattern",
+        "maxLength",
+        "minLength",
+        "maximum",
+        "minimum",
+        "exclusiveMaximum",
+        "exclusiveMinimum",
+        "multipleOf",
+        "maxItems",
+        "minItems",
+        "uniqueItems",
+        "maxProperties",
+        "minProperties",
+        "dependentRequired",
+    }
+)
 
 
 @dataclasses.dataclass(frozen=True)
