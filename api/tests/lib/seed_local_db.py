@@ -737,14 +737,20 @@ def _build_competitions(db_session: db.Session, forms_map: dict[str, Form]) -> C
     _build_custom_test_competitions(forms_map)
 
     forms = list(forms_map.values())
+    # Forms generated from forms/specs register beside the forms they mirror, so including
+    # them here would put two identically named rows in one competition's form table. Each
+    # generated form still gets its own competition below.
+    all_form_competition_forms = [
+        form for form in forms if not form.short_form_name.endswith("_Generated")
+    ]
 
     static_all_form_competition = _build_static_competition_with_all_forms(
         db_session,
-        forms,
+        all_form_competition_forms,
         static_opportunity_id=uuid.UUID("c3c59562-a54f-4203-b0f6-98f2f0383481"),
         static_competition_id=uuid.UUID("859ab4a4-a6c3-46c5-b63e-6d1396ae9c86"),
     )
-    all_form_competition = _build_competition_with_all_forms(forms)
+    all_form_competition = _build_competition_with_all_forms(all_form_competition_forms)
     competition_container = CompetitionContainer(
         static_competition_with_all_forms=static_all_form_competition,
         competition_with_all_forms=all_form_competition,
