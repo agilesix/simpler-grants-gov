@@ -65,7 +65,7 @@ const help: Record<string, Pinned> = {
   // key_contacts[].title
   "7-08": {
     ...SHARED_HELP,
-    plan: "Enter the contact's position title.",
+    plan: "Enter the person's position title.",
     source: "Enter the position title.",
   },
   // key_contacts[].organizational_affiliation

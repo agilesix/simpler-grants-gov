@@ -47,15 +47,15 @@ scalar PersonEmail extends Questions.Types.EmailAddress;
 @UI.label("Contact Person")
 @example(Questions.People.Examples.usContact)
 model Person {
-  /** Enter the contact's name. First and last name are required. */
+  /** Enter the person's name. First and last name are required. */
   @UI.label("Name")
   name: Questions.People.PersonName;
 
-  /** Enter the contact's position title. */
+  /** Enter the person's position title. */
   @UI.label("Title")
   title?: Questions.People.PersonTitle;
 
-  /** Enter the contact's complete address. */
+  /** Enter the person's complete address. */
   @UI.label("Address")
   address: Questions.People.PersonAddress;
 

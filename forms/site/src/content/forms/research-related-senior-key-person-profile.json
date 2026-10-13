@@ -128,7 +128,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the contact's position title.",
+              "help_text": "Enter the person's position title.",
               "constraints": "minLength 1, maxLength 45",
               "pre_populated": "SF424(R&R) field 14-6 (deferred)",
               "json_path": "principal_investigator.profile.title",
@@ -505,7 +505,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the contact's position title.",
+              "help_text": "Enter the person's position title.",
               "constraints": "minLength 1, maxLength 45",
               "json_path": "senior_key_persons[].profile.title",
               "xml_path": "RR_KeyPerson_3_0:KeyPerson/RR_KeyPerson_3_0:Profile/RR_KeyPerson_3_0:Title"

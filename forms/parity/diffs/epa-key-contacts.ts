@@ -88,7 +88,7 @@ const help: Record<string, Pinned> = {
   // authorized_representative.title
   "B1-08": {
     ...SHARED_HELP,
-    plan: "Enter the contact's position title.",
+    plan: "Enter the person's position title.",
     source: "Please enter the Authorized Representative's Title.",
   },
   // authorized_representative.address.street1
@@ -184,7 +184,7 @@ const help: Record<string, Pinned> = {
   // payee.title
   "B2-08": {
     ...SHARED_HELP,
-    plan: "Enter the contact's position title.",
+    plan: "Enter the person's position title.",
     source: "Please enter the Payee's Title.",
   },
   // payee.address.street1
@@ -276,7 +276,7 @@ const help: Record<string, Pinned> = {
   // administrative_contact.title
   "B3-08": {
     ...SHARED_HELP,
-    plan: "Enter the contact's position title.",
+    plan: "Enter the person's position title.",
     source: "Please enter the Administrative Contact's Title.",
   },
   // administrative_contact.address.street1
@@ -372,7 +372,7 @@ const help: Record<string, Pinned> = {
   // project_manager.title
   "B4-08": {
     ...SHARED_HELP,
-    plan: "Enter the contact's position title.",
+    plan: "Enter the person's position title.",
     source: "Please enter the Project Manager's Title.",
   },
   // project_manager.address.street1
