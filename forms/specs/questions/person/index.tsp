@@ -17,19 +17,19 @@ namespace Questions.People;
 @UI.label("Address")
 model PersonAddress is Questions.Types.Address;
 
-/** Enter the daytime Telephone Number. */
+/** Enter the daytime telephone number. */
 @Meta.question(#{ id: "person/phone-number" })
 @Meta.tag(TagName.person, TagName.phone)
 @UI.label("Phone Number")
 scalar PersonPhoneNumber extends Questions.Types.PhoneNumber;
 
-/** Enter the Fax Number. */
+/** Enter the fax number. */
 @Meta.question(#{ id: "person/fax-number" })
 @Meta.tag(TagName.person, TagName.phone)
 @UI.label("Fax Number")
 scalar PersonFaxNumber extends Questions.Types.PhoneNumber;
 
-/** Enter a valid email Address. */
+/** Enter a valid email address. */
 @Meta.question(#{ id: "person/email" })
 @Meta.tag(TagName.person, TagName.email)
 @UI.label("Email")
@@ -61,15 +61,15 @@ model Person {
 
   // `ContactPersonDataTypeV3` makes the phone optional; the forms that ask for a contact
   // person require it.
-  /** Enter the Phone Number. */
+  /** Enter the phone number. */
   @UI.label("Phone Number")
   phone: Questions.People.PersonPhoneNumber;
 
-  /** Enter the Fax Number. */
+  /** Enter the fax number. */
   @UI.label("Fax Number")
   fax?: Questions.People.PersonFaxNumber;
 
-  /** Enter the Email Address. */
+  /** Enter the email address. */
   @UI.label("Email")
   email?: Questions.People.PersonEmail;
 }

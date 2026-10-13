@@ -34,26 +34,26 @@ const help: Record<string, Pinned> = {
   // key_contacts[].name.prefix
   "7-03": {
     ...FREE_TEXT_HELP,
-    plan: "Enter the Prefix.",
+    plan: "Enter the prefix.",
     source:
       "Select the Prefix from the provided list or enter a new Prefix not provided on the list.",
   },
   // key_contacts[].name.first_name
   "7-04": {
     ...SHARED_HELP,
-    plan: "Enter the First Name.",
+    plan: "Enter the first name.",
     source: "Enter the First Name. This field is required.",
   },
   // key_contacts[].name.last_name
   "7-06": {
     ...SHARED_HELP,
-    plan: "Enter the Last Name.",
+    plan: "Enter the last name.",
     source: "Enter the Last Name. This field is required.",
   },
   // key_contacts[].name.suffix
   "7-07": {
     ...FREE_TEXT_HELP,
-    plan: "Enter the Suffix.",
+    plan: "Enter the suffix.",
     source:
       "Select the Suffix from the provided list or enter a new Suffix not provided on the list.",
   },
@@ -67,48 +67,78 @@ const help: Record<string, Pinned> = {
   // key_contacts[].address.street1
   "7-10": {
     ...SHARED_HELP,
-    plan: "Enter the first line of the Street Address.",
+    plan: "Enter the first line of the street address.",
     source:
       "Enter the first line of the Street Address. This field is required.",
   },
   // key_contacts[].address.city
   "7-12": {
     ...SHARED_HELP,
-    plan: "Enter the City.",
+    plan: "Enter the city.",
     source: "Enter the City. This field is required.",
   },
   // key_contacts[].address.state
   "7-14": {
     ...SHARED_HELP,
-    plan: "Select the State. This field is required if the Country is the United States.",
+    plan: "Select the state. This field is required if the country is the United States.",
     source:
       "Select the state, US possession or military code from the provided list. This field is required if Country is the United States.",
   },
   // key_contacts[].address.country
   "7-16": {
     ...SHARED_HELP,
-    plan: "Select the Country.",
+    plan: "Select the country.",
     source:
       "Select the Country from the provided list. This field is required.",
   },
   // key_contacts[].address.zip_code
   "7-17": {
     ...NINE_DIGIT_HELP,
-    plan: "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
+    plan: "Enter the zip / postal code. This field is required if the country is the United States.",
     source:
       "Enter the Postal Code (e.g., ZIP code). This field is required if Country is the United States.",
   },
   // key_contacts[].phone
   "7-18": {
     ...SHARED_HELP,
-    plan: "Enter the Phone Number.",
+    plan: "Enter the phone number.",
     source: "Enter the daytime Telephone Number. This field is required.",
   },
   // key_contacts[].email
   "7-20": {
     ...SHARED_HELP,
-    plan: "Enter the Email Address.",
+    plan: "Enter the email address.",
     source: "Enter a valid Email Address. This field is required.",
+  },
+  // key_contacts[].name.middle_name
+  "7-05": {
+    ...SHARED_HELP,
+    plan: "Enter the middle name.",
+    source: "Enter the Middle Name.",
+  },
+  // key_contacts[].address.street2
+  "7-11": {
+    ...SHARED_HELP,
+    plan: "Enter the second line of the street address.",
+    source: "Enter the second line of the Street Address.",
+  },
+  // key_contacts[].address.county
+  "7-13": {
+    ...SHARED_HELP,
+    plan: "Enter the county or parish.",
+    source: "Enter the County.",
+  },
+  // key_contacts[].address.province
+  "7-15": {
+    ...SHARED_HELP,
+    plan: "Enter the province.",
+    source: "Enter the Province.",
+  },
+  // key_contacts[].fax
+  "7-19": {
+    ...SHARED_HELP,
+    plan: "Enter the fax number.",
+    source: "Enter the Fax Number.",
   },
 };
 

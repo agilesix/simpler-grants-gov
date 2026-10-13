@@ -108,7 +108,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Prefix.",
+              "help_text": "Enter the prefix.",
               "constraints": "minLength 1, maxLength 10",
               "json_path": "key_contacts[].name.prefix",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:PrefixName"
@@ -120,7 +120,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the First Name.",
+              "help_text": "Enter the first name.",
               "constraints": "minLength 1, maxLength 35",
               "json_path": "key_contacts[].name.first_name",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:FirstName"
@@ -132,7 +132,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Middle Name.",
+              "help_text": "Enter the middle name.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "key_contacts[].name.middle_name",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:MiddleName"
@@ -144,7 +144,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Last Name.",
+              "help_text": "Enter the last name.",
               "constraints": "minLength 1, maxLength 60",
               "json_path": "key_contacts[].name.last_name",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:LastName"
@@ -156,7 +156,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Suffix.",
+              "help_text": "Enter the suffix.",
               "constraints": "minLength 1, maxLength 10",
               "json_path": "key_contacts[].name.suffix",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactName/globLib:SuffixName"
@@ -178,7 +178,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the first line of the Street Address.",
+              "help_text": "Enter the first line of the street address.",
               "constraints": "minLength 1, maxLength 55",
               "json_path": "key_contacts[].address.street1",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Street1"
@@ -190,7 +190,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the second line of the Street Address.",
+              "help_text": "Enter the second line of the street address.",
               "constraints": "minLength 1, maxLength 55",
               "json_path": "key_contacts[].address.street2",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Street2"
@@ -202,7 +202,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the City.",
+              "help_text": "Enter the city.",
               "constraints": "minLength 1, maxLength 35",
               "json_path": "key_contacts[].address.city",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:City"
@@ -214,7 +214,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the County.",
+              "help_text": "Enter the county or parish.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "key_contacts[].address.county",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:County"
@@ -226,7 +226,7 @@
               "required": "Conditional (when Country = 'USA')",
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "Select the State. This field is required if the Country is the United States.",
+              "help_text": "Select the state. This field is required if the country is the United States.",
               "constraints": "StateCodeDataTypeV3",
               "json_path": "key_contacts[].address.state",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:State"
@@ -238,7 +238,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Province.",
+              "help_text": "Enter the province.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "key_contacts[].address.province",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Province"
@@ -250,7 +250,7 @@
               "required": true,
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "Select the Country.",
+              "help_text": "Select the country.",
               "constraints": "CountryCodeDataTypeV3",
               "json_path": "key_contacts[].address.country",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Country"
@@ -262,7 +262,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
+              "help_text": "Enter the zip / postal code. This field is required if the country is the United States.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "key_contacts[].address.zip_code",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:ZipPostalCode"
@@ -282,7 +282,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Phone Number.",
+              "help_text": "Enter the phone number.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "key_contacts[].phone",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactPhone"
@@ -294,7 +294,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Fax Number.",
+              "help_text": "Enter the fax number.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "key_contacts[].fax",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactFax"
@@ -306,7 +306,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the Email Address.",
+              "help_text": "Enter the email address.",
               "constraints": "minLength 1, maxLength 60, format email",
               "json_path": "key_contacts[].email",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactEmail"

@@ -9,31 +9,31 @@ namespace Questions.People;
 
 /** The parts of a person's name, one scalar per field. */
 namespace NameParts {
-  /** Enter the Prefix. */
+  /** Enter the prefix. */
   @Meta.question(#{ id: "person/name/prefix" })
   @minLength(1)
   @maxLength(10)
   scalar Prefix extends string;
 
-  /** Enter the First Name. */
+  /** Enter the first name. */
   @Meta.question(#{ id: "person/name/first-name" })
   @minLength(1)
   @maxLength(35)
   scalar FirstName extends string;
 
-  /** Enter the Middle Name. */
+  /** Enter the middle name. */
   @Meta.question(#{ id: "person/name/middle-name" })
   @minLength(1)
   @maxLength(25)
   scalar MiddleName extends string;
 
-  /** Enter the Last Name. */
+  /** Enter the last name. */
   @Meta.question(#{ id: "person/name/last-name" })
   @minLength(1)
   @maxLength(60)
   scalar LastName extends string;
 
-  /** Enter the Suffix. */
+  /** Enter the suffix. */
   @Meta.question(#{ id: "person/name/suffix" })
   @minLength(1)
   @maxLength(10)

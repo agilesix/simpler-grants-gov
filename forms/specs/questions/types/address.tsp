@@ -10,25 +10,25 @@ namespace Questions.Types;
 
 /** The parts of an address, one scalar per field. */
 namespace AddressParts {
-  /** Enter the first line of the Street Address. */
+  /** Enter the first line of the street address. */
   @Meta.question(#{ id: "types/address/street-1" })
   @minLength(1)
   @maxLength(55)
   scalar Street1 extends string;
 
-  /** Enter the second line of the Street Address. */
+  /** Enter the second line of the street address. */
   @Meta.question(#{ id: "types/address/street-2" })
   @minLength(1)
   @maxLength(55)
   scalar Street2 extends string;
 
-  /** Enter the City. */
+  /** Enter the city. */
   @Meta.question(#{ id: "types/address/city" })
   @minLength(1)
   @maxLength(35)
   scalar City extends string;
 
-  /** Enter the County or Parish. */
+  /** Enter the county or parish. */
   @Meta.question(#{ id: "types/address/county" })
   @minLength(1)
   @maxLength(30)
@@ -40,7 +40,7 @@ namespace AddressParts {
   @maxLength(30)
   scalar Province extends string;
 
-  /** Enter the Zip / Postal Code. */
+  /** Enter the zip / postal code. */
   @Meta.question(#{ id: "types/address/zip-code" })
   @minLength(1)
   @maxLength(30)
@@ -59,37 +59,37 @@ namespace AddressParts {
 @Validation.requiredPathWhen("state", "country", Questions.Types.CountryCode.USA)
 @Validation.requiredPathWhen("zipCode", "country", Questions.Types.CountryCode.USA)
 model Address {
-  /** Enter the first line of the Street Address. */
+  /** Enter the first line of the street address. */
   @UI.label("Street1")
   street1: Questions.Types.AddressParts.Street1;
 
-  /** Enter the second line of the Street Address. */
+  /** Enter the second line of the street address. */
   @UI.label("Street2")
   street2?: Questions.Types.AddressParts.Street2;
 
-  /** Enter the City. */
+  /** Enter the city. */
   @UI.label("City")
   city: Questions.Types.AddressParts.City;
 
-  /** Enter the County. */
+  /** Enter the county or parish. */
   @UI.label("County/Parish")
   county?: Questions.Types.AddressParts.County;
 
-  /** Select the State. This field is required if the Country is the United States. */
+  /** Select the state. This field is required if the country is the United States. */
   @UI.label("State")
   @UI.enabledWhen(Address.country, Questions.Types.CountryCode.USA)
   state?: Questions.Types.StateCode;
 
-  /** Enter the Province. */
+  /** Enter the province. */
   @UI.label("Province")
   @UI.hiddenWhen(Address.country, Questions.Types.CountryCode.USA)
   province?: Questions.Types.AddressParts.Province;
 
-  /** Select the Country. */
+  /** Select the country. */
   @UI.label("Country")
   country: Questions.Types.CountryCode;
 
-  /** Enter the Zip / Postal Code. This field is required if the Country is the United States. */
+  /** Enter the zip / postal code. This field is required if the country is the United States. */
   @UI.label("Zip / Postal Code")
   zipCode?: Questions.Types.AddressParts.ZipCode;
 }
