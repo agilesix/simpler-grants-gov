@@ -25,6 +25,7 @@
     {
       "kind": "section",
       "label": "1. Authorized Representative",
+      "help_text": "Original awards and amendments will be sent to this individual for review and acceptance, unless otherwise indicated.",
       "json_path": "authorized_representative",
       "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative",
       "widget": "FieldsetWidget",
@@ -250,6 +251,7 @@
     {
       "kind": "section",
       "label": "2. Payee",
+      "help_text": "Individual authorized to accept payments.",
       "json_path": "payee",
       "xml_path": "EPA_KeyContacts_2_0:Payee",
       "widget": "FieldsetWidget",
@@ -475,6 +477,7 @@
     {
       "kind": "section",
       "label": "3. Administrative Contact",
+      "help_text": "Individual from Sponsored Programs Office to contact concerning administrative matters (i.e., indirect cost rate computation, rebudgeting requests etc).",
       "json_path": "administrative_contact",
       "xml_path": "EPA_KeyContacts_2_0:AdministrativeContact",
       "widget": "FieldsetWidget",
@@ -700,6 +703,7 @@
     {
       "kind": "section",
       "label": "4. Project Manager",
+      "help_text": "Individual responsible for the technical completion of the proposed work.",
       "json_path": "project_manager",
       "xml_path": "EPA_KeyContacts_2_0:ProjectManager",
       "widget": "FieldsetWidget",

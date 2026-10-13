@@ -11,11 +11,13 @@ namespace Forms.KeyContacts;
 @Meta.form(#{ id: "key-contacts", formName: "KEY CONTACTS" })
 @UI.layout(KeyContacts)
 model KeyContactsLayout {
+  /** Enter the legal name of the applicant organization. */
   @UI.label("Applicant Information")
   applicant: {
     applicantOrganizationName: KeyContacts.applicantOrganizationName;
   };
 
+  /** You may enter up to four (4) key contacts. At least one (1) contact person is required; additional contacts are optional. */
   @UI.label("Contact Information")
   @UI.field(KeyContacts.keyContacts)
   keyContacts: {
