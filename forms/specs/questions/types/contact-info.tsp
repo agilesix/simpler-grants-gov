@@ -10,7 +10,7 @@ namespace Questions.Types;
 // email question extends: `PersonPhoneNumber`, and in time an `OrgPhoneNumber`.
 /** Enter the daytime telephone number. */
 @Meta.question(#{ id: "types/contact-info/phone-number" })
-@Meta.tag(TagName.phone)
+@Meta.tag(Catalogue.Tag.phone)
 @UI.label("Phone Number")
 @minLength(1)
 @maxLength(25)
@@ -19,7 +19,7 @@ scalar PhoneNumber extends string;
 // `globLib:EmailDataType` is minLength 1, maxLength 60, so both bounds are declared here.
 /** Enter a valid email address. */
 @Meta.question(#{ id: "types/contact-info/email-address" })
-@Meta.tag(TagName.email)
+@Meta.tag(Catalogue.Tag.email)
 @UI.label("Email")
 @format("email")
 @minLength(1)

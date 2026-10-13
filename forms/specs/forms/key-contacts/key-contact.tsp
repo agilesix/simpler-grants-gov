@@ -11,7 +11,7 @@ namespace Forms.KeyContacts;
 /** Enter the key contact's free-text role on this project. */
 @Meta.question(#{ id: "person/key-contact/project-role" })
 @Meta.role(ResponseRole.applicantInput)
-@Meta.tag(TagName.person, TagName.role)
+@Meta.tag(Catalogue.Tag.person, Catalogue.Tag.role)
 @minLength(1)
 @maxLength(45)
 scalar ProjectRole extends string;
@@ -22,7 +22,7 @@ scalar ProjectRole extends string;
  * A `Person`, plus a free-text role and an affiliation, and the email is required.
  */
 @Meta.question(#{ id: "person/key-contact" })
-@Meta.tag(TagName.person, TagName.role)
+@Meta.tag(Catalogue.Tag.person, Catalogue.Tag.role)
 @UI.label("Key Contact")
 @example(Forms.KeyContacts.Examples.principalInvestigator)
 @Validation.requiredPaths("email")

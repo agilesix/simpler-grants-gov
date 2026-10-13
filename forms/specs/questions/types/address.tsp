@@ -54,7 +54,7 @@ namespace AddressParts {
 // a US address.
 /** Enter an address. */
 @Meta.question(#{ id: "types/address" })
-@Meta.tag(TagName.address)
+@Meta.tag(Catalogue.Tag.address)
 @UI.label("Address")
 @Validation.requiredPathWhen("state", "country", Questions.Types.CountryCode.USA)
 @Validation.requiredPathWhen("zipCode", "country", Questions.Types.CountryCode.USA)

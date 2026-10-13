@@ -9,6 +9,7 @@
     "emitters/xml"
   ],
   "imports": {
+    "#catalogue/*": "./specs/catalogue/*",
     "#forms/*": "./specs/forms/*",
     "#questions/*": "./specs/questions/*",
     "#xsd/*": "./specs/xsd/*",

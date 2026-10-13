@@ -10,7 +10,7 @@ namespace Questions.Types;
 // location and hash are written from the upload when the XML is built.
 /** Attach a file. */
 @Meta.question(#{ id: "types/attachment" })
-@Meta.tag(TagName.attachment)
+@Meta.tag(Catalogue.Tag.attachment)
 @UI.label("Attachment")
 @UI.widget(Rendering.Widget.Attachment)
 @format("uuid")

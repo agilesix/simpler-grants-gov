@@ -8,7 +8,7 @@ namespace Questions.People;
 
 /** Enter the position title. */
 @Meta.question(#{ id: "person/title" })
-@Meta.tag(TagName.title)
+@Meta.tag(Catalogue.Tag.title)
 @UI.label("Title")
 @minLength(1)
 @maxLength(45)

@@ -19,19 +19,19 @@ model PersonAddress is Questions.Types.Address;
 
 /** Enter the daytime telephone number. */
 @Meta.question(#{ id: "person/phone-number" })
-@Meta.tag(TagName.person, TagName.phone)
+@Meta.tag(Catalogue.Tag.person, Catalogue.Tag.phone)
 @UI.label("Phone Number")
 scalar PersonPhoneNumber extends Questions.Types.PhoneNumber;
 
 /** Enter the fax number. */
 @Meta.question(#{ id: "person/fax-number" })
-@Meta.tag(TagName.person, TagName.phone)
+@Meta.tag(Catalogue.Tag.person, Catalogue.Tag.phone)
 @UI.label("Fax Number")
 scalar PersonFaxNumber extends Questions.Types.PhoneNumber;
 
 /** Enter a valid email address. */
 @Meta.question(#{ id: "person/email" })
-@Meta.tag(TagName.person, TagName.email)
+@Meta.tag(Catalogue.Tag.person, Catalogue.Tag.email)
 @UI.label("Email")
 scalar PersonEmail extends Questions.Types.EmailAddress;
 
@@ -43,7 +43,7 @@ scalar PersonEmail extends Questions.Types.EmailAddress;
  * key contact's project role, is a separate question that spreads this one.
  */
 @Meta.question(#{ id: "person" })
-@Meta.tag(TagName.person, TagName.details)
+@Meta.tag(Catalogue.Tag.person, Catalogue.Tag.details)
 @UI.label("Contact Person")
 @example(Questions.People.Examples.usContact)
 model Person {

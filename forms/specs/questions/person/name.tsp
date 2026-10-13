@@ -42,7 +42,7 @@ namespace NameParts {
 
 /** A person's name, in five parts. `HumanNameDataType` requires the first and last name. */
 @Meta.question(#{ id: "person/name" })
-@Meta.tag(TagName.person, TagName.name)
+@Meta.tag(Catalogue.Tag.person, Catalogue.Tag.name)
 @UI.label("Name")
 model PersonName {
   @UI.label("Prefix")

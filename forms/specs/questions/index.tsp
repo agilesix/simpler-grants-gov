@@ -1,6 +1,7 @@
 import "@typespec/json-schema";
 import "simpler-forms";
 
+import "#catalogue/index.tsp";
 import "#ui/widgets.tsp";
 
 using SimplerForms;
