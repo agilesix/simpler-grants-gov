@@ -6,14 +6,12 @@ import { xmlTransform } from "./xml-transform.js";
 
 /**
  * Writes Grants.gov XML transform rules -- the `xml_transform.json` the API's XML generation
- * reads -- for every submission linked in a configured mapping, beside the artifacts of each
- * form presenting it:
+ * reads -- for every form linked in a configured mapping, beside the form's other artifacts:
  *
  *   forms/<form id>/xml-transform.json
  *
  * Point `emitter-output-dir` at the `simpler-forms` emitter's to keep a form's artifacts in
- * one directory. One file per form, so a submission linked in two configured mappings is an
- * error.
+ * one directory. One file per form, so a form linked in two configured mappings is an error.
  */
 export async function $onEmit(
   context: EmitContext<XmlEmitterOptions>,
@@ -39,12 +37,8 @@ export async function $onEmit(
     }
     if (program.compilerOptions.noEmit) continue;
 
-    const { forms } = resolveForms(program);
-    // Each form carries its own copy of its submission's block, so match them by model.
-    const submissions = new Map(
-      forms.map((form) => [form.submission.model as Model, form.submission]),
-    );
-    for (const [model, submission] of submissions) {
+    for (const form of resolveForms(program).forms) {
+      const { model } = form;
       const rules = xmlTransform(program, model, mapping, casing, direction);
       if (!rules) continue;
       const first = emitted.get(model);
@@ -52,19 +46,18 @@ export async function $onEmit(
         reportDiagnostic(program, {
           code: "xml-transform-collision",
           target: model,
-          format: { form: submission.id, first, second: name },
+          format: { form: form.id, first, second: name },
         });
         continue;
       }
       emitted.set(model, name);
-      for (const form of forms.filter((f) => f.submission.model === model))
-        await emitFile(program, {
-          path: resolvePath(
-            context.emitterOutputDir,
-            `forms/${form.id}/xml-transform.json`,
-          ),
-          content: `${JSON.stringify(rules, null, 2)}\n`,
-        });
+      await emitFile(program, {
+        path: resolvePath(
+          context.emitterOutputDir,
+          `forms/${form.id}/xml-transform.json`,
+        ),
+        content: `${JSON.stringify(rules, null, 2)}\n`,
+      });
     }
   }
 }

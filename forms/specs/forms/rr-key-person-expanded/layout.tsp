@@ -54,10 +54,6 @@ model RRExpandedKeyPersonProfileLayout<Whose extends valueof string> {
 
 // The paper form's sections: the PD/PI, the other senior/key persons, then the attachments
 // for anyone the form has no room for.
-@Meta.form(#{
-  id: "rr-key-person-expanded",
-  formName: "RESEARCH & RELATED Senior/Key Person Profile (Expanded)",
-})
 @UI.layout(RRKeyPersonExpanded)
 model RRKeyPersonExpandedLayout {
   /** Enter the profile of the Project Director/Principal Investigator (PD/PI). */

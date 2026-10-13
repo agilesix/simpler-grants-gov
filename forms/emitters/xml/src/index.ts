@@ -27,7 +27,7 @@ const $form = (
   identity: FormIdentity,
 ) => ctx.program.stateMap(stateKeys.form).set(target, identity);
 
-/** Each form's Grants.gov identity, keyed by the model with `@Meta.submission`. */
+/** Each form's Grants.gov identity, keyed by the model with `@Meta.form`. */
 export const formIdentities = (program: Program) =>
   program.stateMap(stateKeys.form) as Map<Model, FormIdentity>;
 

@@ -12,7 +12,10 @@ namespace Forms.RRKeyPerson;
 
 // The data only: how an applicant is shown it is in layout.tsp.
 /** Research & Related Senior/Key Person Profile, Grants.gov version 3.0. */
-@Meta.submission(#{ id: "rr-key-person" })
+@Meta.form(#{
+  id: "rr-key-person",
+  formName: "RESEARCH & RELATED Senior/Key Person Profile",
+})
 @GrantsGov.form(#{
   legacyFormId: 772,
   shortFormName: "RR_KeyPerson",

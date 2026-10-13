@@ -38,7 +38,6 @@ model EPAContact<Whose extends valueof string> {
 }
 
 // The paper form's layout: one section per role, in official order.
-@Meta.form(#{ id: "epa-key-contacts", formName: "EPA KEY CONTACTS FORM" })
 @UI.layout(EPAKeyContacts)
 model EPAKeyContactsLayout {
   @UI.label("Authorized Representative")

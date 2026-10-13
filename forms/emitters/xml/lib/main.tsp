@@ -14,7 +14,7 @@ extern dec xsd(target: Model, url: valueof string);
 
 /**
  * Grants.gov's identity for a form: what it is listed and versioned as. Goes on the model
- * with `@Meta.submission`, since it describes the form, not a presentation of it.
+ * with `@Meta.form`.
  */
 extern dec form(target: Model, identity: valueof FormIdentity);
 

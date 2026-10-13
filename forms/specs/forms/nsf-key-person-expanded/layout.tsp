@@ -92,10 +92,6 @@ model NSFSeniorKeyPersonProfileLayout {
 
 // The paper form's sections: the PD/PI, the other senior/key persons, then the attachments
 // for anyone the form has no room for.
-@Meta.form(#{
-  id: "nsf-key-person-expanded",
-  formName: "NSF Senior/Key Person Profile (Expanded)",
-})
 @UI.layout(NSFKeyPersonExpanded)
 model NSFKeyPersonExpandedLayout {
   /** Enter the profile of the Project Director/Principal Investigator (PD/PI). */

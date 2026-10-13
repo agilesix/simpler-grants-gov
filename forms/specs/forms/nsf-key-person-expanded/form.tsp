@@ -12,7 +12,10 @@ namespace Forms.NSFKeyPersonExpanded;
 
 // The data only: how an applicant is shown it is in layout.tsp.
 /** NSF Senior/Key Person Profile (Expanded), Grants.gov version 3.3. */
-@Meta.submission(#{ id: "nsf-key-person-expanded" })
+@Meta.form(#{
+  id: "nsf-key-person-expanded",
+  formName: "NSF Senior/Key Person Profile (Expanded)",
+})
 @GrantsGov.form(#{
   legacyFormId: 828,
   shortFormName: "NSF_KeyPersonExpanded",

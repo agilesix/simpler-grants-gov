@@ -8,7 +8,6 @@ namespace Forms.KeyContacts;
 
 // The paper form's sections, with each contact's project role, title and affiliation
 // grouped under a Role heading ahead of the name. The data keeps them in XSD order.
-@Meta.form(#{ id: "key-contacts", formName: "KEY CONTACTS" })
 @UI.layout(KeyContacts)
 model KeyContactsLayout {
   /** Enter the legal name of the applicant organization. */

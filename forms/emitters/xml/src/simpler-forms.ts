@@ -34,15 +34,15 @@ export interface ResolvedMapping {
 
 export interface Block {
   model: Model | Scalar;
-  kind: "question" | "submission";
+  kind: "question" | "form";
   id: string;
 }
 
-/** One `@Meta.form`, published as `forms/<id>/`, and the submission it presents. */
+/** One `@Meta.form`, published as `forms/<id>/`. */
 export interface PublishedForm {
   id: string;
   model: Model;
-  submission: Block;
+  block: Block;
 }
 
 export const resolveForms = sf.resolveForms as unknown as (
