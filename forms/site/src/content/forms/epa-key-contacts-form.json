@@ -112,7 +112,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the person's position title.",
+              "help_text": "Enter the position title.",
               "constraints": "minLength 1, maxLength 45",
               "json_path": "authorized_representative.title",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Title"
@@ -158,7 +158,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the city.",
+              "help_text": "Enter the City.",
               "constraints": "minLength 1, maxLength 35",
               "json_path": "authorized_representative.address.city",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:City"
@@ -170,7 +170,7 @@
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
               "type": "Dropdown (state code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the state.",
+              "help_text": "Select the State. This field is required if the Country is the United States.",
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "authorized_representative.address.state",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:State"
@@ -182,7 +182,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+              "help_text": "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "authorized_representative.address.zip_code",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:ZipPostalCode"
@@ -194,7 +194,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Dropdown (country code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the country.",
+              "help_text": "Select the Country.",
               "constraints": "CountryCodeDataTypeV3 enumeration",
               "json_path": "authorized_representative.address.country",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Address/globLib:Country"
@@ -214,7 +214,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the daytime Telephone Number.",
+              "help_text": "Enter the Phone Number.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "authorized_representative.phone",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Phone"
@@ -238,7 +238,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter a valid email Address.",
+              "help_text": "Enter the Email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
               "json_path": "authorized_representative.email",
               "xml_path": "EPA_KeyContacts_2_0:AuthorizedRepresentative/globLib:Email"
@@ -337,7 +337,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the person's position title.",
+              "help_text": "Enter the position title.",
               "constraints": "minLength 1, maxLength 45",
               "json_path": "payee.title",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Title"
@@ -383,7 +383,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the city.",
+              "help_text": "Enter the City.",
               "constraints": "minLength 1, maxLength 35",
               "json_path": "payee.address.city",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:City"
@@ -395,7 +395,7 @@
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
               "type": "Dropdown (state code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the state.",
+              "help_text": "Select the State. This field is required if the Country is the United States.",
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "payee.address.state",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:State"
@@ -407,7 +407,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+              "help_text": "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "payee.address.zip_code",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:ZipPostalCode"
@@ -419,7 +419,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Dropdown (country code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the country.",
+              "help_text": "Select the Country.",
               "constraints": "CountryCodeDataTypeV3 enumeration",
               "json_path": "payee.address.country",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Address/globLib:Country"
@@ -439,7 +439,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the daytime Telephone Number.",
+              "help_text": "Enter the Phone Number.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "payee.phone",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Phone"
@@ -463,7 +463,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter a valid email Address.",
+              "help_text": "Enter the Email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
               "json_path": "payee.email",
               "xml_path": "EPA_KeyContacts_2_0:Payee/globLib:Email"
@@ -562,7 +562,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the person's position title.",
+              "help_text": "Enter the position title.",
               "constraints": "minLength 1, maxLength 45",
               "json_path": "administrative_contact.title",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Title"
@@ -608,7 +608,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the city.",
+              "help_text": "Enter the City.",
               "constraints": "minLength 1, maxLength 35",
               "json_path": "administrative_contact.address.city",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:City"
@@ -620,7 +620,7 @@
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
               "type": "Dropdown (state code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the state.",
+              "help_text": "Select the State. This field is required if the Country is the United States.",
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "administrative_contact.address.state",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:State"
@@ -632,7 +632,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+              "help_text": "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "administrative_contact.address.zip_code",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:ZipPostalCode"
@@ -644,7 +644,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Dropdown (country code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the country.",
+              "help_text": "Select the Country.",
               "constraints": "CountryCodeDataTypeV3 enumeration",
               "json_path": "administrative_contact.address.country",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Address/globLib:Country"
@@ -664,7 +664,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the daytime Telephone Number.",
+              "help_text": "Enter the Phone Number.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "administrative_contact.phone",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Phone"
@@ -688,7 +688,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter a valid email Address.",
+              "help_text": "Enter the Email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
               "json_path": "administrative_contact.email",
               "xml_path": "EPA_KeyContacts_2_0:AdminstrativeContact/globLib:Email"
@@ -787,7 +787,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the person's position title.",
+              "help_text": "Enter the position title.",
               "constraints": "minLength 1, maxLength 45",
               "json_path": "project_manager.title",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Title"
@@ -833,7 +833,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the city.",
+              "help_text": "Enter the City.",
               "constraints": "minLength 1, maxLength 35",
               "json_path": "project_manager.address.city",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:City"
@@ -845,7 +845,7 @@
               "required": "Conditional (when Country = \"USA: UNITED STATES\")",
               "type": "Dropdown (state code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the state.",
+              "help_text": "Select the State. This field is required if the Country is the United States.",
               "constraints": "StateCodeDataTypeV3 enumeration",
               "json_path": "project_manager.address.state",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:State"
@@ -857,7 +857,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+              "help_text": "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "project_manager.address.zip_code",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:ZipPostalCode"
@@ -869,7 +869,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Dropdown (country code list)",
               "widget": "SelectWidget",
-              "help_text": "Enter the country.",
+              "help_text": "Select the Country.",
               "constraints": "CountryCodeDataTypeV3 enumeration",
               "json_path": "project_manager.address.country",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Address/globLib:Country"
@@ -889,7 +889,7 @@
               "required": "No (per XSD; required when section is started per SGG implementation)",
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the daytime Telephone Number.",
+              "help_text": "Enter the Phone Number.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "project_manager.phone",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Phone"
@@ -913,7 +913,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter a valid email Address.",
+              "help_text": "Enter the Email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
               "json_path": "project_manager.email",
               "xml_path": "EPA_KeyContacts_2_0:ProjectManager/globLib:Email"

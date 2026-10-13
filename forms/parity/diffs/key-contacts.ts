@@ -1,10 +1,5 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import {
-  FREE_TEXT_HELP,
-  LIST_HELP,
-  SHARED_HELP,
-  standardLabel,
-} from "./common.ts";
+import { FREE_TEXT_HELP, SHARED_HELP, standardLabel } from "./common.ts";
 
 /** The DAT stars State and Zip but answers "No" in its Required column; both are required only for a US address. */
 const conditionalStar = (label: string): Pinned => ({
@@ -62,12 +57,6 @@ const help: Record<string, Pinned> = {
     source:
       "Select the Suffix from the provided list or enter a new Suffix not provided on the list.",
   },
-  // key_contacts[].title
-  "7-08": {
-    ...SHARED_HELP,
-    plan: "Enter the person's position title.",
-    source: "Enter the position title.",
-  },
   // key_contacts[].organizational_affiliation
   "7-09": {
     ...KEY_CONTACT_HELP,
@@ -85,52 +74,40 @@ const help: Record<string, Pinned> = {
   // key_contacts[].address.city
   "7-12": {
     ...SHARED_HELP,
-    plan: "Enter the city.",
+    plan: "Enter the City.",
     source: "Enter the City. This field is required.",
-  },
-  // key_contacts[].address.county
-  "7-13": {
-    ...SHARED_HELP,
-    plan: "Enter the County or Parish.",
-    source: "Enter the County.",
   },
   // key_contacts[].address.state
   "7-14": {
-    ...LIST_HELP,
-    plan: "Enter the state.",
+    ...SHARED_HELP,
+    plan: "Select the State. This field is required if the Country is the United States.",
     source:
       "Select the state, US possession or military code from the provided list. This field is required if Country is the United States.",
   },
-  // key_contacts[].address.province
-  "7-15": {
-    ...SHARED_HELP,
-    plan: "Enter the province.",
-    source: "Enter the Province.",
-  },
   // key_contacts[].address.country
   "7-16": {
-    ...LIST_HELP,
-    plan: "Enter the country.",
+    ...SHARED_HELP,
+    plan: "Select the Country.",
     source:
       "Select the Country from the provided list. This field is required.",
   },
   // key_contacts[].address.zip_code
   "7-17": {
     ...NINE_DIGIT_HELP,
-    plan: "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+    plan: "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
     source:
       "Enter the Postal Code (e.g., ZIP code). This field is required if Country is the United States.",
   },
   // key_contacts[].phone
   "7-18": {
     ...SHARED_HELP,
-    plan: "Enter the daytime Telephone Number.",
+    plan: "Enter the Phone Number.",
     source: "Enter the daytime Telephone Number. This field is required.",
   },
   // key_contacts[].email
   "7-20": {
     ...SHARED_HELP,
-    plan: "Enter a valid email Address.",
+    plan: "Enter the Email Address.",
     source: "Enter a valid Email Address. This field is required.",
   },
 };

@@ -16,13 +16,6 @@ export const SHARED_HELP: Recorded = {
     "Shared questions use one help text across forms, written in the question bank, so it does not follow this DAT's wording: role names, “Please”, or “This field is required.” (the form marks required fields itself).",
 };
 
-/** Help that says “Enter” for a field the form shows as a dropdown list. */
-export const LIST_HELP: Recorded = {
-  category: "gap",
-  reason:
-    "The shared question's help says “Enter” for a field the form shows as a dropdown list. The DAT's “Select … from the provided list” describes it more accurately.",
-};
-
 /** Prefix and Suffix, which Grants.gov offers as a list and the form does not. */
 export const FREE_TEXT_HELP: Recorded = {
   category: "intentional",

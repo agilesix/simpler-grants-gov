@@ -74,7 +74,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the person's position title.",
+              "help_text": "Enter the position title.",
               "constraints": "minLength 1, maxLength 45",
               "json_path": "key_contacts[].title",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactTitle"
@@ -202,7 +202,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the city.",
+              "help_text": "Enter the City.",
               "constraints": "minLength 1, maxLength 35",
               "json_path": "key_contacts[].address.city",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:City"
@@ -214,7 +214,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the County or Parish.",
+              "help_text": "Enter the County.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "key_contacts[].address.county",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:County"
@@ -226,7 +226,7 @@
               "required": "Conditional (when Country = 'USA')",
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "Enter the state.",
+              "help_text": "Select the State. This field is required if the Country is the United States.",
               "constraints": "StateCodeDataTypeV3",
               "json_path": "key_contacts[].address.state",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:State"
@@ -238,7 +238,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the province.",
+              "help_text": "Enter the Province.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "key_contacts[].address.province",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Province"
@@ -250,7 +250,7 @@
               "required": true,
               "type": "Dropdown",
               "widget": "SelectWidget",
-              "help_text": "Enter the country.",
+              "help_text": "Select the Country.",
               "constraints": "CountryCodeDataTypeV3",
               "json_path": "key_contacts[].address.country",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:Country"
@@ -262,7 +262,7 @@
               "required": false,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+              "help_text": "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
               "constraints": "minLength 1, maxLength 30",
               "json_path": "key_contacts[].address.zip_code",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactAddress/globLib:ZipPostalCode"
@@ -282,7 +282,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter the daytime Telephone Number.",
+              "help_text": "Enter the Phone Number.",
               "constraints": "minLength 1, maxLength 25",
               "json_path": "key_contacts[].phone",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactPhone"
@@ -306,7 +306,7 @@
               "required": true,
               "type": "Text input",
               "widget": "TextWidget",
-              "help_text": "Enter a valid email Address.",
+              "help_text": "Enter the Email Address.",
               "constraints": "minLength 1, maxLength 60, format email",
               "json_path": "key_contacts[].email",
               "xml_path": "Key_Contacts_2_0:RoleOnProject/Key_Contacts_2_0:ContactEmail"

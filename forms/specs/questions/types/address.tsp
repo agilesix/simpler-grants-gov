@@ -22,7 +22,7 @@ namespace AddressParts {
   @maxLength(55)
   scalar Street2 extends string;
 
-  /** Enter the city. */
+  /** Enter the City. */
   @Meta.question(#{ id: "types/address/city" })
   @minLength(1)
   @maxLength(35)
@@ -67,29 +67,29 @@ model Address {
   @UI.label("Street2")
   street2?: Questions.Types.AddressParts.Street2;
 
-  /** Enter the city. */
+  /** Enter the City. */
   @UI.label("City")
   city: Questions.Types.AddressParts.City;
 
-  /** Enter the County or Parish. */
+  /** Enter the County. */
   @UI.label("County/Parish")
   county?: Questions.Types.AddressParts.County;
 
-  /** Enter the state. */
+  /** Select the State. This field is required if the Country is the United States. */
   @UI.label("State")
   @UI.enabledWhen(Address.country, Questions.Types.CountryCode.USA)
   state?: Questions.Types.StateCode;
 
-  /** Enter the province. */
+  /** Enter the Province. */
   @UI.label("Province")
   @UI.hiddenWhen(Address.country, Questions.Types.CountryCode.USA)
   province?: Questions.Types.AddressParts.Province;
 
-  /** Enter the country. */
+  /** Select the Country. */
   @UI.label("Country")
   country: Questions.Types.CountryCode;
 
-  /** Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States. */
+  /** Enter the Zip / Postal Code. This field is required if the Country is the United States. */
   @UI.label("Zip / Postal Code")
   zipCode?: Questions.Types.AddressParts.ZipCode;
 }

@@ -1,10 +1,5 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import {
-  FREE_TEXT_HELP,
-  LIST_HELP,
-  SHARED_HELP,
-  standardLabel,
-} from "./common.ts";
+import { FREE_TEXT_HELP, SHARED_HELP, standardLabel } from "./common.ts";
 
 const ROLES = [
   "authorized_representative",
@@ -88,7 +83,7 @@ const help: Record<string, Pinned> = {
   // authorized_representative.title
   "B1-08": {
     ...SHARED_HELP,
-    plan: "Enter the person's position title.",
+    plan: "Enter the position title.",
     source: "Please enter the Authorized Representative's Title.",
   },
   // authorized_representative.address.street1
@@ -108,33 +103,33 @@ const help: Record<string, Pinned> = {
   // authorized_representative.address.city
   "B1-12": {
     ...SHARED_HELP,
-    plan: "Enter the city.",
+    plan: "Enter the City.",
     source: "Please enter the Authorized Representative's City.",
   },
   // authorized_representative.address.state
   "B1-13": {
-    ...LIST_HELP,
-    plan: "Enter the state.",
+    ...SHARED_HELP,
+    plan: "Select the State. This field is required if the Country is the United States.",
     source:
       "Please enter the Authorized Representative's State. Select from the pull down menu.",
   },
   // authorized_representative.address.zip_code
   "B1-14": {
     ...US_ZIP_HELP,
-    plan: "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+    plan: "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
     source: "Please enter the Authorized Representative's Zip / Postal Code.",
   },
   // authorized_representative.address.country
   "B1-15": {
-    ...LIST_HELP,
-    plan: "Enter the country.",
+    ...SHARED_HELP,
+    plan: "Select the Country.",
     source:
       "Please enter the Authorized Representative's Country. Select from the pull down menu.",
   },
   // authorized_representative.phone
   "B1-16": {
     ...SHARED_HELP,
-    plan: "Enter the daytime Telephone Number.",
+    plan: "Enter the Phone Number.",
     source: "Please enter the Authorized Representative's Phone Number.",
   },
   // authorized_representative.fax
@@ -146,7 +141,7 @@ const help: Record<string, Pinned> = {
   // authorized_representative.email
   "B1-18": {
     ...SHARED_HELP,
-    plan: "Enter a valid email Address.",
+    plan: "Enter the Email Address.",
     source: "Please enter the Authorized Representative's E-mail Address.",
   },
   // payee.name.prefix
@@ -184,7 +179,7 @@ const help: Record<string, Pinned> = {
   // payee.title
   "B2-08": {
     ...SHARED_HELP,
-    plan: "Enter the person's position title.",
+    plan: "Enter the position title.",
     source: "Please enter the Payee's Title.",
   },
   // payee.address.street1
@@ -202,31 +197,31 @@ const help: Record<string, Pinned> = {
   // payee.address.city
   "B2-12": {
     ...SHARED_HELP,
-    plan: "Enter the city.",
+    plan: "Enter the City.",
     source: "Please enter the Payee's City.",
   },
   // payee.address.state
   "B2-13": {
-    ...LIST_HELP,
-    plan: "Enter the state.",
+    ...SHARED_HELP,
+    plan: "Select the State. This field is required if the Country is the United States.",
     source: "Please enter the Payee's State. Select from the pull down menu.",
   },
   // payee.address.zip_code
   "B2-14": {
     ...US_ZIP_HELP,
-    plan: "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+    plan: "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
     source: "Please enter the Payee's Zip / Postal Code.",
   },
   // payee.address.country
   "B2-15": {
-    ...LIST_HELP,
-    plan: "Enter the country.",
+    ...SHARED_HELP,
+    plan: "Select the Country.",
     source: "Please enter the Payee's Country. Select from the pull down menu.",
   },
   // payee.phone
   "B2-16": {
     ...SHARED_HELP,
-    plan: "Enter the daytime Telephone Number.",
+    plan: "Enter the Phone Number.",
     source: "Please enter the Payee's Phone Number.",
   },
   // payee.fax
@@ -238,7 +233,7 @@ const help: Record<string, Pinned> = {
   // payee.email
   "B2-18": {
     ...SHARED_HELP,
-    plan: "Enter a valid email Address.",
+    plan: "Enter the Email Address.",
     source: "Please enter the Payee's E-mail Address.",
   },
   // administrative_contact.name.prefix
@@ -276,7 +271,7 @@ const help: Record<string, Pinned> = {
   // administrative_contact.title
   "B3-08": {
     ...SHARED_HELP,
-    plan: "Enter the person's position title.",
+    plan: "Enter the position title.",
     source: "Please enter the Administrative Contact's Title.",
   },
   // administrative_contact.address.street1
@@ -296,33 +291,33 @@ const help: Record<string, Pinned> = {
   // administrative_contact.address.city
   "B3-12": {
     ...SHARED_HELP,
-    plan: "Enter the city.",
+    plan: "Enter the City.",
     source: "Please enter the Administrative Contact's City.",
   },
   // administrative_contact.address.state
   "B3-13": {
-    ...LIST_HELP,
-    plan: "Enter the state.",
+    ...SHARED_HELP,
+    plan: "Select the State. This field is required if the Country is the United States.",
     source:
       "Please enter the Administrative Contact's State. Select from the pull down menu.",
   },
   // administrative_contact.address.zip_code
   "B3-14": {
     ...US_ZIP_HELP,
-    plan: "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+    plan: "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
     source: "Please enter the Administrative Contact's Zip / Postal Code.",
   },
   // administrative_contact.address.country
   "B3-15": {
-    ...LIST_HELP,
-    plan: "Enter the country.",
+    ...SHARED_HELP,
+    plan: "Select the Country.",
     source:
       "Please enter the Administrative Contact's Country. Select from the pull down menu.",
   },
   // administrative_contact.phone
   "B3-16": {
     ...SHARED_HELP,
-    plan: "Enter the daytime Telephone Number.",
+    plan: "Enter the Phone Number.",
     source: "Please enter the Administrative Contact's Phone Number.",
   },
   // administrative_contact.fax
@@ -334,7 +329,7 @@ const help: Record<string, Pinned> = {
   // administrative_contact.email
   "B3-18": {
     ...SHARED_HELP,
-    plan: "Enter a valid email Address.",
+    plan: "Enter the Email Address.",
     source: "Please enter the Administrative Contact's E-mail Address.",
   },
   // project_manager.name.prefix
@@ -372,7 +367,7 @@ const help: Record<string, Pinned> = {
   // project_manager.title
   "B4-08": {
     ...SHARED_HELP,
-    plan: "Enter the person's position title.",
+    plan: "Enter the position title.",
     source: "Please enter the Project Manager's Title.",
   },
   // project_manager.address.street1
@@ -392,33 +387,33 @@ const help: Record<string, Pinned> = {
   // project_manager.address.city
   "B4-12": {
     ...SHARED_HELP,
-    plan: "Enter the city.",
+    plan: "Enter the City.",
     source: "Please enter the Project Manager's City.",
   },
   // project_manager.address.state
   "B4-13": {
-    ...LIST_HELP,
-    plan: "Enter the state.",
+    ...SHARED_HELP,
+    plan: "Select the State. This field is required if the Country is the United States.",
     source:
       "Please enter the Project Manager's State. Select from the pull down menu.",
   },
   // project_manager.address.zip_code
   "B4-14": {
     ...US_ZIP_HELP,
-    plan: "Enter the nine-digit Postal Code (e.g., ZIP Code). This field is required if the Country is the United States.",
+    plan: "Enter the Zip / Postal Code. This field is required if the Country is the United States.",
     source: "Please enter the Project Manager's Zip / Postal Code.",
   },
   // project_manager.address.country
   "B4-15": {
-    ...LIST_HELP,
-    plan: "Enter the country.",
+    ...SHARED_HELP,
+    plan: "Select the Country.",
     source:
       "Please enter the Project Manager's Country. Select from the pull down menu.",
   },
   // project_manager.phone
   "B4-16": {
     ...SHARED_HELP,
-    plan: "Enter the daytime Telephone Number.",
+    plan: "Enter the Phone Number.",
     source: "Please enter the Project Manager's Phone Number.",
   },
   // project_manager.fax
@@ -430,7 +425,7 @@ const help: Record<string, Pinned> = {
   // project_manager.email
   "B4-18": {
     ...SHARED_HELP,
-    plan: "Enter a valid email Address.",
+    plan: "Enter the Email Address.",
     source: "Please enter the Project Manager's E-mail Address.",
   },
 };

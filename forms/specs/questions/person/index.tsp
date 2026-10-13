@@ -51,7 +51,7 @@ model Person {
   @UI.label("Name")
   name: Questions.People.PersonName;
 
-  /** Enter the person's position title. */
+  /** Enter the position title. */
   @UI.label("Title")
   title?: Questions.People.PersonTitle;
 
@@ -61,7 +61,7 @@ model Person {
 
   // `ContactPersonDataTypeV3` makes the phone optional; the forms that ask for a contact
   // person require it.
-  /** Enter the daytime Telephone Number. */
+  /** Enter the Phone Number. */
   @UI.label("Phone Number")
   phone: Questions.People.PersonPhoneNumber;
 
@@ -69,7 +69,7 @@ model Person {
   @UI.label("Fax Number")
   fax?: Questions.People.PersonFaxNumber;
 
-  /** Enter a valid email Address. */
+  /** Enter the Email Address. */
   @UI.label("Email")
   email?: Questions.People.PersonEmail;
 }

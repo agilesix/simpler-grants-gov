@@ -36,8 +36,8 @@ describe("Key Contacts", () => {
       expect(statusOf(form, id, "label", "dat")).toBe("upstream");
     });
 
-    it("DAT help is known gap", () => {
-      expect(statusOf(form, id, "help", "dat")).toBe("gap");
+    it("DAT help differs intentionally", () => {
+      expect(statusOf(form, id, "help", "dat")).toBe("intentional");
     });
 
     it("form options match XSD", () => {
