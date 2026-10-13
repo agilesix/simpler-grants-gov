@@ -28,15 +28,10 @@ enum RRProjectRole {
 
 /** One person's profile. The PD/PI and each senior/key person share it. */
 model RRKeyPersonProfile {
-  name: Questions.People.PersonName;
-  title?: Questions.People.PersonTitle;
+  ...Questions.People.Person;
   organizationName?: Questions.Organizations.OrgName;
   department?: Questions.Organizations.OrgDepartment;
   division?: Questions.Organizations.OrgDivision;
-  address: Questions.People.PersonAddress;
-  phone: Questions.People.PersonPhoneNumber;
-  fax?: Questions.People.PersonFaxNumber;
-  email: Questions.People.PersonEmail;
   credential?: Questions.Research.Credential;
   projectRole: RRProjectRole;
 
@@ -53,6 +48,8 @@ model RRKeyPersonProfile {
 
 /** A person on the form, holding their profile as the XSD's `Profile` element does. */
 model RRKeyPersonEntry {
+  // `Person` makes the email optional; every key-person profile requires it.
+  @Validation.requiredPaths("email")
   profile: RRKeyPersonProfile;
 }
 

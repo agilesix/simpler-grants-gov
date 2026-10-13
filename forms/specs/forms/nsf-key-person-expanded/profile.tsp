@@ -28,14 +28,9 @@ scalar NSFID extends string;
  * types that differ in one field: the organization's name, or its UEI.
  */
 model NSFProfileBase {
-  name: Questions.People.PersonName;
-  title?: Questions.People.PersonTitle;
+  ...Questions.People.Person;
   department?: Questions.Organizations.OrgDepartment;
   division?: Questions.Organizations.OrgDivision;
-  address: Questions.People.PersonAddress;
-  phone: Questions.People.PersonPhoneNumber;
-  fax?: Questions.People.PersonFaxNumber;
-  email: Questions.People.PersonEmail;
   projectRole: NSFProjectRole;
   nsfId?: NSFID;
   biographicalSketch: Questions.Research.BiographicalSketch;
@@ -58,11 +53,15 @@ model NSFSeniorKeyPersonProfile {
 
 /** A person on the form, holding their profile as the XSD's `Profile` element does. */
 model NSFPrincipalInvestigator {
+  // `Person` makes the email optional; every key-person profile requires it.
+  @Validation.requiredPaths("email")
   profile: NSFPrincipalInvestigatorProfile;
 }
 
 /** A person on the form, holding their profile as the XSD's `Profile` element does. */
 model NSFSeniorKeyPerson {
+  // `Person` makes the email optional; every key-person profile requires it.
+  @Validation.requiredPaths("email")
   profile: NSFSeniorKeyPersonProfile;
 }
 

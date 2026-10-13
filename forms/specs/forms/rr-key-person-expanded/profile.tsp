@@ -42,15 +42,10 @@ scalar DegreeYear extends string;
 
 /** One person's profile. The PD/PI and each senior/key person share it. */
 model RRExpandedKeyPersonProfile {
-  name: Questions.People.PersonName;
-  title?: Questions.People.PersonTitle;
+  ...Questions.People.Person;
   organizationName?: Questions.Organizations.OrgName;
   department?: Questions.Organizations.OrgDepartment;
   division?: Questions.Organizations.OrgDivision;
-  address: Questions.People.PersonAddress;
-  phone: Questions.People.PersonPhoneNumber;
-  fax?: Questions.People.PersonFaxNumber;
-  email: Questions.People.PersonEmail;
   credential?: Questions.Research.Credential;
   projectRole: RRExpandedProjectRole;
 
@@ -69,6 +64,8 @@ model RRExpandedKeyPersonProfile {
 
 /** A person on the form, holding their profile as the XSD's `Profile` element does. */
 model RRExpandedKeyPersonEntry {
+  // `Person` makes the email optional; every key-person profile requires it.
+  @Validation.requiredPaths("email")
   profile: RRExpandedKeyPersonProfile;
 }
 
