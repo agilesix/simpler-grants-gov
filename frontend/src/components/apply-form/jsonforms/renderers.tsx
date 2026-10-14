@@ -1,17 +1,16 @@
-// TEMPORARY COPY of the pending frontend/src/components/apply-form/jsonforms/renderers.tsx,
-// so the form library can render with the SGG form widgets before the JSON Forms renderer
-// lands in the frontend. Only import paths are changed. Delete src/vendor/sgg with #12695.
+"use client";
+
 import {
   and,
+  ControlElement,
+  ControlProps,
+  GroupLayout,
   isControl,
+  JsonFormsRendererRegistryEntry,
+  LayoutProps,
   or,
   rankWith,
   uiTypeIs,
-  type ControlElement,
-  type ControlProps,
-  type GroupLayout,
-  type JsonFormsRendererRegistryEntry,
-  type LayoutProps,
 } from "@jsonforms/core";
 import {
   JsonFormsDispatch,
@@ -19,18 +18,22 @@ import {
   withJsonFormsLayoutProps,
 } from "@jsonforms/react";
 import { vanillaRenderers } from "@jsonforms/vanilla-renderers";
-import type { RJSFSchema } from "@rjsf/utils";
-import { wrapSection } from "@sgg/frontend/components/apply-form/widgets/WidgetRenderers";
-import type { FormattedFormValidationWarning } from "@sgg/frontend/types/applyForm/types";
-import { addPrintWidgetToFields } from "@sgg/frontend/utils/applyForm/applyFormUtils";
-import { createContext, useContext } from "react";
-
+import { RJSFSchema } from "@rjsf/utils";
+import { FormattedFormValidationWarning } from "src/types/applyForm/types";
+import { addPrintWidgetToFields } from "src/utils/applyForm/applyFormUtils";
 import {
   controlToNodes,
   groupName,
-  type JsonFormsUiSchema,
-} from "./jsonFormsUiSchema";
-import { renderFieldNode, type RootBudgetFormContext } from "./renderFieldNode";
+  JsonFormsUiSchema,
+} from "src/utils/applyForm/jsonFormsUiSchema";
+
+import { createContext, useContext } from "react";
+
+import {
+  renderFieldNode,
+  RootBudgetFormContext,
+} from "src/components/apply-form/FormFields";
+import { wrapSection } from "src/components/apply-form/widgets/WidgetRenderers";
 
 /*
   JSON Forms supplies layout and rule evaluation; everything it draws is one of our widgets.

@@ -1,21 +1,18 @@
-// TEMPORARY COPY of the pending frontend/src/utils/applyForm/jsonFormsUiSchema.ts, so the
-// form library can render with the SGG form widgets before the JSON Forms renderer lands in
-// the frontend. Only import paths are changed. Delete src/vendor/sgg with #12695.
 import type {
   ControlElement,
   GroupLayout,
   Layout,
   UISchemaElement,
 } from "@jsonforms/core";
-import type { RJSFSchema } from "@rjsf/utils";
-import type {
+import { RJSFSchema } from "@rjsf/utils";
+import {
   UiSchema,
   UiSchemaField,
   UiSchemaFieldList,
   UiSchemaNode,
   WidgetTypes,
-} from "@sgg/frontend/types/applyForm/types";
-import { getByPointer } from "@sgg/frontend/utils/formData/formDataUtils";
+} from "src/types/applyForm/types";
+import { getByPointer } from "src/utils/formData/formDataUtils";
 
 /*
   A form whose `form_renderer` is "jsonforms" arrives with a JSON Forms UI schema instead of
