@@ -1,0 +1,522 @@
+{
+  "type": "Group",
+  "elements": [
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/name/properties/prefix",
+              "label": "Prefix"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/name/properties/first_name",
+              "label": "First Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/name/properties/middle_name",
+              "label": "Middle Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/name/properties/last_name",
+              "label": "Last Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/name/properties/suffix",
+              "label": "Suffix"
+            }
+          ],
+          "label": "Name",
+          "options": {
+            "description": "Enter the Authorized Representative's name. First and last name are required."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/title",
+              "label": "Title"
+            }
+          ],
+          "label": "Role",
+          "options": {
+            "description": "Enter the Authorized Representative's position title."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/address/properties/street1",
+              "label": "Street1"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/address/properties/street2",
+              "label": "Street2"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/address/properties/city",
+              "label": "City"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/address/properties/state",
+              "label": "State",
+              "rule": {
+                "effect": "ENABLE",
+                "condition": {
+                  "scope": "#/properties/authorized_representative/properties/address/properties/country",
+                  "schema": {
+                    "const": "USA: UNITED STATES"
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/address/properties/country",
+              "label": "Country"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/address/properties/zip_code",
+              "label": "Zip / Postal Code"
+            }
+          ],
+          "label": "Address",
+          "options": {
+            "description": "Enter the Authorized Representative's complete address."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/phone",
+              "label": "Phone Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/fax",
+              "label": "Fax Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/authorized_representative/properties/email",
+              "label": "Email"
+            }
+          ],
+          "label": "Contact Information",
+          "options": {
+            "description": "Enter the Authorized Representative's phone number, fax number and email. Phone number is required."
+          }
+        }
+      ],
+      "label": "Authorized Representative",
+      "options": {
+        "description": "Original awards and amendments will be sent to this individual for review and acceptance, unless otherwise indicated."
+      }
+    },
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/name/properties/prefix",
+              "label": "Prefix"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/name/properties/first_name",
+              "label": "First Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/name/properties/middle_name",
+              "label": "Middle Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/name/properties/last_name",
+              "label": "Last Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/name/properties/suffix",
+              "label": "Suffix"
+            }
+          ],
+          "label": "Name",
+          "options": {
+            "description": "Enter the Payee's name. First and last name are required."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/title",
+              "label": "Title"
+            }
+          ],
+          "label": "Role",
+          "options": {
+            "description": "Enter the Payee's position title."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/address/properties/street1",
+              "label": "Street1"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/address/properties/street2",
+              "label": "Street2"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/address/properties/city",
+              "label": "City"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/address/properties/state",
+              "label": "State",
+              "rule": {
+                "effect": "ENABLE",
+                "condition": {
+                  "scope": "#/properties/payee/properties/address/properties/country",
+                  "schema": {
+                    "const": "USA: UNITED STATES"
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/address/properties/country",
+              "label": "Country"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/address/properties/zip_code",
+              "label": "Zip / Postal Code"
+            }
+          ],
+          "label": "Address",
+          "options": {
+            "description": "Enter the Payee's complete address."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/phone",
+              "label": "Phone Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/fax",
+              "label": "Fax Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/payee/properties/email",
+              "label": "Email"
+            }
+          ],
+          "label": "Contact Information",
+          "options": {
+            "description": "Enter the Payee's phone number, fax number and email. Phone number is required."
+          }
+        }
+      ],
+      "label": "Payee",
+      "options": {
+        "description": "Individual authorized to accept payments."
+      }
+    },
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/name/properties/prefix",
+              "label": "Prefix"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/name/properties/first_name",
+              "label": "First Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/name/properties/middle_name",
+              "label": "Middle Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/name/properties/last_name",
+              "label": "Last Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/name/properties/suffix",
+              "label": "Suffix"
+            }
+          ],
+          "label": "Name",
+          "options": {
+            "description": "Enter the Administrative Contact's name. First and last name are required."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/title",
+              "label": "Title"
+            }
+          ],
+          "label": "Role",
+          "options": {
+            "description": "Enter the Administrative Contact's position title."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/address/properties/street1",
+              "label": "Street1"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/address/properties/street2",
+              "label": "Street2"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/address/properties/city",
+              "label": "City"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/address/properties/state",
+              "label": "State",
+              "rule": {
+                "effect": "ENABLE",
+                "condition": {
+                  "scope": "#/properties/administrative_contact/properties/address/properties/country",
+                  "schema": {
+                    "const": "USA: UNITED STATES"
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/address/properties/country",
+              "label": "Country"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/address/properties/zip_code",
+              "label": "Zip / Postal Code"
+            }
+          ],
+          "label": "Address",
+          "options": {
+            "description": "Enter the Administrative Contact's complete address."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/phone",
+              "label": "Phone Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/fax",
+              "label": "Fax Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/administrative_contact/properties/email",
+              "label": "Email"
+            }
+          ],
+          "label": "Contact Information",
+          "options": {
+            "description": "Enter the Administrative Contact's phone number, fax number and email. Phone number is required."
+          }
+        }
+      ],
+      "label": "Administrative Contact",
+      "options": {
+        "description": "Individual from Sponsored Programs Office to contact concerning administrative matters (i.e., indirect cost rate computation, rebudgeting requests etc)."
+      }
+    },
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/name/properties/prefix",
+              "label": "Prefix"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/name/properties/first_name",
+              "label": "First Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/name/properties/middle_name",
+              "label": "Middle Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/name/properties/last_name",
+              "label": "Last Name"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/name/properties/suffix",
+              "label": "Suffix"
+            }
+          ],
+          "label": "Name",
+          "options": {
+            "description": "Enter the Project Manager's name. First and last name are required."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/title",
+              "label": "Title"
+            }
+          ],
+          "label": "Role",
+          "options": {
+            "description": "Enter the Project Manager's position title."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/address/properties/street1",
+              "label": "Street1"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/address/properties/street2",
+              "label": "Street2"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/address/properties/city",
+              "label": "City"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/address/properties/state",
+              "label": "State",
+              "rule": {
+                "effect": "ENABLE",
+                "condition": {
+                  "scope": "#/properties/project_manager/properties/address/properties/country",
+                  "schema": {
+                    "const": "USA: UNITED STATES"
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/address/properties/country",
+              "label": "Country"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/address/properties/zip_code",
+              "label": "Zip / Postal Code"
+            }
+          ],
+          "label": "Address",
+          "options": {
+            "description": "Enter the Project Manager's complete address."
+          }
+        },
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/phone",
+              "label": "Phone Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/fax",
+              "label": "Fax Number"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/project_manager/properties/email",
+              "label": "Email"
+            }
+          ],
+          "label": "Contact Information",
+          "options": {
+            "description": "Enter the Project Manager's phone number, fax number and email. Phone number is required."
+          }
+        }
+      ],
+      "label": "Project Manager",
+      "options": {
+        "description": "Individual responsible for the technical completion of the proposed work."
+      }
+    }
+  ],
+  "label": "EPA KEY CONTACTS FORM, Grants.gov version 2.0."
+}

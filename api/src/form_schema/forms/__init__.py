@@ -8,6 +8,7 @@ from .budget_narrative_attachment import BudgetNarrativeAttachment_v1_2
 from .cd511 import CD511_v1_1
 from .epa_form_4700_4 import EPA_FORM_4700_4_v5_0
 from .epa_key_contacts import EPA_KEY_CONTACT_v2_0
+from .epa_key_contacts_generated import FORM as EPAKeyContactsGenerated_v1_0
 from .gg_lobbying_form import GG_LobbyingForm_v1_1
 from .key_contacts import KeyContacts_v2_0
 from .key_contacts_generated import FORM as KeyContactsGenerated_v1_0
@@ -52,6 +53,7 @@ _ALL_FORMS: list[Form] = [
     # hand-written form it mirrors, with a distinct id, so the two can be compared in one
     # environment.
     KeyContactsGenerated_v1_0,
+    EPAKeyContactsGenerated_v1_0,
 ]
 
 
