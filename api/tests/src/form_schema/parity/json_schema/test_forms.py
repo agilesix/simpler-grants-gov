@@ -19,11 +19,12 @@ import importlib
 import pytest
 
 from src.form_schema.jsonschema_resolver import resolve_jsonschema
-from tests.src.form_schema.parity.json_schema.diffs import key_contacts
+from tests.src.form_schema.parity.json_schema.diffs import epa_key_contacts, key_contacts
 from tests.src.form_schema.parity.json_schema.harness import compare, flatten_schema
 
 DIFFS = [
     key_contacts.DIFF,
+    epa_key_contacts.DIFF,
 ]
 
 
