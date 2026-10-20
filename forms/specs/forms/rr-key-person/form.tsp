@@ -1,5 +1,6 @@
 import "form-library-xml";
 import "simpler-forms";
+import "simpler-forms-sgg";
 
 import "#forms/index.tsp";
 import "#questions/research/index.tsp";
@@ -16,6 +17,7 @@ namespace Forms.RRKeyPerson;
   id: "rr-key-person",
   formName: "RESEARCH & RELATED Senior/Key Person Profile",
 })
+@Sgg.sync(#{ xml: false })
 @GrantsGov.form(#{
   legacyFormId: 772,
   shortFormName: "RR_KeyPerson",
