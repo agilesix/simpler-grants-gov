@@ -1,12 +1,1003 @@
 {
   "title": "Budget Information for Construction Programs (SF-424C)",
   "slug": "budget-information-for-construction-programs-sf-424c",
-  "status": "backlog",
-  "family": ["SF-424", "R&R", "SF-424 Short", "SF-424 Individual", "SF-424 Mandatory"],
+  "status": "in_progress",
+  "family": [
+    "SF-424",
+    "R&R",
+    "SF-424 Short",
+    "SF-424 Individual",
+    "SF-424 Mandatory"
+  ],
   "category": "Budget & Financial Forms",
   "apps_count": 8079,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/408",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/SF424C_2_0-V2.0_F408.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/SF424C_2_0-V2.0.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/SF424C_2_0-V2.0_F408.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/SF424C_2_0-V2.0_F408.xls",
+  "children": [
+    {
+      "kind": "section",
+      "label": "1. Administrative and legal expenses",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Administrative and legal expenses",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.administrative_and_legal_expenses.total_cost",
+          "xml_path": "ProjectCosts/AdministrationCost/BudgetEstimatedCostAmount",
+          "dat_field": "01-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Administrative and legal expenses",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.administrative_and_legal_expenses.non_allowable_cost",
+          "xml_path": "ProjectCosts/AdministrationCost/BudgetNonAllowableCostAmount",
+          "dat_field": "01-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Administrative and legal expenses. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.administrative_and_legal_expenses.total_allowable_cost",
+          "xml_path": "ProjectCosts/AdministrationCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "01-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 01-c): 01a - 01b. Implementation pending."
+        }
+      ],
+      "dat_field": "01-0"
+    },
+    {
+      "kind": "section",
+      "label": "2. Land, structures, rights-of-way, appraisals, etc.",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Land, structures, rights-of-way, appraisals, etc.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.land_structures_rights_of_way.total_cost",
+          "xml_path": "ProjectCosts/LandCost/BudgetEstimatedCostAmount",
+          "dat_field": "02-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Land, structures, rights-of-way, appraisals, etc.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.land_structures_rights_of_way.non_allowable_cost",
+          "xml_path": "ProjectCosts/LandCost/BudgetNonAllowableCostAmount",
+          "dat_field": "02-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Land, structures, rights-of-way, appraisals, etc. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.land_structures_rights_of_way.total_allowable_cost",
+          "xml_path": "ProjectCosts/LandCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "02-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 02-c): 02a - 02b. Implementation pending."
+        }
+      ],
+      "dat_field": "02-0"
+    },
+    {
+      "kind": "section",
+      "label": "3. Relocation expenses and payments",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Relocation expenses and payments",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.relocation_expenses.total_cost",
+          "xml_path": "ProjectCosts/RelocationCost/BudgetEstimatedCostAmount",
+          "dat_field": "03-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Relocation expenses and payments",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.relocation_expenses.non_allowable_cost",
+          "xml_path": "ProjectCosts/RelocationCost/BudgetNonAllowableCostAmount",
+          "dat_field": "03-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Relocation expenses and payments. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.relocation_expenses.total_allowable_cost",
+          "xml_path": "ProjectCosts/RelocationCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "03-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 03-c): 03a - 03b. Implementation pending."
+        }
+      ],
+      "dat_field": "03-0"
+    },
+    {
+      "kind": "section",
+      "label": "4. Architectural and engineering fees",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Architectural and engineering fees",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.architectural_engineering_fees.total_cost",
+          "xml_path": "ProjectCosts/ArchitecturalCost/BudgetEstimatedCostAmount",
+          "dat_field": "04-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Architectural and engineering fees",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.architectural_engineering_fees.non_allowable_cost",
+          "xml_path": "ProjectCosts/ArchitecturalCost/BudgetNonAllowableCostAmount",
+          "dat_field": "04-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Architectural and engineering fees. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.architectural_engineering_fees.total_allowable_cost",
+          "xml_path": "ProjectCosts/ArchitecturalCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "04-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 04-c): 04a - 04b. Implementation pending."
+        }
+      ],
+      "dat_field": "04-0"
+    },
+    {
+      "kind": "section",
+      "label": "5. Other architectural and engineering fees",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Other architectural and engineering fees",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.other_architectural_engineering_fees.total_cost",
+          "xml_path": "ProjectCosts/OtherArchitecturalCost/BudgetEstimatedCostAmount",
+          "dat_field": "05-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Other architectural and engineering fees",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.other_architectural_engineering_fees.non_allowable_cost",
+          "xml_path": "ProjectCosts/OtherArchitecturalCost/BudgetNonAllowableCostAmount",
+          "dat_field": "05-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Other architectural and engineering fees. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.other_architectural_engineering_fees.total_allowable_cost",
+          "xml_path": "ProjectCosts/OtherArchitecturalCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "05-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 05-c): 05a - 05b. Implementation pending."
+        }
+      ],
+      "dat_field": "05-0"
+    },
+    {
+      "kind": "section",
+      "label": "6. Project inspection fees",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Project inspection fees",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.project_inspection_fees.total_cost",
+          "xml_path": "ProjectCosts/InspectionFeesCost/BudgetEstimatedCostAmount",
+          "dat_field": "06-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Project inspection fees",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.project_inspection_fees.non_allowable_cost",
+          "xml_path": "ProjectCosts/InspectionFeesCost/BudgetNonAllowableCostAmount",
+          "dat_field": "06-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Project inspection fees. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.project_inspection_fees.total_allowable_cost",
+          "xml_path": "ProjectCosts/InspectionFeesCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "06-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 06-c): 06a - 06b. Implementation pending."
+        }
+      ],
+      "dat_field": "06-0"
+    },
+    {
+      "kind": "section",
+      "label": "7. Site work",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Site work",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.site_work.total_cost",
+          "xml_path": "ProjectCosts/SiteWorkCost/BudgetEstimatedCostAmount",
+          "dat_field": "07-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Site work",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.site_work.non_allowable_cost",
+          "xml_path": "ProjectCosts/SiteWorkCost/BudgetNonAllowableCostAmount",
+          "dat_field": "07-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Site work. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.site_work.total_allowable_cost",
+          "xml_path": "ProjectCosts/SiteWorkCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "07-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 07-c): 07a - 07b. Implementation pending."
+        }
+      ],
+      "dat_field": "07-0"
+    },
+    {
+      "kind": "section",
+      "label": "8. Demolition and removal",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Demolition and removal",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.demolition_and_removal.total_cost",
+          "xml_path": "ProjectCosts/DemolitionCost/BudgetEstimatedCostAmount",
+          "dat_field": "08-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Demolition and removal",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.demolition_and_removal.non_allowable_cost",
+          "xml_path": "ProjectCosts/DemolitionCost/BudgetNonAllowableCostAmount",
+          "dat_field": "08-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Demolition and removal. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.demolition_and_removal.total_allowable_cost",
+          "xml_path": "ProjectCosts/DemolitionCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "08-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 08-c): 08a - 08b. Implementation pending."
+        }
+      ],
+      "dat_field": "08-0"
+    },
+    {
+      "kind": "section",
+      "label": "9. Construction",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Construction",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.construction.total_cost",
+          "xml_path": "ProjectCosts/ConstructionCost/BudgetEstimatedCostAmount",
+          "dat_field": "09-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Construction",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.construction.non_allowable_cost",
+          "xml_path": "ProjectCosts/ConstructionCost/BudgetNonAllowableCostAmount",
+          "dat_field": "09-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Construction. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.construction.total_allowable_cost",
+          "xml_path": "ProjectCosts/ConstructionCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "09-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 09-c): 09a - 09b. Implementation pending."
+        }
+      ],
+      "dat_field": "09-0"
+    },
+    {
+      "kind": "section",
+      "label": "10. Equipment",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Equipment",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.equipment.total_cost",
+          "xml_path": "ProjectCosts/EquipmentCost/BudgetEstimatedCostAmount",
+          "dat_field": "10-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Equipment",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.equipment.non_allowable_cost",
+          "xml_path": "ProjectCosts/EquipmentCost/BudgetNonAllowableCostAmount",
+          "dat_field": "10-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Equipment. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.equipment.total_allowable_cost",
+          "xml_path": "ProjectCosts/EquipmentCost/BudgetTotalAllowableCostAmount",
+          "dat_field": "10-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 10-c): 10a - 10b. Implementation pending."
+        }
+      ],
+      "dat_field": "10-0"
+    },
+    {
+      "kind": "section",
+      "label": "11. Miscellaneous",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Miscellaneous",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.miscellaneous.total_cost",
+          "xml_path": "ProjectCosts/Miscellaneous/BudgetEstimatedCostAmount",
+          "dat_field": "11-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Miscellaneous",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.miscellaneous.non_allowable_cost",
+          "xml_path": "ProjectCosts/Miscellaneous/BudgetNonAllowableCostAmount",
+          "dat_field": "11-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Miscellaneous. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.miscellaneous.total_allowable_cost",
+          "xml_path": "ProjectCosts/Miscellaneous/BudgetTotalAllowableCostAmount",
+          "dat_field": "11-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 11-c): 11a - 11b. Implementation pending."
+        }
+      ],
+      "dat_field": "11-0"
+    },
+    {
+      "kind": "section",
+      "label": "12. SUBTOTAL (sum of lines 1-11)",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Subtotal (sum of lines 1-11) of Total Cost. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.subtotal_1.total_cost",
+          "xml_path": "ProjectCosts/CostSubtotalBeforeContingencies/BudgetEstimatedCostAmount",
+          "dat_field": "12-a",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 12-a): sum column a, lines 1 through 11. Implementation pending."
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Subtotal (sum of lines 1-11) of Costs Not Allowable for Participation. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.subtotal_1.non_allowable_cost",
+          "xml_path": "ProjectCosts/CostSubtotalBeforeContingencies/BudgetNonAllowableCostAmount",
+          "dat_field": "12-b",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 12-b): sum column b, lines 1 through 11. Implementation pending."
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Subtotal (sum of lines 1-11) of Total Allowable Costs (Columns a-b). This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.subtotal_1.total_allowable_cost",
+          "xml_path": "ProjectCosts/CostSubtotalBeforeContingencies/BudgetTotalAllowableCostAmount",
+          "dat_field": "12-c",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 12-c): sum column c, lines 1 through 11. Implementation pending."
+        }
+      ],
+      "dat_field": "12-0"
+    },
+    {
+      "kind": "section",
+      "label": "13. Contingencies",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Contingencies",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.contingencies.total_cost",
+          "xml_path": "ProjectCosts/Contingencies/BudgetEstimatedCostAmount",
+          "dat_field": "13-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Contingencies",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.contingencies.non_allowable_cost",
+          "xml_path": "ProjectCosts/Contingencies/BudgetNonAllowableCostAmount",
+          "dat_field": "13-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Contingencies. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.contingencies.total_allowable_cost",
+          "xml_path": "ProjectCosts/Contingencies/BudgetTotalAllowableCostAmount",
+          "dat_field": "13-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 13-c): 13a - 13b. Implementation pending."
+        }
+      ],
+      "dat_field": "13-0"
+    },
+    {
+      "kind": "section",
+      "label": "14. SUBTOTAL",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Subtotal of Total Cost. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.subtotal_2.total_cost",
+          "xml_path": "ProjectCosts/CostSubtotalAfterContingencies/BudgetEstimatedCostAmount",
+          "dat_field": "14-a",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 14-a): 12a + 13a. Implementation pending."
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Subtotal of Costs Not Allowable for Participation. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.subtotal_2.non_allowable_cost",
+          "xml_path": "ProjectCosts/CostSubtotalAfterContingencies/BudgetNonAllowableCostAmount",
+          "dat_field": "14-b",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 14-b): 12b + 13b. Implementation pending."
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Subtotal of Total Allowable Costs (Columns a-b). This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.subtotal_2.total_allowable_cost",
+          "xml_path": "ProjectCosts/CostSubtotalAfterContingencies/BudgetTotalAllowableCostAmount",
+          "dat_field": "14-c",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 14-c): 12c + 13c. Implementation pending."
+        }
+      ],
+      "dat_field": "14-0"
+    },
+    {
+      "kind": "section",
+      "label": "15. Project (program) income",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Cost of Project (program) income",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.project_income.total_cost",
+          "xml_path": "ProjectCosts/ProgramIncome/BudgetEstimatedCostAmount",
+          "dat_field": "15-a",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Costs Not Allowable for Participation in Project (program) income",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.project_income.non_allowable_cost",
+          "xml_path": "ProjectCosts/ProgramIncome/BudgetNonAllowableCostAmount",
+          "dat_field": "15-b",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01"
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Allowable Costs (Columns a-b) of Project (program) income. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.project_income.total_allowable_cost",
+          "xml_path": "ProjectCosts/ProgramIncome/BudgetTotalAllowableCostAmount",
+          "dat_field": "15-c",
+          "constraints": "minimum 0, maximum 9999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 15-c): 15a - 15b. Implementation pending."
+        }
+      ],
+      "dat_field": "15-0"
+    },
+    {
+      "kind": "section",
+      "label": "16. TOTAL PROJECT COSTS (subtract #15 from #14)",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Total Cost",
+          "help_text": "Total Project Costs (subtract #15 from #14) of Total Cost. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.total_project_costs.total_cost",
+          "xml_path": "ProjectCosts/TotalProjectCosts/BudgetEstimatedCostAmount",
+          "dat_field": "16-a",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 16-a): 14a - 15a. Implementation pending."
+        },
+        {
+          "kind": "field",
+          "label": "Costs Not Allowable for Participation",
+          "help_text": "Total Project Costs (subtract #15 from #14) of Costs Not Allowable for Participation. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.total_project_costs.non_allowable_cost",
+          "xml_path": "ProjectCosts/TotalProjectCosts/BudgetNonAllowableCostAmount",
+          "dat_field": "16-b",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 16-b): 14b - 15b. Implementation pending."
+        },
+        {
+          "kind": "field",
+          "label": "Total Allowable Costs (a - b)",
+          "help_text": "Total Project Costs (subtract #15 from #14) of Total Allowable Costs (Columns a-b). This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "budget_information.total_project_costs.total_allowable_cost",
+          "xml_path": "ProjectCosts/TotalProjectCosts/BudgetTotalAllowableCostAmount",
+          "dat_field": "16-c",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 16-c): 14c - 15c. Implementation pending."
+        }
+      ],
+      "dat_field": "16-0"
+    },
+    {
+      "kind": "section",
+      "label": "FEDERAL FUNDING",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Federal Percentage Share",
+          "help_text": "Consult Federal agency for Federal percentage share",
+          "required": false,
+          "type": "Integer percentage (whole percent from 0 to 100)",
+          "widget": "TextWidget",
+          "json_path": "federal_funding.federal_percentage_share",
+          "xml_path": "FederalFundingPercentageShareValue",
+          "dat_field": "17-2",
+          "constraints": "minimum 0, maximum 100"
+        },
+        {
+          "kind": "field",
+          "label": "Federal Share",
+          "help_text": "Federal Funding Share. This is a calculated field.",
+          "required": false,
+          "type": "Currency (decimal string)",
+          "widget": "TextWidget",
+          "json_path": "federal_funding.federal_funding_share",
+          "xml_path": "FederalFundingShareValue",
+          "dat_field": "17-4",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "post_populated": "Source calculation (DAT 17-4): (FederalFundingPercentageShareValue/100) * 16c. Implementation pending."
+        }
+      ],
+      "dat_field": "17-0",
+      "help_text": "17. Federal assistance requested, calculate as follows:  \n(Consult Federal agency for Federal percentage share.)  \nEnter the resulting Federal share."
+    }
+  ],
+  "notes": [
+    "Requirements-only plan. Source calculations are obligations to implement, not evidence of executed TypeSpec, API rules, runtime validation or human acceptance.",
+    "DAT 00-3: NOTE:  Certain Federal assistance programs require additional computations to arrive at the Federal share of project costs eligible for participation.  If such is the case, you will be notified.",
+    "DAT 00-0 burden statement: Clicking displays burden statement: \nSF-424C Budget Information – Construction Programs Form (4040-0008)\n\nAccording to the Paperwork Reduction Act of 1995, an agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a valid OMB control number.  The valid OMB control number for this information collection is 4040-0008.  The time required to complete this information collection is estimated to average 2 hours per response, including the time to review instructions, search existing data resources, gather the data needed and complete and review the information collection.  If you have comments concerning the accuracy of the time estimate(s) or suggestions for improving this form, please write to:  U.S. Department of Health & Human Services, OS/OCIO/PRA, 200 Independence Ave., S.W., Suite 537-H, Washington D.C. 20201,  Attention: PRA Reports Clearance Officer.\n\nAgency       Total             Average Burden   Total Burden\n                  Responses    per response in    Hours\n                                      Hours\n\nVA              179              15/60                   45\nDOI             1274            49/60                  1046\nUSDA          934             3                         2802\nDOC            567             15/60                  142\nDOT            1650            3                         4950\nDHS            73               4                         292\nTotal            4677           9277\n\n9277 total hrs. / 4677 total responses = 2 hours per response",
+    "DAT 00-4 through 00-7 supply the cost classification and a/b/c column headings. Explicit field labels repeat that context so amounts remain understandable outside the PDF table. Value-pinned label differences are recorded in the parity register.",
+    "DAT 17-3 supplies percent units; 17-2 is a percentage, not a currency amount. DAT 17-1 is preserved as federal-funding section help.",
+    "Answer paths follow existing SGG at 76d44680cd92a3abe648e592b04972bc5424df17. Currency samples use decimal strings; numeric constraints describe source amounts, not a claim that a JSON numeric keyword validates a string. Existing SGG federal_funding.total_project_costs is a calculated repeat of line16c, not an additional source answer; its legacy projection remains an implementation obligation.",
+    "DAT Validation Message — literal source obligations for implementation review (grouped by identical text):\n\n01-c: Total Allowable Cost for 1. Administrative and Legal Expenses is invalid: Total Allowable Cost cannot be negative.\n\n02-c: Total Allowable Cost for 2. Land, Structures, Rights-of-way, Appraisals, Etc. is invalid: Total Allowable Cost cannot be negative.\n\n03-c: Total Allowable Cost for 3. Relocation Expenses and Payments is invalid: Total Allowable Cost cannot be negative.\n\n04-c: Total Allowable Cost for 4. Architectural and Engineering Fees is invalid: Total Allowable Cost cannot be negative.\n\n05-c: Total Allowable Cost for 5. Other Architectural and Engineering Fees is invalid: Total Allowable Cost cannot be negative.\n\n06-c: Total Allowable Cost for 6. Project and Inspection Fees is invalid: Total Allowable Cost cannot be negative.\n\n07-c: Total Allowable Cost for 7. Site Work is invalid: Total Allowable Cost cannot be negative.\n\n08-c: Total Allowable Cost for 8. Demolition and Removal is invalid: Total Allowable Cost cannot be negative.\n\n09-c: Total Allowable Cost for 9. Construction is invalid: Total Allowable Cost cannot be negative.\n\n10-c: Total Allowable Cost for 10. Equipment is invalid: Total Allowable Cost cannot be negative.\n\n11-c: Total Allowable Cost for 11. Miscellaneous is invalid: Total Allowable Cost cannot be negative.\n\n12-c: Total Allowable Cost for 12. Subtotal (Sum of Lines 1-11) is invalid: Total Allowable Cost cannot be negative.\n\n13-c: Total Allowable Cost for 13. Contingencies is invalid: Total Allowable Cost cannot be negative.\n\n14-c: Total Allowable Cost for 14. Subtotal is invalid: Total Allowable Cost cannot be negative.\n\n15-c: Total Allowable Cost for 15. Project (Program) Income is invalid: Total Allowable Cost cannot be negative.\n\n16-a: Total Cost for 16. Total Project Costs (Subtract #15 from #14) is invalid: Total Cost cannot be negative.\n\n16-b: Cost Not Allowable for Participation for 16. Total Project Costs (Subtract #15 from #14) is invalid: Cost Not Allowable for Participation cannot be negative.\n\n16-c: Total Allowable Cost for 16. Total Project Costs (Subtract #15 from #14) is invalid: Total Allowable Cost cannot be negative.\n\n17-2: Invalid Federal percentage share: Consult Federal agency for Federal percentage share\n\n17-4: Federal Funding Share is invalid: Federal Funding Share cannot be negative.",
+    "DAT 17-2 has INTEGER data type and XSD FederalFundingPercentageShareValue restricts xs:int to 0–100. Preserve whole-percent entry. The instruction to consult the Federal agency identifies policy ownership; it does not specify pre-population or an authentication mechanism.",
+    "Wire metadata is not an applicant question: the XSD root SF424C_2_0 requires fixed programType Construction and fixed FormVersion 2.0. Preserve these document attributes during later serialization."
+  ],
+  "description": "Construction budget by cost classification, with total costs, costs not allowable for participation, allowable costs and the federal funding share. Requirements plan for FID408 version 2.0.",
+  "omb_number": "4040-0008",
+  "expiration_date": "06/30/2028",
+  "risks": [
+    "DAT calculations are recorded verbatim in post_populated. Execution timing, absent operands and rounding require implementation decisions and behavioral tests; this plan does not select a runtime.",
+    "The federal agency supplies its percentage share; the plan does not grant the applicant authority to change agency policy. Resolve input ownership before implementation.",
+    "Source numeric precision and bounds are preserved as amount semantics. Proposed decimal-string JSON follows existing SGG; definition work must translate those constraints into string validation and prove arithmetic and serialization.",
+    "Preserve existing SGG calculated total aliases and money validation during implementation. Source requiredness does not establish completion/population behavior or UI parity."
+  ],
+  "examples": [
+    {
+      "label": "Riverton neighborhood clinic renovation",
+      "description": "Fictional clinic renovation with varied costs, $10,000 project income, a reconciled total and 80% agency share. Decimal-string amounts follow existing SGG. These authored totals illustrate source formulas; the plan viewer does not execute them.",
+      "data": {
+        "budget_information": {
+          "administrative_and_legal_expenses": {
+            "total_cost": "5000.00",
+            "non_allowable_cost": "500.00",
+            "total_allowable_cost": "4500.00"
+          },
+          "land_structures_rights_of_way": {
+            "total_cost": "15000.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "15000.00"
+          },
+          "relocation_expenses": {
+            "total_cost": "0.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "0.00"
+          },
+          "architectural_engineering_fees": {
+            "total_cost": "18000.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "18000.00"
+          },
+          "other_architectural_engineering_fees": {
+            "total_cost": "2500.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "2500.00"
+          },
+          "project_inspection_fees": {
+            "total_cost": "3500.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "3500.00"
+          },
+          "site_work": {
+            "total_cost": "22000.00",
+            "non_allowable_cost": "2000.00",
+            "total_allowable_cost": "20000.00"
+          },
+          "demolition_and_removal": {
+            "total_cost": "8000.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "8000.00"
+          },
+          "construction": {
+            "total_cost": "325000.00",
+            "non_allowable_cost": "5000.00",
+            "total_allowable_cost": "320000.00"
+          },
+          "equipment": {
+            "total_cost": "40000.00",
+            "non_allowable_cost": "1500.00",
+            "total_allowable_cost": "38500.00"
+          },
+          "miscellaneous": {
+            "total_cost": "6000.00",
+            "non_allowable_cost": "1000.00",
+            "total_allowable_cost": "5000.00"
+          },
+          "subtotal_1": {
+            "total_cost": "445000.00",
+            "non_allowable_cost": "10000.00",
+            "total_allowable_cost": "435000.00"
+          },
+          "contingencies": {
+            "total_cost": "25000.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "25000.00"
+          },
+          "subtotal_2": {
+            "total_cost": "470000.00",
+            "non_allowable_cost": "10000.00",
+            "total_allowable_cost": "460000.00"
+          },
+          "project_income": {
+            "total_cost": "10000.00",
+            "non_allowable_cost": "0.00",
+            "total_allowable_cost": "10000.00"
+          },
+          "total_project_costs": {
+            "total_cost": "460000.00",
+            "non_allowable_cost": "10000.00",
+            "total_allowable_cost": "450000.00"
+          }
+        },
+        "federal_funding": {
+          "federal_percentage_share": 80,
+          "federal_funding_share": "360000.00"
+        }
+      }
+    },
+    {
+      "label": "An empty draft",
+      "description": "All source fields are optional; an empty draft does not demonstrate completed calculations.",
+      "data": {}
+    }
+  ],
+  "existing_sgg": {
+    "source_url": "https://github.com/HHS/simpler-grants-gov/blob/76d44680cd92a3abe648e592b04972bc5424df17/api/tests/src/form_schema/forms/test_sf424c.py",
+    "examples": [
+      {
+        "label": "minimal_valid_sf424c_v2_0",
+        "description": "Pinned existing SGG test fixture; not generated by this plan.",
+        "data": {}
+      },
+      {
+        "label": "full_valid_sf424c_v2_0",
+        "description": "Pinned existing SGG test fixture; not generated by this plan.",
+        "data": {
+          "budget_information": {
+            "administrative_and_legal_expenses": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "land_structures_rights_of_way": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "relocation_expenses": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "architectural_engineering_fees": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "other_architectural_engineering_fees": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "project_inspection_fees": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "site_work": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "demolition_and_removal": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "construction": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "equipment": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "miscellaneous": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "subtotal_1": {
+              "total_cost": "1100000.00",
+              "non_allowable_cost": "110000.00",
+              "total_allowable_cost": "990000.00"
+            },
+            "contingencies": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "subtotal_2": {
+              "total_cost": "1100000.00",
+              "non_allowable_cost": "110000.00",
+              "total_allowable_cost": "990000.00"
+            },
+            "project_income": {
+              "total_cost": "100000.00",
+              "non_allowable_cost": "10000.00",
+              "total_allowable_cost": "90000.00"
+            },
+            "total_project_costs": {
+              "total_cost": "1100000.00",
+              "non_allowable_cost": "110000.00",
+              "total_allowable_cost": "990000.00"
+            }
+          },
+          "federal_funding": {
+            "total_project_costs": "990000.00",
+            "federal_percentage_share": 80,
+            "federal_funding_share": "792000.00"
+          }
+        }
+      }
+    ]
+  },
+  "sgg_form_id": "sf424c"
 }
