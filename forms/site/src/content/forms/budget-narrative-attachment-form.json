@@ -1,12 +1,89 @@
 {
   "title": "Budget Narrative Attachment Form",
   "slug": "budget-narrative-attachment-form",
-  "status": "backlog",
-  "family": ["SF-424", "R&R", "SF-424 Short", "SF-424 Individual", "SF-424 Mandatory"],
+  "status": "in_progress",
+  "family": [
+    "SF-424",
+    "R&R",
+    "SF-424 Short",
+    "SF-424 Individual",
+    "SF-424 Mandatory"
+  ],
   "category": "Narrative & Attachment Forms",
   "apps_count": 62350,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/543",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/BudgetNarrativeAttachments_1_2-V1.2_F543.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/BudgetNarrativeAttachments_1_2-V1.2.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/BudgetNarrativeAttachments_1_2-V1.2_F543.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/BudgetNarrativeAttachments_1_2-V1.2_F543.xls",
+  "sgg_form_id": "66092260-d3c2-4427-8fd2-bb14e1590aff",
+  "widgets": ["ApplicationMultipleAttachmentWidget"],
+  "new_concepts": [],
+  "notes": [
+    "This form collects budget narrative attachments for its own purpose. It shares the existing UUID-list answer shape with other attachment forms; matching structure does not make their questions interchangeable.",
+    "The DAT separates a mandatory first-file control (1-0) and an optional additional-files control (2-0). The proposed single ordered list preserves at least one and at most 100 file references, consistent with the pinned existing SGG schema and XSD. The four DAT differences remain explicit for review; they are not an approved source waiver.",
+    "Each item is an attachment UUID. Examples contain synthetic identifiers, not actual uploads; no filename, MIME type, file content, user ownership, download, storage or XML descriptor is represented by these values.",
+    "The plan does not add an upload service, alter API integration, or design attachment XML. The existing SGG attachment validation and file-to-XML handling are reference observations; production integration remains separate.",
+    "Agency instructions determine document content and ordering. Preserve the separate narrative purpose and the submitted order; do not invent uniqueness, naming or content rules absent from these sources."
+  ],
+  "risks": [
+    "Confirm the proposed consolidation of mandatory and additional DAT controls into one ordered list. No reviewer acceptance has been recorded.",
+    "Valid UUID syntax and array bounds do not verify file existence, ownership, accepted file types, transport or submission. Those checks belong to the existing integration boundary.",
+    "No fresh runtime, upload, XML or production parity is claimed for this plans-only package."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "Budget Narrative Files",
+      "help_text": "The source PDF separates a mandatory first file from optional additional files. The proposed list preserves at least one file and a maximum of 100, following the existing SGG contract.",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Budget Narrative Files",
+          "help_text": "Attach at least one file. Keep files in the order required by the agency instructions. Up to 100 files may be supplied.",
+          "required": true,
+          "type": "Ordered list of uploaded attachment IDs (UUID strings)",
+          "widget": "ApplicationMultipleAttachmentWidget",
+          "json_path": "attachments[]",
+          "xml_path": "Attachments/AttachedFile",
+          "dat_field": "1-0",
+          "min_items": 1,
+          "max_items": 100,
+          "constraints": "format uuid"
+        }
+      ]
+    }
+  ],
+  "description": "Budget narrative file references. This plan preserves the required ordered UUID list independently of file upload, retrieval or XML integration.",
+  "existing_sgg": {
+    "source_url": "https://github.com/HHS/simpler-grants-gov/blob/76d44680cd92a3abe648e592b04972bc5424df17/api/tests/src/form_schema/forms/test_budget_narrative_attachment.py",
+    "examples": [
+      {
+        "label": "minimal_valid_budget_narrative_v1_2",
+        "description": "Literal return value of the named test fixture minimal_valid_budget_narrative_v1_2 at the pinned source revision. Retained verbatim, including its historical wording.",
+        "data": {
+          "attachments": ["00b9001b-6ca8-4c0c-9328-46f39e9ff14b"]
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "One budget narrative reference",
+      "description": "One synthetic UUID represents the mandatory first file. It does not refer to an uploaded or retrievable file.",
+      "data": {
+        "attachments": ["295c10ad-e5bd-4f2b-85e1-3b430d20634f"]
+      }
+    },
+    {
+      "label": "Two ordered budget narrative references",
+      "description": "Synthetic UUIDs illustrate an ordered additional-file list; no filenames, file content or actual upload is implied.",
+      "data": {
+        "attachments": [
+          "295c10ad-e5bd-4f2b-85e1-3b430d20634f",
+          "0357056c-39bb-43cf-9ad1-0d5fec9ad3c8"
+        ]
+      }
+    }
+  ]
 }

@@ -1,12 +1,151 @@
 {
   "title": "Project Abstract Summary",
   "slug": "project-abstract-summary",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["SF-424", "R&R", "SF-424 Short", "SF-424 Mandatory"],
   "category": "Narrative & Attachment Forms",
   "apps_count": 45380,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/591",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/Project_AbstractSummary_2_0-V2.0_F591.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/Project_AbstractSummary_2_0-V2.0.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/Project_AbstractSummary_2_0-V2.0_F591.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/Project_AbstractSummary_2_0-V2.0_F591.xls",
+  "sgg_form_id": "bf683068-23a4-43fa-ac7a-0f046b83cb14",
+  "widgets": ["TextWidget", "TextAreaWidget"],
+  "new_concepts": [],
+  "notes": [
+    "All five DAT input rows and XSD answer elements are mapped. Required markers added to four labels reflect DAT requiredness and XSD occurrence bounds; the four printed-label differences remain in the source register.",
+    "The Paperwork Reduction Act of 1995:\n\nPublic reporting burden for this collection of information is estimated to average 0.5 hours per response, including the time for reviewing instructions, gathering and maintaining the data needed, and reviewing the collection of information.  An agency may not conduct or sponsor, and a person is not required to respond to, a collection of information unless it displays a currently valid OMB number. ",
+    "The section help preserves the complete source instructions, including the 4,000-character limit, public release, and prohibition on personally identifiable, sensitive or proprietary information.",
+    "Funding opportunity number and assistance listing number are marked for opportunity population. At the pinned existing implementation, their population rules are declared but disabled. Applicant name and project title remain applicant-entered until population ownership is agreed; no new copy behavior is promised.",
+    "Examples are fictional illustrations for plan review. Existing SGG examples are literal named test fixtures at the pinned source URL. Neither sample admission nor a plan records application save, population, submission or XML acceptance."
+  ],
+  "risks": [
+    "Opportunity/listing pre-population is described by source and declared in existing SGG but disabled there. This plan does not claim it runs. Applicant and project-title population requires separate ownership and conflict decisions."
+  ],
+  "omb_number": "4040-0019",
+  "expiration_date": "06/30/2028",
+  "children": [
+    {
+      "kind": "section",
+      "label": "Project Abstract Summary",
+      "help_text": "This Project Abstract Summary form must be submitted or the application will be considered incomplete.   Ensure the Project Abstract field succinctly describes the project in plain language that the public can understand and use without the full proposal.  Use 4,000 characters or less. Do not include personally identifiable, sensitive or proprietary information.  Refer to Agency instructions for any additional Project Abstract field requirements.   If the application is funded, your project abstract information (as submitted) will be made available to public websites and/or databases including USAspending.gov.",
+      "widget": "FieldsetWidget",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Funding Opportunity Number",
+          "help_text": "Funding Opportunity Number for the particular program announcement. Pre-populated from the Application cover sheet. This field is required.",
+          "required": true,
+          "type": "Text",
+          "widget": "TextWidget",
+          "json_path": "funding_opportunity_number",
+          "xml_path": "FundingOpportunityNumber",
+          "dat_field": "01-0",
+          "constraints": "minLength 1, maxLength 40",
+          "pre_populated": "Proposed from application cover sheet; existing SGG pre-population rules are declared but explicitly disabled. Retain a visible editable answer until population behavior is implemented."
+        },
+        {
+          "kind": "field",
+          "label": "Assistance Listing Number(s)",
+          "help_text": "Assistance Listing Number assigned to the Program. Pre-populated from the Application cover sheet.",
+          "required": false,
+          "type": "Text",
+          "widget": "TextWidget",
+          "json_path": "assistance_listing_number",
+          "xml_path": "CFDANumber",
+          "dat_field": "02-0",
+          "constraints": "minLength 1, maxLength 15",
+          "pre_populated": "Proposed from application cover sheet; existing SGG pre-population rules are declared but explicitly disabled. Retain a visible editable answer until population behavior is implemented."
+        },
+        {
+          "kind": "field",
+          "label": "Applicant Name",
+          "help_text": "This is the legal name of applicant which will undertake the assistance activity. This field is required.",
+          "required": true,
+          "type": "Text",
+          "widget": "TextWidget",
+          "json_path": "applicant_name",
+          "xml_path": "OrganizationName",
+          "dat_field": "03-0",
+          "constraints": "minLength 1, maxLength 60",
+          "pre_populated": "DAT business rule: pre-populate from the SF-424 legal name. The pinned existing SGG schema and rules do not implement this copy. Keep an editable answer until ownership and integration are agreed."
+        },
+        {
+          "kind": "field",
+          "label": "Descriptive Title of Applicant's Project",
+          "help_text": "This is the project title or brief description of the project. This field is required.",
+          "required": true,
+          "type": "Text",
+          "widget": "TextAreaWidget",
+          "json_path": "project_title",
+          "xml_path": "ProjectTitle",
+          "dat_field": "04-0",
+          "constraints": "minLength 1, maxLength 250",
+          "pre_populated": "DAT business rule: pre-populate from the SF-424 project title, or descriptive project title for SF-424 Mandatory. The pinned existing SGG schema and rules do not implement this copy. Keep an editable answer until ownership and integration are agreed."
+        },
+        {
+          "kind": "field",
+          "label": "Project Abstract",
+          "help_text": "Enter a work summary or abstract of the work to be performed under this project. This field is required.",
+          "required": true,
+          "type": "Text",
+          "widget": "TextAreaWidget",
+          "json_path": "project_abstract",
+          "xml_path": "ProjectAbstract",
+          "dat_field": "05-0",
+          "constraints": "minLength 1, maxLength 4000"
+        }
+      ]
+    }
+  ],
+  "description": "Five text answers for a publicly understandable project summary. This plan records source requirements and proposed answers independently of a compiled definition.",
+  "existing_sgg": {
+    "source_url": "https://github.com/HHS/simpler-grants-gov/blob/76d44680cd92a3abe648e592b04972bc5424df17/api/tests/src/form_schema/forms/test_project_abstract_summary.py",
+    "examples": [
+      {
+        "label": "minimal_valid_summary_v2_0",
+        "description": "Literal return value of the named test fixture minimal_valid_summary_v2_0 at the pinned source revision. Retained verbatim, including its historical wording.",
+        "data": {
+          "funding_opportunity_number": "ABC-123",
+          "applicant_name": "My Company LLC",
+          "project_title": "Research into Science",
+          "project_abstract": "We plan to do research on science"
+        }
+      },
+      {
+        "label": "full_valid_summary_v2_0",
+        "description": "Literal return value of the named test fixture full_valid_summary_v2_0 at the pinned source revision. Retained verbatim, including its historical wording.",
+        "data": {
+          "funding_opportunity_number": "XYZ-456",
+          "assistance_listing_number": "12.345",
+          "applicant_name": "My Business Inc",
+          "project_title": "Space Exploration",
+          "project_abstract": "We are going to Pluto"
+        }
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Community heat response study",
+      "description": "Fictional public-facing summary. The opportunity and listing identifiers illustrate proposed answer paths; they do not identify an active opportunity.",
+      "data": {
+        "funding_opportunity_number": "DEMO-HEAT-2026",
+        "assistance_listing_number": "93.000",
+        "applicant_name": "Riverbend Community Research Center",
+        "project_title": "Helping neighborhoods prepare for extreme heat",
+        "project_abstract": "Riverbend Community Research Center will work with three neighborhood groups to identify practical ways to reduce heat exposure. Residents will help select cooling locations, test clear public messages, and evaluate whether the changes reach people who are most at risk. The project will publish a plain-language guide that other communities can adapt."
+      }
+    },
+    {
+      "label": "Minimal public summary",
+      "description": "Fictional minimal answer set with the optional assistance listing number omitted.",
+      "data": {
+        "funding_opportunity_number": "DEMO-WATER-2026",
+        "applicant_name": "Pine Valley Research Cooperative",
+        "project_title": "Community water monitoring",
+        "project_abstract": "The project will train local volunteers to collect water samples and explain the findings in public workshops. Results will guide future monitoring and will be available in a community report."
+      }
+    }
+  ]
 }
