@@ -1,0 +1,34 @@
+{
+  "primary_site": {
+    "submitting_as_individual": false,
+    "organization_name": "Example University",
+    "uei": "ABCDEFGHIJ12",
+    "address": {
+      "street1": "123 Research Blvd",
+      "street2": "Building 4",
+      "city": "Science City",
+      "county": "Grant County",
+      "state": "CA: California",
+      "country": "USA: UNITED STATES",
+      "zip_code": "90210-1234"
+    },
+    "congressional_district": "CA-033"
+  },
+  "additional_sites": [
+    {
+      "submitting_as_individual": false,
+      "organization_name": "Example University",
+      "uei": "ABCDEFGHIJ12",
+      "address": {
+        "street1": "123 Research Blvd",
+        "street2": "Building 4",
+        "city": "Science City",
+        "county": "Grant County",
+        "state": "CA: California",
+        "country": "USA: UNITED STATES",
+        "zip_code": "90210-1234"
+      },
+      "congressional_district": "CA-033"
+    }
+  ]
+}
