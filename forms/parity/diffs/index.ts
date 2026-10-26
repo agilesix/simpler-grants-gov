@@ -1,3 +1,5 @@
+import { DIFF as sf424bAssurances } from "./assurances-for-non-construction-programs-sf-424b.ts";
+import { DIFF as sf424dAssurances } from "./assurances-for-construction-programs-sf-424d.ts";
 import type { FormDiff } from "../harness/model.ts";
 import { DIFF as epaKeyContacts } from "./epa-key-contacts.ts";
 import { DIFF as keyContacts } from "./key-contacts.ts";
@@ -7,6 +9,8 @@ import { DIFF as rrKeyPerson } from "./research-related-senior-key-person-profil
 
 /** Every form the suite checks. A plan with a `spec_id` must be listed here. */
 export const DIFFS: FormDiff[] = [
+  sf424bAssurances,
+  sf424dAssurances,
   keyContacts,
   epaKeyContacts,
   rrKeyPerson,
