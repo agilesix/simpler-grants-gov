@@ -7,205 +7,221 @@
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/SF424_4_0-V4.0_F713.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/SF424_4_0-V4.0.xsd",
   "apps_count": 132937,
-  "status": "prioritized",
+  "status": "in_progress",
   "family": ["SF-424"],
   "category": "Key Personnel & Contact Forms",
-  "widgets": [
-    "TextWidget",
-    "SelectWidget",
-    "RadioWidget",
-    "CheckboxWidget",
-    "ApplicationAttachmentWidget"
-  ],
   "sgg_form_id": "sf424",
-  "description": "The standard cover page form used for most federal grant applications. Collects applicant organization information, project details, estimated funding, and authorized representative certification.",
-  "new_concepts": ["TextWidget", "SelectWidget", "RadioWidget", "CheckboxWidget"],
-  "notes": [
-    "Contact Person is OPTIONAL per XSD (minOccurs=0) but DAT marks First/Last Name as required",
-    "Department/Division use V1 types (maxLength 30), unlike R&R forms which use V2 (maxLength 100)"
-  ],
-  "risks": [
-    "Revision Type enum has combination values (e.g. AC: Increase Award, Increase Duration) that may need a custom widget",
-    "State Review under E.O. 12372 references external process not modeled in SGG"
-  ],
+  "description": "The SF-424 application cover: organization and contact information, project and funding details, State review, debt disclosure, certification and authorized representative. This is a source-reconciled plan proposal; no maintained TypeSpec definition is included.",
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/SF424_4_0-V4.0_F713.xls",
   "children": [
     {
       "kind": "section",
-      "label": "Type of Submission",
+      "label": "1. Type of Submission",
       "children": [
         {
           "kind": "field",
-          "label": "Submission Type",
+          "label": "1. Type of Submission",
           "dat_field": "01-0",
           "required": true,
           "type": "Radio group",
           "widget": "RadioWidget",
-          "help_text": "Select the type of submission. Check 'Application' for a new or revised application.",
-          "constraints": "enum [Preapplication, Application, Changed/Corrected Application]",
           "json_path": "submission_type",
-          "xml_path": "SF424_4_0:SubmissionType"
+          "xml_path": "SF424_4_0:SubmissionType",
+          "help_text": "Select one type of submission in accordance with agency instructions. One selection is required."
         }
-      ]
+      ],
+      "help_text": "1. Type of Submission options: Preapplication; Application; Changed/Corrected Application."
     },
     {
       "kind": "section",
-      "label": "Type of Application",
+      "label": "2. Type of Application",
       "children": [
         {
           "kind": "field",
-          "label": "Application Type",
+          "label": "2. Type of Application",
           "dat_field": "02-0",
           "required": true,
           "type": "Radio group",
           "widget": "RadioWidget",
-          "help_text": "Select the type for this application: New, Continuation, or Revision.",
-          "constraints": "enum [New, Continuation, Revision]",
           "json_path": "application_type",
-          "xml_path": "SF424_4_0:ApplicationType"
+          "xml_path": "SF424_4_0:ApplicationType",
+          "help_text": "Select one type of application in accordance with agency instructions. One selection is required."
         },
         {
           "kind": "field",
-          "label": "Revision Type",
+          "label": "If Revision, select appropriate letter(s)",
           "dat_field": "02-04",
-          "required": "Conditional (when Application Type = 'Revision')",
+          "required": "Conditional (when application_type = \"Revision\")",
           "type": "Dropdown",
           "widget": "SelectWidget",
-          "help_text": "If Revision, select the appropriate letter(s) indicating the type of revision.",
-          "constraints": "enum [A: Increase Award, B: Decrease Award, C: Increase Duration, D: Decrease Duration, E: Other, AC, AD, BC, BD]",
           "json_path": "revision_type",
-          "xml_path": "SF424_4_0:RevisionType"
+          "xml_path": "SF424_4_0:RevisionType",
+          "help_text": "Select a revision type from the list provided. A selection is required if Type of Application is Revision."
         },
         {
           "kind": "field",
-          "label": "Other Revision Explanation",
+          "label": "Other (Specify)",
           "dat_field": "02-05",
-          "required": "Conditional (when Revision Type includes 'E: Other')",
+          "required": "Conditional (when revision_type = \"E: Other (specify)\")",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "If 'Other' revision type is selected, provide a brief explanation.",
-          "constraints": "maxLength 21",
-          "json_path": "revision_other_explanation",
-          "xml_path": "SF424_4_0:RevisionOtherSpecify"
+          "json_path": "revision_other_specify",
+          "xml_path": "SF424_4_0:RevisionOtherSpecify",
+          "constraints": "minLength 0, maxLength 21",
+          "help_text": "Please specify the type of revision. This field is required if E. Other is checked."
+        }
+      ],
+      "help_text": "2. Type of Application options: New; Continuation; Revision. If Revision, select appropriate letter(s) options: A: Increase Award; B: Decrease Award; C: Increase Duration; D: Decrease Duration; E: Other (specify); AC: Increase Award, Increase Duration; AD: Increase Award, Decrease Duration; BC: Decrease Award, Increase Duration; BD: Decrease Award, Decrease Duration."
+    },
+    {
+      "kind": "section",
+      "label": "3. Date Received",
+      "children": [
+        {
+          "kind": "field",
+          "label": "3. Date Received",
+          "dat_field": "03-0",
+          "required": true,
+          "type": "System-populated date",
+          "widget": "TextWidget",
+          "json_path": "date_received",
+          "xml_path": "SF424_4_0:DateReceived",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "Completed by Grants.gov upon submission; not an editable draft answer."
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Administrative Information",
+      "label": "4. Applicant Identifier",
       "children": [
         {
           "kind": "field",
-          "label": "Date Received",
-          "dat_field": "03-0",
-          "required": true,
-          "type": "Date input",
-          "widget": "TextWidget",
-          "help_text": "Enter the date the application was received by the federal agency.",
-          "constraints": "xs:date",
-          "json_path": "date_received",
-          "xml_path": "SF424_4_0:DateReceived"
-        },
-        {
-          "kind": "field",
-          "label": "Applicant Identifier",
+          "label": "4. Applicant Identifier",
           "dat_field": "04-0",
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the applicant's own internal identifier for this application, if applicable.",
-          "constraints": "ApplicantIDDataType",
-          "json_path": "applicant_identifier",
-          "xml_path": "SF424_4_0:ApplicantID"
-        },
-        {
-          "kind": "field",
-          "label": "Federal Entity Identifier",
-          "dat_field": "05-A",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the federal entity identifier assigned by the federal agency, if applicable.",
-          "constraints": "FederalIDDataType",
-          "json_path": "federal_entity_identifier",
-          "xml_path": "SF424_4_0:FederalEntityIdentifier"
-        },
-        {
-          "kind": "field",
-          "label": "Federal Award Identifier",
-          "dat_field": "05-B",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the federal award identifier for continuation or revision applications.",
-          "constraints": "ProjectAwardNumberDataType",
-          "json_path": "federal_award_identifier",
-          "xml_path": "SF424_4_0:FederalAwardIdentifier"
-        },
-        {
-          "kind": "field",
-          "label": "Date Received by State",
-          "dat_field": "06-1",
-          "required": false,
-          "type": "Date input",
-          "widget": "TextWidget",
-          "help_text": "Enter the date the application was received by the state, if applicable.",
-          "constraints": "xs:date",
-          "json_path": "date_received_by_state",
-          "xml_path": "SF424_4_0:StateReceiveDate"
-        },
-        {
-          "kind": "field",
-          "label": "State Application Identifier",
-          "dat_field": "07-0",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the state application identifier, if applicable.",
-          "constraints": "maxLength 30",
-          "json_path": "state_application_identifier",
-          "xml_path": "SF424_4_0:StateApplicationID"
+          "json_path": "applicant_id",
+          "xml_path": "SF424_4_0:ApplicantID",
+          "constraints": "minLength 1, maxLength 30",
+          "help_text": "Enter the applicant's control number, if applicable."
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Applicant Information",
+      "label": "5a. Federal Identifiers",
       "children": [
         {
           "kind": "field",
-          "label": "Legal Name",
+          "label": "5a. Federal Entity Identifier",
+          "dat_field": "05-A",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "federal_entity_identifier",
+          "xml_path": "SF424_4_0:FederalEntityIdentifier",
+          "constraints": "minLength 1, maxLength 30",
+          "help_text": "Enter the number assigned to your organization by the Federal agency."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "5b. Federal Award",
+      "children": [
+        {
+          "kind": "field",
+          "label": "5b. Federal Award Identifier",
+          "dat_field": "05-B",
+          "required": "Conditional (when application_type = \"Continuation\" or \"Revision\")",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "federal_award_identifier",
+          "xml_path": "SF424_4_0:FederalAwardIdentifier",
+          "constraints": "minLength 1, maxLength 25",
+          "help_text": "For new applications leave blank. For a continuation or revision to an existing award, enter the previously assigned Federal award identifier number. If a changed/corrected application, enter the Federal Identifier in accordance with agency instructions."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "6. Date Received by State",
+      "children": [
+        {
+          "kind": "field",
+          "label": "6. Date Received by State",
+          "dat_field": "06-1",
+          "required": false,
+          "type": "Date input",
+          "widget": "TextWidget",
+          "json_path": "state_receive_date",
+          "xml_path": "SF424_4_0:StateReceiveDate",
+          "help_text": "Enter the date received by the State, if applicable. Enter in the format mm/dd/yyyy.",
+          "constraints": "format date"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "7. State Application Identifier",
+      "children": [
+        {
+          "kind": "field",
+          "label": "7. State Application Identifier",
+          "dat_field": "07-0",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "state_application_id",
+          "xml_path": "SF424_4_0:StateApplicationID",
+          "constraints": "minLength 0, maxLength 30",
+          "help_text": "Enter the identifier assigned by the State, if applicable."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "8. Applicant Information",
+      "children": [
+        {
+          "kind": "field",
+          "label": "a. Legal Name",
           "dat_field": "08-a",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the legal name of the applicant that will undertake the assistance activity.",
-          "constraints": "maxLength 60",
-          "json_path": "applicant.legal_name",
-          "xml_path": "SF424_4_0:OrganizationName"
+          "json_path": "organization_name",
+          "xml_path": "SF424_4_0:OrganizationName",
+          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter the legal name of the applicant that will undertake the assistance activity. This field is required."
         },
         {
           "kind": "field",
-          "label": "EIN/TIN",
+          "label": "b. Employer/Taxpayer Identification Number (EIN/TIN)",
           "dat_field": "08-b",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the employer/taxpayer identification number as assigned by the IRS.",
-          "constraints": "EmployerIDDataType",
-          "json_path": "applicant.ein",
-          "xml_path": "SF424_4_0:EmployerTaxpayerIdentificationNumber"
+          "json_path": "employer_taxpayer_identification_number",
+          "xml_path": "SF424_4_0:EmployerTaxpayerIdentificationNumber",
+          "constraints": "minLength 9, maxLength 30",
+          "help_text": "Enter either TIN or EIN as assigned by the Internal Revenue Service. If your organization is not in the US, enter 44-4444444. This field is required."
         },
         {
           "kind": "field",
-          "label": "UEI",
+          "label": "c. UEI",
           "dat_field": "08-c",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the Unique Entity Identifier (UEI) from SAM.gov.",
-          "constraints": "length 12",
-          "json_path": "applicant.uei",
-          "xml_path": "SF424_4_0:SAMUEI"
+          "json_path": "sam_uei",
+          "xml_path": "SF424_4_0:SAMUEI",
+          "constraints": "minLength 12, maxLength 12",
+          "help_text": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet.",
+          "pre_populated": "From the application cover sheet; retain the supplied twelve-character UEI."
         },
         {
           "kind": "field",
@@ -214,10 +230,10 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the applicant's street address.",
-          "constraints": "maxLength 55",
-          "json_path": "applicant.address.street1",
-          "xml_path": "SF424_4_0:Applicant/globLib:Street1"
+          "json_path": "applicant.street1",
+          "xml_path": "SF424_4_0:Applicant/globLib:Street1",
+          "constraints": "minLength 1, maxLength 55",
+          "help_text": "Enter the first line of the Street Address. This field is required."
         },
         {
           "kind": "field",
@@ -226,9 +242,10 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 55",
-          "json_path": "applicant.address.street2",
-          "xml_path": "SF424_4_0:Applicant/globLib:Street2"
+          "json_path": "applicant.street2",
+          "xml_path": "SF424_4_0:Applicant/globLib:Street2",
+          "constraints": "minLength 1, maxLength 55",
+          "help_text": "Enter the second line of the Street Address."
         },
         {
           "kind": "field",
@@ -237,9 +254,10 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 35",
-          "json_path": "applicant.address.city",
-          "xml_path": "SF424_4_0:Applicant/globLib:City"
+          "json_path": "applicant.city",
+          "xml_path": "SF424_4_0:Applicant/globLib:City",
+          "constraints": "minLength 1, maxLength 35",
+          "help_text": "Enter the City. This field is required."
         },
         {
           "kind": "field",
@@ -248,21 +266,34 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 30",
-          "json_path": "applicant.address.county",
-          "xml_path": "SF424_4_0:Applicant/globLib:County"
+          "json_path": "applicant.county",
+          "xml_path": "SF424_4_0:Applicant/globLib:County",
+          "constraints": "minLength 1, maxLength 30",
+          "help_text": "Enter the County/Parish."
         },
         {
           "kind": "field",
           "label": "State",
           "dat_field": "08-d5",
-          "required": "Conditional (when Country = 'USA')",
+          "required": "Conditional (when applicant.country = \"USA: UNITED STATES\")",
           "type": "Dropdown",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the applicant's address. Required for US addresses.",
-          "constraints": "StateCodeDataType",
-          "json_path": "applicant.address.state",
-          "xml_path": "SF424_4_0:Applicant/globLib:State"
+          "json_path": "applicant.state",
+          "xml_path": "SF424_4_0:Applicant/globLib:State",
+          "constraints": "StateCodeDataTypeV3",
+          "help_text": "Select the state, US possession or military code from the provided list. This field is required if Country is the United States."
+        },
+        {
+          "kind": "field",
+          "label": "Province",
+          "dat_field": "08-d6",
+          "required": "Conditional (optional when non-US; inactive when Country is USA)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "applicant.province",
+          "xml_path": "SF424_4_0:Applicant/globLib:Province",
+          "constraints": "minLength 1, maxLength 30",
+          "help_text": "Enter the Province."
         },
         {
           "kind": "field",
@@ -271,21 +302,29 @@
           "required": true,
           "type": "Dropdown",
           "widget": "SelectWidget",
-          "constraints": "CountryCodeDataType",
-          "json_path": "applicant.address.country",
-          "xml_path": "SF424_4_0:Applicant/globLib:Country"
+          "json_path": "applicant.country",
+          "xml_path": "SF424_4_0:Applicant/globLib:Country",
+          "constraints": "CountryCodeDataTypeV3",
+          "help_text": "Select the Country from the provided list. This field is required."
         },
         {
           "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "08-d8",
-          "required": false,
+          "required": "Conditional (required for USA; DAT requires at least nine characters)",
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 30",
-          "json_path": "applicant.address.zip_code",
-          "xml_path": "SF424_4_0:Applicant/globLib:ZipPostalCode"
-        },
+          "json_path": "applicant.zip_code",
+          "xml_path": "SF424_4_0:Applicant/globLib:ZipPostalCode",
+          "constraints": "minLength 1, maxLength 30",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP code). This field is required if the country is the United States."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "8e. Organizational Unit",
+      "children": [
         {
           "kind": "field",
           "label": "Department Name",
@@ -293,9 +332,10 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 30",
-          "json_path": "applicant.department",
-          "xml_path": "SF424_4_0:DepartmentName"
+          "json_path": "department_name",
+          "xml_path": "SF424_4_0:DepartmentName",
+          "constraints": "minLength 1, maxLength 30",
+          "help_text": "Enter the name of primary organizational department, service, laboratory, or equivalent level within the organization which will undertake the assistance activity."
         },
         {
           "kind": "field",
@@ -304,246 +344,1099 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 30",
-          "json_path": "applicant.division",
-          "xml_path": "SF424_4_0:DivisionName"
+          "json_path": "division_name",
+          "xml_path": "SF424_4_0:DivisionName",
+          "constraints": "minLength 1, maxLength 30",
+          "help_text": "Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity."
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Project Information",
-      "children": [
-        {
-          "kind": "field",
-          "label": "Descriptive Title of Project",
-          "dat_field": "15-0",
-          "required": true,
-          "type": "Text area",
-          "widget": "TextWidget",
-          "help_text": "Enter a brief descriptive title of the project.",
-          "constraints": "maxLength 200",
-          "json_path": "project_title",
-          "xml_path": "SF424_4_0:ProjectTitle"
-        },
-        {
-          "kind": "field",
-          "label": "Proposed Start Date",
-          "dat_field": "17-1",
-          "required": true,
-          "type": "Date input",
-          "widget": "TextWidget",
-          "constraints": "xs:date",
-          "json_path": "proposed_start_date",
-          "xml_path": "SF424_4_0:ProposedProjectPeriod/SF424_4_0:ProposedStartDate"
-        },
-        {
-          "kind": "field",
-          "label": "Proposed End Date",
-          "dat_field": "17-2",
-          "required": true,
-          "type": "Date input",
-          "widget": "TextWidget",
-          "constraints": "xs:date",
-          "json_path": "proposed_end_date",
-          "xml_path": "SF424_4_0:ProposedProjectPeriod/SF424_4_0:ProposedEndDate"
-        }
-      ]
-    },
-    {
-      "kind": "section",
-      "label": "Estimated Funding",
-      "children": [
-        {
-          "kind": "field",
-          "label": "Federal",
-          "dat_field": "18-a",
-          "required": true,
-          "type": "Currency input",
-          "widget": "TextWidget",
-          "constraints": "BudgetTotalDataType (totalDigits 14, fractionDigits 2)",
-          "json_path": "estimated_funding.federal",
-          "xml_path": "SF424_4_0:EstimatedProjectFunding/SF424_4_0:TotalFederalFunding"
-        },
-        {
-          "kind": "field",
-          "label": "Applicant",
-          "dat_field": "18-b",
-          "required": true,
-          "type": "Currency input",
-          "widget": "TextWidget",
-          "constraints": "BudgetTotalDataType",
-          "json_path": "estimated_funding.applicant",
-          "xml_path": "SF424_4_0:EstimatedProjectFunding/SF424_4_0:TotalApplicantShareFunding"
-        },
-        {
-          "kind": "field",
-          "label": "State",
-          "dat_field": "18-c",
-          "required": true,
-          "type": "Currency input",
-          "widget": "TextWidget",
-          "constraints": "BudgetTotalDataType",
-          "json_path": "estimated_funding.state",
-          "xml_path": "SF424_4_0:EstimatedProjectFunding/SF424_4_0:TotalStateFunding"
-        },
-        {
-          "kind": "field",
-          "label": "Local",
-          "dat_field": "18-d",
-          "required": true,
-          "type": "Currency input",
-          "widget": "TextWidget",
-          "constraints": "BudgetTotalDataType",
-          "json_path": "estimated_funding.local",
-          "xml_path": "SF424_4_0:EstimatedProjectFunding/SF424_4_0:TotalLocalFunding"
-        },
-        {
-          "kind": "field",
-          "label": "Other",
-          "dat_field": "18-e",
-          "required": true,
-          "type": "Currency input",
-          "widget": "TextWidget",
-          "constraints": "BudgetTotalDataType",
-          "json_path": "estimated_funding.other",
-          "xml_path": "SF424_4_0:EstimatedProjectFunding/SF424_4_0:TotalOtherFunding"
-        },
-        {
-          "kind": "field",
-          "label": "Program Income",
-          "dat_field": "18-f",
-          "required": true,
-          "type": "Currency input",
-          "widget": "TextWidget",
-          "constraints": "BudgetTotalDataType",
-          "json_path": "estimated_funding.program_income",
-          "xml_path": "SF424_4_0:EstimatedProjectFunding/SF424_4_0:TotalProgramIncomeFunding"
-        },
-        {
-          "kind": "field",
-          "label": "Total",
-          "dat_field": "18-g",
-          "required": true,
-          "type": "Currency input",
-          "widget": "TextWidget",
-          "constraints": "BudgetTotalDataType",
-          "json_path": "estimated_funding.total",
-          "xml_path": "SF424_4_0:EstimatedProjectFunding/SF424_4_0:TotalEstimatedFunding"
-        }
-      ]
-    },
-    {
-      "kind": "section",
-      "label": "Authorized Representative",
+      "label": "8f. Name and contact information of person to be contacted on matters involving this application",
       "children": [
         {
           "kind": "field",
           "label": "Prefix",
-          "dat_field": "21-f01",
+          "dat_field": "08-f01",
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 10",
-          "json_path": "aor.name.prefix",
-          "xml_path": "SF424_4_0:AORInfo/globLib:PrefixName",
-          "post_populated": "From the user's SAM.gov AOR profile"
+          "json_path": "contact_person.prefix",
+          "xml_path": "SF424_4_0:ContactPerson/globLib:PrefixName",
+          "constraints": "minLength 1, maxLength 10",
+          "help_text": "Select the Prefix from the provided list or enter a new Prefix not provided on the list."
         },
         {
           "kind": "field",
           "label": "First Name",
-          "dat_field": "21-f02",
+          "dat_field": "08-f02",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 35",
-          "json_path": "aor.name.first_name",
-          "xml_path": "SF424_4_0:AORInfo/globLib:FirstName",
-          "post_populated": "From the user's SAM.gov AOR profile"
+          "json_path": "contact_person.first_name",
+          "xml_path": "SF424_4_0:ContactPerson/globLib:FirstName",
+          "constraints": "minLength 1, maxLength 35",
+          "help_text": "Enter the First Name. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Middle Name",
+          "dat_field": "08-f03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "contact_person.middle_name",
+          "xml_path": "SF424_4_0:ContactPerson/globLib:MiddleName",
+          "constraints": "minLength 1, maxLength 25",
+          "help_text": "Enter the Middle Name."
         },
         {
           "kind": "field",
           "label": "Last Name",
-          "dat_field": "21-f04",
+          "dat_field": "08-f04",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 60",
-          "json_path": "aor.name.last_name",
-          "xml_path": "SF424_4_0:AORInfo/globLib:LastName",
-          "post_populated": "From the user's SAM.gov AOR profile"
+          "json_path": "contact_person.last_name",
+          "xml_path": "SF424_4_0:ContactPerson/globLib:LastName",
+          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter the Last Name. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Suffix",
+          "dat_field": "08-f05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "contact_person.suffix",
+          "xml_path": "SF424_4_0:ContactPerson/globLib:SuffixName",
+          "constraints": "minLength 1, maxLength 10",
+          "help_text": "Select the Suffix from the provided list or enter a new Suffix not provided on the list."
         },
         {
           "kind": "field",
           "label": "Title",
-          "dat_field": "21-f06",
+          "dat_field": "08-f06",
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 45",
-          "json_path": "aor.title",
-          "xml_path": "SF424_4_0:AORInfo/SF424_4_0:Title"
+          "json_path": "contact_person_title",
+          "xml_path": "SF424_4_0:Title",
+          "constraints": "minLength 1, maxLength 45",
+          "help_text": "Enter the position title."
         },
         {
           "kind": "field",
-          "label": "Phone Number",
-          "dat_field": "21-f08",
+          "label": "Organizational Affiliation",
+          "dat_field": "08-f07",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "organization_affiliation",
+          "xml_path": "SF424_4_0:OrganizationAffiliation",
+          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter the organization if different from the applicant organization."
+        },
+        {
+          "kind": "field",
+          "label": "Telephone Number",
+          "dat_field": "08-f08",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 25",
-          "json_path": "aor.phone",
-          "xml_path": "SF424_4_0:AORInfo/SF424_4_0:PhoneNumber",
-          "post_populated": "From the user's SAM.gov AOR profile"
+          "json_path": "phone_number",
+          "xml_path": "SF424_4_0:PhoneNumber",
+          "constraints": "minLength 1, maxLength 25",
+          "help_text": "Enter the daytime Telephone Number. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Fax Number",
+          "dat_field": "08-f09",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "fax",
+          "xml_path": "SF424_4_0:Fax",
+          "constraints": "minLength 1, maxLength 25",
+          "help_text": "Enter the Fax Number."
         },
         {
           "kind": "field",
           "label": "Email",
-          "dat_field": "21-f10",
+          "dat_field": "08-f10",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 60",
-          "json_path": "aor.email",
-          "xml_path": "SF424_4_0:AORInfo/SF424_4_0:Email",
-          "post_populated": "From the user's SAM.gov AOR profile"
+          "json_path": "email",
+          "xml_path": "SF424_4_0:Email",
+          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter a valid Email Address. This field is required."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "9. Type of Applicant",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Applicant types",
+          "required": true,
+          "type": "Multiple selection",
+          "widget": "MultiSelectWidget",
+          "json_path": "applicant_type_code[]",
+          "constraints": "ApplicantTypeCodeDataType",
+          "help_text": "Select one to three different applicant types. A first selection is required. If any selection is X: Other (specify), explain the applicant type below.",
+          "max_items": 3,
+          "min_items": 1,
+          "source_bindings": {
+            "at": "applicant_type_code",
+            "dat": [
+              {
+                "kind": "slot",
+                "path": "09-0",
+                "index": 0
+              },
+              {
+                "kind": "slot",
+                "path": "09-1",
+                "index": 1
+              },
+              {
+                "kind": "slot",
+                "path": "09-2",
+                "index": 2
+              }
+            ],
+            "xml": [
+              {
+                "kind": "slot",
+                "path": "SF424_4_0:ApplicantTypeCode1",
+                "index": 0
+              },
+              {
+                "kind": "slot",
+                "path": "SF424_4_0:ApplicantTypeCode2",
+                "index": 1
+              },
+              {
+                "kind": "slot",
+                "path": "SF424_4_0:ApplicantTypeCode3",
+                "index": 2
+              }
+            ]
+          }
         },
         {
           "kind": "field",
-          "label": "I Agree",
-          "dat_field": "21-3",
+          "label": "Other (specify)",
+          "dat_field": "09-3",
+          "required": "Conditional (when applicant_type_code contains \"X: Other (specify)\")",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "applicant_type_other_specify",
+          "xml_path": "SF424_4_0:ApplicantTypeOtherSpecify",
+          "constraints": "minLength 0, maxLength 30",
+          "help_text": "Enter the applicant type here if you selected \"Other (specify)\" for Type of Applicant."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "10. Name of Federal Agency",
+      "children": [
+        {
+          "kind": "field",
+          "label": "10. Name of Federal Agency",
+          "dat_field": "10-0",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "agency_name",
+          "xml_path": "SF424_4_0:AgencyName",
+          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Pre-populated from the Application cover sheet.",
+          "pre_populated": "From the application cover sheet/opportunity context."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "11. Assistance Listing Number/Title",
+      "children": [
+        {
+          "kind": "field",
+          "label": "11. Assistance Listing Number",
+          "dat_field": "11-0",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "assistance_listing_number",
+          "xml_path": "SF424_4_0:CFDANumber",
+          "constraints": "minLength 1, maxLength 15",
+          "help_text": "Pre-populated from the Application cover sheet.",
+          "pre_populated": "From the application cover sheet/opportunity context."
+        },
+        {
+          "kind": "field",
+          "label": "Assistance Listing Title",
+          "dat_field": "11-1",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "assistance_listing_program_title",
+          "xml_path": "SF424_4_0:CFDAProgramTitle",
+          "constraints": "minLength 1, maxLength 120",
+          "help_text": "Pre-populated from the Application cover sheet.",
+          "pre_populated": "From the application cover sheet/opportunity context."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "12. Funding Opportunity Number/Title",
+      "children": [
+        {
+          "kind": "field",
+          "label": "12. Funding Opportunity Number",
+          "dat_field": "12-0",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "funding_opportunity_number",
+          "xml_path": "SF424_4_0:FundingOpportunityNumber",
+          "constraints": "minLength 1, maxLength 40",
+          "help_text": "Pre-populated from the Application cover sheet. This field is required.",
+          "pre_populated": "From the application cover sheet/opportunity context."
+        },
+        {
+          "kind": "field",
+          "label": "Title",
+          "dat_field": "12-1",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "funding_opportunity_title",
+          "xml_path": "SF424_4_0:FundingOpportunityTitle",
+          "constraints": "minLength 1, maxLength 255",
+          "help_text": "Pre-populated from the Application cover sheet. This field is required.",
+          "pre_populated": "From the application cover sheet/opportunity context."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "13. Competition Identification Number/Title",
+      "children": [
+        {
+          "kind": "field",
+          "label": "13. Competition Identification Number",
+          "dat_field": "13-0",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "competition_identification_number",
+          "xml_path": "SF424_4_0:CompetitionIdentificationNumber",
+          "constraints": "minLength 1, maxLength 40",
+          "help_text": "Pre-populated from the Application cover sheet.",
+          "pre_populated": "From the application cover sheet/opportunity context."
+        },
+        {
+          "kind": "field",
+          "label": "Title",
+          "dat_field": "13-1",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "competition_identification_title",
+          "xml_path": "SF424_4_0:CompetitionIdentificationTitle",
+          "constraints": "minLength 1, maxLength 255",
+          "help_text": "Pre-populated from the Application cover sheet.",
+          "pre_populated": "From the application cover sheet/opportunity context."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "14. Areas Affected by Project",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Areas Affected",
+          "dat_field": "14-1",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "json_path": "areas_affected",
+          "xml_path": "SF424_4_0:AreasAffected",
+          "help_text": "List the areas or entities using the categories (e.g., cities, counties, states, etc.) specified in agency instructions."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "15. Descriptive Title of Applicant's Project",
+      "children": [
+        {
+          "kind": "field",
+          "label": "15. Descriptive Title of Applicant's Project",
+          "dat_field": "15-0",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "project_title",
+          "xml_path": "SF424_4_0:ProjectTitle",
+          "constraints": "minLength 1, maxLength 200",
+          "help_text": "Enter a brief, descriptive title of the project. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Additional Project Title",
+          "dat_field": "15-1",
+          "required": false,
+          "type": "File attachments",
+          "widget": "ApplicationMultipleAttachmentWidget",
+          "json_path": "additional_project_title[]",
+          "xml_path": "SF424_4_0:AdditionalProjectTitle/att:AttachedFile",
+          "max_items": 100,
+          "help_text": "Attach file(s) using the appropriate buttons."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "16. Congressional Districts",
+      "children": [
+        {
+          "kind": "field",
+          "label": "a. Applicant",
+          "dat_field": "16-a",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "congressional_district_applicant",
+          "xml_path": "SF424_4_0:CongressionalDistrictApplicant",
+          "constraints": "minLength 1, maxLength 6",
+          "help_text": "Enter the Congressional District in the format: 2 character State Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th district, CA-012 for California's 12th district. If outside the US, enter 00-000. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "b. Program/Project",
+          "dat_field": "16-b",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "congressional_district_program_project",
+          "xml_path": "SF424_4_0:CongressionalDistrictProgramProject",
+          "constraints": "minLength 1, maxLength 6",
+          "help_text": "Enter the Congressional District in the format: 2 character State Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th district, CA-012 for California's 12th district. If all districts in a state are affected, enter \"all\" for the district number. Example: MD-all for all congressional districts in Maryland. If nationwide (all districts in all states), enter US-all. If the program/project is outside the US, enter 00-000. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Additional Congressional Districts",
+          "dat_field": "16-c",
+          "required": false,
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "json_path": "additional_congressional_districts",
+          "xml_path": "SF424_4_0:AdditionalCongressionalDistricts",
+          "help_text": "Additional Congressional Districts."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "17. Proposed Project Start and End Dates",
+      "children": [
+        {
+          "kind": "field",
+          "label": "a. Start Date",
+          "dat_field": "17-a",
+          "required": true,
+          "type": "Date input",
+          "widget": "TextWidget",
+          "json_path": "project_start_date",
+          "xml_path": "SF424_4_0:ProjectStartDate",
+          "help_text": "Enter the date in the format MM/DD/YYYY. This field is required.",
+          "constraints": "format date"
+        },
+        {
+          "kind": "field",
+          "label": "b. End Date",
+          "dat_field": "17-b",
+          "required": true,
+          "type": "Date input",
+          "widget": "TextWidget",
+          "json_path": "project_end_date",
+          "xml_path": "SF424_4_0:ProjectEndDate",
+          "help_text": "Enter the date in the format MM/DD/YYYY. This field is required.",
+          "constraints": "format date"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "18. Estimated Funding",
+      "children": [
+        {
+          "kind": "field",
+          "label": "a. Federal",
+          "dat_field": "18-a",
+          "required": true,
+          "type": "Currency input",
+          "widget": "TextWidget",
+          "json_path": "federal_estimated_funding",
+          "xml_path": "SF424_4_0:FederalEstimatedFunding",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "help_text": "Enter the dollar amount. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "b. Applicant",
+          "dat_field": "18-b",
+          "required": true,
+          "type": "Currency input",
+          "widget": "TextWidget",
+          "json_path": "applicant_estimated_funding",
+          "xml_path": "SF424_4_0:ApplicantEstimatedFunding",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "help_text": "Enter the dollar amount. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "c. State",
+          "dat_field": "18-c",
+          "required": true,
+          "type": "Currency input",
+          "widget": "TextWidget",
+          "json_path": "state_estimated_funding",
+          "xml_path": "SF424_4_0:StateEstimatedFunding",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "help_text": "Enter the dollar amount. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "d. Local",
+          "dat_field": "18-d",
+          "required": true,
+          "type": "Currency input",
+          "widget": "TextWidget",
+          "json_path": "local_estimated_funding",
+          "xml_path": "SF424_4_0:LocalEstimatedFunding",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "help_text": "Enter the dollar amount. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "e. Other",
+          "dat_field": "18-e",
+          "required": true,
+          "type": "Currency input",
+          "widget": "TextWidget",
+          "json_path": "other_estimated_funding",
+          "xml_path": "SF424_4_0:OtherEstimatedFunding",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "help_text": "Enter the dollar amount. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "f. Program Income",
+          "dat_field": "18-f",
+          "required": true,
+          "type": "Currency input",
+          "widget": "TextWidget",
+          "json_path": "program_income_estimated_funding",
+          "xml_path": "SF424_4_0:ProgramIncomeEstimatedFunding",
+          "constraints": "minimum 0, maximum 999999999999.99, multipleOf 0.01",
+          "help_text": "Enter the dollar amount. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "g. TOTAL",
+          "dat_field": "18-g",
+          "required": true,
+          "type": "Currency input",
+          "widget": "TextWidget",
+          "json_path": "total_estimated_funding",
+          "xml_path": "SF424_4_0:TotalEstimatedFunding",
+          "constraints": "minimum 0, maximum 9999999999999.99, multipleOf 0.01",
+          "help_text": "Total dollar amount. This is a calculated field.",
+          "pre_populated": "Calculated as the sum of Federal, Applicant, State, Local, Other and Program Income (DAT18-g); existing SGG sum_monetary rule."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "19. Is Application Subject to Review by State Under Executive Order?",
+      "children": [
+        {
+          "kind": "field",
+          "label": "19. Is Application Subject to Review By State Under Executive Order 12372 Process?",
+          "dat_field": "19-0",
+          "required": true,
+          "type": "Radio group",
+          "widget": "RadioWidget",
+          "json_path": "state_review",
+          "xml_path": "SF424_4_0:StateReview",
+          "help_text": "One selection is required."
+        },
+        {
+          "kind": "field",
+          "label": "State Review Date",
+          "dat_field": "19-a1",
+          "required": "Conditional (when state_review = option a, \"made available to the State\")",
+          "type": "Date input",
+          "widget": "TextWidget",
+          "json_path": "state_review_available_date",
+          "xml_path": "SF424_4_0:StateReviewAvailableDate",
+          "help_text": "Enter the date in the format MM/DD/YYYY.",
+          "constraints": "format date"
+        }
+      ],
+      "help_text": "19. Is Application Subject to Review By State Under Executive Order 12372 Process? options: a. This application was made available to the State under the Executive Order 12372 Process for review on; b. Program is subject to E.O. 12372 but has not been selected by the State for review.; c. Program is not covered by E.O. 12372.."
+    },
+    {
+      "kind": "section",
+      "label": "20. Is the Applicant Delinquent on any Federal Debt?",
+      "children": [
+        {
+          "kind": "field",
+          "label": "20. Is the Applicant Delinquent On Any Federal Debt? (If \"Yes,\" provide explanation in attachment.)",
+          "dat_field": "20-0",
+          "required": true,
+          "type": "Radio group",
+          "widget": "RadioWidget",
+          "json_path": "delinquent_federal_debt",
+          "xml_path": "SF424_4_0:DelinquentFederalDebt",
+          "constraints": "YesNoDataType",
+          "help_text": "A selection is required."
+        },
+        {
+          "kind": "field",
+          "label": "Delinquent Debt Explanation",
+          "dat_field": "20-a2",
+          "required": "Conditional (when delinquent_federal_debt = true)",
+          "type": "File upload",
+          "widget": "ApplicationAttachmentWidget",
+          "json_path": "debt_explanation",
+          "xml_path": "SF424_4_0:DebtExplanation",
+          "help_text": "Debt Explanation is required."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "21. Authorized Representative",
+      "children": [
+        {
+          "kind": "field",
+          "label": "* I AGREE",
+          "dat_field": "21-1",
           "required": true,
           "type": "Checkbox",
           "widget": "CheckboxWidget",
-          "help_text": "Certification that the information is true, complete, and accurate.",
-          "json_path": "aor.i_agree",
-          "xml_path": "SF424_4_0:AORInfo/SF424_4_0:AgreementToCertify"
+          "json_path": "certification_agree",
+          "xml_path": "SF424_4_0:CertificationAgree",
+          "constraints": "YesNoDataType",
+          "help_text": "Check to select. This field is required."
         },
         {
           "kind": "field",
-          "label": "Signature",
-          "dat_field": "21-4",
+          "label": "Prefix",
+          "dat_field": "22-01",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative.prefix",
+          "xml_path": "SF424_4_0:AuthorizedRepresentative/globLib:PrefixName",
+          "constraints": "minLength 1, maxLength 10",
+          "help_text": "Select the Prefix from the provided list or enter a new Prefix not provided on the list."
+        },
+        {
+          "kind": "field",
+          "label": "First Name",
+          "dat_field": "22-02",
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "constraints": "maxLength 60",
-          "json_path": "aor.signature",
-          "xml_path": "SF424_4_0:AORInfo/SF424_4_0:AORSignature",
-          "post_populated": "System-generated from authenticated user"
+          "json_path": "authorized_representative.first_name",
+          "xml_path": "SF424_4_0:AuthorizedRepresentative/globLib:FirstName",
+          "constraints": "minLength 1, maxLength 35",
+          "help_text": "Enter the First Name. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Middle Name",
+          "dat_field": "22-03",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative.middle_name",
+          "xml_path": "SF424_4_0:AuthorizedRepresentative/globLib:MiddleName",
+          "constraints": "minLength 1, maxLength 25",
+          "help_text": "Enter the Middle Name."
+        },
+        {
+          "kind": "field",
+          "label": "Last Name",
+          "dat_field": "22-04",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative.last_name",
+          "xml_path": "SF424_4_0:AuthorizedRepresentative/globLib:LastName",
+          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter the Last Name. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Suffix",
+          "dat_field": "22-05",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative.suffix",
+          "xml_path": "SF424_4_0:AuthorizedRepresentative/globLib:SuffixName",
+          "constraints": "minLength 1, maxLength 10",
+          "help_text": "Select the Suffix from the provided list or enter a new Suffix not provided on the list."
+        },
+        {
+          "kind": "field",
+          "label": "Title",
+          "dat_field": "22-06",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative_title",
+          "xml_path": "SF424_4_0:AuthorizedRepresentativeTitle",
+          "constraints": "minLength 1, maxLength 45",
+          "help_text": "Enter the position title. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Telephone Number",
+          "dat_field": "22-07",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative_phone_number",
+          "xml_path": "SF424_4_0:AuthorizedRepresentativePhoneNumber",
+          "constraints": "minLength 1, maxLength 25",
+          "help_text": "Enter the daytime Telephone Number. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Email",
+          "dat_field": "22-08",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative_email",
+          "xml_path": "SF424_4_0:AuthorizedRepresentativeEmail",
+          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter a valid Email Address. This field is required."
+        },
+        {
+          "kind": "field",
+          "label": "Fax Number",
+          "dat_field": "22-09",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "json_path": "authorized_representative_fax",
+          "xml_path": "SF424_4_0:AuthorizedRepresentativeFax",
+          "constraints": "minLength 1, maxLength 25",
+          "help_text": "Enter the Fax Number."
+        },
+        {
+          "kind": "field",
+          "label": "Signature of Authorized Representative",
+          "dat_field": "22-10",
+          "required": true,
+          "type": "System-populated signature",
+          "widget": "TextWidget",
+          "json_path": "aor_signature",
+          "xml_path": "SF424_4_0:AORSignature",
+          "constraints": "minLength 1, maxLength 144",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "post_populated": "Completed by Grants.gov upon submission; not an editable draft answer."
         },
         {
           "kind": "field",
           "label": "Date Signed",
-          "dat_field": "21-5",
+          "dat_field": "22-11",
           "required": true,
-          "type": "Date input",
+          "type": "System-populated date",
           "widget": "TextWidget",
-          "constraints": "xs:date",
-          "json_path": "aor.date_signed",
-          "xml_path": "SF424_4_0:AORInfo/SF424_4_0:AORSignedDate",
-          "post_populated": "System-generated timestamp"
+          "json_path": "date_signed",
+          "xml_path": "SF424_4_0:DateSigned",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "Completed by Grants.gov upon submission; not an editable draft answer."
         }
-      ]
+      ],
+      "help_text": "21. *By signing this application, I certify (1) to the statements contained in the list of certifications** and (2) that the statements herein are true, complete and accurate to the best of my knowledge. I also provide the required assurances** and agree to comply with any resulting terms if I accept an award. I am aware that any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties. (U.S. Code, Title 18, Section 1001) ** The list of certifications and assurances, or an internet site where you may obtain this list, is contained in the announcement or agency specific instructions."
     }
-  ]
+  ],
+  "widgets": [
+    "TextWidget",
+    "SelectWidget",
+    "RadioWidget",
+    "CheckboxWidget",
+    "MultiSelectWidget",
+    "ApplicationAttachmentWidget",
+    "ApplicationMultipleAttachmentWidget"
+  ],
+  "notes": [
+    "Plan-first proposal for FID713 SF424_4_0 v4.0, reconciled with the pinned DAT/XSD and existing SGG SF424_v4_0. The previous 41-field catalogue outline omitted contact, applicant-type, agency/opportunity, project, State-review and disclosure fields and contained obsolete XML paths. This plan reuses the preserved complete source draft and current SGG answer names, rather than defining a new contract.",
+    "JSON answer paths follow the existing SGG schema: applicant is the address, contact_person and authorized_representative are names, and other answer names remain as currently installed. UI headings are not extra data containers. This preserves compatibility for the first definition; a later semantic regrouping requires a concrete reviewed benefit and migration cost.",
+    "DAT09-0/09-1/09-2 and XSD ApplicantTypeCode1/2/3 are one ordered list of one to three different codes, matching existing SGG applicant_type_code. Finite source bindings preserve each source position without three duplicated questions. Preserve unique selections and the conditional Other explanation; this plan is not executable validation.",
+    "ContactPerson is optional as an XSD container, while DAT08-f02/08-f04 and current SGG require its first and last names. The plan proposes preserving existing SGG/DAT requiredness, with an explicit upstream discrepancy against XSD. No acceptance of this policy is inferred.",
+    "Country defaults to USA from DAT08-d7; US addresses require State and ZIP, with a nine-character US ZIP minimum in DAT08-d8 in addition to the generic XSD one-to-thirty bound. Province is optional, enabled only for non-US addresses. Preserve supplied non-US answers; state/province wire exclusivity and inactive answer handling require later tests and Billy XML decisions.",
+    "The seven funding values use exact XSD nonnegative bounds and cent precision; the total has a larger maximum than each input. Proposed examples use decimal strings to match existing SGG capture. The current shared SGG monetary-string schema admits negative values and differs in capacity; compilation/schema admission alone cannot resolve this source-policy mismatch.",
+    "DateReceived, AORSignature and DateSigned are required wire values supplied by submission/signing, not editable applicant fields. UEI and agency/opportunity/competition data use current cover/context population. DAT06-1 and07-0 are optional entered values; existing SGG describes them as State-owned but leaves them editable. Their ownership remains a review question, not a new read-only restriction.",
+    "DAT18-g explicitly calculates the sum of18a through18f. Existing SGG uses sum_monetary. This differs from R&R DAT15-3, which asks the applicant to enter the combined total; do not generalize calculation ownership across forms.",
+    "Certification source statement and announcement-specific certifications/assurances instructions are retained with section21. DAT requires checking I Agree; existing SGG schema accepts either boolean value. An affirmative submission gate needs explicit behavior tests and human source-policy review.",
+    "State-review options retain exact XSD casing. Existing SGG stores lowercase state in options a/b and explicitly normalizes it to State during XML generation. Proposed and existing Data examples are therefore distinguished; no new XML transform is implemented.",
+    "Attachments remain four distinct questions/purposes: areas affected, additional project-title documents (up to100), additional congressional districts and conditional debt explanation. UUIDs in examples illustrate existing SGG references only; no upload, file identity/ownership, submission or generated XML is asserted.",
+    "All source input rows and option labels are retained in the reviewed inventory; non-input headings/navigation/burden controls are not extra answer fields. Burden statement from DAT00-0: Clicking displays burden statement: SF-424 Form (4040-0004) According to the Paperwork Reduction Act of 1995, an agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a valid OMB control number. The valid OMB control number for this information collection is 4040-0004. The time required to complete this information collection is estimated to average 1.1 hours per response, including the time to review instructions, search existing data resources, gather the data needed and complete and review the information collection. If you have comments concerning the accuracy of the time estimate(s) or suggestions for improving this form, please write to: U.S. Department of Health & Human Services, OS/OCIO/PRA, 200 Independence Ave., S.W., Suite 537-H, Washington D.C. 20201, Attention: PRA Reports Clearance Officer. Agency Total Average Burden Total Burden Responses per response in Hours Hours DOC 17327 30/60 8664 DOE 9850 60/60 9850 ED 10235 60/60 10235 EPA 9098 4 36392 HHS 11690 4.386 51275 SSA 2000 20/60 667 USAID 400 15/60 100 USDA 253563 60/60 253563 DOI 22012 27/60 10010 DOD 206 60/60 206 DOL 2620 30/60 1310 DOJ 17900 30/60 8950 DHS 223 60/60 223 Total 357124 391445 391445 total hrs. / 357124 = 1.1 hours per response."
+  ],
+  "risks": [
+    "Review source-versus-SGG differences before definition acceptance: required contact names under optional XSD ContactPerson; US ZIP minimum; monetary sign/capacity; affirmative certification; State-owned optional fields; county visibility; StateReview code casing. Existing behavior is evidence, not automatic source-policy approval.",
+    "Revision uses the existing scalar Select options, including AC/AD/BC/BD combinations. No new widget is required by this plan. Test Revision activation, E explanation, Continuation/Revision award identifier and inactive-answer retention/omission in the later definition.",
+    "Existing SGG source schema, UI, rule schema, XML mapping and fixtures are pinned separately. Authenticated population, signing, save/reload, uploads, API integration and successful submission have not been exercised by this plan-only work.",
+    "Static source comparison accounts for fields, supported constraints, labels/help and source positions; it does not execute date ordering, uniqueness, conditional obligations, calculation, affirmative consent, XML xs:choice or totalDigits. No compiled maintained TypeSpec form is included."
+  ],
+  "examples": [
+    {
+      "label": "Populated US application draft",
+      "description": "Fictional watershed project with distinct contact/AOR, nine-digit US ZIP, decimal-string funding and an internally consistent calculated total. Cover/context values are illustrative. Submission-owned dates/signature and attachments are omitted; this is not a submitted or authenticated application.",
+      "data": {
+        "submission_type": "Application",
+        "application_type": "New",
+        "applicant_id": "RWC-2026-014",
+        "organization_name": "Riverton Watershed Collaborative",
+        "employer_taxpayer_identification_number": "12-3456789",
+        "sam_uei": "ABCDEF123456",
+        "applicant": {
+          "street1": "125 River Street",
+          "street2": "Suite 200",
+          "city": "Richmond",
+          "state": "VA: Virginia",
+          "country": "USA: UNITED STATES",
+          "zip_code": "232230001"
+        },
+        "department_name": "Community Programs",
+        "division_name": "Watershed Restoration",
+        "contact_person": {
+          "first_name": "Avery",
+          "last_name": "Rivera"
+        },
+        "contact_person_title": "Grants Manager",
+        "organization_affiliation": "Riverton Watershed Collaborative",
+        "phone_number": "804-555-0101",
+        "email": "avery.rivera@example.org",
+        "applicant_type_code": [
+          "M: Nonprofit with 501C3 IRS Status (Other than Institution of Higher Education)"
+        ],
+        "agency_name": "Department of the Interior",
+        "assistance_listing_number": "15.000",
+        "assistance_listing_program_title": "Illustrative Watershed Restoration Program",
+        "funding_opportunity_number": "DEMO-WATERSHED-2026-01",
+        "funding_opportunity_title": "Watershed Restoration Demonstration — Fictional Opportunity",
+        "project_title": "Riverton Riparian Buffer Restoration",
+        "congressional_district_applicant": "VA-004",
+        "congressional_district_program_project": "VA-all",
+        "project_start_date": "2027-01-01",
+        "project_end_date": "2028-12-31",
+        "federal_estimated_funding": "250000.00",
+        "applicant_estimated_funding": "25000.00",
+        "state_estimated_funding": "10000.00",
+        "local_estimated_funding": "5000.00",
+        "other_estimated_funding": "0.00",
+        "program_income_estimated_funding": "0.00",
+        "total_estimated_funding": "290000.00",
+        "state_review": "c. Program is not covered by E.O. 12372.",
+        "delinquent_federal_debt": false,
+        "certification_agree": true,
+        "authorized_representative": {
+          "first_name": "Jordan",
+          "last_name": "Patel"
+        },
+        "authorized_representative_title": "Executive Director",
+        "authorized_representative_phone_number": "804-555-0102",
+        "authorized_representative_email": "jordan.patel@example.org"
+      }
+    },
+    {
+      "label": "Revision with conditional answers",
+      "description": "Fictional corrected revision with E explanation, existing-award identifier, two distinct applicant types including Other, State-review date and a synthetic debt-document UUID. The UUID does not identify an uploaded file. Submission-owned values remain omitted.",
+      "data": {
+        "submission_type": "Changed/Corrected Application",
+        "application_type": "Revision",
+        "applicant_id": "RWC-2026-014",
+        "organization_name": "Riverton Watershed Collaborative",
+        "employer_taxpayer_identification_number": "12-3456789",
+        "sam_uei": "ABCDEF123456",
+        "applicant": {
+          "street1": "125 River Street",
+          "street2": "Suite 200",
+          "city": "Richmond",
+          "state": "VA: Virginia",
+          "country": "USA: UNITED STATES",
+          "zip_code": "232230001"
+        },
+        "department_name": "Community Programs",
+        "division_name": "Watershed Restoration",
+        "contact_person": {
+          "first_name": "Avery",
+          "last_name": "Rivera"
+        },
+        "contact_person_title": "Grants Manager",
+        "organization_affiliation": "Riverton Watershed Collaborative",
+        "phone_number": "804-555-0101",
+        "email": "avery.rivera@example.org",
+        "applicant_type_code": [
+          "M: Nonprofit with 501C3 IRS Status (Other than Institution of Higher Education)",
+          "X: Other (specify)"
+        ],
+        "agency_name": "Department of the Interior",
+        "assistance_listing_number": "15.000",
+        "assistance_listing_program_title": "Illustrative Watershed Restoration Program",
+        "funding_opportunity_number": "DEMO-WATERSHED-2026-01",
+        "funding_opportunity_title": "Watershed Restoration Demonstration — Fictional Opportunity",
+        "project_title": "Riverton Riparian Buffer Restoration",
+        "congressional_district_applicant": "VA-004",
+        "congressional_district_program_project": "VA-all",
+        "project_start_date": "2027-01-01",
+        "project_end_date": "2028-12-31",
+        "federal_estimated_funding": "250000.00",
+        "applicant_estimated_funding": "25000.00",
+        "state_estimated_funding": "10000.00",
+        "local_estimated_funding": "5000.00",
+        "other_estimated_funding": "0.00",
+        "program_income_estimated_funding": "0.00",
+        "total_estimated_funding": "290000.00",
+        "state_review": "a. This application was made available to the State under the Executive Order 12372 Process for review on",
+        "delinquent_federal_debt": true,
+        "certification_agree": true,
+        "authorized_representative": {
+          "first_name": "Jordan",
+          "last_name": "Patel"
+        },
+        "authorized_representative_title": "Executive Director",
+        "authorized_representative_phone_number": "804-555-0102",
+        "authorized_representative_email": "jordan.patel@example.org",
+        "revision_type": "E: Other (specify)",
+        "revision_other_specify": "Extend pilot scope",
+        "federal_award_identifier": "DEMO-AWD-2025-0042",
+        "applicant_type_other_specify": "Watershed partnership",
+        "state_review_available_date": "2026-10-20",
+        "debt_explanation": "72d65e36-c1d8-48ec-a2b9-07c905ae6c78"
+      }
+    },
+    {
+      "label": "Non-US address draft",
+      "description": "Fictional Canadian organization with a whole street address, Province and postal code; inactive State is absent. Uses the DAT non-US EIN placeholder and outside-US congressional districts. Demonstrates retention of a distinct non-US address without implying agency eligibility or submission validity.",
+      "data": {
+        "submission_type": "Application",
+        "application_type": "New",
+        "applicant_id": "RWC-2026-014",
+        "organization_name": "Cedar River Research Cooperative",
+        "employer_taxpayer_identification_number": "44-4444444",
+        "sam_uei": "ABCDEF123456",
+        "applicant": {
+          "street1": "240 Cedar Avenue",
+          "street2": "Suite 310",
+          "city": "Ottawa",
+          "province": "Ontario",
+          "country": "CAN: CANADA",
+          "zip_code": "K1P 1J1"
+        },
+        "department_name": "Community Programs",
+        "division_name": "Watershed Restoration",
+        "contact_person": {
+          "first_name": "Avery",
+          "last_name": "Rivera"
+        },
+        "contact_person_title": "Grants Manager",
+        "organization_affiliation": "Cedar River Research Cooperative",
+        "phone_number": "804-555-0101",
+        "email": "avery.rivera@example.org",
+        "applicant_type_code": ["W: Non-domestic (non-US) Entity"],
+        "agency_name": "Department of the Interior",
+        "assistance_listing_number": "15.000",
+        "assistance_listing_program_title": "Illustrative Watershed Restoration Program",
+        "funding_opportunity_number": "DEMO-WATERSHED-2026-01",
+        "funding_opportunity_title": "Watershed Restoration Demonstration — Fictional Opportunity",
+        "project_title": "Riverton Riparian Buffer Restoration",
+        "congressional_district_applicant": "00-000",
+        "congressional_district_program_project": "00-000",
+        "project_start_date": "2027-01-01",
+        "project_end_date": "2028-12-31",
+        "federal_estimated_funding": "250000.00",
+        "applicant_estimated_funding": "25000.00",
+        "state_estimated_funding": "10000.00",
+        "local_estimated_funding": "5000.00",
+        "other_estimated_funding": "0.00",
+        "program_income_estimated_funding": "0.00",
+        "total_estimated_funding": "290000.00",
+        "state_review": "c. Program is not covered by E.O. 12372.",
+        "delinquent_federal_debt": false,
+        "certification_agree": true,
+        "authorized_representative": {
+          "first_name": "Jordan",
+          "last_name": "Patel"
+        },
+        "authorized_representative_title": "Executive Director",
+        "authorized_representative_phone_number": "804-555-0102",
+        "authorized_representative_email": "jordan.patel@example.org"
+      }
+    }
+  ],
+  "existing_sgg": {
+    "source_url": "https://github.com/HHS/simpler-grants-gov/blob/e2f27b2d92120622543bc9e2d1e241bac41ecee3/api/tests/src/form_schema/forms/test_sf424.py",
+    "examples": [
+      {
+        "label": "Existing SGG minimal test fixture",
+        "description": "Exact valid_json_v4_0 fixture from the pinned SGG test file. Historical placeholder names, five-digit ZIP and district strings are retained as implementation evidence; use the proposed examples for realistic walkthroughs. Not a submission or policy approval.",
+        "data": {
+          "submission_type": "Application",
+          "application_type": "New",
+          "organization_name": "Example Org",
+          "employer_taxpayer_identification_number": "123-456-7890",
+          "sam_uei": "UEI123123123",
+          "applicant": {
+            "street1": "123 Main St",
+            "city": "Exampleburg",
+            "state": "NY: New York",
+            "country": "USA: UNITED STATES",
+            "zip_code": "12345"
+          },
+          "contact_person": {
+            "first_name": "Bob",
+            "last_name": "Smith"
+          },
+          "phone_number": "123-456-7890",
+          "email": "example@mail.com",
+          "applicant_type_code": ["P: Individual"],
+          "agency_name": "Department of Research",
+          "funding_opportunity_number": "ABC-123",
+          "funding_opportunity_title": "My Example Opportunity",
+          "project_title": "My Project",
+          "congressional_district_applicant": "MI.345",
+          "congressional_district_program_project": "MI.567",
+          "project_start_date": "2026-01-01",
+          "project_end_date": "2026-12-31",
+          "federal_estimated_funding": "5000.00",
+          "applicant_estimated_funding": "1000.00",
+          "state_estimated_funding": "2000.00",
+          "local_estimated_funding": "1000.00",
+          "other_estimated_funding": "0.00",
+          "program_income_estimated_funding": "10.00",
+          "total_estimated_funding": "9010.00",
+          "state_review": "c. Program is not covered by E.O. 12372.",
+          "delinquent_federal_debt": false,
+          "certification_agree": true,
+          "authorized_representative": {
+            "first_name": "Bob",
+            "last_name": "Smith"
+          },
+          "authorized_representative_title": "Doctor",
+          "authorized_representative_phone_number": "123-456-7890",
+          "authorized_representative_email": "example@mail.com"
+        }
+      },
+      {
+        "label": "Existing SGG full test fixture",
+        "description": "Exact full_valid_json_v4_0 fixture, including its dictionary union with valid_json_v4_0. Historical country/state combination, file IDs and signature context are test references, not recommended demonstration answers, actual uploads or an authenticated signature.",
+        "data": {
+          "submission_type": "Application",
+          "application_type": "Revision",
+          "organization_name": "Example Org",
+          "employer_taxpayer_identification_number": "123-456-7890",
+          "sam_uei": "UEI123123123",
+          "applicant": {
+            "street1": "123 Main St",
+            "street2": "Room 101",
+            "city": "Big Apple",
+            "county": "Madison",
+            "state": "NY: New York",
+            "country": "CAN: CANADA",
+            "zip_code": "56789"
+          },
+          "contact_person": {
+            "prefix": "Mrs",
+            "first_name": "Sally",
+            "middle_name": "Anne",
+            "last_name": "Jones",
+            "suffix": "III"
+          },
+          "phone_number": "123-456-7890",
+          "email": "example@mail.com",
+          "applicant_type_code": ["P: Individual", "X: Other (specify)"],
+          "agency_name": "Department of Research",
+          "funding_opportunity_number": "ABC-123",
+          "funding_opportunity_title": "My Example Opportunity",
+          "project_title": "My Project",
+          "congressional_district_applicant": "MI.345",
+          "congressional_district_program_project": "MI.567",
+          "project_start_date": "2026-01-01",
+          "project_end_date": "2026-12-31",
+          "federal_estimated_funding": "5000.00",
+          "applicant_estimated_funding": "1000.00",
+          "state_estimated_funding": "2000.00",
+          "local_estimated_funding": "1000.00",
+          "other_estimated_funding": "0.00",
+          "program_income_estimated_funding": "10.00",
+          "total_estimated_funding": "9010.00",
+          "state_review": "a. This application was made available to the state under the Executive Order 12372 Process for review on",
+          "delinquent_federal_debt": true,
+          "certification_agree": true,
+          "authorized_representative": {
+            "prefix": "Mr",
+            "first_name": "Bob",
+            "middle_name": "Frank",
+            "last_name": "Smith",
+            "suffix": "Jr"
+          },
+          "authorized_representative_title": "Agent",
+          "authorized_representative_phone_number": "123-456-7890",
+          "authorized_representative_email": "example@mail.com",
+          "revision_type": "E: Other (specify)",
+          "revision_other_specify": "I am redoing it",
+          "date_received": "2025-01-01",
+          "applicant_id": "ABC123",
+          "federal_entity_identifier": "XYZ456",
+          "federal_award_identifier": "1234567890",
+          "state_receive_date": "2025-06-01",
+          "state_application_id": "12345",
+          "department_name": "Department of Research",
+          "division_name": "Science",
+          "contact_person_title": "Director",
+          "organization_affiliation": "Secret Research",
+          "fax": "123-456-7890",
+          "applicant_type_other_specify": "Secret Development",
+          "assistance_listing_number": "12.345",
+          "assistance_listing_program_title": "Secret Research",
+          "competition_identification_number": "ABC-XYZ-123",
+          "competition_identification_title": "Secret Research Project",
+          "areas_affected": "06dea634-6882-4ffc-805c-f1e3e43038c7",
+          "additional_project_title": [
+            "e7293742-d325-4f11-88ac-c17e58a775e4",
+            "fa824ef2-413a-4e93-a4b3-ad87df6f6dad"
+          ],
+          "additional_congressional_districts": "9003399d-93ea-42db-a80b-c3f94fc1aa16",
+          "state_review_available_date": "2025-05-31",
+          "debt_explanation": "fc1c203a-4890-4237-a54f-8a66a7938cca",
+          "authorized_representative_fax": "333-333-3333",
+          "aor_signature": "Bob Smith",
+          "date_signed": "2025-06-01"
+        }
+      }
+    ]
+  }
 }

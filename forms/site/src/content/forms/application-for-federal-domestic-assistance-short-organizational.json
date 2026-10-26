@@ -1,7 +1,7 @@
 {
   "title": "Application for Federal Domestic Assistance-Short Organizational",
   "slug": "application-for-federal-domestic-assistance-short-organizational",
-  "status": "prioritized",
+  "status": "in_progress",
   "family": ["SF-424 Short"],
   "category": "Key Personnel & Contact Forms",
   "apps_count": 20021,
@@ -11,23 +11,33 @@
   "dat_url": "https://apply07.grants.gov/apply/forms/sample/SF424_Short_3_0-V3.0_F711.xls",
   "omb_number": "4040-0003",
   "expiration_date": "07/31/2028",
-  "widgets": ["TextWidget", "SelectWidget", "CheckboxWidget", "TextAreaWidget"],
-  "description": "Application for Federal Domestic Assistance - Short Organizational (SF424_Short_3_0) is a simplified SF-424 variant for organizational applicants. It collects the applicant organization, project information, a project director, an optional primary contact/grants administrator, and an authorized representative certification. It is shorter than the full SF-424: it omits funding estimates, state review, delinquent debt, and federal identifiers.",
+  "widgets": [
+    "TextWidget",
+    "SelectWidget",
+    "MultiSelectWidget",
+    "CheckboxWidget",
+    "TextAreaWidget"
+  ],
+  "description": "Requirements plan for SF-424 Short Organizational (FID711 version 3.0), reconciled to DAT/XSD sources and existing SGG answer paths. Examples distinguish proposed answers from pinned existing-SGG fixtures; no TypeSpec definition or production integration is included.",
   "sgg_form_id": "sf424_short",
   "notes": [
-    "State requirement: DAT marks State as required (*) for both applicant and project director addresses. The XSD makes State optional within `AddressDataTypeV3` (in a choice group with Province, both minOccurs=\"0\"). Resolution: follow the XSD. State is conditionally required when Country is USA.",
-    "ZIP/Postal Code requirement: DAT marks ZIP as required (*) for both applicant and project director addresses. The XSD marks `ZipPostalCode` as optional (minOccurs=\"0\"). Resolution: follow the XSD. ZIP is optional.",
-    "Title requirement (Project Director): DAT marks Title as required (*) for the Project Director. The XSD makes `Title` optional within `ContactPersonDataTypeV3` (minOccurs=\"0\"). Resolution: follow the XSD for XML validation; the SGG implementation may enforce Title as required at the UI level.",
-    "ZIP/Postal Code maxLength: The XSD defines `ZipPostalCodeDataType` with maxLength 30. We will use the XSD constraint (30) for validation.",
-    "Province maxLength: The XSD defines `ProvinceDataType` with maxLength 30. We will use the XSD constraint (30).",
-    "SAMUEIDataType: The XSD defines exact `length` of 12 (not maxLength 13). We will enforce exactly 12 characters.",
-    "Other Applicant Type minLength: The XSD uses minLength 0 (not 1) for `ApplicantTypeOtherSpecify`, unlike most other string fields. This means an empty string is valid per the XSD."
+    "This plans-only contribution retains all 74 source answer coordinates as 72 logical fields: three applicant-type slots are represented by one min1/max3 ordered array with explicit DAT and XML source_bindings. No source slot is omitted and no generated mapping is asserted.",
+    "Six DAT pre-populated context fields (agency name, assistance listing number/title, opportunity number/title, UEI) and three post-populated submission outputs (received date, signature, signed date) retain their source ownership. Proposed samples use fictional opportunity/organization context; they do not implement service population or signing.",
+    "Existing SGG always requires contact_person even when same_as_project_director is true, while DAT8-02 says skip to item9. The plan preserves the source instruction and the current separate role paths; no copy, omission, clearing or disabled-field policy is approved here.",
+    "Country-dependent State/ZIP requiredness is stated separately from Province activity. US examples use nine-digit ZIP+4; that avoids but does not settle DAT guidance versus existing API/general-XSD admission of shorter values.",
+    "Applicant address and the two contact addresses reuse the same semantic address parts at their existing SGG paths. The authorized representative is a separate signing role. Display sections are not new data containers.",
+    "DAT9-01 and9-03 certification text is retained verbatim on the certification section, including the source spelling. Current SGG presents a lightly edited version; preserve the distinction during source-policy review rather than silently rewriting legal copy.",
+    "Existing SGG represents applicant-type H with lower-case state; its maintained XML normalization maps it to the XSD Public/State label. Proposed answers retain the current API spelling. PR12948 now targets main and is not a dependency for this plan; no date-order rule is borrowed from it.",
+    "The Other Applicant Type detail is conditionally required when applicant_type_code contains X. Existing SGG leaves the detail enabled otherwise. The plan does not add a scalar-equality UI predicate to an array or extend the compiler.",
+    "Plan-review examples are fictional and have independent director/contact/authorized-representative identities. They omit received date, signature and signed date because they depict drafts. Pinned existing-SGG test fixtures are shown separately and are unchanged, including their known five-digit US ZIP and placeholder values.",
+    "Actual population, authenticated ownership, saving/reloading, signing, attachment services, generated XML and submission remain later integration work owned with Billy. The prior local compiled candidate is a reusable experiment, not part of this plans-only contribution.",
+    "DAT0-0 burden statement: Clicking displays burden statement:\nSF-424 SHORT ORGANIZATIONAL FORM (4040-0003)\n\nAccording to the Paperwork Reduction Act of 1995, an agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a valid OMB control number. The valid OMB control number for this information collection is 4040-0003. The time required to complete this information collection is estimated to average 24 minutes per response, including the time to review instructions, search existing data resources, gather the data needed and complete and review the information collection. If you have comments concerning the accuracy of the time estimate(s) or suggestions for improving this form, please write to: U.S. Department of Health & Human Services, OS/OCIO/PRA, 200 Independence Ave., S.W., Suite 537-H, Washington D.C. 20201, Attention: PRA Reports Clearance Officer.\n\nAgency           Total                          Average Burden             Total Burden\n                          Responses              per response in               Hours\n                                                              Hours\n\nNEA                  7130                          20/60                                      2377\nNEH                  2328                          30/60                                      1164\nDOI                   416                             18/60                                      125\nHHS                  3903                           30/60                                      1952\nDOS                  800                             20/60                                      267\nDHS                   23                               21/60                                      8\nTotal                 14600                                                                         5893\n\n5893 total hrs. x 60 minutes = 353,580 total minutes.\n353,580 / 14600 total responses = 24 minutes per response."
   ],
   "risks": [
-    "The \"Same as Project Director\" checkbox controls whether the Primary Contact section is populated. When checked, the `ContactPersonGroup` element should be omitted from XML (per minOccurs=\"0\"), or the SGG implementation should copy the data server-side.",
-    "The AOR Name uses `HumanNameDataType` directly (not wrapped in a `ContactPersonDataTypeV3`), so the AOR does not have a separate address. The AOR Title, Phone, Fax, and Email are separate top-level elements, not nested.",
-    "The form does not include funding estimates, state executive order review, or delinquent federal debt questions, making it simpler than the full SF-424.",
-    "Web Address (`xs:anyURI`) has no maxLength in the XSD. Validation should accept any well-formed URI."
+    "Source-required contact/copy behavior,empty Other description,certification false,date ordering and draft-versus-submission fields need explicit source/consumer decisions where the existing implementation differs. A matched schema does not approve these policies.",
+    "Application context,authenticated population,signature,save/reload,upload and submission are unexecuted integration boundaries;synthetic fixtures are not accepted applicant data.",
+    "DAT nine-digit US ZIP guidance and web-address maximum50 differ from existing API/general-XSD behavior. Matching current API admission does not settle these source policies. Original XSD requires submission-populated dates/signature before wire validity.",
+    "The certification section's DAT wording and the existing SGG copy differ slightly; choose the accepted source policy before shipping a rendered definition. Source statements are retained, not approved by this plan."
   ],
   "children": [
     {
@@ -41,10 +51,11 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the name of the Federal agency from which assistance is being requested with this application.",
+          "help_text": "Pre-populated from the Application cover sheet.",
           "constraints": "minLength 1, maxLength 60",
           "json_path": "agency_name",
-          "xml_path": "SF424_Short_3_0:AgencyName"
+          "xml_path": "SF424_Short_3_0:AgencyName",
+          "pre_populated": "Pre-populated from the Application cover sheet."
         },
         {
           "kind": "field",
@@ -53,10 +64,11 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the Assistance Listing number, if known.",
+          "help_text": "Pre-populated from the Application cover sheet.",
           "constraints": "minLength 1, maxLength 15",
           "json_path": "assistance_listing_number",
-          "xml_path": "SF424_Short_3_0:CFDANumber"
+          "xml_path": "SF424_Short_3_0:CFDANumber",
+          "pre_populated": "Pre-populated from the Application cover sheet."
         },
         {
           "kind": "field",
@@ -65,22 +77,24 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the Assistance Listing title.",
+          "help_text": "Pre-populated from the Application cover sheet.",
           "constraints": "minLength 1, maxLength 120",
-          "json_path": "assistance_listing_title",
-          "xml_path": "SF424_Short_3_0:CFDAProgramTitle"
+          "json_path": "assistance_listing_program_title",
+          "xml_path": "SF424_Short_3_0:CFDAProgramTitle",
+          "pre_populated": "Pre-populated from the Application cover sheet."
         },
         {
           "kind": "field",
           "label": "Date Received",
           "dat_field": "3-1",
-          "required": true,
+          "required": "Conditional (post-populated upon submission; absent in a draft)",
           "type": "Date input",
           "widget": "TextWidget",
-          "help_text": "Enter the date the application is received by the Federal agency.",
-          "constraints": "xs:date",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
           "json_path": "date_received",
-          "xml_path": "SF424_Short_3_0:DateReceived"
+          "xml_path": "SF424_Short_3_0:DateReceived",
+          "post_populated": "Completed by Grants.gov upon submission."
         },
         {
           "kind": "field",
@@ -89,10 +103,11 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the Funding Opportunity Number.",
+          "help_text": "Pre-populated from the Application cover sheet.",
           "constraints": "minLength 1, maxLength 40",
           "json_path": "funding_opportunity_number",
-          "xml_path": "SF424_Short_3_0:FundingOpportunityNumber"
+          "xml_path": "SF424_Short_3_0:FundingOpportunityNumber",
+          "pre_populated": "Pre-populated from the Application cover sheet."
         },
         {
           "kind": "field",
@@ -101,10 +116,11 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the title of the Funding Opportunity.",
+          "help_text": "Pre-populated from the Application cover sheet.",
           "constraints": "minLength 1, maxLength 255",
           "json_path": "funding_opportunity_title",
-          "xml_path": "SF424_Short_3_0:FundingOpportunityTitle"
+          "xml_path": "SF424_Short_3_0:FundingOpportunityTitle",
+          "pre_populated": "Pre-populated from the Application cover sheet."
         }
       ]
     },
@@ -119,9 +135,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the legal name of the applicant organization.",
+          "help_text": "Enter the legal name of applicant that will undertake the assistance activity. This field is required.",
           "constraints": "minLength 1, maxLength 60",
-          "json_path": "applicant.legal_name",
+          "json_path": "organization_name",
           "xml_path": "SF424_Short_3_0:OrganizationName"
         },
         {
@@ -131,9 +147,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the applicant's street address.",
+          "help_text": "Enter the first line of the Street Address. This field is required.",
           "constraints": "minLength 1, maxLength 55",
-          "json_path": "applicant.address.street1",
+          "json_path": "applicant.street1",
           "xml_path": "SF424_Short_3_0:Address/globLib:Street1"
         },
         {
@@ -143,9 +159,9 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the second line of the applicant's street address.",
+          "help_text": "Enter the second line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
-          "json_path": "applicant.address.street2",
+          "json_path": "applicant.street2",
           "xml_path": "SF424_Short_3_0:Address/globLib:Street2"
         },
         {
@@ -155,9 +171,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the city for the applicant's address.",
+          "help_text": "Enter the City. This field is required.",
           "constraints": "minLength 1, maxLength 35",
-          "json_path": "applicant.address.city",
+          "json_path": "applicant.city",
           "xml_path": "SF424_Short_3_0:Address/globLib:City"
         },
         {
@@ -167,9 +183,9 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the county or parish for the applicant's address.",
+          "help_text": "Enter the County/ Parish.",
           "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.address.county",
+          "json_path": "applicant.county",
           "xml_path": "SF424_Short_3_0:Address/globLib:County"
         },
         {
@@ -179,21 +195,21 @@
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
           "type": "Dropdown (state code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the applicant's address. Required for US addresses.",
-          "constraints": "StateCodeDataType enumeration",
-          "json_path": "applicant.address.state",
+          "help_text": "Select the state, US possession or military code from the provided list. This field is required if Country is the United States.",
+          "constraints": "StateCodeDataTypeV3 enumeration",
+          "json_path": "applicant.state",
           "xml_path": "SF424_Short_3_0:Address/globLib:State"
         },
         {
           "kind": "field",
           "label": "Province",
           "dat_field": "5b-7",
-          "required": "Conditional (when Country != \"USA: UNITED STATES\")",
+          "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the province for the applicant's address. For non-US addresses.",
+          "help_text": "Enter the Province.",
           "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.address.province",
+          "json_path": "applicant.province",
           "xml_path": "SF424_Short_3_0:Address/globLib:Province"
         },
         {
@@ -203,21 +219,21 @@
           "required": true,
           "type": "Dropdown (country code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the country for the applicant's address.",
-          "constraints": "CountryCodeDataType enumeration",
-          "json_path": "applicant.address.country",
+          "help_text": "Select the Country from the provided list. This field is required.",
+          "constraints": "CountryCodeDataTypeV3 enumeration",
+          "json_path": "applicant.country",
           "xml_path": "SF424_Short_3_0:Address/globLib:Country"
         },
         {
           "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "5b-9",
-          "required": false,
+          "required": "Conditional (when Country is USA)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the ZIP or postal code for the applicant's address.",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP code). This field is required if the country is the United States.",
           "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.address.zip_code",
+          "json_path": "applicant.zip_code",
           "xml_path": "SF424_Short_3_0:Address/globLib:ZipPostalCode"
         },
         {
@@ -227,46 +243,59 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the applicant's web address (URL).",
-          "constraints": "xs:anyURI",
-          "json_path": "applicant.web_address",
+          "help_text": "Enter the website address or uniform record locator (URL) of the applicant organization.",
+          "constraints": "minLength 1, maxLength 250",
+          "json_path": "applicant_web_address",
           "xml_path": "SF424_Short_3_0:ApplicantWebAddress"
         },
         {
           "kind": "field",
-          "label": "Type of Applicant 1",
-          "dat_field": "5d-1",
+          "label": "Type of Applicant",
           "required": true,
-          "type": "Dropdown (applicant type code list)",
-          "widget": "SelectWidget",
+          "type": "Ordered applicant-type choices",
+          "widget": "MultiSelectWidget",
           "help_text": "Select the applicant type code that best describes the applicant organization.",
           "constraints": "ApplicantTypeCodeDataType enumeration",
-          "json_path": "applicant.applicant_type_1",
-          "xml_path": "SF424_Short_3_0:ApplicantTypeCode1"
-        },
-        {
-          "kind": "field",
-          "label": "Type of Applicant 2",
-          "dat_field": "5d-2",
-          "required": false,
-          "type": "Dropdown (applicant type code list)",
-          "widget": "SelectWidget",
-          "help_text": "Select an additional applicant type, if applicable.",
-          "constraints": "ApplicantTypeCodeDataType enumeration",
-          "json_path": "applicant.applicant_type_2",
-          "xml_path": "SF424_Short_3_0:ApplicantTypeCode2"
-        },
-        {
-          "kind": "field",
-          "label": "Type of Applicant 3",
-          "dat_field": "5d-3",
-          "required": false,
-          "type": "Dropdown (applicant type code list)",
-          "widget": "SelectWidget",
-          "help_text": "Select an additional applicant type, if applicable.",
-          "constraints": "ApplicantTypeCodeDataType enumeration",
-          "json_path": "applicant.applicant_type_3",
-          "xml_path": "SF424_Short_3_0:ApplicantTypeCode3"
+          "json_path": "applicant_type_code[]",
+          "min_items": 1,
+          "max_items": 3,
+          "source_bindings": {
+            "at": "applicant_type_code",
+            "dat": [
+              {
+                "kind": "slot",
+                "path": "5d-1",
+                "index": 0
+              },
+              {
+                "kind": "slot",
+                "path": "5d-2",
+                "index": 1
+              },
+              {
+                "kind": "slot",
+                "path": "5d-3",
+                "index": 2
+              }
+            ],
+            "xml": [
+              {
+                "kind": "slot",
+                "path": "SF424_Short_3_0:ApplicantTypeCode1",
+                "index": 0
+              },
+              {
+                "kind": "slot",
+                "path": "SF424_Short_3_0:ApplicantTypeCode2",
+                "index": 1
+              },
+              {
+                "kind": "slot",
+                "path": "SF424_Short_3_0:ApplicantTypeCode3",
+                "index": 2
+              }
+            ]
+          }
         },
         {
           "kind": "field",
@@ -275,9 +304,9 @@
           "required": "Conditional (when any Applicant Type = \"X: Other (Specify)\")",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Specify the applicant type if 'Other' was selected.",
+          "help_text": "Enter the applicant type here if you selected \"Other (specify)\" in 5d.",
           "constraints": "minLength 0, maxLength 30",
-          "json_path": "applicant.applicant_type_other",
+          "json_path": "applicant_type_other_specify",
           "xml_path": "SF424_Short_3_0:ApplicantTypeOtherSpecify"
         },
         {
@@ -287,9 +316,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the employer/taxpayer identification number (EIN/TIN) as assigned by the Internal Revenue Service.",
+          "help_text": "Enter either TIN or EIN as assigned by the Internal Revenue Service. If your organization is not in the US, enter 44-4444444. This field is required.",
           "constraints": "minLength 9, maxLength 30",
-          "json_path": "applicant.ein",
+          "json_path": "employer_taxpayer_identification_number",
           "xml_path": "SF424_Short_3_0:EmployerTaxpayerIdentificationNumber"
         },
         {
@@ -299,10 +328,11 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the Unique Entity Identifier (UEI) from SAM.gov.",
-          "constraints": "length 12",
-          "json_path": "applicant.uei",
-          "xml_path": "SF424_Short_3_0:SAMUEI"
+          "help_text": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet.",
+          "constraints": "minLength 12, maxLength 12",
+          "json_path": "sam_uei",
+          "xml_path": "SF424_Short_3_0:SAMUEI",
+          "pre_populated": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet."
         },
         {
           "kind": "field",
@@ -311,9 +341,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the Congressional District in the format: 2-character state abbreviation followed by 3-character district number (e.g., VA-007).",
+          "help_text": "Enter the Congressional District in the format: 2 character State Abbreviation - 3 character District Number. Examples: CA-005 for California's 5th district, CA-012 for California's 12th district, NC-103 for North Carolina's 103rd district. This field is required. If outside the US, enter 00-000.",
           "constraints": "minLength 1, maxLength 6",
-          "json_path": "applicant.congressional_district",
+          "json_path": "congressional_district_applicant",
           "xml_path": "SF424_Short_3_0:CongressionalDistrictApplicant"
         }
       ]
@@ -329,9 +359,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the title of the applicant's project.",
+          "help_text": "Enter a brief, descriptive title of the project. This field is required.",
           "constraints": "minLength 1, maxLength 200",
-          "json_path": "project.title",
+          "json_path": "project_title",
           "xml_path": "SF424_Short_3_0:ProjectTitle"
         },
         {
@@ -341,9 +371,9 @@
           "required": true,
           "type": "Text area",
           "widget": "TextAreaWidget",
-          "help_text": "Enter a brief description of the project, including goals, objectives, and target population.",
+          "help_text": "Enter a brief description of the project. This field is required.",
           "constraints": "minLength 1, maxLength 1000",
-          "json_path": "project.description",
+          "json_path": "project_description",
           "xml_path": "SF424_Short_3_0:ProjectDescription"
         },
         {
@@ -353,9 +383,9 @@
           "required": true,
           "type": "Date input",
           "widget": "TextWidget",
-          "help_text": "Enter the proposed start date of the project.",
-          "constraints": "xs:date",
-          "json_path": "project.start_date",
+          "help_text": "Enter the start date for the proposed project. Enter in the format MM/DD/YYYY. This field is required.",
+          "constraints": "format date",
+          "json_path": "project_start_date",
           "xml_path": "SF424_Short_3_0:ProjectStartDate"
         },
         {
@@ -365,9 +395,9 @@
           "required": true,
           "type": "Date input",
           "widget": "TextWidget",
-          "help_text": "Enter the proposed end date of the project.",
-          "constraints": "xs:date",
-          "json_path": "project.end_date",
+          "help_text": "Enter the end date for the proposed project. Enter in the format MM/DD/YYYY. This field is required.",
+          "constraints": "format date",
+          "json_path": "project_end_date",
           "xml_path": "SF424_Short_3_0:ProjectEndDate"
         }
       ]
@@ -383,7 +413,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Select the prefix for the project director's name (e.g., Mr., Ms., Dr.).",
+          "help_text": "Select the Prefix from the provided list or enter a new Prefix not provided on the list.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "project_director.name.prefix",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:PrefixName"
@@ -395,7 +425,7 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the project director's first (given) name.",
+          "help_text": "Enter the First Name. This field is required.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "project_director.name.first_name",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:FirstName"
@@ -407,7 +437,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the project director's middle name.",
+          "help_text": "Enter the Middle Name.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "project_director.name.middle_name",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:MiddleName"
@@ -419,7 +449,7 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the project director's last (family) name.",
+          "help_text": "Enter the Last Name. This field is required.",
           "constraints": "minLength 1, maxLength 60",
           "json_path": "project_director.name.last_name",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:LastName"
@@ -431,7 +461,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the suffix for the project director's name (e.g., Jr., Sr., PhD).",
+          "help_text": "Select the Suffix from the provided list or enter a new Suffix not provided on the list.",
           "constraints": "minLength 1, maxLength 10",
           "json_path": "project_director.name.suffix",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:SuffixName"
@@ -443,7 +473,7 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the project director's title or position.",
+          "help_text": "Enter the position title. This field is required.",
           "constraints": "minLength 1, maxLength 45",
           "json_path": "project_director.title",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Title"
@@ -455,8 +485,8 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the project director's email address.",
-          "constraints": "minLength 1, maxLength 60",
+          "help_text": "Enter a valid Email Address. This field is required.",
+          "constraints": "format email, maxLength 60",
           "json_path": "project_director.email",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Email"
         },
@@ -467,9 +497,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the project director's telephone number.",
+          "help_text": "Enter the daytime Telephone Number. This field is required.",
           "constraints": "minLength 1, maxLength 25",
-          "json_path": "project_director.phone",
+          "json_path": "project_director.phone_number",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Phone"
         },
         {
@@ -479,7 +509,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the project director's fax number.",
+          "help_text": "Enter the Fax Number.",
           "constraints": "minLength 1, maxLength 25",
           "json_path": "project_director.fax",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Fax"
@@ -491,7 +521,7 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the project director's street address.",
+          "help_text": "Enter the first line of the Street Address. This field is required.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "project_director.address.street1",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Street1"
@@ -503,7 +533,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the second line of the project director's street address.",
+          "help_text": "Enter the second line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
           "json_path": "project_director.address.street2",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Street2"
@@ -515,7 +545,7 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the city for the project director's address.",
+          "help_text": "Enter the City. This field is required.",
           "constraints": "minLength 1, maxLength 35",
           "json_path": "project_director.address.city",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:City"
@@ -527,7 +557,7 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the county or parish for the project director's address.",
+          "help_text": "Enter the County/Parish.",
           "constraints": "minLength 1, maxLength 30",
           "json_path": "project_director.address.county",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:County"
@@ -539,8 +569,8 @@
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
           "type": "Dropdown (state code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the project director's address. Required for US addresses.",
-          "constraints": "StateCodeDataType enumeration",
+          "help_text": "Select the state, US possession or military code from the provided list. This field is required if Country is the United States.",
+          "constraints": "StateCodeDataTypeV3 enumeration",
           "json_path": "project_director.address.state",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:State"
         },
@@ -548,10 +578,10 @@
           "kind": "field",
           "label": "Province",
           "dat_field": "7-17",
-          "required": "Conditional (when Country != \"USA: UNITED STATES\")",
+          "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the province for the project director's address. For non-US addresses.",
+          "help_text": "Enter the Province.",
           "constraints": "minLength 1, maxLength 30",
           "json_path": "project_director.address.province",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Province"
@@ -563,8 +593,8 @@
           "required": true,
           "type": "Dropdown (country code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the country for the project director's address.",
-          "constraints": "CountryCodeDataType enumeration",
+          "help_text": "Select the Country from the provided list. This field is required.",
+          "constraints": "CountryCodeDataTypeV3 enumeration",
           "json_path": "project_director.address.country",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Country"
         },
@@ -572,10 +602,10 @@
           "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "7-19",
-          "required": false,
+          "required": "Conditional (when Country is USA)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the ZIP or postal code for the project director's address.",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP code). This field is required if the country is the United States.",
           "constraints": "minLength 1, maxLength 30",
           "json_path": "project_director.address.zip_code",
           "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:ZipPostalCode"
@@ -584,7 +614,7 @@
     },
     {
       "kind": "section",
-      "label": "5. Primary Contact/Grants Administrator (optional)",
+      "label": "5. Primary Contact/Grants Administrator",
       "children": [
         {
           "kind": "field",
@@ -593,7 +623,7 @@
           "required": false,
           "type": "Checkbox",
           "widget": "CheckboxWidget",
-          "help_text": "Check this box if the primary contact is the same as the project director. If checked, skip to item 9.",
+          "help_text": "Check here if this person is also the project director and skip to item 9. If Primary Contact/Grants Administrator is same as Authorizing Official, please complete both 8 and 9.",
           "constraints": "YesNoDataType",
           "json_path": "same_as_project_director",
           "xml_path": "SF424_Short_3_0:SameAsProjectDirector"
@@ -605,21 +635,21 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Select the prefix for the primary contact's name.",
+          "help_text": "Select the Prefix from the provided list or enter a new Prefix not provided on the list.",
           "constraints": "minLength 1, maxLength 10",
-          "json_path": "primary_contact.name.prefix",
+          "json_path": "contact_person.name.prefix",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:PrefixName"
         },
         {
           "kind": "field",
           "label": "First Name",
           "dat_field": "8-05",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the primary contact's first (given) name.",
+          "help_text": "Enter the First Name. This field is required.",
           "constraints": "minLength 1, maxLength 35",
-          "json_path": "primary_contact.name.first_name",
+          "json_path": "contact_person.name.first_name",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:FirstName"
         },
         {
@@ -629,21 +659,21 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the primary contact's middle name.",
+          "help_text": "Enter the Middle Name.",
           "constraints": "minLength 1, maxLength 25",
-          "json_path": "primary_contact.name.middle_name",
+          "json_path": "contact_person.name.middle_name",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:MiddleName"
         },
         {
           "kind": "field",
           "label": "Last Name",
           "dat_field": "8-07",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the primary contact's last (family) name.",
+          "help_text": "Enter the Last Name. This field is required.",
           "constraints": "minLength 1, maxLength 60",
-          "json_path": "primary_contact.name.last_name",
+          "json_path": "contact_person.name.last_name",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:LastName"
         },
         {
@@ -653,45 +683,45 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the suffix for the primary contact's name.",
+          "help_text": "Select the Suffix from the provided list or enter a new Suffix not provided on the list.",
           "constraints": "minLength 1, maxLength 10",
-          "json_path": "primary_contact.name.suffix",
+          "json_path": "contact_person.name.suffix",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:SuffixName"
         },
         {
           "kind": "field",
           "label": "Title",
           "dat_field": "8-09",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the primary contact's title or position.",
+          "help_text": "Enter the position title. This field is required.",
           "constraints": "minLength 1, maxLength 45",
-          "json_path": "primary_contact.title",
+          "json_path": "contact_person.title",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Title"
         },
         {
           "kind": "field",
           "label": "Email",
           "dat_field": "8-10",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the primary contact's email address.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "primary_contact.email",
+          "help_text": "Enter a valid Email Address. This field is required.",
+          "constraints": "format email, maxLength 60",
+          "json_path": "contact_person.email",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Email"
         },
         {
           "kind": "field",
           "label": "Phone Number",
           "dat_field": "8-11",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the primary contact's telephone number.",
+          "help_text": "Enter the daytime Telephone Number. This field is required.",
           "constraints": "minLength 1, maxLength 25",
-          "json_path": "primary_contact.phone",
+          "json_path": "contact_person.phone_number",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Phone"
         },
         {
@@ -701,21 +731,21 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the primary contact's fax number.",
+          "help_text": "Enter the Fax Number.",
           "constraints": "minLength 1, maxLength 25",
-          "json_path": "primary_contact.fax",
+          "json_path": "contact_person.fax",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Fax"
         },
         {
           "kind": "field",
           "label": "Street1",
           "dat_field": "8-13",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the first line of the primary contact's street address.",
+          "help_text": "Enter the first line of the Street Address. This field is required.",
           "constraints": "minLength 1, maxLength 55",
-          "json_path": "primary_contact.address.street1",
+          "json_path": "contact_person.address.street1",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Street1"
         },
         {
@@ -725,21 +755,21 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the second line of the primary contact's street address.",
+          "help_text": "Enter the second line of the Street Address.",
           "constraints": "minLength 1, maxLength 55",
-          "json_path": "primary_contact.address.street2",
+          "json_path": "contact_person.address.street2",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Street2"
         },
         {
           "kind": "field",
           "label": "City",
           "dat_field": "8-15",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the city for the primary contact's address.",
+          "help_text": "Enter the City. This field is required.",
           "constraints": "minLength 1, maxLength 35",
-          "json_path": "primary_contact.address.city",
+          "json_path": "contact_person.address.city",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:City"
         },
         {
@@ -749,9 +779,9 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the county or parish for the primary contact's address.",
+          "help_text": "Enter the County/Parish.",
           "constraints": "minLength 1, maxLength 30",
-          "json_path": "primary_contact.address.county",
+          "json_path": "contact_person.address.county",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:County"
         },
         {
@@ -761,45 +791,45 @@
           "required": "Conditional (when Country = \"USA: UNITED STATES\")",
           "type": "Dropdown (state code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the state for the primary contact's address.",
-          "constraints": "StateCodeDataType enumeration",
-          "json_path": "primary_contact.address.state",
+          "help_text": "Select the state, US possession or military code from the provided list. This field is required if Country is the United States.",
+          "constraints": "StateCodeDataTypeV3 enumeration",
+          "json_path": "contact_person.address.state",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:State"
         },
         {
           "kind": "field",
           "label": "Province",
           "dat_field": "8-18",
-          "required": "Conditional (when Country != \"USA: UNITED STATES\")",
+          "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the province for the primary contact's address. For non-US addresses.",
+          "help_text": "Enter the Province.",
           "constraints": "minLength 1, maxLength 30",
-          "json_path": "primary_contact.address.province",
+          "json_path": "contact_person.address.province",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Province"
         },
         {
           "kind": "field",
           "label": "Country",
           "dat_field": "8-19",
-          "required": "Yes (when section is started)",
+          "required": true,
           "type": "Dropdown (country code list)",
           "widget": "SelectWidget",
-          "help_text": "Select the country for the primary contact's address.",
-          "constraints": "CountryCodeDataType enumeration",
-          "json_path": "primary_contact.address.country",
+          "help_text": "Select the Country from the provided list. This field is required.",
+          "constraints": "CountryCodeDataTypeV3 enumeration",
+          "json_path": "contact_person.address.country",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Country"
         },
         {
           "kind": "field",
           "label": "Zip / Postal Code",
           "dat_field": "8-20",
-          "required": false,
+          "required": "Conditional (when Country is USA)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the ZIP or postal code for the primary contact's address.",
+          "help_text": "Enter the nine-digit Postal Code (e.g., ZIP code). This field is required if the country is the United States.",
           "constraints": "minLength 1, maxLength 30",
-          "json_path": "primary_contact.address.zip_code",
+          "json_path": "contact_person.address.zip_code",
           "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:ZipPostalCode"
         }
       ]
@@ -815,9 +845,9 @@
           "required": true,
           "type": "Checkbox",
           "widget": "CheckboxWidget",
-          "help_text": "By signing this application, I certify (1) to the statements contained in the list of certifications and (2) that the statements herein are true, complete and accurate to the best of my knowledge.",
+          "help_text": "Check to select. This field is required.",
           "constraints": "YesNoDataType",
-          "json_path": "certification.agree",
+          "json_path": "application_certification",
           "xml_path": "SF424_Short_3_0:ApplicationCertification"
         },
         {
@@ -827,9 +857,9 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Select the prefix for the authorized representative's name.",
+          "help_text": "Select the Prefix from the provided list or enter a new Prefix not provided on the list.",
           "constraints": "minLength 1, maxLength 10",
-          "json_path": "authorized_representative.name.prefix",
+          "json_path": "authorized_representative.prefix",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentative/globLib:PrefixName"
         },
         {
@@ -839,9 +869,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the authorized representative's first (given) name.",
+          "help_text": "Enter the First Name. This field is required.",
           "constraints": "minLength 1, maxLength 35",
-          "json_path": "authorized_representative.name.first_name",
+          "json_path": "authorized_representative.first_name",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentative/globLib:FirstName"
         },
         {
@@ -851,9 +881,9 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the authorized representative's middle name.",
+          "help_text": "Enter the Middle Name.",
           "constraints": "minLength 1, maxLength 25",
-          "json_path": "authorized_representative.name.middle_name",
+          "json_path": "authorized_representative.middle_name",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentative/globLib:MiddleName"
         },
         {
@@ -863,9 +893,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the authorized representative's last (family) name.",
+          "help_text": "Enter the Last Name. This field is required.",
           "constraints": "minLength 1, maxLength 60",
-          "json_path": "authorized_representative.name.last_name",
+          "json_path": "authorized_representative.last_name",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentative/globLib:LastName"
         },
         {
@@ -875,9 +905,9 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the suffix for the authorized representative's name.",
+          "help_text": "Select the Suffix from the provided list or enter a new Suffix not provided on the list.",
           "constraints": "minLength 1, maxLength 10",
-          "json_path": "authorized_representative.name.suffix",
+          "json_path": "authorized_representative.suffix",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentative/globLib:SuffixName"
         },
         {
@@ -887,9 +917,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the authorized representative's title or position.",
+          "help_text": "Enter the position title. This field is required.",
           "constraints": "minLength 1, maxLength 45",
-          "json_path": "authorized_representative.title",
+          "json_path": "authorized_representative_title",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeTitle"
         },
         {
@@ -899,9 +929,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the authorized representative's email address.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "authorized_representative.email",
+          "help_text": "Enter a valid Email Address. This field is required.",
+          "constraints": "format email, maxLength 60",
+          "json_path": "authorized_representative_email",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeEmail"
         },
         {
@@ -911,9 +941,9 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the authorized representative's telephone number.",
+          "help_text": "Enter the daytime Telephone Number. This field is required.",
           "constraints": "minLength 1, maxLength 25",
-          "json_path": "authorized_representative.phone",
+          "json_path": "authorized_representative_phone_number",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentativePhoneNumber"
         },
         {
@@ -923,36 +953,345 @@
           "required": false,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the authorized representative's fax number.",
+          "help_text": "Enter the Fax Number.",
           "constraints": "minLength 1, maxLength 25",
-          "json_path": "authorized_representative.fax",
+          "json_path": "authorized_representative_fax",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeFaxNumber"
         },
         {
           "kind": "field",
           "label": "Signature",
           "dat_field": "9-14",
-          "required": true,
+          "required": "Conditional (post-populated upon submission; absent in a draft)",
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the signature of the authorized representative.",
+          "help_text": "Completed by Grants.gov upon submission.",
           "constraints": "minLength 1, maxLength 144",
-          "json_path": "authorized_representative.signature",
-          "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeSignature"
+          "json_path": "aor_signature",
+          "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeSignature",
+          "post_populated": "Completed by Grants.gov upon submission."
         },
         {
           "kind": "field",
           "label": "Date Signed",
           "dat_field": "9-15",
-          "required": true,
+          "required": "Conditional (post-populated upon submission; absent in a draft)",
           "type": "Date input",
           "widget": "TextWidget",
-          "help_text": "Enter the date the application was signed.",
-          "constraints": "xs:date",
-          "json_path": "authorized_representative.date_signed",
-          "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeDateSigned"
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "json_path": "authorized_representative_date_signed",
+          "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeDateSigned",
+          "post_populated": "Completed by Grants.gov upon submission."
         }
-      ]
+      ],
+      "help_text": "9. * By signing this application, I certify (1) to the statements contained in the list of certifications** and (2) that the statements herein are true, complete and accurate to the best of my knowledge.  I also provide the required assurances** and agree to comply with any resulting terms if I accept an award.  I am aware that any false, fictitious, or fradulent statements or claims may subject me to criminal, civil, or administrative penalties (U.S. Code, Title 18, Section 1001)\n\n** The list of certifications and assurances, or an internet site where you may obtain this list, is contained in the announcement or agency specific instructions.",
+      "dat_field": "9-01"
     }
-  ]
+  ],
+  "examples": [
+    {
+      "label": "US nonprofit application draft",
+      "description": "Fictional organization, opportunity and three distinct people. US addresses use ZIP+4; source-populated opportunity/UEI values are illustrative context. Received date, signature and signed date are intentionally absent because this is a draft, not a submitted application.",
+      "data": {
+        "agency_name": "Department of Community Programs",
+        "funding_opportunity_number": "DEMO-2027-001",
+        "funding_opportunity_title": "Community Research Demonstration",
+        "assistance_listing_number": "99.999",
+        "assistance_listing_program_title": "Community Research Demonstration",
+        "organization_name": "Prairie Community Research Center",
+        "applicant": {
+          "street1": "128 Oak Avenue",
+          "city": "Springfield",
+          "county": "Sangamon",
+          "state": "IL: Illinois",
+          "country": "USA: UNITED STATES",
+          "zip_code": "62701-1234",
+          "street2": "Suite 200"
+        },
+        "applicant_web_address": "https://prairie.example.org",
+        "applicant_type_code": [
+          "M: Nonprofit with 501C3 IRS Status (Other than Institution of Higher Education)"
+        ],
+        "employer_taxpayer_identification_number": "12-3456789",
+        "sam_uei": "PCRA12345678",
+        "congressional_district_applicant": "IL-013",
+        "project_title": "Neighborhood Heat Resilience Study",
+        "project_description": "Survey neighborhood residents and map shaded gathering spaces to guide community heat-resilience planning. The project will share findings through public workshops and a plain-language report.",
+        "project_start_date": "2027-01-01",
+        "project_end_date": "2027-12-31",
+        "project_director": {
+          "name": {
+            "first_name": "Avery",
+            "last_name": "Patel"
+          },
+          "title": "Research Director",
+          "email": "avery.patel@example.org",
+          "phone_number": "217-555-0101",
+          "address": {
+            "street1": "128 Oak Avenue",
+            "city": "Springfield",
+            "county": "Sangamon",
+            "state": "IL: Illinois",
+            "country": "USA: UNITED STATES",
+            "zip_code": "62701-1234"
+          }
+        },
+        "same_as_project_director": false,
+        "contact_person": {
+          "name": {
+            "first_name": "Jordan",
+            "last_name": "Reyes"
+          },
+          "title": "Grants Administrator",
+          "email": "jordan.reyes@example.org",
+          "phone_number": "217-555-0102",
+          "address": {
+            "street1": "128 Oak Avenue",
+            "city": "Springfield",
+            "county": "Sangamon",
+            "state": "IL: Illinois",
+            "country": "USA: UNITED STATES",
+            "zip_code": "62701-1234"
+          }
+        },
+        "application_certification": true,
+        "authorized_representative": {
+          "first_name": "Morgan",
+          "last_name": "Chen"
+        },
+        "authorized_representative_title": "Executive Director",
+        "authorized_representative_email": "morgan.chen@example.org",
+        "authorized_representative_phone_number": "217-555-0103"
+      }
+    },
+    {
+      "label": "Canadian partner with Other applicant type",
+      "description": "Fictional Canadian addresses use Province without State. Selecting Other includes its explanation; the non-US EIN uses the DAT-prescribed 44-4444444 placeholder. Distinct director, administrator and signing role are retained; neither address validation nor a real registration, signature or submission is claimed.",
+      "data": {
+        "agency_name": "Department of Community Programs",
+        "funding_opportunity_number": "DEMO-2027-001",
+        "funding_opportunity_title": "Community Research Demonstration",
+        "assistance_listing_number": "99.999",
+        "assistance_listing_program_title": "Community Research Demonstration",
+        "organization_name": "Maple Community Research Centre",
+        "applicant": {
+          "street1": "240 Maple Street",
+          "street2": "Suite 210",
+          "city": "Ottawa",
+          "province": "Ontario",
+          "country": "CAN: CANADA",
+          "zip_code": "K1P 1J1"
+        },
+        "applicant_web_address": "https://maple.example.org",
+        "applicant_type_code": [
+          "W: Non-domestic (non-US) Entity",
+          "X: Other (specify)"
+        ],
+        "employer_taxpayer_identification_number": "44-4444444",
+        "sam_uei": "MCRC12345678",
+        "congressional_district_applicant": "00-000",
+        "project_title": "Neighborhood Heat Resilience Study",
+        "project_description": "Survey neighborhood residents and map shaded gathering spaces to guide community heat-resilience planning. The project will share findings through public workshops and a plain-language report.",
+        "project_start_date": "2027-01-01",
+        "project_end_date": "2027-12-31",
+        "project_director": {
+          "name": {
+            "first_name": "Avery",
+            "last_name": "Patel"
+          },
+          "title": "Research Director",
+          "email": "avery.patel@example.org",
+          "phone_number": "613-555-0101",
+          "address": {
+            "street1": "240 Maple Street",
+            "street2": "Suite 210",
+            "city": "Ottawa",
+            "province": "Ontario",
+            "country": "CAN: CANADA",
+            "zip_code": "K1P 1J1"
+          }
+        },
+        "same_as_project_director": false,
+        "contact_person": {
+          "name": {
+            "first_name": "Jordan",
+            "last_name": "Reyes"
+          },
+          "title": "Grants Administrator",
+          "email": "jordan.reyes@example.org",
+          "phone_number": "613-555-0102",
+          "address": {
+            "street1": "240 Maple Street",
+            "street2": "Suite 210",
+            "city": "Ottawa",
+            "province": "Ontario",
+            "country": "CAN: CANADA",
+            "zip_code": "K1P 1J1"
+          }
+        },
+        "application_certification": true,
+        "authorized_representative": {
+          "first_name": "Morgan",
+          "last_name": "Chen"
+        },
+        "authorized_representative_title": "Executive Director",
+        "authorized_representative_email": "morgan.chen@example.org",
+        "authorized_representative_phone_number": "613-555-0103",
+        "applicant_type_other_specify": "Community research partnership"
+      }
+    }
+  ],
+  "existing_sgg": {
+    "source_url": "https://github.com/HHS/simpler-grants-gov/blob/48d93f882c63a711bdec4b16e3150d1293cdff43/api/tests/src/form_schema/forms/test_sf424_short.py",
+    "examples": [
+      {
+        "label": "Existing SGG minimal test fixture",
+        "description": "Unchanged pinned API test fixture. Placeholder text and five-digit US ZIPs are reference evidence, not recommended demonstration answers; DAT ZIP guidance remains unresolved.",
+        "data": {
+          "agency_name": "Department of Research",
+          "funding_opportunity_number": "ABC-123",
+          "funding_opportunity_title": "My Example Opportunity",
+          "organization_name": "Example Org",
+          "applicant": {
+            "street1": "123 Main St",
+            "city": "Exampleburg",
+            "state": "NY: New York",
+            "country": "USA: UNITED STATES",
+            "zip_code": "12345"
+          },
+          "applicant_type_code": ["P: Individual"],
+          "employer_taxpayer_identification_number": "123-456-7890",
+          "sam_uei": "UEI123123123",
+          "congressional_district_applicant": "NY-001",
+          "project_title": "My Project",
+          "project_description": "A short description of my project.",
+          "project_start_date": "2026-01-01",
+          "project_end_date": "2026-12-31",
+          "project_director": {
+            "name": {
+              "first_name": "Jane",
+              "last_name": "Doe"
+            },
+            "title": "Project Director",
+            "email": "jane@example.com",
+            "phone_number": "123-456-7890",
+            "address": {
+              "street1": "123 Main St",
+              "city": "Exampleburg",
+              "state": "NY: New York",
+              "country": "USA: UNITED STATES",
+              "zip_code": "12345"
+            }
+          },
+          "same_as_project_director": true,
+          "contact_person": {
+            "name": {
+              "first_name": "Jane",
+              "last_name": "Doe"
+            },
+            "title": "Project Director",
+            "email": "jane@example.com",
+            "phone_number": "123-456-7890",
+            "address": {
+              "street1": "123 Main St",
+              "city": "Exampleburg",
+              "state": "NY: New York",
+              "country": "USA: UNITED STATES",
+              "zip_code": "12345"
+            }
+          },
+          "application_certification": true,
+          "authorized_representative": {
+            "first_name": "Bob",
+            "last_name": "Smith"
+          },
+          "authorized_representative_title": "Doctor",
+          "authorized_representative_email": "example@mail.com",
+          "authorized_representative_phone_number": "123-456-7890"
+        }
+      },
+      {
+        "label": "Existing SGG full test fixture",
+        "description": "Unchanged pinned API test fixture with synthetic received/signature context. It is not an actual signed or submitted application and contains placeholder data that is deliberately kept separate from the proposed examples.",
+        "data": {
+          "agency_name": "Department of Research",
+          "funding_opportunity_number": "ABC-123",
+          "funding_opportunity_title": "My Example Opportunity",
+          "organization_name": "Example Org",
+          "applicant": {
+            "street1": "123 Main St",
+            "city": "Exampleburg",
+            "state": "NY: New York",
+            "country": "USA: UNITED STATES",
+            "zip_code": "12345"
+          },
+          "applicant_type_code": ["P: Individual", "X: Other (specify)"],
+          "employer_taxpayer_identification_number": "123-456-7890",
+          "sam_uei": "UEI123123123",
+          "congressional_district_applicant": "NY-001",
+          "project_title": "My Project",
+          "project_description": "A short description of my project.",
+          "project_start_date": "2026-01-01",
+          "project_end_date": "2026-12-31",
+          "project_director": {
+            "name": {
+              "first_name": "Jane",
+              "last_name": "Doe"
+            },
+            "title": "Project Director",
+            "email": "jane@example.com",
+            "phone_number": "123-456-7890",
+            "address": {
+              "street1": "123 Main St",
+              "city": "Exampleburg",
+              "state": "NY: New York",
+              "country": "USA: UNITED STATES",
+              "zip_code": "12345"
+            }
+          },
+          "same_as_project_director": false,
+          "contact_person": {
+            "name": {
+              "prefix": "Mrs",
+              "first_name": "Sally",
+              "middle_name": "Anne",
+              "last_name": "Jones",
+              "suffix": "III"
+            },
+            "title": "Grants Administrator",
+            "email": "sally@example.com",
+            "phone_number": "123-456-7890",
+            "address": {
+              "street1": "123 Main St",
+              "city": "Exampleburg",
+              "state": "NY: New York",
+              "country": "USA: UNITED STATES",
+              "zip_code": "12345"
+            },
+            "fax": "222-222-2222"
+          },
+          "application_certification": true,
+          "authorized_representative": {
+            "prefix": "Mr",
+            "first_name": "Bob",
+            "middle_name": "Frank",
+            "last_name": "Smith",
+            "suffix": "Jr"
+          },
+          "authorized_representative_title": "Doctor",
+          "authorized_representative_email": "example@mail.com",
+          "authorized_representative_phone_number": "123-456-7890",
+          "assistance_listing_number": "12.345",
+          "assistance_listing_program_title": "Secret Research",
+          "date_received": "2025-01-01",
+          "applicant_web_address": "https://example.org",
+          "applicant_type_other_specify": "Secret Development",
+          "authorized_representative_fax": "333-333-3333",
+          "aor_signature": "Bob Smith",
+          "authorized_representative_date_signed": "2025-06-01"
+        }
+      }
+    ]
+  }
 }
