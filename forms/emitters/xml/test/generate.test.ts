@@ -153,6 +153,66 @@ describe("generateXml", () => {
     expect(xml).toEqual(await fixture("performance-sites.xml"));
   });
 
+  it.each(["project", "budget"])(
+    "writes the API's %s narrative snapshot",
+    async (kind) => {
+      const id = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
+      const xml = generateXml(
+        await mappingOf(`${kind}-narrative`),
+        { attachments: [id] },
+        {
+          attachment: () => ({
+            fileName: `${kind}_narrative.pdf`,
+            mimeType: "application/pdf",
+            fileLocation: `${kind}_narrative.pdf`,
+            hashValue: "aeB1+6gdFwih51ijIRn3b8QYn24=",
+          }),
+        },
+      );
+      expect(xml).toEqual(await fixture(`${kind}-narrative.xml`));
+    },
+  );
+
+  describe.each(["project-narrative", "budget-narrative", "other-narrative"])(
+    "%s attachment list",
+    (form) => {
+      it("writes every attachment in answer order", async () => {
+        const xml = generateXml(
+          await mappingOf(form),
+          { attachments: ["second", "first"] },
+          {
+            attachment: (id) => ({
+              fileName: `${id}.pdf`,
+              mimeType: "application/pdf",
+              fileLocation: `${id}.pdf`,
+              hashValue: "aeB1+6gdFwih51ijIRn3b8QYn24=",
+            }),
+          },
+        );
+        expect(xml.match(/<att:AttachedFile>/g)).toHaveLength(2);
+        expect(xml.indexOf("second.pdf")).toBeLessThan(
+          xml.indexOf("first.pdf"),
+        );
+        expect(xml).not.toContain(
+          "<att:AttachedFile>second</att:AttachedFile>",
+        );
+      });
+      it("rejects an attachment absent from metadata", async () => {
+        const mapping = await mappingOf(form);
+        expect(() =>
+          generateXml(mapping, { attachments: ["missing"] }),
+        ).toThrow(/no attachment with id missing/);
+      });
+      it("does not invent an uploaded file for an empty answer", async () => {
+        const mapping = await mappingOf(form);
+        for (const data of [{}, { attachments: [] }])
+          expect(generateXml(mapping, data)).not.toContain(
+            "<att:AttachedFile>",
+          );
+      });
+    },
+  );
+
   it("writes each person's attachments inside their profile", async () => {
     const person = (sketch: string) => ({
       name: { first_name: "Ada", last_name: "Lovelace" },
