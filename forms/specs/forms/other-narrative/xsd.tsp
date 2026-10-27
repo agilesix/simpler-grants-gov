@@ -13,8 +13,8 @@ alias OtherNarrative = Forms.OtherNarrative.OtherNarrative;
 enum Namespaces {
   OtherNarrativeAttachments_1_2: "http://apply.grants.gov/forms/OtherNarrativeAttachments_1_2-V1.2",
   att: "http://apply.grants.gov/system/Attachments-V1.0",
-  globLib: "http://apply.grants.gov/system/GlobalLibrary-V2.0",
   glob: "http://apply.grants.gov/system/Global-V1.0",
+  globLib: "http://apply.grants.gov/system/GlobalLibrary-V2.0",
 }
 @name("OtherNarrativeAttachments_1_2")
 @ns(Namespaces.OtherNarrativeAttachments_1_2)
