@@ -1,0 +1,62 @@
+{
+  "agency_name": "Department of Research",
+  "funding_opportunity_number": "ABC-123",
+  "funding_opportunity_title": "My Example Opportunity",
+  "organization_name": "Example Org",
+  "applicant": {
+    "street1": "123 Main St",
+    "city": "Exampleburg",
+    "state": "NY: New York",
+    "country": "USA: UNITED STATES",
+    "zip_code": "12345"
+  },
+  "applicant_type_code": ["P: Individual"],
+  "employer_taxpayer_identification_number": "123-456-7890",
+  "sam_uei": "UEI123123123",
+  "congressional_district_applicant": "NY-001",
+  "project_title": "My Project",
+  "project_description": "A short description of my project.",
+  "project_start_date": "2026-01-01",
+  "project_end_date": "2026-12-31",
+  "project_director": {
+    "name": {
+      "first_name": "Jane",
+      "last_name": "Doe"
+    },
+    "title": "Project Director",
+    "email": "jane@example.com",
+    "phone_number": "123-456-7890",
+    "address": {
+      "street1": "123 Main St",
+      "city": "Exampleburg",
+      "state": "NY: New York",
+      "country": "USA: UNITED STATES",
+      "zip_code": "12345"
+    }
+  },
+  "same_as_project_director": true,
+  "contact_person": {
+    "name": {
+      "first_name": "Jane",
+      "last_name": "Doe"
+    },
+    "title": "Project Director",
+    "email": "jane@example.com",
+    "phone_number": "123-456-7890",
+    "address": {
+      "street1": "123 Main St",
+      "city": "Exampleburg",
+      "state": "NY: New York",
+      "country": "USA: UNITED STATES",
+      "zip_code": "12345"
+    }
+  },
+  "application_certification": true,
+  "authorized_representative": {
+    "first_name": "Bob",
+    "last_name": "Smith"
+  },
+  "authorized_representative_title": "Doctor",
+  "authorized_representative_email": "example@mail.com",
+  "authorized_representative_phone_number": "123-456-7890"
+}
