@@ -1,12 +1,55 @@
 {
   "title": "Project Narrative Attachment Form",
   "slug": "project-narrative-attachment-form",
-  "status": "backlog",
-  "family": ["SF-424", "R&R", "SF-424 Short", "SF-424 Individual", "SF-424 Mandatory"],
+  "status": "in_progress",
+  "family": [
+    "SF-424",
+    "R&R",
+    "SF-424 Short",
+    "SF-424 Individual",
+    "SF-424 Mandatory"
+  ],
   "category": "Narrative & Attachment Forms",
   "apps_count": 77358,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/539",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/ProjectNarrativeAttachments_1_2-V1.2_F539.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/ProjectNarrativeAttachments_1_2-V1.2.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/ProjectNarrativeAttachments_1_2-V1.2_F539.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/ProjectNarrativeAttachments_1_2-V1.2_F539.xls",
+  "spec_id": "project-narrative",
+  "sgg_form_id": "project_narrative_attachment",
+  "omb_number": "",
+  "expiration_date": "",
+  "widgets": [
+    "ApplicationMultipleAttachmentWidget"
+  ],
+  "description": "Project narrative files supplied as an ordered list of uploaded attachment references.",
+  "notes": [
+    "The first attachment is mandatory; additional attachments follow it in the same list, as in the existing SGG form.",
+    "Examples use synthetic attachment IDs. File ownership and metadata are resolved by the existing application service."
+  ],
+  "risks": [
+    "Root attachment-list mapping support is under review. Compilation and UUID examples alone do not establish upload or submission readiness."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "1. Project Narrative File(s)",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Project Narrative Files",
+          "help_text": "At least one file must be attached",
+          "required": true,
+          "type": "Attachment",
+          "widget": "ApplicationMultipleAttachmentWidget",
+          "json_path": "attachments[]",
+          "xml_path": "Attachments/att:AttachedFile",
+          "dat_field": "1-0",
+          "min_items": 1,
+          "max_items": 100,
+          "constraints": "format uuid"
+        }
+      ]
+    }
+  ]
 }
