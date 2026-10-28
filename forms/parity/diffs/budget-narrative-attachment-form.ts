@@ -1,6 +1,7 @@
 import type { FormDiff } from "../harness/model.ts";
 export const DIFF: FormDiff = {
   slug: "budget-narrative-attachment-form",
+  xml: "xml-mapping",
   dat: {
     absentFromPlan: {
       "2-0": {
@@ -32,33 +33,6 @@ export const DIFF: FormDiff = {
         category: "intentional",
         reason:
           "The existing SGG form uses one ordered list: the first file is mandatory and later files are additional attachments. The XSD allows 1\u2013100 files in that list.",
-      },
-    },
-  },
-  xmlMapping: {
-    absentFromSource: {
-      "attachments[] -> Attachments/AttachedFile": {
-        category: "gap",
-        reason:
-          "The legacy transform emitter omits the root attachment-list wrapper. The proposed xml-mapping.json output is tested separately; installation must use that format after shared support is reviewed.",
-      },
-    },
-  },
-  xmlMappingVsJsonSchema: {
-    absentFromPlan: {
-      "attachments[]": {
-        category: "gap",
-        reason:
-          "The legacy transform emitter omits the root attachment-list wrapper. The proposed xml-mapping.json output is tested separately; installation must use that format after shared support is reviewed.",
-      },
-    },
-  },
-  xmlMappingVsXsd: {
-    absentFromPlan: {
-      "Attachments/AttachedFile": {
-        category: "gap",
-        reason:
-          "The legacy transform emitter omits the root attachment-list wrapper. The proposed xml-mapping.json output is tested separately; installation must use that format after shared support is reviewed.",
       },
     },
   },
