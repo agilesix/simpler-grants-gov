@@ -2,12 +2,7 @@
   "title": "Other Narrative Attachments",
   "slug": "other-attachments-form",
   "status": "in_progress",
-  "family": [
-    "SF-424",
-    "SF-424 Short",
-    "SF-424 Individual",
-    "SF-424 Mandatory"
-  ],
+  "family": ["SF-424", "SF-424 Short", "SF-424 Individual", "SF-424 Mandatory"],
   "category": "Narrative & Attachment Forms",
   "apps_count": 68887,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/542",
@@ -18,16 +13,14 @@
   "sgg_form_id": "other_narrative_attachment",
   "omb_number": "",
   "expiration_date": "",
-  "widgets": [
-    "ApplicationMultipleAttachmentWidget"
-  ],
+  "widgets": ["ApplicationMultipleAttachmentWidget"],
   "description": "Other narrative files supplied as an ordered list of uploaded attachment references.",
   "notes": [
     "The first attachment is mandatory; additional attachments follow it in the same list, as in the existing SGG form.",
-    "Examples use synthetic attachment IDs. File ownership and metadata are resolved by the existing application service."
-  ],
-  "risks": [
-    "Root attachment-list mapping support is under review. Compilation and UUID examples alone do not establish upload or submission readiness."
+    "Examples use synthetic attachment IDs. File ownership and metadata are resolved by the existing application service.",
+    "API installation and the authenticated file lifecycle remain separate integration steps; library examples alone are not submission evidence.",
+    "No applicant answers are pre- or post-populated. The upload service assigns attachment references when files are uploaded.",
+    "Existing-form follow-ups remain open in HHS/simpler-grants-gov: #12483 (boundary/per-file XML) and #11178 (print E2E). Library checks do not close these integration tasks."
   ],
   "children": [
     {
