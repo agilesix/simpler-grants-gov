@@ -275,6 +275,7 @@ function FieldListEntry({
   requiredFields,
   minItemsHeading,
   minItemsHelperText,
+  formContext,
 }: {
   entryId: string;
   entryIndex: number;
@@ -290,6 +291,7 @@ function FieldListEntry({
   requiredFields?: string[];
   minItemsHeading?: string;
   minItemsHelperText?: string;
+  formContext?: UswdsWidgetProps["formContext"];
 }) {
   const t = useTranslations("Application.applyForm.fieldListWidget");
   const fieldListId = fieldListPath.replace("$.", "").replace(/\W/g, "-");
@@ -347,6 +349,8 @@ function FieldListEntry({
           disabled: isInteractionDisabled,
           readOnly: isInteractionDisabled,
           isFormLocked: isInteractionDisabled,
+          // Lets an attachment in an entry hold Save while it uploads, as one outside a list does.
+          formContext,
           onChange: (nextValue) => {
             handleFieldChange({
               entryId,
@@ -613,6 +617,7 @@ function FieldListWidget(widgetProps: FieldListWidgetProps) {
             requiredFields={widgetProps.requiredFields}
             minItemsHeading={resolvedMinItemsHeading}
             minItemsHelperText={resolvedMinItemsHelperText}
+            formContext={widgetProps.formContext}
           />
         );
       })}

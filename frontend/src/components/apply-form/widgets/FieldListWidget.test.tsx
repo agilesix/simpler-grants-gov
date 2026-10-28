@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import FieldListWidget from "src/components/apply-form/widgets/FieldListWidget";
+import { renderWidget } from "src/components/apply-form/widgets/WidgetRenderers";
 
 jest.mock("src/components/apply-form/widgets/WidgetRenderers", () => ({
   renderWidget: jest.fn(
@@ -551,5 +552,39 @@ describe("FieldListWidget", () => {
     await user.click(deleteButtons[0]);
 
     expect(markFormDirtyMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("passes the form context to each entry's widgets, so an upload there holds Save", () => {
+    const formContext = {
+      widgetSupport: {
+        markFormDirty: jest.fn(),
+        attachmentsUploadingCounter: {
+          incrementAttachmentsProcessing: jest.fn(),
+          decrementAttachmentsProcessing: jest.fn(),
+        },
+      },
+    };
+    jest.mocked(renderWidget).mockClear();
+
+    render(
+      <FieldListWidget
+        id="contacts"
+        key="contacts"
+        schema={{ type: "array", title: "Contacts" }}
+        label="Contacts"
+        value={[{}, {}]}
+        groupDefinition={baseGroupDefinition}
+        rawErrors={[]}
+        requiredFields={[]}
+        name="contacts"
+        formContext={formContext}
+      />,
+    );
+
+    const childProps = jest
+      .mocked(renderWidget)
+      .mock.calls.map(([{ props }]) => props);
+    expect(childProps).toHaveLength(2);
+    childProps.forEach((props) => expect(props.formContext).toBe(formContext));
   });
 });

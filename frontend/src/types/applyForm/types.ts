@@ -166,20 +166,7 @@ export type FieldListWidgetProps = {
   disabled?: boolean;
   readOnly?: boolean;
   isFormLocked?: boolean;
-  formContext?: {
-    rootSchema?: RJSFSchema;
-    rootFormData?: unknown;
-    widgetSupport?: {
-      validationWarnings?:
-        FormattedFormValidationWarning[] | FormValidationWarning[];
-      deletedEntryIndexesByFieldListPath?: Record<string, number[]>;
-      onFieldListEntryDelete?: (
-        fieldListPath: string,
-        deletedEntryIndex: number,
-      ) => void;
-      markFormDirty?: () => void;
-    };
-  };
+  formContext?: UswdsWidgetProps["formContext"];
 };
 
 export type FieldListChildWidgetTypes = Exclude<
