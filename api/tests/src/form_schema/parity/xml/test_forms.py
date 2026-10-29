@@ -19,9 +19,9 @@ from tests.src.form_schema.parity.xml.diffs import (
     key_contacts,
     key_contacts_generated,
     performance_sites_generated,
-    project_performance_site_location,
     project_narrative_attachment,
     project_narrative_generated,
+    project_performance_site_location,
 )
 from tests.src.form_schema.parity.xml.harness import flatten_form
 from tests.src.form_schema.parity.xml.harness.compare import (
