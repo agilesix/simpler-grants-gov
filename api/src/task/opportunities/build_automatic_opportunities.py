@@ -38,6 +38,7 @@ from src.form_schema.forms import (
     GG_LobbyingForm_v1_1,
     KeyContacts_v2_0,
     KeyContactsGenerated_v2_0,
+    NSFDeviationAuthorization_v1_1,
     OtherNarrativeAttachment_v1_2,
     PerformanceSitesGenerated_v4_0,
     ProjectAbstract_v1_2,
@@ -644,6 +645,12 @@ class BuildAutomaticOpportunitiesTask(Task):
                 "Project Abstract Summary",
                 ProjectAbstractSummary_v2_0.form_id,
                 "e3bfbd7b-2205-46a8-9aa3-714f7e130958",
+            ),
+            (
+                "E2E-NSFDA",
+                "NSF Deviation Authorization",
+                NSFDeviationAuthorization_v1_1.form_id,
+                "6d58e0cb-9b08-5732-b4a5-4df7f8cedfa7",
             ),
             (
                 "E2E-PNA",
