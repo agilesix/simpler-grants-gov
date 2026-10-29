@@ -8,3 +8,4 @@ import "./forms/performance-sites/index.tsp";
 import "./forms/project-narrative/index.tsp";
 import "./forms/budget-narrative/index.tsp";
 import "./forms/other-narrative/index.tsp";
+import "./forms/nsf-deviation-authorization/index.tsp";
