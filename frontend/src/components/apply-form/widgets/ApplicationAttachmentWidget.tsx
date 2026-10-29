@@ -14,7 +14,7 @@ import { VISIBLE_FILE_INPUT_SUFFIX } from "src/utils/formData/formDataUtils";
 
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FormGroup } from "@trussworks/react-uswds";
 
 import { SimplerFileInput } from "src/components/core/fileInput/SimplerFileInput";
@@ -51,11 +51,18 @@ const ApplicationAttachmentWidget = ({
     ) ?? null,
   );
 
+  // Native forms own unsaved uploads locally; a context refresh is not a new saved value.
+  const previousValue = useRef(value);
+  const hasLocalChange = useRef(false);
   useEffect(() => {
+    if (previousValue.current !== value) {
+      previousValue.current = value;
+      hasLocalChange.current = false;
+    }
+    if (hasLocalChange.current) return;
     const selectedAttachmentId =
       typeof value === "string" && value ? value : null;
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAttachment((currentAttachment) => {
       if (!selectedAttachmentId) {
         return null;
@@ -86,11 +93,13 @@ const ApplicationAttachmentWidget = ({
         body: JSON.stringify({ pending_file_id: fileId }),
       },
     );
+    hasLocalChange.current = true;
     onChange?.(response.data.application_attachment_id);
     setAttachment(response.data);
   };
 
   const handleDeleteAttachment = (): Promise<undefined> => {
+    hasLocalChange.current = true;
     setAttachment(null);
     onChange?.(undefined);
     markFormDirty?.();
