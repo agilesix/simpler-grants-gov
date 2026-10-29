@@ -18,6 +18,7 @@ from tests.src.form_schema.parity.xml.diffs import (
     epa_key_contacts_generated,
     key_contacts,
     key_contacts_generated,
+    nsf_deviation_authorization_generated,
     performance_sites_generated,
     project_narrative_attachment,
     project_narrative_generated,
@@ -32,6 +33,7 @@ from tests.src.form_schema.parity.xml.harness.compare import (
 )
 
 DIFFS = [
+    nsf_deviation_authorization_generated.DIFF,
     key_contacts.DIFF,
     key_contacts_generated.DIFF,
     epa_key_contacts.DIFF,
