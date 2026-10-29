@@ -5,6 +5,7 @@ import { VALID_TAGS } from "tests/e2e/tags";
 import { createApplication } from "tests/e2e/utils/application/create-application-utils";
 import { authenticateE2eUser } from "tests/e2e/utils/auth/authenticate-e2e-user-utils";
 import { skipNonChromeOnStaging } from "tests/e2e/utils/auth/skip-non-chrome-staging-utils";
+import { verifyVirusScanPassedAndUploaded } from "tests/e2e/utils/forms/file-upload-status-utils";
 import { openForm } from "tests/e2e/utils/forms/form-navigation-utils";
 import { saveForm } from "tests/e2e/utils/forms/save-form-utils";
 import { buildPrintUrl } from "tests/e2e/utils/submission/print-view-utils";
@@ -54,6 +55,12 @@ for (const orgLabel of [undefined, playwrightEnv.testOrgLabel]) {
         await page
           .locator(`input[name="${field}-visible"][type=file]`)
           .setInputFiles(source);
+        await verifyVirusScanPassedAndUploaded(
+          page,
+          "sample-upload-kb.pdf",
+          page.locator(`input[name="${field}"]`).locator(".."),
+          false,
+        );
         await expect(page.locator(`input[name="${field}"]`)).toHaveValue(
           /[0-9a-f]{8}-/,
         );
