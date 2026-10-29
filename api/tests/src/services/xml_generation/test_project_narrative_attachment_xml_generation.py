@@ -333,9 +333,8 @@ class TestProjectNarrativeAttachmentsXSDValidation:
         validation_result = self._validate(xsd_validator, xml_data)
 
         assert validation_result["valid"] is False
-        assert (
-            "Unexpected child with tag 'att:AttachedFile' at position 101"
-            in (validation_result["error_message"])
+        assert "Unexpected child with tag 'att:AttachedFile' at position 101" in (
+            validation_result["error_message"]
         )
 
     def test_project_narrative_attachments_submission_xml_validates_against_xsd(
