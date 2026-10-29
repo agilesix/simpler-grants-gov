@@ -41,6 +41,7 @@ from src.form_schema.forms import (
     NSFDeviationAuthorization_v1_1,
     OtherNarrativeAttachment_v1_2,
     PerformanceSitesGenerated_v4_0,
+    PHS398ResearchPlan_v5_0,
     ProjectAbstract_v1_2,
     ProjectAbstractSummary_v2_0,
     ProjectNarrativeAttachment_v1_2,
@@ -645,6 +646,12 @@ class BuildAutomaticOpportunitiesTask(Task):
                 "Project Abstract Summary",
                 ProjectAbstractSummary_v2_0.form_id,
                 "e3bfbd7b-2205-46a8-9aa3-714f7e130958",
+            ),
+            (
+                "E2E-PHSRP",
+                "PHS 398 Research Plan",
+                PHS398ResearchPlan_v5_0.form_id,
+                "42e83601-97ac-5980-9fb1-577d2e1735f5",
             ),
             (
                 "E2E-NSFDA",

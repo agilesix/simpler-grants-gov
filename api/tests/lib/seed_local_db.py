@@ -639,6 +639,13 @@ def _build_custom_test_competitions(forms: dict[str, Form]) -> None:
             "c6e468de-2911-494e-aa14-91b527a1f53e",
         ),
         (
+            "PHS398_ResearchPlan_5_0_Generated",
+            "E2E-PHSRP",
+            "PHS 398 Research Plan",
+            "42e83601-97ac-5980-9fb1-577d2e1735f5",
+            "9efc5abb-51b7-5262-8b52-0e5c77187ba4",
+        ),
+        (
             "NSF_DeviationAuthorization_Generated",
             "E2E-NSFDA",
             "NSF Deviation Authorization",
