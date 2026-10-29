@@ -99,6 +99,43 @@ describe("ApplicationAttachmentWidget", () => {
     rawErrors: [],
   };
 
+  it.each([undefined, "uuid-1"])(
+    "retains a local upload when saved value %s and attachment context refreshes",
+    async (value) => {
+      mockClientFetch.mockResolvedValue({ data: newAttachment });
+      const { container, rerender } = render(
+        <ApplicationAttachmentWidget {...defaultProps} value={value} />,
+      );
+      await act(async () => {
+        await getSimplerFileInputProps().postUploadAction(
+          "pending-file-1",
+          new AbortController().signal,
+        );
+      });
+      mockUseApplicationAttachments.mockReturnValue({
+        attachments: [existingAttachment],
+      });
+      rerender(<ApplicationAttachmentWidget {...defaultProps} value={value} />);
+      expect(getHiddenInput(container, "test-attachment-field")).toHaveValue(
+        "uuid-new",
+      );
+    },
+  );
+
+  it("does not restore a locally deleted file when attachment context refreshes", async () => {
+    const { container, rerender } = render(
+      <ApplicationAttachmentWidget {...defaultProps} value="uuid-1" />,
+    );
+    await act(async () => {
+      await getSimplerFileInputProps().onDelete("uuid-1");
+    });
+    mockUseApplicationAttachments.mockReturnValue({
+      attachments: [existingAttachment],
+    });
+    rerender(<ApplicationAttachmentWidget {...defaultProps} value="uuid-1" />);
+    expect(getHiddenInput(container, "test-attachment-field")).toHaveValue("");
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseApplicationAttachments.mockReturnValue({
