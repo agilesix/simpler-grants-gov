@@ -9,3 +9,4 @@ import "./forms/project-narrative/index.tsp";
 import "./forms/budget-narrative/index.tsp";
 import "./forms/other-narrative/index.tsp";
 import "./forms/nsf-deviation-authorization/index.tsp";
+import "./forms/phs-398-research-plan/index.tsp";
