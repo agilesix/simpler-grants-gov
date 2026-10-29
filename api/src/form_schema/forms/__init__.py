@@ -12,6 +12,7 @@ from .epa_key_contacts_generated import FORM as EPAKeyContactsGenerated_v2_0
 from .gg_lobbying_form import GG_LobbyingForm_v1_1
 from .key_contacts import KeyContacts_v2_0
 from .key_contacts_generated import FORM as KeyContactsGenerated_v2_0
+from .nsf_deviation_authorization_generated import FORM as NSFDeviationAuthorization_v1_1
 from .other_narrative_attachment import OtherNarrativeAttachment_v1_2
 from .performance_sites_generated import FORM as PerformanceSitesGenerated_v4_0
 from .project_abstract import ProjectAbstract_v1_2
@@ -31,6 +32,7 @@ from .supplementary_neh_cover_sheet import SupplementaryNEHCoverSheet_v3_0
 logger = logging.getLogger(__name__)
 
 _ALL_FORMS: list[Form] = [
+    NSFDeviationAuthorization_v1_1,
     SF424_v4_0,
     SF424Short_v3_0,
     SF424a_v1_0,

@@ -57,7 +57,7 @@ def test_build_automatic_opportunities(enable_factory_create, db_session, forms)
 
     # Grab the opportunities created from the task itself
     opportunities = task.opportunities
-    assert len(opportunities) == 45
+    assert len(opportunities) == 46
 
     # Figure out the forms we added to each opportunity
     opp_form_ids_for_opps = set()
@@ -74,7 +74,7 @@ def test_build_automatic_opportunities(enable_factory_create, db_session, forms)
     # There should also be one opportunity with every form
     assert all_form_ids in opp_form_ids_for_opps
 
-    assert task.metrics[task.Metrics.OPPORTUNITY_CREATED_COUNT] == 45
+    assert task.metrics[task.Metrics.OPPORTUNITY_CREATED_COUNT] == 46
     assert task.metrics[task.Metrics.OPPORTUNITY_ALREADY_EXIST_COUNT] == 0
 
     # If we rerun the task, all opportunities should be skipped (including ALL-forms)
@@ -84,7 +84,7 @@ def test_build_automatic_opportunities(enable_factory_create, db_session, forms)
     assert len(task.opportunities) == 0
 
     assert task.metrics[task.Metrics.OPPORTUNITY_CREATED_COUNT] == 0
-    assert task.metrics[task.Metrics.OPPORTUNITY_ALREADY_EXIST_COUNT] == 45
+    assert task.metrics[task.Metrics.OPPORTUNITY_ALREADY_EXIST_COUNT] == 46
 
 
 def test_opportunity_ids_are_consistent_across_runs(enable_factory_create, db_session, forms):
@@ -123,6 +123,7 @@ def test_opportunity_ids_are_consistent_across_runs(enable_factory_create, db_se
 
     # Verify specific hard-coded UUIDs for the named scenarios
     expected_ids = {
+        "E2E-NSFDA-ORG-IND-01": uuid.UUID("6d58e0cb-9b08-5732-b4a5-4df7f8cedfa7"),
         "SGG-org-only-test": uuid.UUID("10000000-0000-0000-0000-000000000001"),
         "SGG-indv-only-test": uuid.UUID("10000000-0000-0000-0000-000000000002"),
         "MOCK-R25AS00293-Dec102025": uuid.UUID("10000000-0000-0000-0000-000000000003"),
