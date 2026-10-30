@@ -1,23 +1,21 @@
 import { JSX } from "react";
 import { Fieldset, FormGroup } from "@trussworks/react-uswds";
 
+import { SectionDescription } from "./SectionDescription";
+
 export const FieldsetWidget = ({
   label,
   fieldName,
   children,
   description,
+  descriptionFormat,
 }: {
   label: string;
   fieldName: string;
   children: JSX.Element | undefined;
   description?: string;
+  descriptionFormat?: "html";
 }) => {
-  const descriptionGraphs = description
-    ?.split("\n")
-    .filter(Boolean)
-    .map((paragraph, i) => (
-      <p key={`${label}-section-description-paragraph-${i}`}>{paragraph}</p>
-    ));
   return (
     <Fieldset key={`${fieldName}-row`} id={`form-section-${fieldName}`}>
       <FormGroup key={`${fieldName}-group`} className="simpler-formgroup">
@@ -27,7 +25,10 @@ export const FieldsetWidget = ({
         >
           {label}
         </h4>
-        {descriptionGraphs}
+        <SectionDescription
+          description={description}
+          descriptionFormat={descriptionFormat}
+        />
         {children}
       </FormGroup>
     </Fieldset>
