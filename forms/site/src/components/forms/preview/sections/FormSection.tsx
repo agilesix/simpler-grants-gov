@@ -1,6 +1,7 @@
 import { crumbAttributes, headingTag } from "@/lib/breadcrumbs";
 import type { GroupLayout, LayoutProps } from "@jsonforms/core";
 import { JsonFormsDispatch } from "@jsonforms/react";
+import { SectionDescription } from "@sgg/frontend/components/apply-form/widgets/SectionDescription";
 import { useContext, useId } from "react";
 
 import { groupName } from "../../../../vendor/sgg/jsonFormsUiSchema";
@@ -55,17 +56,13 @@ export default function FormSection({
       >
         {layout.label}
       </Heading>
-      {description
-        ?.split("\n")
-        .filter(Boolean)
-        .map((paragraph, i) => (
-          <p
-            key={`${name}-section-description-paragraph-${i}`}
-            className="usa-hint form-section__description"
-          >
-            {paragraph}
-          </p>
-        ))}
+      <SectionDescription
+        description={description}
+        descriptionFormat={
+          layout.options?.descriptionFormat === "html" ? "html" : undefined
+        }
+        paragraphClassName="usa-hint form-section__description"
+      />
       <SectionDepth.Provider value={level}>{children}</SectionDepth.Provider>
     </fieldset>
   );

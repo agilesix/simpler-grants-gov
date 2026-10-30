@@ -1,0 +1,71 @@
+---
+import EdAbstractInstructions from "../../components/forms/preview/examples/EdAbstractInstructions";
+import Base from "../../layouts/Base.astro";
+---
+
+<Base title="ED Abstract instruction design">
+  <div class="grid-container padding-y-4">
+    <p class="text-bold text-uppercase font-sans-xs">Draft design · FID 267 v1.1</p>
+    <h1>ED Abstract instructions</h1>
+    <p class="measure-6">
+      Compare the same source wording as plain paragraphs and two semantic lists.
+      The single attachment answer stays unchanged. This is an explicit display fixture;
+      TypeSpec authoring and the plan contract still need a design decision.
+    </p>
+    <EdAbstractInstructions client:only="react" />
+    <section class="margin-top-5 measure-6">
+      <h2>Decisions for review</h2>
+      <ol>
+        <li>Use this narrow section-description extension, or accept plain text? HTML is the candidate here; Markdown authoring remains an alternative.</li>
+        <li>Keep all instructions inside the attachment section, with this heading and source wording?</li>
+        <li>Retain, translate or omit the legacy empty/uploaded-state messages? They are not part of the permanent introduction.</li>
+      </ol>
+      <p>
+        <a href="https://github.com/HHS/simpler-grants-gov/issues/13000">Issue 13000</a>{" "}
+        currently asks for no new UI components. The shared display helper is a proposed scope change;
+        this example does not waive that criterion or complete the form migration.
+      </p>
+      <details>
+        <summary>Source notices and boundaries</summary>
+        <p>DAT2-0, when empty: “You must attach one and only one file to this page.”</p>
+        <p>DAT3-0, after attachment: “You may now Close the Form”.</p>
+        <p>DAT4-0, after attachment: “You have attached 1 file to this page, no more files may be added. To add a different file, you must first delete the existing file.”</p>
+        <p>
+          These are review quotations, outside the form. Existing upload/delete feedback needs
+          an explicit disposition; no Close control, context answer or new state framework is proposed.
+        </p>
+        <p>
+          The current library adapter is a temporary frontend copy. Its format pass-through must
+          carry into the pending native renderer; a preview here does not prove that convergence.
+          Plan-tree ingestion, compiler emission, API registration and XML output remain separate work.
+        </p>
+        <p>
+          Sources:
+          <a href="https://apply07.grants.gov/apply/forms/sample/ED_Abstract-V1.1_F267.xls">DAT</a>,
+          <a href="https://apply07.grants.gov/apply/forms/readonly/ED_Abstract-V1.1_F267.pdf">PDF</a>,
+          <a href="https://apply07.grants.gov/apply/forms/schemas/ED_Abstract-V1.1.xsd">XSD</a>.
+          Persistent rows1-1–1-12 provide five general and three research bullets;
+          “principals” and the non-electronic note are retained verbatim.
+        </p>
+      </details>
+    </section>
+  </div>
+</Base>
+
+<style>
+  :global(.ed-instructions-example) {
+    max-width: 52rem;
+    border: 1px solid #dfe1e2;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  :global(.ed-instructions-example .section-description) {
+    color: #1b1b1b;
+  }
+  :global(.ed-instructions-example .section-description li) {
+    margin-bottom: 0.6rem;
+  }
+  @media (max-width: 30rem) {
+    :global(.ed-instructions-example) { padding: 1rem; }
+  }
+</style>
