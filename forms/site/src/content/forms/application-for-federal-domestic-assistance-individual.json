@@ -34,7 +34,8 @@
     "Citizenship labels and DAT conditional rules disagree; the explicit-DAT candidate and rationale require source-owner review.",
     "US ZIP+4 validation remains the existing shared-bank gap. Source comparisons expose it; no private Address fork or form-specific workaround is added.",
     "API date_not_before support is a separately reviewable shared consumer prerequisite. A declaration/compile pass alone does not establish date validation.",
-    "Grantor1/training submissions, completed external PDFs and production acceptance are separate evidence gates; local checks do not satisfy them."
+    "Grantor1/training submissions, completed external PDFs and production acceptance are separate evidence gates; local checks do not satisfy them.",
+    "Shared Address currently admits State and Province together. Country-switch review can retain both, but the GlobalLibrary XSD requires an exclusive choice. This remains an unresolved shared output/validation decision and an API readiness gate; no form-local clearing or XML mapper is added."
   ],
   "children": [
     {
