@@ -49,6 +49,7 @@ from src.form_schema.forms import (
     SF424b_v1_1,
     SF424c_v2_0,
     SF424d_v1_1,
+    SF424Individual_v2_0,
     SF424Short_v3_0,
     SFLLL_v2_0,
     SupplementaryNEHCoverSheet_v3_0,
@@ -576,6 +577,12 @@ class BuildAutomaticOpportunitiesTask(Task):
 
         # Isolated form test opportunities
         ISOLATED_FORM_OPPORTUNITIES = [
+            (
+                "E2E-SF424IND",
+                "SF-424 Individual",
+                SF424Individual_v2_0.form_id,
+                "79d20cef-63a6-4d6f-84a1-78c81f2c0603",
+            ),
             # form names are abbreviated in opportunity number to be under the 40 char limit
             (
                 "E2E-ATT",

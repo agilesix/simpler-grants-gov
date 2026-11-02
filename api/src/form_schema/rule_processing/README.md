@@ -274,9 +274,6 @@ For validation, this rule group is `gg_validation` with the following
 rules currently implemented:
 * `attachment` - verifies that the field representing an attachment ID corresponds to an attachment ID on the application itself.
 
-# Future Work
+* `date_not_before` - verifies that a date-only answer is the same as or later than the sibling named by `source_field`. Missing or invalid date values remain the schema validator's responsibility. This rule does not modify answers.
 
-## Cross-field Validation
-We likely want some form of cross-field validation. I don't think
-JSON Schema supports a way to validate dates are in order for something
-like start/end dates.
+For example, `{"project": {"end_date": {"gg_validation": {"rule": "date_not_before", "source_field": "start_date"}}}}` compares `project.end_date` with `project.start_date`. Within a `gg_type: "array"` object it compares siblings in each entry independently. An earlier end date produces an `invalid_date_order` warning on the end-date field.
