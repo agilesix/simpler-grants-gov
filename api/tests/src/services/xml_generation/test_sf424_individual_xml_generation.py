@@ -8,11 +8,14 @@ from lxml import etree
 
 from src.form_schema.forms.sf424_individual_generated import (
     FORM_JSON_SCHEMA,
+    FORM_RULE_SCHEMA,
     FORM_XML_TRANSFORM_RULES,
 )
+from src.form_schema.rule_processing.json_rule_processor import process_rule_schema_for_context
 from src.services.xml_generation.models import XMLGenerationRequest
 from src.services.xml_generation.service import XMLGenerationService
 from src.services.xml_generation.validation.xsd_validator import XSDValidator
+from tests.src.form_schema.rule_processing.conftest import setup_context
 
 _NS = "http://apply.grants.gov/forms/SF424_Individual_2_0-V2.0"
 _XSDS = Path(__file__).parents[4] / "src/services/xml_generation/xsds"
@@ -66,3 +69,27 @@ def test_source_rejects_mutated_required_element_and_order():
     root = etree.fromstring(generate(FORM_JSON_SCHEMA["examples"][0]).encode())
     root.insert(1, root[-1])
     assert not validate(etree.tostring(root, encoding="unicode"))["valid"]
+
+
+def test_existing_post_population_completes_submission_xml(enable_factory_create):
+    data = deepcopy(FORM_JSON_SCHEMA["examples"][0])
+    data.pop("date_received")
+    data["certification"].pop("signature")
+    data["certification"].pop("date_signed")
+    context = setup_context(
+        data,
+        FORM_RULE_SCHEMA,
+        do_post_population=False,
+        opportunity_number="SYNTHETIC-INDIVIDUAL",
+        opportunity_title="Synthetic Individual Fellowship",
+        agency_name="Synthetic Agency",
+        assistance_listing_number="45.160",
+        assistance_listing_program_title="Synthetic Program",
+        user_email="synthetic@example.org",
+    )
+    process_rule_schema_for_context(context)
+    assert not validate(generate(context.json_data))["valid"]
+    context.config.do_post_population = True
+    process_rule_schema_for_context(context)
+    result = validate(generate(context.json_data))
+    assert result["valid"], result
