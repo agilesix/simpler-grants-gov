@@ -17,21 +17,18 @@ model Layout {
     fundingOpportunityTitle: SF424Individual.fundingOpportunityTitle;
   };
 
+  // Current SGG fieldsets use a fixed heading level. Keep one visible applicant
+  // section until nested headings are supported; answer nesting remains unchanged.
   @UI.label("Applicant Information")
   @UI.field(SF424Individual.applicant)
   applicant: {
-    name: Applicant.name;
-
-    @UI.label("Contact Information")
-    contact: {
-      phone: Applicant.phone;
-      eveningPhone: Applicant.eveningPhone;
-      fax: Applicant.fax;
-      email: Applicant.email;
-    };
-
-    address: Applicant.address;
-    citizenship: Applicant.citizenship;
+    @UI.flatten name: Applicant.name;
+    phone: Applicant.phone;
+    eveningPhone: Applicant.eveningPhone;
+    fax: Applicant.fax;
+    email: Applicant.email;
+    @UI.flatten address: Applicant.address;
+    @UI.flatten citizenship: Applicant.citizenship;
     congressionalDistrict: Applicant.congressionalDistrict;
   };
 
