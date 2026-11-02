@@ -39,6 +39,7 @@ from src.form_schema.forms import (
     KeyContacts_v2_0,
     KeyContactsGenerated_v2_0,
     NSFDeviationAuthorization_v1_1,
+    NSFSuggestedReviewers_v1_1,
     OtherNarrativeAttachment_v1_2,
     PerformanceSitesGenerated_v4_0,
     PHS398ResearchPlan_v5_0,
@@ -652,6 +653,12 @@ class BuildAutomaticOpportunitiesTask(Task):
                 "PHS 398 Research Plan",
                 PHS398ResearchPlan_v5_0.form_id,
                 "42e83601-97ac-5980-9fb1-577d2e1735f5",
+            ),
+            (
+                "E2E-NSFSR",
+                "NSF Suggested Reviewers",
+                NSFSuggestedReviewers_v1_1.form_id,
+                "0d2b4cc6-9314-54f7-b87e-c2de5b1b9d2c",
             ),
             (
                 "E2E-NSFDA",

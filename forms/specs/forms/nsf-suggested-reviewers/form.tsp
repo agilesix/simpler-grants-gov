@@ -1,5 +1,6 @@
 import "form-library-xml";
 import "simpler-forms";
+import "simpler-forms-sgg";
 import "#forms/index.tsp";
 using SimplerForms;
 namespace Forms.NSFSuggestedReviewers;
@@ -11,6 +12,7 @@ namespace Forms.NSFSuggestedReviewers;
 @Meta.role(ResponseRole.applicantInput)
 scalar ReviewerText extends string;
 
+@Sgg.sync(#{ xml: "mapping" })
 @Meta.form(#{
   id: "nsf-suggested-reviewers",
   formName: "NSF Suggested Reviewers",
