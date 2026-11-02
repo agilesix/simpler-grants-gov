@@ -52,6 +52,7 @@
     "The XSD root is nillable, but an empty object already produces a valid empty versioned document. Root-null transport is not an applicant-answer requirement.",
     "Suggested reviewer names remain whole-text answers, as the source asks; no invented person-list structure or automated conflict decision is introduced.",
     "No answers are pre- or post-populated. API installation, native behavior and external submission evidence are separate checks.",
+    "The section heading paraphrases DAT row1, List of Suggested Reviewers or Reviewers Not to Include (optional), as Optional reviewer suggestions. This static heading change does not combine the two answer fields.",
     "DAT heading rows3 and5 supply the distinct reviewer purposes used as concise field labels; each field retains its exact DAT help. The long optional-instructions paragraph is section help, using existing plaintext descriptions."
   ],
   "risks": [
