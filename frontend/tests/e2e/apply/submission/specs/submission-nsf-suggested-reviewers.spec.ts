@@ -6,7 +6,11 @@ import { authenticateE2eUser } from "tests/e2e/utils/auth/authenticate-e2e-user-
 import { skipNonChromeOnStaging } from "tests/e2e/utils/auth/skip-non-chrome-staging-utils";
 import { openForm } from "tests/e2e/utils/forms/form-navigation-utils";
 import { saveForm } from "tests/e2e/utils/forms/save-form-utils";
-import { buildPrintUrl } from "tests/e2e/utils/submission/print-view-utils";
+import {
+  assertPrintViewIsReadOnly,
+  buildPrintUrl,
+  validatePrintViewField,
+} from "tests/e2e/utils/submission/print-view-utils";
 import {
   submitApplicationAndVerify,
   verifySubmissionConfirmation,
@@ -40,8 +44,8 @@ for (const orgLabel of [undefined, playwrightEnv.testOrgLabel]) {
         exact: true,
       });
       const suggestedValue =
-        "Dr. Ada Example & <scope>.\nExpertise: microbial ecology.";
-      const excludedValue = "Dr. Ben Example; recent collaborator.";
+        '"Dr. Ada Example" & <scope>.\nExpertise: microbial ecology.';
+      const excludedValue = '["Dr. Ben Example", "recent collaborator"]';
       await saveForm(page);
       await page.reload();
       await expect(suggested).toHaveValue("");
@@ -60,12 +64,13 @@ for (const orgLabel of [undefined, playwrightEnv.testOrgLabel]) {
       await suggested.fill(suggestedValue);
       await saveForm(page);
       await page.goto(buildPrintUrl(page.url()));
-      await expect(
-        page.getByText(suggestedValue, { exact: false }),
-      ).toBeVisible();
-      await expect(
-        page.getByText(excludedValue, { exact: false }),
-      ).toBeVisible();
+      await assertPrintViewIsReadOnly(page);
+      await validatePrintViewField(page, "suggested_reviewers", suggestedValue);
+      await validatePrintViewField(
+        page,
+        "reviewers_not_to_include",
+        excludedValue,
+      );
       await page.goto(applicationUrl);
       await submitApplicationAndVerify(page, "success");
       await verifySubmissionConfirmation(page);
