@@ -1,7 +1,9 @@
 // TEMPORARY COPY of the pending frontend/src/components/apply-form/jsonforms/JsonFormsFields.tsx,
 // so the form library can render with the SGG form widgets before the JSON Forms renderer
 // lands in the frontend. Only import paths are changed, plus `extraRenderers`, which lets the
-// form library preview its own widgets beside the SGG ones. Delete src/vendor/sgg with #12695.
+// form library preview its own widgets beside the SGG ones. Its rule-data snapshot also
+// includes schema-readonly controls, because this preview has no API to repopulate them.
+// Reconcile that forms-only adapter when deleting src/vendor/sgg with #12695.
 import type { JsonFormsRendererRegistryEntry } from "@jsonforms/core";
 import { JsonForms } from "@jsonforms/react";
 import {
@@ -17,6 +19,7 @@ import {
 } from "@sgg/frontend/utils/applyForm/applyFormUtils";
 import { useCallback, useMemo, useState, type FormEvent } from "react";
 
+import { previewFormData } from "../../lib/previewFormData";
 import type { JsonFormsUiSchema } from "./jsonFormsUiSchema";
 import {
   AdapterContext,
@@ -88,7 +91,8 @@ export const JsonFormsFields = ({
   const refreshRuleData = useCallback(
     (event: FormEvent<HTMLDivElement>) => {
       const form = event.currentTarget.closest("form");
-      if (form) setRuleData(shapeFormData(new FormData(form), schema));
+      if (form)
+        setRuleData(shapeFormData(previewFormData(form, schema), schema));
     },
     [schema],
   );

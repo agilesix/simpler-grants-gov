@@ -1,10 +1,32 @@
-import type { Model, Program } from "@typespec/compiler";
+import {
+  getFormat,
+  isStringType,
+  navigateProgram,
+  type Model,
+  type ModelProperty,
+  type Program,
+} from "@typespec/compiler";
 import { formIdentities } from "form-library-xml";
-import { readBlock } from "simpler-forms";
+import { propNotBefore, readBlock } from "simpler-forms";
 import { reportDiagnostic, stateKeys } from "./lib.js";
 import { modelSync } from "./model.js";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function dateOnly(program: Program, property: ModelProperty): boolean {
+  if (getFormat(program, property) === "date") return true;
+  for (
+    let type = property.type.kind === "Scalar" ? property.type : undefined;
+    type;
+    type = type.baseScalar
+  )
+    if (
+      program.checker.isStdType(type, "plainDate") ||
+      getFormat(program, type) === "date"
+    )
+      return true;
+  return false;
+}
 
 /**
  * `@Sgg.sync` installs a form, so it belongs on a model with `@Meta.form`, and that form
@@ -12,6 +34,40 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
  * than `allBlocks`, because a model that is neither a question nor a form is not a block.
  */
 export function $onValidate(program: Program): void {
+  for (const bindings of [stateKeys.prePopulation, stateKeys.postPopulation])
+    for (const [target, rule] of program.stateMap(bindings)) {
+      const property = target as ModelProperty;
+      if (
+        !isStringType(program, property.type) &&
+        !(rule === "current_date" && dateOnly(program, property))
+      )
+        reportDiagnostic(program, {
+          code: "invalid-population-target",
+          target,
+          format: { rule: String(rule), name: property.name },
+        });
+    }
+  navigateProgram(program, {
+    modelProperty(property) {
+      const source = propNotBefore(program, property);
+      if (
+        source &&
+        (!dateOnly(program, property) || !dateOnly(program, source))
+      )
+        reportDiagnostic(program, {
+          code: "invalid-date-order-target",
+          target: property,
+          format: { name: property.name },
+        });
+    },
+  });
+  for (const target of program.stateMap(stateKeys.prePopulation).keys())
+    if (program.stateMap(stateKeys.postPopulation).has(target))
+      reportDiagnostic(program, {
+        code: "conflicting-population",
+        target,
+        format: { name: (target as ModelProperty).name },
+      });
   const identities = formIdentities(program);
   for (const target of program.stateMap(stateKeys.sync).keys()) {
     const model = target as Model;

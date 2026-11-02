@@ -12,6 +12,8 @@ import { DIFF as nsfKeyPersonExpanded } from "./nsf-senior-key-person-profile-ex
 import { DIFF as rrKeyPersonExpanded } from "./research-and-related-senior-key-person-profile-expanded.ts";
 import { DIFF as rrKeyPerson } from "./research-related-senior-key-person-profile.ts";
 
+import { DIFF as individual } from "./application-for-federal-domestic-assistance-individual.ts";
+
 /** Every form the suite checks. A plan with a `spec_id` must be listed here. */
 export const DIFFS: FormDiff[] = [
   nsfReviewers,
@@ -23,6 +25,7 @@ export const DIFFS: FormDiff[] = [
   rrKeyPersonExpanded,
   nsfKeyPersonExpanded,
   performanceSites,
+  individual,
   projectNarrative,
   budgetNarrative,
   otherNarrative,

@@ -33,6 +33,7 @@ declare module "@sgg/frontend/utils/applyForm/applyFormUtils" {
     formSchema: RJSFSchema,
   ) => T;
   export const getRequiredProperties: (schema: RJSFSchema) => string[];
+  export const condenseFormSchemaProperties: (schema: object) => object;
   export const isFieldRequired: (
     path: string,
     requiredPaths: string[],
@@ -66,6 +67,10 @@ declare module "@sgg/frontend/utils/applyForm/fieldListHelpers" {
 }
 
 declare module "@sgg/frontend/utils/formData/formDataUtils" {
+  export const getFieldPathFromHtml: (
+    inputPath: string,
+    inputDelimiter?: string,
+  ) => string;
   export const getByPointer: (target: object, pointer: string) => any;
 }
 
