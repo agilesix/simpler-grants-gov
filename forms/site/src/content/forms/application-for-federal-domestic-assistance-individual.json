@@ -2,9 +2,7 @@
   "title": "Application for Federal Domestic Assistance - Individual",
   "slug": "application-for-federal-domestic-assistance-individual",
   "status": "in_progress",
-  "family": [
-    "SF-424 Individual"
-  ],
+  "family": ["SF-424 Individual"],
   "category": "Key Personnel & Contact Forms",
   "omb_number": "4040-0005",
   "expiration_date": "01/31/2029",
@@ -29,7 +27,8 @@
     "DAT6c-2/3 validation messages require end date not earlier than start date. The definition declares notBefore; the SGG emitter and API rule validator enforce it through the existing rule-processing boundary.",
     "Certification requires an affirmative checked answer. The Yes/No XML value is derived from that Boolean; legal text and the source assurance note remain visible.",
     "XML follows the official sequence, including applicant fax/email/phone ahead of address. Layout order is independent of answer nesting and XML order.",
-    "Samples use synthetic opportunity context and signing values so JSON/XML are inspectable before API installation. Samples do not implement population or signing."
+    "Samples use synthetic opportunity context and signing values so JSON/XML are inspectable before API installation. Samples do not implement population or signing.",
+    "The current SGG renderer hard-codes section heading levels. Applicant fields therefore share one visible Applicant Information section, using existing UI.flatten for name/address/citizenship and inline contact fields. JSON retains those concept groups; nested visual headings can return when the shared renderer supports them."
   ],
   "risks": [
     "Citizenship labels and DAT conditional rules disagree; the explicit-DAT candidate and rationale require source-owner review.",
