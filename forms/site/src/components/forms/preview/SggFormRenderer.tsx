@@ -6,6 +6,7 @@ import {
 } from "@sgg/frontend/utils/applyForm/applyFormUtils";
 import { useEffect, useMemo, useRef, type FormEvent } from "react";
 
+import { previewFormData } from "../../../lib/previewFormData";
 import {
   createAjv,
   toValidationWarnings,
@@ -81,7 +82,7 @@ export const SggFormRenderer = ({
   useEffect(() => report(data), [generation.current, formSchema]);
 
   const collect = (form: HTMLFormElement) => {
-    const next = shapeFormData(new FormData(form), formSchema);
+    const next = shapeFormData(previewFormData(form, formSchema), formSchema);
     reported.current = next;
     report(next);
   };

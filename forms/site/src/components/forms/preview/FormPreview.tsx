@@ -36,6 +36,10 @@ export default function FormPreview({ schema, uischema, example }: Props) {
 
   return (
     <div className="form-preview">
+      <p className="usa-hint">
+        This preview checks field formats and required answers. Additional API
+        and submission checks run in Simpler.Grants.gov.
+      </p>
       <div className="form-preview__actions">
         {example && (
           <button
@@ -86,7 +90,7 @@ export default function FormPreview({ schema, uischema, example }: Props) {
                 </ul>
               </>
             ) : (
-              <p className="usa-alert__text">No errors found.</p>
+              <p className="usa-alert__text">Field checks passed.</p>
             )}
           </div>
         </div>
