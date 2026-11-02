@@ -67,7 +67,7 @@ describe("formDataToObject", () => {
           value: "hello",
         },
       },
-      nonUser: false,
+      nonUser: "false",
       empty: undefined,
       numeral: 100,
     };
@@ -317,4 +317,115 @@ describe("formDataToObject undefined field type reporting", () => {
       schemaPath: "/typoed_field_name",
     });
   });
+});
+
+describe("formDataToObject declared string preservation", () => {
+  const textValues = [
+    "true",
+    "false",
+    "null",
+    '"Dr. Ada Example"',
+    '["Dr. Ada Example", "Dr. Ben Example"]',
+    '{"reviewer":"Dr. Ada Example"}',
+    "0",
+    "00123",
+    "  Dr. Ada Example  ",
+  ];
+
+  describe.each([undefined, null])("empty default %s", (emptyDefault) => {
+    it.each(textValues)("preserves the declared string %p", (text) => {
+      const formData = new FormData();
+      formData.append("answer", text);
+      const result = formDataToObject(
+        formData,
+        { answer: { type: "string" } },
+        emptyDefault,
+      );
+      expect(result).toEqual({ answer: text });
+    });
+
+    it("retains the requested empty default", () => {
+      const formData = new FormData();
+      formData.append("answer", "");
+      expect(
+        formDataToObject(
+          formData,
+          { answer: { type: "string" } },
+          emptyDefault,
+        ),
+      ).toEqual({ answer: emptyDefault });
+    });
+  });
+
+  it("honors declared strings inside nested objects and array items", () => {
+    const formData = new FormData();
+    formData.append("contact--name", '"Dr. Ada Example"');
+    formData.append("rows[0]--answer", "null");
+    expect(
+      formDataToObject(
+        formData,
+        {
+          contact: { name: { type: "string" } },
+          rows: { items: { answer: { type: "string" } } },
+        },
+        undefined,
+      ),
+    ).toEqual({
+      contact: { name: '"Dr. Ada Example"' },
+      rows: [{ answer: "null" }],
+    });
+  });
+
+  it.each([
+    { type: "boolean" as const, value: "true", expected: true },
+    { type: "boolean" as const, value: "false", expected: false },
+    { type: "integer" as const, value: "0", expected: 0 },
+    { type: "number" as const, value: "12.5", expected: 12.5 },
+    { type: "array" as const, value: '["false", 1]', expected: ["false", 1] },
+    {
+      type: "object" as const,
+      value: '{"name":"Dr. Ada Example"}',
+      expected: { name: "Dr. Ada Example" },
+    },
+  ])("retains declared $type transport", ({ type, value, expected }) => {
+    const formData = new FormData();
+    formData.append("answer", value);
+    expect(formDataToObject(formData, { answer: { type } }, undefined)).toEqual(
+      { answer: expected },
+    );
+  });
+
+  it.each([
+    { value: "1234", expected: "1234" },
+    { value: "00123", expected: "00123" },
+    { value: "true", expected: true },
+    { value: "false", expected: false },
+    { value: "plain text", expected: "plain text" },
+    { value: '["name"]', expected: ["name"] },
+    {
+      value: '{"name":"Dr. Ada Example"}',
+      expected: { name: "Dr. Ada Example" },
+    },
+  ])(
+    "retains existing inference for missing type: $value",
+    ({ value, expected }) => {
+      const consoleError = jest
+        .spyOn(console, "error")
+        .mockImplementation(() => {});
+      try {
+        const formData = new FormData();
+        formData.append("answer", value);
+        expect(formDataToObject(formData, { answer: {} }, undefined)).toEqual({
+          answer: expected,
+        });
+        expect(consoleError).toHaveBeenCalledTimes(1);
+        expect(consoleError).toHaveBeenCalledWith(
+          expect.stringContaining("Undefined field type shaping form data"),
+          { formDataKey: "answer", schemaPath: "/answer" },
+        );
+      } finally {
+        consoleError.mockRestore();
+      }
+    },
+  );
 });

@@ -58,6 +58,7 @@ export const SggFormRenderer = ({
   // The data this form last reported; anything else arriving as `data` came from outside.
   const reported = useRef<unknown>(data);
   const generation = useRef(0);
+  const nativeForm = useRef<HTMLFormElement>(null);
   if (data !== reported.current) {
     reported.current = data;
     generation.current += 1;
@@ -79,14 +80,55 @@ export const SggFormRenderer = ({
   // Data replaced from outside still needs its warnings reported.
   useEffect(() => report(data), [generation.current, formSchema]);
 
-  const handleInput = (event: FormEvent<HTMLFormElement>) => {
-    const next = shapeFormData(new FormData(event.currentTarget), formSchema);
+  const collect = (form: HTMLFormElement) => {
+    const next = shapeFormData(new FormData(form), formSchema);
     reported.current = next;
     report(next);
   };
 
+  const handleInput = (event: FormEvent<HTMLFormElement>) => {
+    const form = event.currentTarget;
+    const currentGeneration = generation.current;
+    // Stateful widgets commit their named hidden controls after the event handler.
+    queueMicrotask(() => {
+      if (form.isConnected && currentGeneration === generation.current)
+        collect(form);
+    });
+  };
+
+  // Attachment removal changes the native submission value without an input event.
+  // Observe that value instead of maintaining a second attachment selection model.
+  useEffect(() => {
+    const form = nativeForm.current;
+    if (!form) return;
+    const currentGeneration = generation.current;
+    const hiddenInput = (node: Node) =>
+      node instanceof Element &&
+      (node.matches('input[type="hidden"][name]') ||
+        Boolean(node.querySelector('input[type="hidden"][name]')));
+    const observer = new MutationObserver((records) => {
+      if (currentGeneration !== generation.current) return;
+      if (
+        records.some((record) =>
+          record.type === "attributes"
+            ? hiddenInput(record.target)
+            : [...record.addedNodes, ...record.removedNodes].some(hiddenInput),
+        )
+      )
+        collect(form);
+    });
+    observer.observe(form, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["value"],
+    });
+    return () => observer.disconnect();
+  }, [generation.current, formSchema]);
+
   return (
     <form
+      ref={nativeForm}
       className="flex-1 margin-top-2 simpler-apply-form"
       onInput={handleInput}
       onChange={handleInput}
