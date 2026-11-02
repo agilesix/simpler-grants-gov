@@ -35,9 +35,15 @@ def _collect_attachment_field_paths(ui_schema_node: object, paths: list[list[str
 
     if isinstance(ui_schema_node, dict):
         definition = ui_schema_node.get("definition")
-        if ui_schema_node.get("widget") in ATTACHMENT_WIDGETS and isinstance(definition, str):
+        widget = ui_schema_node.get("widget")
+        if ui_schema_node.get("type") == "Control":
+            scope = ui_schema_node.get("scope")
+            definition = scope.removeprefix("#") if isinstance(scope, str) else None
+            widget = ui_schema_node.get("options", {}).get("widget")
+        if widget in ATTACHMENT_WIDGETS and isinstance(definition, str):
             paths.append(_definition_to_path(definition))
         _collect_attachment_field_paths(ui_schema_node.get("children"), paths)
+        _collect_attachment_field_paths(ui_schema_node.get("elements"), paths)
 
 
 def get_attachment_field_paths(form: Form) -> list[list[str]]:
