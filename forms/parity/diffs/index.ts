@@ -1,3 +1,4 @@
+import { DIFF as mandatory } from "./sf424-mandatory-form.ts";
 import type { FormDiff } from "../harness/model.ts";
 import { DIFF as epaKeyContacts } from "./epa-key-contacts.ts";
 import { DIFF as keyContacts } from "./key-contacts.ts";
@@ -10,6 +11,7 @@ import { DIFF as individual } from "./application-for-federal-domestic-assistanc
 
 /** Every form the suite checks. A plan with a `spec_id` must be listed here. */
 export const DIFFS: FormDiff[] = [
+  mandatory,
   keyContacts,
   epaKeyContacts,
   rrKeyPerson,
