@@ -553,6 +553,13 @@ def _build_custom_test_competitions(forms: dict[str, Form]) -> None:
     sgg_agency = db_session.scalar(select(Agency).where(Agency.agency_code == "SGG"))
 
     isolated_form_competitions = [
+        (
+            "SF424_Individual_Generated",
+            "E2E-SF424IND",
+            "SF-424 Individual",
+            "79d20cef-63a6-4d6f-84a1-78c81f2c0603",
+            "23197d40-a1df-5c46-a52e-500fd211be04",
+        ),
         # form names are abbreviated in opportunity number to be under the 40 char limit
         (
             "AttachmentForm_1_2",
