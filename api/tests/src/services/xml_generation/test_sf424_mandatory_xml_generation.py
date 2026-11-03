@@ -13,11 +13,11 @@ from src.form_schema.forms.sf424_mandatory_generated import (
     FORM_XML_TRANSFORM_RULES,
 )
 from src.form_schema.rule_processing.json_rule_processor import process_rule_schema_for_context
-from tests.src.form_schema.rule_processing.conftest import setup_context
 from src.services.xml_generation.models import XMLGenerationRequest
 from src.services.xml_generation.service import XMLGenerationService
 from src.services.xml_generation.utils.attachment_mapping import AttachmentInfo
 from src.services.xml_generation.validation.xsd_validator import XSDValidator
+from tests.src.form_schema.rule_processing.conftest import setup_context
 
 _NS = "http://apply.grants.gov/forms/SF424_Mandatory_3_0-V3.0"
 _ATT = "http://apply.grants.gov/system/Attachments-V1.0"
