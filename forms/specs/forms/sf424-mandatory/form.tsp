@@ -8,6 +8,7 @@ using SimplerForms;
 namespace Forms.SF424Mandatory;
 
 @Meta.form(#{ id: "sf424-mandatory", formName: "SF424 Mandatory Form" })
+@Sgg.sync(#{ xml: "mapping" })
 @GrantsGov.form(#{
   legacyFormId: 712,
   shortFormName: "SF424_Mandatory_3_0",
