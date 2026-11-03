@@ -4,6 +4,7 @@ import { DIFF as nsfDeviation } from "./nsf-deviation-authorization.ts";
 import { DIFF as projectNarrative } from "./project-narrative-attachment-form.ts";
 import { DIFF as budgetNarrative } from "./budget-narrative-attachment-form.ts";
 import { DIFF as otherNarrative } from "./other-attachments-form.ts";
+import { DIFF as mandatory } from "./sf424-mandatory-form.ts";
 import type { FormDiff } from "../harness/model.ts";
 import { DIFF as epaKeyContacts } from "./epa-key-contacts.ts";
 import { DIFF as keyContacts } from "./key-contacts.ts";
@@ -19,6 +20,7 @@ export const DIFFS: FormDiff[] = [
   nsfReviewers,
   phsResearch,
   nsfDeviation,
+  mandatory,
   keyContacts,
   epaKeyContacts,
   rrKeyPerson,
