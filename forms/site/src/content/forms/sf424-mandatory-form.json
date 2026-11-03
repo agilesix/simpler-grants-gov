@@ -25,23 +25,23 @@
   "description": "SF424 Mandatory Form (SF424_Mandatory_3_0) is a streamlined variant of the SF-424 used for formula grants, block grants, and other mandatory awards. Unlike the standard SF-424, it includes submission type, frequency, version, and consolidated request fields, but has a reduced estimated funding section (Federal and Match only, versus 7 line items on the standard SF-424).",
   "notes": [
     "Separate form definition composed from existing organization/name/address/phone/email/application questions. Contact and authorized representative are separate answers; no unrequested contact addresses.",
-    "Opportunity-owned agency/listing fields are nested under opportunity, with assistance_listing as a child, following the November3 review suggestion. Exact paths remain a candidate for family review.",
+    "Opportunity-owned agency/listing fields are nested under opportunity, with assistance_listing as a child, as a proposed grouping for review. Exact paths remain a candidate for family review.",
     "Applicant organization and EIN are required by the DAT even though Organization/EIN are optional in the XSD. This candidate follows the DAT for applicant entry while preserving the source XML structure; this is recorded for review.",
     "Other submission type, other frequency, consolidated request, other applicant type, available state review and delinquent debt have six conditionally required dependent fields. Disabled does not imply a global answer-clearing policy.",
     "Received date, signature and signature date are optional in draft answers and supplied on submission. Agency/listing and UEI are read-only pre-populated using existing API providers.",
-    "Project title250 and department/division30 are source-specific nonfits for the current200/100 question-bank contracts. Local primitive constraints are explicit; shared bank questions are not copied, tightened or silently widened.",
-    "Supporting documents are an optional ordered list of up to100 uploaded file UUIDs; additional congressional districts is a separate single UUID. Actual file name/MIME/location/hash and ownership belong to existing upload/API services.",
-    "Budget amounts preserve the XSD0..999999999999.99/two-decimal contract. Decimal admission/serialization is verified separately from static facets.",
+    "The 250-character project title and 30-character department/division limits differ from the current 200/100-character question-bank contracts. Local primitive constraints are explicit; shared bank questions are not copied, tightened or silently widened.",
+    "Supporting documents are an optional ordered list of up to 100 uploaded file UUIDs; additional congressional districts is a separate single UUID. Actual file name/MIME/location/hash and ownership belong to existing upload/API services.",
+    "Budget amounts preserve the XSD range 0..999999999999.99 and two-decimal contract. Decimal admission/serialization is verified separately from static facets.",
     "The layout groups applicant type with the applicant organization and groups received dates together. This deliberate display-order difference keeps each semantic object placed once; source XML sequence is unchanged."
   ],
   "risks": [
-    "Shared Address accepts five-digit US ZIP despite the DAT minimum9; the existing bank gap remains visible pending source-owner review.",
+    "Shared Address accepts five-digit US ZIP despite the DAT minimum of nine digits; the existing bank gap remains visible pending source-owner review.",
     "A country transition can retain both State and Province, pass JSON admission and emit XSD-invalid XML. Preserve this shared gap; no private Address or XML serializer.",
     "Preview attachment UUID examples are illustrative, not uploaded files. Browser/deployed/Grantor1/training/PDF and final signing gates remain separate from compilation/API fixtures.",
     "Opportunity paths, organization requiredness and all source choices are reviewable candidates, not human policy acceptance.",
     "The maintained API multipleOf validator rejects source-valid numeric amounts 0.29 and 1.15 at multipleOf 0.01 because of floating arithmetic. Preserve the source precision constraint; consumer precision needs resolution before API readiness.",
     "State-review options currently carry source codes StateReviewAvailable/StateReviewNotSelected/StateReviewNotNeeded. Source-readable option labels need rendered qualification and an agreed existing-library route; no private enum/renderer adapter is introduced.",
-    "The DAT burden-statement row cites OMB4040-0002 while Form Info and the PDF header identify4040-0020. This candidate follows the latter and retains the source conflict for review."
+    "The DAT burden-statement row cites OMB 4040-0002 while Form Info and the PDF header identify 4040-0020. This candidate follows the latter and retains the source conflict for review."
   ],
   "children": [
     {
