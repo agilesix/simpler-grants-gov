@@ -47,7 +47,7 @@ model Applicant {
   address: Questions.People.PersonAddress;
   phone: Questions.People.PersonPhoneNumber;
 
-  /** Enter the evening phone number. */
+  /** Enter the evening telephone number. */
   @UI.label("Phone Number (Evening)")
   eveningPhone?: Questions.People.PersonPhoneNumber;
 
