@@ -6,15 +6,19 @@ namespace Forms.SF424Individual;
 
 @UI.layout(SF424Individual)
 model Layout {
-  /** These values come from the funding opportunity. Submission dates and signature are completed upon submission. */
+  /** These values come from the funding opportunity. */
   @UI.label("Opportunity Information")
+  @UI.field(SF424Individual.opportunity)
   opportunity: {
-    federalAgency: SF424Individual.federalAgency;
-    assistanceListingNumber: SF424Individual.assistanceListingNumber;
-    assistanceListingTitle: SF424Individual.assistanceListingTitle;
+    agencyName: Opportunity.agencyName;
+    @UI.flatten assistanceListing: Opportunity.assistanceListing;
+    number: Opportunity.number;
+    title: Opportunity.title;
+  };
+
+  @UI.label("Application Information")
+  application: {
     dateReceived: SF424Individual.dateReceived;
-    fundingOpportunityNumber: SF424Individual.fundingOpportunityNumber;
-    fundingOpportunityTitle: SF424Individual.fundingOpportunityTitle;
   };
 
   // Current SGG fieldsets use a fixed heading level. Keep one visible applicant
