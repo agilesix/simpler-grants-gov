@@ -4,7 +4,7 @@ import {
   processFormSchema,
   shapeFormData,
 } from "@sgg/frontend/utils/applyForm/applyFormUtils";
-import { useEffect, useMemo, useRef, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, type ChangeEvent } from "react";
 
 import {
   createAjv,
@@ -58,6 +58,7 @@ export const SggFormRenderer = ({
   // The data this form last reported; anything else arriving as `data` came from outside.
   const reported = useRef<unknown>(data);
   const generation = useRef(0);
+  const nativeForm = useRef<HTMLFormElement>(null);
   if (data !== reported.current) {
     reported.current = data;
     generation.current += 1;
@@ -79,17 +80,50 @@ export const SggFormRenderer = ({
   // Data replaced from outside still needs its warnings reported.
   useEffect(() => report(data), [generation.current, formSchema]);
 
-  const handleInput = (event: FormEvent<HTMLFormElement>) => {
-    const next = shapeFormData(new FormData(event.currentTarget), formSchema);
+  const collect = (form: HTMLFormElement) => {
+    const next = shapeFormData(new FormData(form), formSchema);
     reported.current = next;
     report(next);
   };
 
+  const handleChange = (event: ChangeEvent<HTMLFormElement>) =>
+    collect(event.currentTarget);
+
+  // Widgets that keep their value in state, like attachment removal, update a hidden input
+  // after any event, or with none at all. Observe that value instead of modeling it again.
+  useEffect(() => {
+    const form = nativeForm.current;
+    if (!form) return;
+    const currentGeneration = generation.current;
+    const hiddenInput = (node: Node) =>
+      node instanceof Element &&
+      (node.matches('input[type="hidden"][name]') ||
+        Boolean(node.querySelector('input[type="hidden"][name]')));
+    const observer = new MutationObserver((records) => {
+      if (currentGeneration !== generation.current) return;
+      if (
+        records.some((record) =>
+          record.type === "attributes"
+            ? hiddenInput(record.target)
+            : [...record.addedNodes, ...record.removedNodes].some(hiddenInput),
+        )
+      )
+        collect(form);
+    });
+    observer.observe(form, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["value"],
+    });
+    return () => observer.disconnect();
+  }, [generation.current, formSchema]);
+
   return (
     <form
+      ref={nativeForm}
       className="flex-1 margin-top-2 simpler-apply-form"
-      onInput={handleInput}
-      onChange={handleInput}
+      onChange={handleChange}
       onSubmit={(event) => event.preventDefault()}
       noValidate
     >
