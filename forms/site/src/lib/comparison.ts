@@ -203,11 +203,16 @@ export type VisibleNode =
 export function visibleTree(
   nodes: readonly ComparisonNode[],
   visible: ReadonlySet<string>,
+  includeInstructions = false,
 ): VisibleNode[] {
   return nodes.flatMap((node): VisibleNode[] => {
     if (node.kind === "field") return visible.has(node.id) ? [node] : [];
-    const children = visibleTree(node.children, visible);
-    return children.length
+    const children = visibleTree(node.children, visible, includeInstructions);
+    const readingOnly =
+      includeInstructions &&
+      Boolean(node.section.help_text) &&
+      node.children.length === 0;
+    return children.length || readingOnly
       ? [{ ...node, children, total: fieldCount(node) }]
       : [];
   });

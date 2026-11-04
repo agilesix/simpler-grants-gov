@@ -126,6 +126,8 @@ const AdaptedLayout = ({
     fieldName: groupName(layout.label),
     sectionFields: <>{children}</>,
     description,
+    descriptionFormat:
+      layout.options?.widget === "Instructions" ? "html" : undefined,
   });
 };
 

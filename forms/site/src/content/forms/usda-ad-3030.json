@@ -1,12 +1,161 @@
 {
   "title": "USDA AD-3030",
   "slug": "usda-ad-3030",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["SF-424", "R&R"],
-  "category": "Uncategorized",
+  "category": "Certification & Assurance Forms",
   "apps_count": 2117,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/582",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/AD_3030_2_0-V2.0_F582.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/AD_3030_2_0-V2.0.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/AD_3030_2_0-V2.0_F582.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/AD_3030_2_0-V2.0_F582.xls",
+  "spec_id": "usda-ad-3030",
+  "omb_number": "0505-0025",
+  "expiration_date": "09/30/2025",
+  "description": "Representations regarding felony conviction and tax delinquent status for corporate applicants. No automated eligibility determination is made.",
+  "widgets": ["TextWidget", "TextAreaWidget", "RadioWidget"],
+  "notes": [
+    "The pinned DAT/PDF states OMB expiration September 30, 2025; confirm current official metadata before production rather than inventing a renewal.",
+    "Only corporations need this form, according to source instructions. Applicability is package context, not an invented form answer.",
+    "TaxIDNumber is the last four digits, stored as text with leading zeros. The DAT digits-only rule is stricter than the source XSD length-only restriction and is explicitly retained.",
+    "ApplicantAddress remains the source whole-text answer, and ApplicantName retains its 140-character contract instead of being forced into OrgName60.",
+    "Signature/date and title are synthetic external context in examples; no signing, authentic prepopulation or submission is claimed.",
+    "Date display is an explicit library presentation proposal: ISO JSON/XML date instead of the DAT MM-DD-YYYY display.",
+    "Candidate structured instruction display is under design review. Instructions are UI content, not new applicant answers; API/submission integration and source-policy decisions are separate.",
+    "Instruction display is a review candidate using an explicit Instructions Group; no signing, prefill, API installation or production acceptance is implied."
+  ],
+  "risks": [
+    "Current OMB validity, package applicability, source-owned context and date presentation need actual integration/review. Agent verification is not human acceptance.",
+    "The candidate tree and preview render the DAT-specified complaint and email links through the shared Instructions section. Production adoption of that frontend/library support is still subject to review; this local preview does not establish installed SGG behavior.",
+    "This definition-only design does not implement actual cover-form population, legal signing or submission.",
+    "The migration issue currently says no new UI components; the shared instruction-display experiment requires explicit scope/design review.",
+    "Official FID582v2.0 DAT/PDF/issue retain OMB expiration09/30/2025; source-owner confirmation is needed before production use. This candidate does not invent a new date.",
+    "Editing an applicant answer in the current main-based preview drops the disabled completion values from collected JSON, although the controls retain their displayed sample values. Population, retention and actual signing require integration review; this draft does not claim an end-to-end completed form."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "Part A — Applicant",
+      "children": [
+        {
+          "kind": "field",
+          "label": "1. APPLICANT'S NAME",
+          "dat_field": "1-05",
+          "required": true,
+          "type": "Text",
+          "widget": "TextWidget",
+          "help_text": "Enter the Applicant's Name. This field is required.",
+          "constraints": "minLength 1, maxLength 140",
+          "json_path": "applicant.name",
+          "xml_path": "AD_3030_2_0:ApplicantName"
+        },
+        {
+          "kind": "field",
+          "label": "2. APPLICANT'S ADDRESS (Including Zip Code)",
+          "dat_field": "1-06",
+          "required": true,
+          "type": "Text",
+          "widget": "TextAreaWidget",
+          "help_text": "Enter the Applicant's Address including Zip Code. This field is required.",
+          "constraints": "minLength 1, maxLength 300",
+          "json_path": "applicant.address",
+          "xml_path": "AD_3030_2_0:ApplicantAddress"
+        },
+        {
+          "kind": "field",
+          "label": "3. TAX ID NO. (Last 4 digits)",
+          "dat_field": "1-07",
+          "required": true,
+          "type": "Text",
+          "widget": "TextWidget",
+          "help_text": "Enter the last four digits of the Tax ID Number. This field is required.",
+          "constraints": "minLength 4, maxLength 4, pattern ^[0-9]{4}$",
+          "json_path": "applicant.tax_id_number",
+          "xml_path": "AD_3030_2_0:TaxIDNumber"
+        },
+        {
+          "kind": "field",
+          "label": "4A. Has the Applicant been convicted of a felony criminal violation under any Federal law in the 24 months preceding the date of application?",
+          "dat_field": "1-08",
+          "required": true,
+          "type": "Radio",
+          "widget": "RadioWidget",
+          "help_text": "One selection is required.",
+          "constraints": "YesNoDataType enumeration",
+          "json_path": "applicant.felony_conviction",
+          "xml_path": "AD_3030_2_0:ApplicantFelony"
+        },
+        {
+          "kind": "field",
+          "label": "4B. Does the Applicant have any unpaid Federal tax liability that has been assessed, for which all judicial and administrative remedies have been exhausted or have lapsed, and that is not being paid in a timely manner pursuant to an agreement with the authority responsible for collecting the tax liability?",
+          "dat_field": "1-09",
+          "required": true,
+          "type": "Radio",
+          "widget": "RadioWidget",
+          "help_text": "One selection is required.",
+          "constraints": "YesNoDataType enumeration",
+          "json_path": "applicant.unpaid_federal_tax",
+          "xml_path": "AD_3030_2_0:UnpaidFederalTax"
+        }
+      ],
+      "help_text": "<p>Representations Regarding Felony Conviction\nand Tax Delinquent Status for Corporate Applicants</p><p><strong>Note: You only need to complete this form if you are a corporation.</strong> A corporation includes, but is not limited to, any entity that has filed articles of incorporation in one of the 50 States, the District of Columbia, or the various territories of the United States including American Samoa, Federated States of Micronesia, Guam, Midway Islands, Northern Mariana Islands, Puerto Rico, Republic of Palau, Republic of the Marshall Islands, or the U.S. Virgin Islands. Corporations include both for profit and non-profit entities.</p><p>The following statement is made in accordance with the Privacy Act of 1974 (5 U.S.C. § 552a, as amended). The authority for requesting the following information for U.S. Department of Agriculture (USDA) agencies and staff offices is in Division E, Title VII, §§ 744, 745 of the Consolidated Appropriations Act, 2022, Public Law 117-103 as amended and/or subsequently enacted. The information will be used to confirm applicant status concerning entity conviction of a felony criminal violation, and/or unpaid Federal tax liability status.</p><p>According to the Paperwork Reduction Act of 1995, an agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a valid OMB control number. The valid OMB control number for this information collection is 0505-0025. The time required to complete this information collection is estimated to average 15 minutes per response, including the time for reviewing instructions, searching existing data sources, gathering and maintaining the data needed, and completing and reviewing the collection of information.</p>",
+      "widget": "Instructions"
+    },
+    {
+      "kind": "section",
+      "label": "Part B — Signature",
+      "children": [
+        {
+          "kind": "field",
+          "label": "5A. APPLICANT'S SIGNATURE (BY)",
+          "dat_field": "1-12",
+          "required": true,
+          "type": "Text",
+          "widget": "TextWidget",
+          "help_text": "Completed by Grants.gov upon submission. This is a required field.",
+          "constraints": "minLength 1, maxLength 144",
+          "json_path": "certification.signature",
+          "xml_path": "AD_3030_2_0:AORSignature",
+          "post_populated": "Grants.gov submission; synthetic completed-context examples only."
+        },
+        {
+          "kind": "field",
+          "label": "5B. TITLE/RELATIONSHIP OF THE INDIVIDUAL IF SIGNING IN A REPRESENTATIVE CAPACITY",
+          "dat_field": "1-13",
+          "required": true,
+          "type": "Text",
+          "widget": "TextWidget",
+          "help_text": "Pre-populated from the Application cover sheet. This is a required field.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "certification.title",
+          "xml_path": "AD_3030_2_0:Title",
+          "pre_populated": "Application cover sheet; non-editable completion context."
+        },
+        {
+          "kind": "field",
+          "label": "5C. DATE SIGNED (MM-DD-YYYY)",
+          "dat_field": "1-14",
+          "required": true,
+          "type": "Date",
+          "widget": "TextWidget",
+          "help_text": "Completed by Grants.gov upon submission. This is a required field.",
+          "constraints": "format date",
+          "json_path": "certification.date_signed",
+          "xml_path": "AD_3030_2_0:DateSigned",
+          "post_populated": "Grants.gov submission; synthetic completed-context examples only."
+        }
+      ],
+      "help_text": "<p>Providing the requested information is voluntary. However, failure to furnish the information will make the applicant ineligible to enter into a contract, memorandum of understanding, grant, loan, loan guarantee, or cooperative agreement with USDA.</p>",
+      "widget": "Instructions"
+    },
+    {
+      "kind": "section",
+      "label": "USDA Civil Rights Statement",
+      "widget": "Instructions",
+      "help_text": "<p>In accordance with Federal civil rights law and U.S. Department of Agriculture (USDA) civil rights regulations and policies, the USDA, its Agencies, offices, and employees, and institutions participating in or administering USDA programs are prohibited from discriminating based on race, color, national origin, religion, sex, gender identity (including gender expression), sexual orientation, disability, age, marital status, family/parental status, income derived from a public assistance program, political beliefs, or reprisal or retaliation for prior civil rights activity, in any program or activity conducted or funded by USDA (not all bases apply to all programs). Remedies and complaint filing deadlines vary by program or incident.</p><p>Persons with disabilities who require alternative means of communication for program information (e.g., Braille, large print, audiotape, American Sign Language, etc.) should contact the responsible Agency or USDA&#x27;s TARGET Center at (202) 720-2600 (voice and TTY) or contact USDA through the Federal Relay Service at (800) 877-8339. Additionally, program information may be made available in languages other than English.</p><p>To file a program discrimination complaint, complete the USDA Program Discrimination Complaint Form, AD-3027, found online at <a href=\"https://www.usda.gov/oascr/how-to-file-a-program-discrimination-complaint\">How to File a Program Discrimination Complaint</a> and at any USDA office or write a letter addressed to USDA and provide in the letter all of the information requested in the form. To request a copy of the complaint form, call (866) 632-9992. Submit your completed form or letter to USDA by: (1) mail: U.S. Department of Agriculture, Office of the Assistant Secretary for Civil Rights, 1400 Independence Avenue, SW, Washington, D.C. 20250-9410; (2) fax: (202) 690-7442; or (3) email: <a href=\"mailto:program.intake@usda.gov\">program.intake@usda.gov</a>.</p><p>USDA is an equal opportunity provider, employer, and lender.</p>",
+      "notes": ["Source DAT fields: 1-15. preserve."],
+      "children": [],
+      "dat_field": "1-15"
+    }
+  ]
 }

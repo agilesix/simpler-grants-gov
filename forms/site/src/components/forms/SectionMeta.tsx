@@ -1,4 +1,5 @@
 import type { SectionNode } from "@/content.config";
+import { SectionDescription } from "@sgg/frontend/components/apply-form/widgets/SectionDescription";
 
 import FieldDetails from "./comparison/FieldDetails";
 
@@ -13,9 +14,14 @@ export default function SectionMeta({
 }) {
   return (
     <div className="section-meta">
-      {section.help_text && (
+      {section.widget === "Instructions" ? (
+        <SectionDescription
+          description={section.help_text}
+          descriptionFormat="html"
+        />
+      ) : section.help_text ? (
         <div className="field-row__help">{section.help_text}</div>
-      )}
+      ) : null}
       <FieldDetails field={section} widget={section.widget} />
     </div>
   );

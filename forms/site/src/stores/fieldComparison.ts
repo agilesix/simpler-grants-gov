@@ -38,9 +38,13 @@ export const $visibleFields = computed(
 
 /** The plan's tree, showing only the fields the filter shows. */
 export const $visibleTree = computed(
-  [$comparison, $visibleFields],
-  (comparison, fields) =>
-    visibleTree(comparison.children, new Set(fields.map((field) => field.id))),
+  [$comparison, $visibleFields, $categoryFilter, $attributeFilter],
+  (comparison, fields, filter, attributes) =>
+    visibleTree(
+      comparison.children,
+      new Set(fields.map((field) => field.id)),
+      filter.length === 0 && attributes.length === 0,
+    ),
 );
 
 export const $categoryCounts = computed(

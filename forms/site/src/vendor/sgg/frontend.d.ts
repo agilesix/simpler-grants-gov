@@ -82,9 +82,19 @@ declare module "@sgg/frontend/components/apply-form/widgets/WidgetRenderers" {
     fieldName: string;
     sectionFields: JSX.Element;
     description?: string;
+    descriptionFormat?: "html";
   }) => JSX.Element;
 }
 
 declare module "@sgg/frontend/i18n/messages/en/index" {
   export const messages: Record<string, unknown>;
+}
+
+declare module "@sgg/frontend/components/apply-form/widgets/SectionDescription" {
+  import type { JSX } from "react";
+  export const SectionDescription: (props: {
+    description?: string;
+    descriptionFormat?: "html";
+    paragraphClassName?: string;
+  }) => JSX.Element | null;
 }

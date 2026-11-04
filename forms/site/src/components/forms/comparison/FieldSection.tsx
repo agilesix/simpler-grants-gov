@@ -40,7 +40,7 @@ export default function FieldSection({
         <SectionSummary
           section={node.section}
           count={count}
-          badges={<RollupBadges counts={counts} />}
+          badges={node.total > 0 ? <RollupBadges counts={counts} /> : undefined}
           contents={contents}
         />
       </summary>
