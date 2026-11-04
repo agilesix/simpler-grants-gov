@@ -57,3 +57,17 @@ The sync emitter reads these files and compiles the artifacts that the
 npm run build -w emitters/sgg          # also run by npm run compile
 npm run check:types -w emitters/sgg
 ```
+
+## Population and date ordering
+
+`@Sgg.prePopulate(Sgg.PrePopulationRule.agencyName)` and
+`@Sgg.postPopulate(Sgg.PostPopulationRule.currentDate)` bind an answer to an existing
+API provider. They emit `gg_pre_population` and `gg_post_population` in the rule
+schema; no provider executes in the compiler or library preview. Read-only UI and
+draft requiredness remain explicit in the definition. A field cannot have both phases.
+
+`@Validation.notBefore(Period.startDate)` emits the API's `date_not_before` validation
+rule with the sibling's actual emitted property name. Install that API rule support
+before a form that uses it. The schema still owns date format/requiredness, and
+repeated objects compare dates within each entry. The library's schema-only preview
+does not execute these API rules; use native/API checks to prove them.
