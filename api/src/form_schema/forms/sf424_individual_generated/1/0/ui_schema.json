@@ -6,7 +6,7 @@
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/federal_agency",
+          "scope": "#/properties/opportunity/properties/agency_name",
           "label": "Name of Federal Agency",
           "options": {
             "readonly": true
@@ -14,7 +14,7 @@
         },
         {
           "type": "Control",
-          "scope": "#/properties/assistance_listing_number",
+          "scope": "#/properties/opportunity/properties/assistance_listing/properties/number",
           "label": "Assistance Listing Number",
           "options": {
             "readonly": true
@@ -22,7 +22,7 @@
         },
         {
           "type": "Control",
-          "scope": "#/properties/assistance_listing_title",
+          "scope": "#/properties/opportunity/properties/assistance_listing/properties/title",
           "label": "Assistance Listing Title",
           "options": {
             "readonly": true
@@ -30,15 +30,7 @@
         },
         {
           "type": "Control",
-          "scope": "#/properties/date_received",
-          "label": "Date Received",
-          "options": {
-            "readonly": true
-          }
-        },
-        {
-          "type": "Control",
-          "scope": "#/properties/funding_opportunity_number",
+          "scope": "#/properties/opportunity/properties/number",
           "label": "Funding Opportunity Number",
           "options": {
             "readonly": true
@@ -46,7 +38,7 @@
         },
         {
           "type": "Control",
-          "scope": "#/properties/funding_opportunity_title",
+          "scope": "#/properties/opportunity/properties/title",
           "label": "Funding Opportunity Title",
           "options": {
             "readonly": true
@@ -55,8 +47,22 @@
       ],
       "label": "Opportunity Information",
       "options": {
-        "description": "These values come from the funding opportunity. Submission dates and signature are completed upon submission."
+        "description": "These values come from the funding opportunity."
       }
+    },
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/date_received",
+          "label": "Date Received",
+          "options": {
+            "readonly": true
+          }
+        }
+      ],
+      "label": "Application Information"
     },
     {
       "type": "Group",
@@ -94,7 +100,7 @@
         {
           "type": "Control",
           "scope": "#/properties/applicant/properties/evening_phone",
-          "label": "Telephone Number (Evening)"
+          "label": "Phone Number (Evening)"
         },
         {
           "type": "Control",

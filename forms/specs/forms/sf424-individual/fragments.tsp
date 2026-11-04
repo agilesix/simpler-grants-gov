@@ -1,12 +1,46 @@
 import "simpler-forms";
 import "simpler-forms-sgg";
 import "#forms/index.tsp";
-import "#questions/application/index.tsp";
+import "#questions/opportunity/index.tsp";
+import "#questions/project/index.tsp";
+import "#questions/certification/index.tsp";
 import "#questions/person/index.tsp";
 
 using SimplerForms;
 
 namespace Forms.SF424Individual;
+
+// Opportunity-owned metadata is separate from the application receipt date.
+model Opportunity {
+  @UI.readOnly
+  @Meta.role(ResponseRole.systemValue)
+  @Sgg.prePopulate(Sgg.PrePopulationRule.agencyName)
+  agencyName: Questions.Opportunities.AgencyName;
+
+  assistanceListing?: AssistanceListing;
+
+  @UI.readOnly
+  @Meta.role(ResponseRole.systemValue)
+  @Sgg.prePopulate(Sgg.PrePopulationRule.opportunityNumber)
+  number: Questions.Opportunities.OpportunityNumber;
+
+  @UI.readOnly
+  @Meta.role(ResponseRole.systemValue)
+  @Sgg.prePopulate(Sgg.PrePopulationRule.opportunityTitle)
+  title: Questions.Opportunities.OpportunityTitle;
+}
+
+model AssistanceListing {
+  @UI.readOnly
+  @Meta.role(ResponseRole.systemValue)
+  @Sgg.prePopulate(Sgg.PrePopulationRule.assistanceListingNumber)
+  number?: Questions.Opportunities.AssistanceListingNumber;
+
+  @UI.readOnly
+  @Meta.role(ResponseRole.systemValue)
+  @Sgg.prePopulate(Sgg.PrePopulationRule.assistanceListingTitle)
+  title?: Questions.Opportunities.AssistanceListingTitle;
+}
 
 model Applicant {
   name: Questions.People.PersonName;
@@ -14,7 +48,7 @@ model Applicant {
   phone: Questions.People.PersonPhoneNumber;
 
   /** Enter the evening telephone number. */
-  @UI.label("Telephone Number (Evening)")
+  @UI.label("Phone Number (Evening)")
   eveningPhone?: Questions.People.PersonPhoneNumber;
 
   fax?: Questions.People.PersonFaxNumber;
@@ -23,7 +57,8 @@ model Applicant {
   @UI.label("Citizenship Status")
   citizenship: Citizenship;
 
-  congressionalDistrict: Questions.Applications.ApplicantCongressionalDistrict;
+  @UI.label("Congressional District of Applicant")
+  congressionalDistrict: Questions.People.PersonCongressionalDistrict;
 }
 
 // The DAT explicitly requires country/date for No, while its labels refer to foreign
@@ -54,23 +89,13 @@ model Citizenship {
 }
 
 model Project {
-  title: Questions.Applications.ProjectTitle;
-
-  /** Enter a brief description of the project. */
-  @UI.label("Project Description")
-  @UI.widget(Rendering.Widget.TextArea)
-  @minLength(1)
-  @maxLength(1000)
-  description: string;
-
-  /** Enter the start date for the proposed project. */
-  @UI.label("Start Date")
-  startDate: plainDate;
+  title: Questions.Projects.ProjectTitle;
+  description: Questions.Projects.ProjectDescription;
+  startDate: Questions.Projects.ProjectStartDate;
 
   /** Enter the end date for the proposed project. The end date cannot be earlier than the start date. */
-  @UI.label("End Date")
   @Validation.notBefore(Project.startDate)
-  endDate: plainDate;
+  endDate: Questions.Projects.ProjectEndDate;
 }
 
 model Certification {
@@ -84,14 +109,12 @@ model Certification {
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
   @Sgg.postPopulate(Sgg.PostPopulationRule.signature)
-  @minLength(1)
-  @maxLength(144)
-  signature?: string;
+  signature?: Questions.Certifications.Signature;
 
   /** Completed by Grants.gov upon submission. */
   @UI.label("Date Signed")
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
   @Sgg.postPopulate(Sgg.PostPopulationRule.currentDate)
-  dateSigned?: plainDate;
+  dateSigned?: Questions.Certifications.DateSigned;
 }

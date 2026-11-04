@@ -49,7 +49,7 @@ def test_invalid_answer_boundaries(change):
 
 def test_population_phases_use_existing_providers(enable_factory_create):
     original = draft()
-    original["federal_agency"] = "Untrusted agency"
+    original["opportunity"]["agency_name"] = "Untrusted agency"
     context = setup_context(
         original,
         FORM_RULE_SCHEMA,
@@ -62,11 +62,12 @@ def test_population_phases_use_existing_providers(enable_factory_create):
         user_email="synthetic@example.org",
     )
     process_rule_schema_for_context(context)
-    assert context.json_data["federal_agency"] == "Synthetic Agency"
-    assert context.json_data["funding_opportunity_number"] == "SYNTHETIC-INDIVIDUAL"
-    assert context.json_data["funding_opportunity_title"] == "Synthetic Individual Fellowship"
-    assert context.json_data["assistance_listing_number"] == "45.160"
-    assert context.json_data["assistance_listing_title"] == "Synthetic Program"
+    assert context.json_data["opportunity"] == {
+        "agency_name": "Synthetic Agency",
+        "number": "SYNTHETIC-INDIVIDUAL",
+        "title": "Synthetic Individual Fellowship",
+        "assistance_listing": {"number": "45.160", "title": "Synthetic Program"},
+    }
     assert "date_received" not in context.json_data
     assert "signature" not in context.json_data["certification"]
     assert context.application_form.application_response == original

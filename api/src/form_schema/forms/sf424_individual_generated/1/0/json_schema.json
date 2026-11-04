@@ -2,51 +2,40 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "federal_agency": {
+    "opportunity": {
       "allOf": [
         {
-          "$ref": "#/$defs/opportunity.agency-name"
+          "$ref": "#/$defs/Opportunity"
         }
       ],
-      "readOnly": true
-    },
-    "assistance_listing_number": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/opportunity.assistance-listing-number"
+      "title": "Opportunity Information",
+      "properties": {
+        "agency_name": {
+          "readOnly": true
+        },
+        "assistance_listing": {
+          "properties": {
+            "number": {
+              "readOnly": true
+            },
+            "title": {
+              "readOnly": true
+            }
+          }
+        },
+        "number": {
+          "readOnly": true
+        },
+        "title": {
+          "readOnly": true
         }
-      ],
-      "readOnly": true
-    },
-    "assistance_listing_title": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/opportunity.assistance-listing-title"
-        }
-      ],
-      "readOnly": true
+      }
     },
     "date_received": {
       "type": "string",
       "format": "date",
       "description": "Completed by Grants.gov upon submission.",
       "title": "Date Received",
-      "readOnly": true
-    },
-    "funding_opportunity_number": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/opportunity.number"
-        }
-      ],
-      "readOnly": true
-    },
-    "funding_opportunity_title": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/opportunity.title"
-        }
-      ],
       "readOnly": true
     },
     "applicant": {
@@ -83,20 +72,22 @@
     }
   },
   "required": [
-    "federal_agency",
-    "funding_opportunity_number",
-    "funding_opportunity_title",
+    "opportunity",
     "applicant",
     "project",
     "certification"
   ],
   "examples": [
     {
-      "federal_agency": "National Endowment for the Humanities",
-      "assistance_listing_number": "45.160",
-      "assistance_listing_title": "Fellowships and Stipends",
-      "funding_opportunity_number": "SYNTHETIC-INDIVIDUAL-2026",
-      "funding_opportunity_title": "Synthetic Individual Research Fellowship",
+      "opportunity": {
+        "agency_name": "National Endowment for the Humanities",
+        "assistance_listing": {
+          "number": "45.160",
+          "title": "Fellowships and Stipends"
+        },
+        "number": "SYNTHETIC-INDIVIDUAL-2026",
+        "title": "Synthetic Individual Research Fellowship"
+      },
       "date_received": "2026-11-02",
       "applicant": {
         "name": {
@@ -137,9 +128,11 @@
       }
     },
     {
-      "federal_agency": "National Endowment for the Humanities",
-      "funding_opportunity_number": "SYNTHETIC-INDIVIDUAL-2026",
-      "funding_opportunity_title": "Synthetic Individual Research Fellowship",
+      "opportunity": {
+        "agency_name": "National Endowment for the Humanities",
+        "number": "SYNTHETIC-INDIVIDUAL-2026",
+        "title": "Synthetic Individual Research Fellowship"
+      },
       "date_received": "2026-11-02",
       "applicant": {
         "name": {
@@ -177,6 +170,76 @@
   ],
   "description": "Application for Federal Domestic Assistance — Individual, Grants.gov version2.0.",
   "$defs": {
+    "AssistanceListing": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/opportunity.assistance-listing-number"
+            }
+          ],
+          "readOnly": true
+        },
+        "title": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/opportunity.assistance-listing-title"
+            }
+          ],
+          "readOnly": true
+        }
+      }
+    },
+    "Opportunity": {
+      "type": "object",
+      "properties": {
+        "agency_name": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/opportunity.agency-name"
+            }
+          ],
+          "readOnly": true
+        },
+        "assistance_listing": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/AssistanceListing"
+            }
+          ],
+          "properties": {
+            "number": {
+              "readOnly": true
+            },
+            "title": {
+              "readOnly": true
+            }
+          }
+        },
+        "number": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/opportunity.number"
+            }
+          ],
+          "readOnly": true
+        },
+        "title": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/opportunity.title"
+            }
+          ],
+          "readOnly": true
+        }
+      },
+      "required": [
+        "agency_name",
+        "number",
+        "title"
+      ]
+    },
     "CountryCode": {
       "type": "string",
       "enum": [
@@ -518,7 +581,7 @@
             }
           ],
           "description": "Enter the evening telephone number.",
-          "title": "Telephone Number (Evening)"
+          "title": "Phone Number (Evening)"
         },
         "fax": {
           "$ref": "#/$defs/person.fax-number"
@@ -535,7 +598,12 @@
           "title": "Citizenship Status"
         },
         "congressional_district": {
-          "$ref": "#/$defs/application.congressional-district"
+          "allOf": [
+            {
+              "$ref": "#/$defs/person.congressional-district"
+            }
+          ],
+          "title": "Congressional District of Applicant"
         }
       },
       "required": [
@@ -554,23 +622,18 @@
           "$ref": "#/$defs/project.title"
         },
         "description": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1000,
-          "description": "Enter a brief description of the project.",
-          "title": "Project Description"
+          "$ref": "#/$defs/project.description"
         },
         "start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Enter the start date for the proposed project.",
-          "title": "Start Date"
+          "$ref": "#/$defs/project.start-date"
         },
         "end_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Enter the end date for the proposed project. The end date cannot be earlier than the start date.",
-          "title": "End Date"
+          "allOf": [
+            {
+              "$ref": "#/$defs/project.end-date"
+            }
+          ],
+          "description": "Enter the end date for the proposed project. The end date cannot be earlier than the start date."
         }
       },
       "required": [
@@ -590,16 +653,21 @@
           "title": "I Agree"
         },
         "signature": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 144,
+          "allOf": [
+            {
+              "$ref": "#/$defs/certification.signature"
+            }
+          ],
           "description": "Completed by Grants.gov upon submission.",
           "title": "Signature",
           "readOnly": true
         },
         "date_signed": {
-          "type": "string",
-          "format": "date",
+          "allOf": [
+            {
+              "$ref": "#/$defs/certification.date-signed"
+            }
+          ],
           "description": "Completed by Grants.gov upon submission.",
           "title": "Date Signed",
           "readOnly": true
@@ -608,13 +676,6 @@
       "required": [
         "agree"
       ]
-    },
-    "opportunity.agency-name": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 60,
-      "description": "The federal agency providing the funding opportunity.",
-      "title": "Name of Federal Agency"
     },
     "opportunity.assistance-listing-number": {
       "type": "string",
@@ -629,6 +690,13 @@
       "maxLength": 120,
       "description": "The program title associated with the assistance listing.",
       "title": "Assistance Listing Title"
+    },
+    "opportunity.agency-name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60,
+      "description": "The federal agency providing the funding opportunity.",
+      "title": "Name of Federal Agency"
     },
     "opportunity.number": {
       "type": "string",
@@ -980,12 +1048,12 @@
       "description": "Enter a valid email address.",
       "title": "Email"
     },
-    "application.congressional-district": {
+    "person.congressional-district": {
       "type": "string",
       "minLength": 1,
       "maxLength": 6,
       "description": "Enter the Congressional District as a two-character state abbreviation, a hyphen and a three-digit district number (for example, CA-005). If outside the US, enter 00-000.",
-      "title": "Congressional District of Applicant"
+      "title": "Congressional District"
     },
     "project.title": {
       "type": "string",
@@ -993,6 +1061,38 @@
       "maxLength": 200,
       "description": "Enter a brief, descriptive title of the project.",
       "title": "Project Title"
+    },
+    "project.description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000,
+      "description": "Enter a brief description of the project.",
+      "title": "Project Description"
+    },
+    "project.start-date": {
+      "type": "string",
+      "format": "date",
+      "description": "Enter the start date for the proposed project.",
+      "title": "Start Date"
+    },
+    "project.end-date": {
+      "type": "string",
+      "format": "date",
+      "description": "Enter the end date for the proposed project.",
+      "title": "End Date"
+    },
+    "certification.signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 144,
+      "description": "The signer's name, completed upon submission.",
+      "title": "Signature"
+    },
+    "certification.date-signed": {
+      "type": "string",
+      "format": "date",
+      "description": "The date signed, completed upon submission.",
+      "title": "Date Signed"
     }
   }
 }

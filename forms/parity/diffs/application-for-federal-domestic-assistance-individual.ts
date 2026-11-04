@@ -7,7 +7,7 @@ const postPopulation: Pinned = {
   source: "yes",
   category: "intentional",
   reason:
-    "This is optional during draft entry and populated by the existing API upon submission. The final XML still requires it; submission/output tests check that boundary.",
+    "A saved draft can omit this value because the applicant does not enter it. The API supplies it on submission, and final XML requires it. This library definition declares that ownership; API population and signing are checked separately.",
 };
 
 const radioChoice: Recorded = {
@@ -21,19 +21,27 @@ const prefixLength: Pinned = {
   source: null,
   category: "gap",
   reason:
-    "The DAT states a ten-character limit and permits free text, but the comparator currently suppresses length limits on every Popup. The plan and shared name question preserve the DAT/XSD limit; this is a source-reader limitation, not a missing DAT requirement.",
+    "The prefix entry allows up to 10 characters, but our DAT reader drops that limit because the spreadsheet calls the control a Popup. The form still enforces 10. The shared DAT reader needs to retain limits on free-text Popup fields; that reader fix is not included here.",
 };
 
 const citizenshipLabels: Recorded = {
   category: "upstream",
   reason:
-    "The DAT requires country and residency date whenever citizenship is No, while its labels refer to foreign nationals and separately to permanent residents. The candidate follows the explicit business rules, keeps the source distinction visible and does not invent a third status. This source inconsistency remains for review.",
+    "The DAT says No requires country and residency date, but the labels distinguish foreign nationals from permanent residents. It is unclear whether both groups must answer. This form follows the explicit No rule and keeps the alien number optional; the source owner still needs to confirm that interpretation.",
 };
 
 export const DIFF: FormDiff = {
   slug: "application-for-federal-domestic-assistance-individual",
+  xml: "xml-mapping",
   wording: BANK_WORDING,
   dat: {
+    outOfOrder: {
+      "3-1": {
+        category: "intentional",
+        reason:
+          "Date Received belongs to the application, so it follows the complete Opportunity Information section on screen. The XML-shaped mapping preserves the official XML sequence.",
+      },
+    },
     absentFromPlan: { "5c-3": radioChoice, "5c-4": radioChoice },
     differingRules: {
       "3-1/required": postPopulation,
