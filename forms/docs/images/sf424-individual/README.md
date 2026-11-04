@@ -1,3 +1,0 @@
-# SF-424 Individual review images
-
-`library-local.png` and `library-narrow-local.png`: load the complete synthetic US-citizen sample, then Check for errors. The four peer sections use existing widgets and layout flattening; system values remain visible. Captured at1440px and390px on `7343dce618421274a5ba52761e0f26446bcfb22b`; definition `f7a66ce57efb00e18d73ab4434f8728d735412d4` changes source-plan risk prose only afterward. This is a local schema-only preview, not deployed API population, signing or submission evidence. Country-transition output limitations are preserved in `../../examples/sf424-individual/`.
