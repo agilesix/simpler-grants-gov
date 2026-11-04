@@ -738,7 +738,7 @@
         "applicant": {
           "allOf": [
             {
-              "$ref": "#/$defs/application.congressional-district"
+              "$ref": "#/$defs/person.congressional-district"
             }
           ],
           "description": "Enter the Congressional District as a two-character state abbreviation, a hyphen and a three-digit district number (for example, CA-005). If outside the US, enter 00-000.",
@@ -747,7 +747,7 @@
         "project": {
           "allOf": [
             {
-              "$ref": "#/$defs/application.congressional-district"
+              "$ref": "#/$defs/person.congressional-district"
             }
           ],
           "description": "Enter the Congressional District as a two-character state abbreviation, a hyphen and a three-digit district number (for example, CA-005). If outside the US, enter 00-000.",
@@ -944,16 +944,21 @@
           "$ref": "#/$defs/person.email"
         },
         "signature": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 144,
+          "allOf": [
+            {
+              "$ref": "#/$defs/certification.signature"
+            }
+          ],
           "description": "Completed by Grants.gov upon submission.",
           "title": "Signature of Authorized Representative",
           "readOnly": true
         },
         "date_signed": {
-          "type": "string",
-          "format": "date",
+          "allOf": [
+            {
+              "$ref": "#/$defs/certification.date-signed"
+            }
+          ],
           "description": "Completed by Grants.gov upon submission.",
           "title": "Date Signed",
           "readOnly": true
@@ -1618,12 +1623,25 @@
       "description": "The federal agency providing the funding opportunity.",
       "title": "Name of Federal Agency"
     },
-    "application.congressional-district": {
+    "person.congressional-district": {
       "type": "string",
       "minLength": 1,
       "maxLength": 6,
       "description": "Enter the Congressional District as a two-character state abbreviation, a hyphen and a three-digit district number (for example, CA-005). If outside the US, enter 00-000.",
-      "title": "Congressional District of Applicant"
+      "title": "Congressional District"
+    },
+    "certification.signature": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 144,
+      "description": "The signer's name, completed upon submission.",
+      "title": "Signature"
+    },
+    "certification.date-signed": {
+      "type": "string",
+      "format": "date",
+      "description": "The date signed, completed upon submission.",
+      "title": "Date Signed"
     }
   }
 }
