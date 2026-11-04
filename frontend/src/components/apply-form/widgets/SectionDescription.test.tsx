@@ -52,9 +52,15 @@ describe("SectionDescription", () => {
         />
       </form>,
     );
-    expect(screen.queryByRole("textbox", { hidden: true })).not.toBeInTheDocument();
-    expect(screen.queryByRole("button", { hidden: true })).not.toBeInTheDocument();
-    expect(screen.queryByRole("combobox", { hidden: true })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("textbox", { hidden: true }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { hidden: true }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("combobox", { hidden: true }),
+    ).not.toBeInTheDocument();
     expect(screen.queryByRole("img", { hidden: true })).not.toBeInTheDocument();
     expect(screen.getByText("Unsafe")).not.toHaveAttribute("href");
     expect(screen.getByText("Unsafe")).not.toHaveAttribute("onclick");
