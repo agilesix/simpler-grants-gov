@@ -73,4 +73,3 @@ describe("SF-424B R&R completed context", () => {
     expect(validate(value)).toBe(false);
   });
 });
-
