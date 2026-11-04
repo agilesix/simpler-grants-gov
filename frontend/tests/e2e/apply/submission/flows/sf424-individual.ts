@@ -46,8 +46,8 @@ export async function exerciseIndividual(page: Page) {
   await page.reload();
   await expect(field("project--title")).toHaveValue("true");
   await expect(field("project--description")).toHaveValue("null");
-  await expect(field("federal_agency")).toBeDisabled();
-  await expect(field("federal_agency")).not.toHaveValue("");
+  await expect(field("opportunity--agency_name")).toBeDisabled();
+  await expect(field("opportunity--agency_name")).not.toHaveValue("");
   await expect(field("date_received")).toHaveValue("");
   await expect(field("certification--signature")).toHaveValue("");
   await citizenship(false).click();

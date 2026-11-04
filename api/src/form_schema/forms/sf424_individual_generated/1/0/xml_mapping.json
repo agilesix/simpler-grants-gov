@@ -13,22 +13,22 @@
         "$const": "2.0"
       },
       "FederalAgency": {
-        "$field": "federal_agency"
+        "$field": "opportunity.agency_name"
       },
       "CFDANumber": {
-        "$field": "assistance_listing_number"
+        "$field": "opportunity.assistance_listing.number"
       },
       "CFDATitle": {
-        "$field": "assistance_listing_title"
+        "$field": "opportunity.assistance_listing.title"
       },
       "Date_Received": {
         "$field": "date_received"
       },
       "OpportunityID": {
-        "$field": "funding_opportunity_number"
+        "$field": "opportunity.number"
       },
       "OpportunityTitle": {
-        "$field": "funding_opportunity_title"
+        "$field": "opportunity.title"
       },
       "AuthorizedRepresentativeName": {
         "globLib:PrefixName": {

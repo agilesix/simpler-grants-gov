@@ -41,6 +41,20 @@ def test_complete_source_samples(index):
     root = etree.fromstring(xml.encode())
     assert root.tag == f"{{{_NS}}}SF424_Individual_2_0"
     assert root.get(f"{{{_NS}}}FormVersion") == "2.0"
+    listing = data["opportunity"].get("assistance_listing", {})
+    expected_opportunity = {
+        "FederalAgency": data["opportunity"]["agency_name"],
+        "CFDANumber": listing.get("number"),
+        "CFDATitle": listing.get("title"),
+        "OpportunityID": data["opportunity"]["number"],
+        "OpportunityTitle": data["opportunity"]["title"],
+    }
+    for element, value in expected_opportunity.items():
+        node = root.find(f"{{{_NS}}}{element}")
+        if value is None:
+            assert node is None
+        else:
+            assert node.text == value
     assert root.find(f"{{{_NS}}}ProjectDescription").text == data["project"]["description"]
     assert root.find(f"{{{_NS}}}citizenship").text == (
         "Y: Yes" if data["applicant"]["citizenship"]["is_us_citizen"] else "N: No"
