@@ -5,6 +5,9 @@ import { DIFF as performanceSites } from "./project-performance-site-location-s.
 import { DIFF as nsfKeyPersonExpanded } from "./nsf-senior-key-person-profile-expanded.ts";
 import { DIFF as rrKeyPersonExpanded } from "./research-and-related-senior-key-person-profile-expanded.ts";
 import { DIFF as rrKeyPerson } from "./research-related-senior-key-person-profile.ts";
+import { DIFF as projectNarrative } from "./project-narrative-attachment-form.ts";
+import { DIFF as budgetNarrative } from "./budget-narrative-attachment-form.ts";
+import { DIFF as otherNarrative } from "./other-attachments-form.ts";
 
 /** Every form the suite checks. A plan with a `spec_id` must be listed here. */
 export const DIFFS: FormDiff[] = [
@@ -14,4 +17,7 @@ export const DIFFS: FormDiff[] = [
   rrKeyPersonExpanded,
   nsfKeyPersonExpanded,
   performanceSites,
+  projectNarrative,
+  budgetNarrative,
+  otherNarrative,
 ];
