@@ -1,8 +1,7 @@
 import type { ValidateFunction } from "ajv";
 import { beforeAll, describe, expect, it } from "vitest";
 
-import { loadFormSpec } from "./formSpec";
-import { createAjv } from "./validation";
+import { loadFormValidator } from "./harness.ts";
 
 type Answers = {
   applicant: {
@@ -25,9 +24,9 @@ const draft = (sample = samples[0]) => {
 };
 
 beforeAll(async () => {
-  const spec = await loadFormSpec("sf424-individual");
-  validate = createAjv().compile(spec.schema);
-  samples = (spec.schema as { examples: Answers[] }).examples;
+  const form = await loadFormValidator("sf424-individual");
+  validate = form.validate;
+  samples = (form.schema as { examples: Answers[] }).examples;
 });
 
 describe("Individual source boundaries", () => {

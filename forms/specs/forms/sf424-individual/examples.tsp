@@ -5,11 +5,12 @@ namespace Forms.SF424Individual.Examples;
 // Synthetic opportunity and signing values make every source field inspectable. The API,
 // not these fixtures, owns actual pre-population and signature/submission dates.
 const usCitizen: SF424Individual = #{
-  federalAgency: "National Endowment for the Humanities",
-  assistanceListingNumber: "45.160",
-  assistanceListingTitle: "Fellowships and Stipends",
-  fundingOpportunityNumber: "SYNTHETIC-INDIVIDUAL-2026",
-  fundingOpportunityTitle: "Synthetic Individual Research Fellowship",
+  opportunity: #{
+    agencyName: "National Endowment for the Humanities",
+    assistanceListing: #{ number: "45.160", title: "Fellowships and Stipends" },
+    number: "SYNTHETIC-INDIVIDUAL-2026",
+    title: "Synthetic Individual Research Fellowship",
+  },
   dateReceived: plainDate.fromISO("2026-11-02"),
   applicant: #{
     name: #{
@@ -38,20 +39,22 @@ const usCitizen: SF424Individual = #{
   project: #{
     title: "Community Archives Research",
     description: "Study and document community archives using synthetic fellowship data.",
-    startDate: plainDate.fromISO("2027-01-01"),
-    endDate: plainDate.fromISO("2027-12-31"),
+    startDate: Questions.Projects.ProjectStartDate.fromISO("2027-01-01"),
+    endDate: Questions.Projects.ProjectEndDate.fromISO("2027-12-31"),
   },
   certification: #{
     agree: true,
     signature: "Alicia Reyes",
-    dateSigned: plainDate.fromISO("2026-11-02"),
+    dateSigned: Questions.Certifications.DateSigned.fromISO("2026-11-02"),
   },
 };
 
 const nonCitizen: SF424Individual = #{
-  federalAgency: "National Endowment for the Humanities",
-  fundingOpportunityNumber: "SYNTHETIC-INDIVIDUAL-2026",
-  fundingOpportunityTitle: "Synthetic Individual Research Fellowship",
+  opportunity: #{
+    agencyName: "National Endowment for the Humanities",
+    number: "SYNTHETIC-INDIVIDUAL-2026",
+    title: "Synthetic Individual Research Fellowship",
+  },
   dateReceived: plainDate.fromISO("2026-11-02"),
   applicant: #{
     name: #{ firstName: "Tom", lastName: "Okafor" },
@@ -74,12 +77,12 @@ const nonCitizen: SF424Individual = #{
   project: #{
     title: "Community Archives Research",
     description: "Study and document community archives using synthetic fellowship data.",
-    startDate: plainDate.fromISO("2027-01-01"),
-    endDate: plainDate.fromISO("2027-12-31"),
+    startDate: Questions.Projects.ProjectStartDate.fromISO("2027-01-01"),
+    endDate: Questions.Projects.ProjectEndDate.fromISO("2027-12-31"),
   },
   certification: #{
     agree: true,
     signature: "Tom Okafor",
-    dateSigned: plainDate.fromISO("2026-11-02"),
+    dateSigned: Questions.Certifications.DateSigned.fromISO("2026-11-02"),
   },
 };
