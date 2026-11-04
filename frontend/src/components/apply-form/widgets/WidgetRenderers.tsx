@@ -14,11 +14,13 @@ export const wrapSection = ({
   fieldName,
   sectionFields,
   description,
+  descriptionFormat,
 }: {
   label: string;
   fieldName: string;
   sectionFields: JSX.Element | undefined;
   description?: string;
+  descriptionFormat?: "html";
 }) => {
   const uniqueKey = `${fieldName}-fieldset`;
   return (
@@ -27,6 +29,7 @@ export const wrapSection = ({
       fieldName={fieldName}
       label={label}
       description={description}
+      descriptionFormat={descriptionFormat}
     >
       {sectionFields}
     </FieldsetWidget>

@@ -13,6 +13,8 @@ export type MaxItems = number | "unbounded";
 interface PlanNodeBase {
   label: string;
   help_text?: string;
+  /** Presentation metadata, including non-answer instruction sections. */
+  widget?: string;
   dat_field?: string;
   json_path?: string;
   xml_path?: string;

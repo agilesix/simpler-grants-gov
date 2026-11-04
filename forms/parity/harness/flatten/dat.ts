@@ -2,7 +2,7 @@ import * as XLSX from "xlsx";
 
 import type { Fields, Rules } from "../model.ts";
 
-/** Rows of the DAT that are not answers: headings, instructions, navigation buttons. */
+/** Usually display-only; typed required Labels can instead be populated answers. */
 const NOT_INPUTS = new Set(["label", "button"]);
 
 /** Implementations whose list is fixed, so its "Max # of Chars" is not a length limit. */
@@ -75,7 +75,14 @@ export function datFields(workbook: Uint8Array): Fields {
   for (const row of rows.slice(start + 1)) {
     const id = String(row[at.field]).trim();
     const implementation = header(row[at.implementation]);
-    if (!id || NOT_INPUTS.has(implementation)) continue;
+    // Some DATs label system-owned signatures/dates as Label, despite specifying
+    // their value type and requiredness. Required untyped Name/Address headings
+    // are still display-only; requiredness alone does not make a Label an answer.
+    const populatedLabel =
+      implementation === "label" &&
+      header(row[at.required]) === "yes" &&
+      Boolean(header(row[at.dataType]));
+    if (!id || (NOT_INPUTS.has(implementation) && !populatedLabel)) continue;
     const rules: Rules = {};
     const max = Number(row[at.max]);
     if (String(row[at.max]).trim() && !FIXED_LISTS.has(implementation))

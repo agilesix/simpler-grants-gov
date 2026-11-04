@@ -64,6 +64,41 @@ describe("datFields", () => {
     expect(dat.get("7-14")?.rules).toEqual({ maxOccurs: 4 });
   });
 
+  it("keeps required typed Label values populated by submission", () => {
+    const fields = datFields(
+      workbook([
+        HEADER,
+        [
+          "signature",
+          "Signature",
+          "Yes",
+          "AN",
+          144,
+          1,
+          "Label",
+          "Completed on submission.",
+        ],
+        [
+          "date",
+          "Date Signed",
+          "Yes",
+          "DATE",
+          "",
+          1,
+          "Label",
+          "Completed on submission.",
+        ],
+        ["nameHeading", "Name", "Yes", "", "", 1, "Label", ""],
+        ["addressHeading", "Address", "Yes", "", "", 1, "Label", ""],
+        ["text", "Instructions", "", "", "", "", "Label", ""],
+        ["button", "Submit", "Yes", "AN", 144, 1, "Button", ""],
+      ]),
+    );
+    expect([...fields.keys()]).toEqual(["signature", "date"]);
+    expect(fields.get("signature")?.rules.maxLength).toBe(144);
+    expect(fields.get("date")?.required).toBe("yes");
+  });
+
   it("keeps asterisk on required labels", () => {
     const dat = datFields(
       workbook([

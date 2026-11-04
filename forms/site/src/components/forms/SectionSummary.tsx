@@ -27,7 +27,9 @@ export default function SectionSummary({
     <>
       <span className="field-section__label">{section.label}</span>
       {repeats && <span className="section-chip">↻ {repeats}</span>}
-      <span className="section-count">{count}</span>
+      {(!section.help_text || contents.length > 0) && (
+        <span className="section-count">{count}</span>
+      )}
       {badges && <span className="section-badges">{badges}</span>}
       {contents.length > 0 && (
         <span className="section-contents">{contents.join(" · ")}</span>

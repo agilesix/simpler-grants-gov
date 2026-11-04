@@ -161,6 +161,30 @@ describe("visibleTree", () => {
   it("counts the fields under a section at every depth", () => {
     expect(fieldCount(TREE[1])).toBe(2);
   });
+
+  it("retains non-answer instructions in the unfiltered review tree", () => {
+    const instructions: ComparisonNode = {
+      kind: "section",
+      section: {
+        kind: "section",
+        label: "Assurances",
+        widget: "Instructions",
+        help_text: "Read these requirements.",
+      },
+      children: [],
+    };
+    expect(visibleTree([instructions], new Set(), true)).toEqual([
+      { ...instructions, total: 0 },
+    ]);
+    expect(visibleTree([instructions], new Set())).toEqual([]);
+    expect(fieldCount(instructions)).toBe(0);
+    // The detailed burden statement remains plain text, but is still reading content.
+    const plain = {
+      ...instructions,
+      section: { ...instructions.section, widget: undefined },
+    };
+    expect(visibleTree([plain], new Set(), true)).toHaveLength(1);
+  });
 });
 
 describe("rollupCounts", () => {
