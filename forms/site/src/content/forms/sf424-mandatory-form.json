@@ -2,9 +2,7 @@
   "title": "SF424 Mandatory Form",
   "slug": "sf424-mandatory-form",
   "status": "in_progress",
-  "family": [
-    "SF-424 Mandatory"
-  ],
+  "family": ["SF-424 Mandatory"],
   "category": "Key Personnel & Contact Forms",
   "omb_number": "4040-0020",
   "expiration_date": "03/31/2029",
@@ -24,7 +22,7 @@
   "sgg_form_id": null,
   "description": "SF424 Mandatory Form (SF424_Mandatory_3_0) is a streamlined variant of the SF-424 used for formula grants, block grants, and other mandatory awards. Unlike the standard SF-424, it includes submission type, frequency, version, and consolidated request fields, but has a reduced estimated funding section (Federal and Match only, versus 7 line items on the standard SF-424).",
   "notes": [
-    "Separate form definition composed from existing organization/name/address/phone/email/application questions. Contact and authorized representative are separate answers; no unrequested contact addresses.",
+    "Separate form definition composed from existing organization/name/address/phone/email/opportunity/person/certification questions. Contact and authorized representative are separate answers; no unrequested contact addresses.",
     "Opportunity-owned agency/listing fields are nested under opportunity, with assistance_listing as a child, as a proposed grouping for review. Exact paths remain a candidate for family review.",
     "Applicant organization and EIN are required by the DAT even though Organization/EIN are optional in the XSD. This candidate follows the DAT for applicant entry while preserving the source XML structure; this is recorded for review.",
     "Other submission type, other frequency, consolidated request, other applicant type, available state review and delinquent debt have six conditionally required dependent fields. Disabled does not imply a global answer-clearing policy.",
@@ -35,8 +33,8 @@
     "The layout groups applicant type with the applicant organization and groups received dates together. This deliberate display-order difference keeps each semantic object placed once; source XML sequence is unchanged."
   ],
   "risks": [
-    "Shared Address accepts five-digit US ZIP despite the DAT minimum of nine digits; the existing bank gap remains visible pending source-owner review.",
-    "A country transition can retain both State and Province, pass JSON admission and emit XSD-invalid XML. Preserve this shared gap; no private Address or XML serializer.",
+    "US postal validation accepts five digits, but the DAT requires nine. A reviewed ZIP+4 rule belongs in shared Address; this form does not change that rule.",
+    "Changing Country can leave both State and Province in an answer. GlobalLibrary permits only one, so that answer fails XSD validation. Shared Address/retention behavior needs a reviewed fix before API submission; this form does not clear answers or change XML handling.",
     "Preview attachment UUID examples are illustrative, not uploaded files. Browser/deployed/Grantor1/training/PDF and final signing gates remain separate from compilation/API fixtures.",
     "Opportunity paths, organization requiredness and all source choices are reviewable candidates, not human policy acceptance.",
     "The maintained API multipleOf validator rejects source-valid numeric amounts 0.29 and 1.15 at multipleOf 0.01 because of floating arithmetic. Preserve the source precision constraint; consumer precision needs resolution before API readiness.",

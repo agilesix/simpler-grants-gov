@@ -103,7 +103,7 @@ const complete: SF424Mandatory = #{
     fax: "4105550198",
     email: "priya.patel@example.org",
     signature: "Priya Patel",
-    dateSigned: plainDate.fromISO("2026-11-03"),
+    dateSigned: Questions.Certifications.DateSigned.fromISO("2026-11-03"),
   },
   attachments: #[
     "00000000-0000-4000-8000-000000007122",
