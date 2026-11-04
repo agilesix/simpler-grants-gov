@@ -1456,3 +1456,53 @@ describe("addPrintWidgetToFields", () => {
     });
   });
 });
+
+describe("nested falsy answers", () => {
+  it.each([{ answer: false }, { answer: 0 }])(
+    "preserves a supplied answer instead of treating its group as empty: %j",
+    (group) => {
+      expect(pruneEmptyNestedFields({ group })).toEqual({ group });
+      expect(
+        pruneEmptyNestedFields(
+          { group },
+          {
+            type: "object",
+            required: ["group"],
+            properties: { group: { type: "object" } },
+          },
+        ),
+      ).toEqual({ group });
+    },
+  );
+
+  it("preserves an explicit No through native FormData shaping", () => {
+    const form = new FormData();
+    form.append("applicant--citizenship--is_us_citizen", "false");
+    const schema: RJSFSchema = {
+      type: "object",
+      required: ["applicant"],
+      properties: {
+        applicant: {
+          type: "object",
+          required: ["citizenship"],
+          properties: {
+            citizenship: {
+              type: "object",
+              required: ["is_us_citizen"],
+              properties: { is_us_citizen: { type: "boolean" } },
+            },
+          },
+        },
+      },
+    };
+    expect(shapeFormData(form, schema)).toEqual({
+      applicant: { citizenship: { is_us_citizen: false } },
+    });
+  });
+
+  it("still removes genuinely empty optional groups", () => {
+    expect(pruneEmptyNestedFields({ group: { answer: undefined } })).toEqual(
+      {},
+    );
+  });
+});

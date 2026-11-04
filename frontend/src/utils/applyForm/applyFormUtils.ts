@@ -496,7 +496,9 @@ const isEmptyField = (mightBeEmpty: unknown): boolean => {
     if (isBasicallyAnObject(nestedValue)) {
       return isEmptyField(nestedValue);
     }
-    return !nestedValue;
+    return (
+      nestedValue === undefined || nestedValue === null || nestedValue === ""
+    );
   });
 };
 
