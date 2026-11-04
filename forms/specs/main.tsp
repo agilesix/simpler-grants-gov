@@ -11,3 +11,5 @@ import "./forms/other-narrative/index.tsp";
 import "./forms/nsf-deviation-authorization/index.tsp";
 import "./forms/phs-398-research-plan/index.tsp";
 import "./forms/nsf-suggested-reviewers/index.tsp";
+import "./forms/sf424-individual/index.tsp";
+import "./forms/sf424-mandatory/index.tsp";
