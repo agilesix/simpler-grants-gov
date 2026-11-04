@@ -20,7 +20,7 @@
     "TaxIDNumber is the last four digits, stored as text with leading zeros. The DAT digits-only rule is stricter than the source XSD length-only restriction and is explicitly retained.",
     "ApplicantAddress remains the source whole-text answer, and ApplicantName retains its 140-character contract instead of being forced into OrgName60.",
     "Signature/date and title are synthetic external context in examples; no signing, authentic prepopulation or submission is claimed.",
-    "Date display is an explicit library presentation proposal: ISO JSON/XML date instead of the DAT MM-DD-YYYY display.",
+    "Examples and JSON/XML use ISO YYYY-MM-DD. The current date control uses locale presentation (observed MM/DD/YYYY), while the DAT label requests MM-DD-YYYY. Date presentation and actual population remain integration-review choices.",
     "Candidate structured instruction display is under design review. Instructions are UI content, not new applicant answers; API/submission integration and source-policy decisions are separate.",
     "Instruction display is a review candidate using an explicit Instructions Group; no signing, prefill, API installation or production acceptance is implied."
   ],
