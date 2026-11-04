@@ -4,7 +4,7 @@ import {
   processFormSchema,
   shapeFormData,
 } from "@sgg/frontend/utils/applyForm/applyFormUtils";
-import { useEffect, useMemo, useRef, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, type ChangeEvent } from "react";
 
 import {
   createAjv,
@@ -86,18 +86,11 @@ export const SggFormRenderer = ({
     report(next);
   };
 
-  const handleInput = (event: FormEvent<HTMLFormElement>) => {
-    const form = event.currentTarget;
-    const currentGeneration = generation.current;
-    // Stateful widgets commit their named hidden controls after the event handler.
-    queueMicrotask(() => {
-      if (form.isConnected && currentGeneration === generation.current)
-        collect(form);
-    });
-  };
+  const handleChange = (event: ChangeEvent<HTMLFormElement>) =>
+    collect(event.currentTarget);
 
-  // Attachment removal changes the native submission value without an input event.
-  // Observe that value instead of maintaining a second attachment selection model.
+  // Widgets that keep their value in state, like attachment removal, update a hidden input
+  // after any event, or with none at all. Observe that value instead of modeling it again.
   useEffect(() => {
     const form = nativeForm.current;
     if (!form) return;
@@ -130,8 +123,7 @@ export const SggFormRenderer = ({
     <form
       ref={nativeForm}
       className="flex-1 margin-top-2 simpler-apply-form"
-      onInput={handleInput}
-      onChange={handleInput}
+      onChange={handleChange}
       onSubmit={(event) => event.preventDefault()}
       noValidate
     >
