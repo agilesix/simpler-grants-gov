@@ -2,7 +2,8 @@ import "simpler-forms";
 import "simpler-forms-sgg";
 import "@typespec/json-schema";
 import "#forms/index.tsp";
-import "#questions/application/index.tsp";
+import "#questions/opportunity/index.tsp";
+import "#questions/certification/index.tsp";
 import "#questions/organization/index.tsp";
 import "#questions/person/index.tsp";
 import "#questions/types/attachment.tsp";
@@ -239,7 +240,7 @@ model MandatoryOpportunity {
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
   @Sgg.prePopulate(Sgg.PrePopulationRule.agencyName)
-  agencyName: Questions.Applications.AgencyName;
+  agencyName: Questions.Opportunities.AgencyName;
 
   assistanceListing?: MandatoryAssistanceListing;
 }
@@ -250,14 +251,14 @@ model MandatoryAssistanceListing {
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
   @Sgg.prePopulate(Sgg.PrePopulationRule.assistanceListingNumber)
-  number?: Questions.Applications.AssistanceListingNumber;
+  number?: Questions.Opportunities.AssistanceListingNumber;
 
   @doc("The program title associated with the assistance listing.")
   @UI.label("Assistance Listing Title")
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
   @Sgg.prePopulate(Sgg.PrePopulationRule.assistanceListingTitle)
-  title?: Questions.Applications.AssistanceListingTitle;
+  title?: Questions.Opportunities.AssistanceListingTitle;
 }
 
 model MandatoryProject {
@@ -278,11 +279,11 @@ model MandatoryProject {
 model MandatoryCongressionalDistricts {
   @doc("Enter the Congressional District as a two-character state abbreviation, a hyphen and a three-digit district number (for example, CA-005). If outside the US, enter 00-000.")
   @UI.label("Applicant Congressional District")
-  applicant: Questions.Applications.ApplicantCongressionalDistrict;
+  applicant: Questions.People.PersonCongressionalDistrict;
 
   @doc("Enter the Congressional District as a two-character state abbreviation, a hyphen and a three-digit district number (for example, CA-005). If outside the US, enter 00-000.")
   @UI.label("Program/Project Congressional District")
-  project?: Questions.Applications.ApplicantCongressionalDistrict;
+  project?: Questions.People.PersonCongressionalDistrict;
 
   @doc("Attach a file listing additional congressional districts.")
   @UI.label("Additional Congressional Districts Attachment")
@@ -364,17 +365,15 @@ model MandatoryAuthorizedRepresentative {
 
   @doc("Completed by Grants.gov upon submission.")
   @UI.label("Signature of Authorized Representative")
-  @minLength(1)
-  @maxLength(144)
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
   @Sgg.postPopulate(Sgg.PostPopulationRule.signature)
-  signature?: string;
+  signature?: Questions.Certifications.Signature;
 
   @doc("Completed by Grants.gov upon submission.")
   @UI.label("Date Signed")
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
   @Sgg.postPopulate(Sgg.PostPopulationRule.currentDate)
-  dateSigned?: plainDate;
+  dateSigned?: Questions.Certifications.DateSigned;
 }
