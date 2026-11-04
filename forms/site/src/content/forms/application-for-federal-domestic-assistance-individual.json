@@ -28,14 +28,16 @@
     "Certification requires an affirmative checked answer. The Yes/No XML value is derived from that Boolean; legal text and the source assurance note remain visible.",
     "XML follows the official sequence, including applicant fax/email/phone ahead of address. Layout order is independent of answer nesting and XML order.",
     "Samples use synthetic opportunity context and signing values so JSON/XML are inspectable before API installation. Samples do not implement population or signing.",
-    "The current SGG renderer hard-codes section heading levels. Applicant fields therefore share one visible Applicant Information section, using existing UI.flatten for name/address/citizenship and inline contact fields. JSON retains those concept groups; nested visual headings can return when the shared renderer supports them."
+    "The current SGG renderer hard-codes section heading levels. Applicant fields therefore share one visible Applicant Information section, using existing UI.flatten for name/address/citizenship and inline contact fields. JSON retains those concept groups; nested visual headings can return when the shared renderer supports them.",
+    "Opportunity owns agency, assistance listing and funding opportunity values. Date Received belongs to the application and appears in a separate Application Information section. This moves it after the opportunity fields on screen; XML retains its official sequence.",
+    "Opportunity nesting uses the existing XML-shaped mapping. The older answer-shaped XML transform cannot interleave Date Received between opportunity-owned values. When API sync is enabled, select xml: mapping; no mapper implementation change is included."
   ],
   "risks": [
     "Citizenship labels and DAT conditional rules disagree; the explicit-DAT candidate and rationale require source-owner review.",
-    "US ZIP+4 validation remains the existing shared-bank gap. Source comparisons expose it; no private Address fork or form-specific workaround is added.",
-    "API date_not_before support is a separately reviewable shared consumer prerequisite. A declaration/compile pass alone does not establish date validation.",
+    "US postal validation accepts five digits, but the DAT requires nine. The shared Address question needs a reviewed ZIP+4 rule; this form does not introduce a private Address or change the shared rule.",
+    "The library declares the start/end date relation. The API also needs date_not_before rule support from the separate shared-support PR before this rule works in SGG.",
     "Grantor1/training submissions, completed external PDFs and production acceptance are separate evidence gates; local checks do not satisfy them.",
-    "Shared Address currently admits State and Province together. Country-switch review can retain both, but the GlobalLibrary XSD requires an exclusive choice. This remains an unresolved shared output/validation decision and an API readiness gate; no form-local clearing or XML mapper is added."
+    "Changing Country can leave both State and Province in an answer. GlobalLibrary permits only one, so that answer fails XSD validation. The shared Address/retention behavior needs a reviewed fix before API submission; this form does not clear answers or change XML handling."
   ],
   "children": [
     {
@@ -51,7 +53,7 @@
           "widget": "TextWidget",
           "help_text": "The federal agency providing the funding opportunity.",
           "constraints": "minLength 1, maxLength 60",
-          "json_path": "federal_agency",
+          "json_path": "opportunity.agency_name",
           "xml_path": "SF424_Individual_2_0:FederalAgency",
           "pre_populated": "From the opportunity or competition; read-only."
         },
@@ -64,7 +66,7 @@
           "widget": "TextWidget",
           "help_text": "The assistance listing number associated with this competition.",
           "constraints": "minLength 1, maxLength 15",
-          "json_path": "assistance_listing_number",
+          "json_path": "opportunity.assistance_listing.number",
           "xml_path": "SF424_Individual_2_0:CFDANumber",
           "pre_populated": "From the opportunity or competition; read-only."
         },
@@ -77,22 +79,9 @@
           "widget": "TextWidget",
           "help_text": "The program title associated with the assistance listing.",
           "constraints": "minLength 1, maxLength 120",
-          "json_path": "assistance_listing_title",
+          "json_path": "opportunity.assistance_listing.title",
           "xml_path": "SF424_Individual_2_0:CFDATitle",
           "pre_populated": "From the opportunity or competition; read-only."
-        },
-        {
-          "kind": "field",
-          "label": "Date Received",
-          "dat_field": "3-1",
-          "required": "No (post-populated; required in submission XML)",
-          "type": "Date input",
-          "widget": "TextWidget",
-          "help_text": "Completed by Grants.gov upon submission.",
-          "constraints": "format date",
-          "json_path": "date_received",
-          "xml_path": "SF424_Individual_2_0:Date_Received",
-          "post_populated": "Completed by Grants.gov upon submission."
         },
         {
           "kind": "field",
@@ -103,7 +92,7 @@
           "widget": "TextWidget",
           "help_text": "The number identifying the funding opportunity.",
           "constraints": "minLength 1, maxLength 40",
-          "json_path": "funding_opportunity_number",
+          "json_path": "opportunity.number",
           "xml_path": "SF424_Individual_2_0:OpportunityID",
           "pre_populated": "From the opportunity or competition; read-only."
         },
@@ -116,9 +105,28 @@
           "widget": "TextWidget",
           "help_text": "The title of the funding opportunity.",
           "constraints": "minLength 1, maxLength 255",
-          "json_path": "funding_opportunity_title",
+          "json_path": "opportunity.title",
           "xml_path": "SF424_Individual_2_0:OpportunityTitle",
           "pre_populated": "From the opportunity or competition; read-only."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "Application Information",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Date Received",
+          "dat_field": "3-1",
+          "required": "No (post-populated; required in submission XML)",
+          "type": "Date input",
+          "widget": "TextWidget",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "json_path": "date_received",
+          "xml_path": "SF424_Individual_2_0:Date_Received",
+          "post_populated": "Completed by Grants.gov upon submission."
         }
       ]
     },
@@ -210,7 +218,7 @@
             },
             {
               "kind": "field",
-              "label": "Telephone Number (Evening)",
+              "label": "Phone Number (Evening)",
               "dat_field": "5a-08",
               "required": false,
               "type": "Text input",

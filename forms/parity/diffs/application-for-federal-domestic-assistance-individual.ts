@@ -32,8 +32,16 @@ const citizenshipLabels: Recorded = {
 
 export const DIFF: FormDiff = {
   slug: "application-for-federal-domestic-assistance-individual",
+  xml: "xml-mapping",
   wording: BANK_WORDING,
   dat: {
+    outOfOrder: {
+      "3-1": {
+        category: "intentional",
+        reason:
+          "Date Received belongs to the application, so it follows the complete Opportunity Information section on screen. The XML-shaped mapping preserves the official XML sequence.",
+      },
+    },
     absentFromPlan: { "5c-3": radioChoice, "5c-4": radioChoice },
     differingRules: {
       "3-1/required": postPopulation,

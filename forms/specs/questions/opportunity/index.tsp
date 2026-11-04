@@ -3,7 +3,7 @@ import "#questions/index.tsp";
 
 using SimplerForms;
 
-namespace Questions.Applications;
+namespace Questions.Opportunities;
 
 /** The federal agency providing the funding opportunity. */
 @Meta.question(#{ id: "opportunity/agency-name" })
@@ -39,17 +39,3 @@ scalar OpportunityNumber extends string;
 @minLength(1)
 @maxLength(255)
 scalar OpportunityTitle extends string;
-
-/** Enter a brief, descriptive title of the project. */
-@Meta.question(#{ id: "project/title" })
-@UI.label("Project Title")
-@minLength(1)
-@maxLength(200)
-scalar ProjectTitle extends string;
-
-/** Enter the Congressional District as a two-character state abbreviation, a hyphen and a three-digit district number (for example, CA-005). If outside the US, enter 00-000. */
-@Meta.question(#{ id: "application/congressional-district" })
-@UI.label("Congressional District of Applicant")
-@minLength(1)
-@maxLength(6)
-scalar ApplicantCongressionalDistrict extends string;

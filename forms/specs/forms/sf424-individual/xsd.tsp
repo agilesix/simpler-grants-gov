@@ -12,6 +12,8 @@ namespace XSD.SF424Individual20;
 alias grantsGovXml = Mappings.Target.grantsGovXml;
 alias Transformation = Mappings.Transforms.Transformation;
 alias SF424Individual = Forms.SF424Individual.SF424Individual;
+alias Opportunity = Forms.SF424Individual.Opportunity;
+alias AssistanceListing = Forms.SF424Individual.AssistanceListing;
 alias Applicant = Forms.SF424Individual.Applicant;
 alias Citizenship = Forms.SF424Individual.Citizenship;
 alias Project = Forms.SF424Individual.Project;
@@ -30,15 +32,15 @@ enum Namespaces {
 @GrantsGov.xsd("https://apply07.grants.gov/apply/forms/schemas/SF424_Individual_2_0-V2.0.xsd")
 @Mapping.from(grantsGovXml, SF424Individual)
 model Root {
-  @Mapping.from(grantsGovXml, SF424Individual.federalAgency)
+  @Mapping.from(grantsGovXml, Opportunity.agencyName)
   @name("FederalAgency")
   federalAgency: string;
 
-  @Mapping.from(grantsGovXml, SF424Individual.assistanceListingNumber)
+  @Mapping.from(grantsGovXml, AssistanceListing.number)
   @name("CFDANumber")
   cfdaNumber?: string;
 
-  @Mapping.from(grantsGovXml, SF424Individual.assistanceListingTitle)
+  @Mapping.from(grantsGovXml, AssistanceListing.title)
   @name("CFDATitle")
   cfdaTitle?: string;
 
@@ -46,11 +48,11 @@ model Root {
   @name("Date_Received")
   dateReceived: plainDate;
 
-  @Mapping.from(grantsGovXml, SF424Individual.fundingOpportunityNumber)
+  @Mapping.from(grantsGovXml, Opportunity.number)
   @name("OpportunityID")
   opportunityId: string;
 
-  @Mapping.from(grantsGovXml, SF424Individual.fundingOpportunityTitle)
+  @Mapping.from(grantsGovXml, Opportunity.title)
   @name("OpportunityTitle")
   opportunityTitle: string;
 
