@@ -8,6 +8,9 @@ import { DIFF as rrKeyPerson } from "./research-related-senior-key-person-profil
 import { DIFF as projectNarrative } from "./project-narrative-attachment-form.ts";
 import { DIFF as budgetNarrative } from "./budget-narrative-attachment-form.ts";
 import { DIFF as otherNarrative } from "./other-attachments-form.ts";
+import { DIFF as nsfDeviation } from "./nsf-deviation-authorization.ts";
+import { DIFF as phsResearch } from "./phs-398-research-plan.ts";
+import { DIFF as nsfReviewers } from "./nsf-suggested-reviewers.ts";
 
 /** Every form the suite checks. A plan with a `spec_id` must be listed here. */
 export const DIFFS: FormDiff[] = [
@@ -20,4 +23,7 @@ export const DIFFS: FormDiff[] = [
   projectNarrative,
   budgetNarrative,
   otherNarrative,
+  nsfDeviation,
+  phsResearch,
+  nsfReviewers,
 ];
