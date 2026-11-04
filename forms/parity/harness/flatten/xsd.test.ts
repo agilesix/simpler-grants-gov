@@ -3,6 +3,24 @@ import { describe, expect, it } from "vitest";
 import { xsdFields } from "./xsd.ts";
 
 describe("xsdFields", () => {
+  it("selects the declared form root and follows its named complex type", () => {
+    const url = "https://example.test/Named.xsd";
+    const read = () =>
+      '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:f="urn:named" targetNamespace="urn:named"><xs:element name="Unrelated" type="xs:string"/><xs:element name="Form" type="f:Answers"/><xs:complexType name="Answers"><xs:sequence><xs:element name="Name" type="xs:string"/></xs:sequence></xs:complexType></xs:schema>';
+    expect([...xsdFields(url, read, "Form").keys()]).toEqual(["Name"]);
+    expect(() => xsdFields(url, read)).toThrow("expected one root element");
+    expect(() => xsdFields(url, read, "Missing")).toThrow("Missing");
+  });
+
+  it("resolves referenced attributes before excluding fixed metadata", () => {
+    const fields = xsdFields(
+      "https://example.test/Attributes.xsd",
+      () =>
+        '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:f="urn:attributes" targetNamespace="urn:attributes"><xs:attribute name="Kind" type="xs:string" fixed="Non-Construction"/><xs:attribute name="Code" type="xs:string"/><xs:element name="Form"><xs:complexType><xs:attribute ref="f:Kind" use="required"/><xs:attribute ref="f:Code" use="required"/></xs:complexType></xs:element></xs:schema>',
+    );
+    expect([...fields.keys()]).toEqual(["/@Code"]);
+    expect(fields.get("/@Code")?.required).toBe("yes");
+  });
   const FORM = "https://example.test/Form.xsd";
   const LIB = "https://example.test/Lib.xsd";
   const ATT = "https://example.test/Att.xsd";

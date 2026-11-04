@@ -47,6 +47,7 @@ interface Schema {
   simpleTypes: Map<string, XNode>;
   complexTypes: Map<string, XNode>;
   elements: Map<string, XNode>;
+  attributes: Map<string, XNode>;
 }
 
 /** A named declaration and the schema it was declared in, for resolving its own references. */
@@ -82,6 +83,7 @@ class Schemas {
       simpleTypes: new Map(),
       complexTypes: new Map(),
       elements: new Map(),
+      attributes: new Map(),
     };
     if (this.byNamespace.has(schema.targetNamespace))
       return this.byNamespace.get(schema.targetNamespace)!;
@@ -94,7 +96,8 @@ class Schemas {
       } else if (kind === "simpleType") schema.simpleTypes.set(name, child);
       else if (kind === "complexType") schema.complexTypes.set(name, child);
       else if (kind === "element") schema.elements.set(name, child);
-      else if (kind !== "annotation" && kind !== "attribute")
+      else if (kind === "attribute") schema.attributes.set(name, child);
+      else if (kind !== "annotation")
         throw new Error(`unsupported top-level xs:${kind} in ${url}`);
     }
     return schema;
@@ -116,7 +119,7 @@ class Schemas {
   }
 
   find(
-    table: "simpleTypes" | "complexTypes" | "elements",
+    table: "simpleTypes" | "complexTypes" | "elements" | "attributes",
     qname: string,
     from: Schema,
   ): Declared | undefined {
@@ -387,7 +390,15 @@ class Walker {
   }
 
   attribute(node: XNode, schema: Schema, path: Path, required: boolean) {
-    const { name, type, use, fixed } = attrs(node);
+    let declared = attrs(node);
+    if (declared.ref) {
+      const referenced = this.schemas.find("attributes", declared.ref, schema);
+      if (!referenced)
+        throw new Error(`unknown attribute ${declared.ref} in ${path}`);
+      declared = { ...attrs(referenced.node), ...declared };
+      schema = referenced.schema;
+    }
+    const { name, type, use, fixed } = declared;
     if (fixed !== undefined) return;
     const named =
       type && !this.schemas.isBuiltin(type, schema)
@@ -406,18 +417,29 @@ class Walker {
  * Flattens the form XSD at `url`, reading it and every schema it imports through `read`.
  * Elements and attributes with a `fixed` value are constants, not answers, and are left out.
  */
-export function xsdFields(url: string, read: (url: string) => string): Fields {
+export function xsdFields(
+  url: string,
+  read: (url: string) => string,
+  rootName?: string,
+): Fields {
   const schemas = new Schemas(read);
   const schema = schemas.load(url);
-  const roots = [...schema.elements.values()];
+  const selected = rootName ? schema.elements.get(rootName) : undefined;
+  if (rootName && !selected)
+    throw new Error(`root element ${rootName} not found in ${url}`);
+  const roots = selected ? [selected] : [...schema.elements.values()];
   if (roots.length !== 1)
     throw new Error(
       `expected one root element in ${url}, found ${roots.length}`,
     );
   const walker = new Walker(schemas);
-  const complex = childNamed(roots[0], "complexType");
+  const type = attrs(roots[0]).type;
+  const named = type ? schemas.find("complexTypes", type, schema) : undefined;
+  const complex = childNamed(roots[0], "complexType") ?? named?.node;
   if (!complex)
-    throw new Error(`root element of ${url} has no inline complex type`);
-  walker.complex(complex, schema, "", true);
+    throw new Error(
+      `root element of ${url} has no inline or named complex type`,
+    );
+  walker.complex(complex, named?.schema ?? schema, "", true);
   return walker.fields;
 }

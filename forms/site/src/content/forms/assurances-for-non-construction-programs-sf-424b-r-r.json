@@ -1,12 +1,125 @@
 {
   "title": "Assurances for Non-Construction Programs (SF-424B - R & R)",
   "slug": "assurances-for-non-construction-programs-sf-424b-r-r",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["R&R"],
   "category": "Certification & Assurance Forms",
   "apps_count": 1704,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/325",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/RRSF424_SF424B-V1.1_F325.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/RRSF424_SF424B-V1.1.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/RRSF424_SF424B-V1.1_F325.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/RRSF424_SF424B-V1.1_F325.xls",
+  "xsd_root": "Assurances",
+  "omb_number": "4040-0007",
+  "expiration_date": "07/31/2028",
+  "spec_id": "assurances-for-non-construction-programs-sf-424b-r-r",
+  "widgets": ["TextWidget"],
+  "description": "Design prototype for source assurances and four completion values. Generated XML is blocked: the current emitter omits required FormVersionIdentifier. Signing and cover-form population are not implemented.",
+  "notes": [
+    "All four DAT completion fields remain required. The XSD permits their absence; that source distinction is recorded, not used to drop DAT obligations.",
+    "Signature and submitted date are populated by submission, not entered by the applicant. Example values are explicitly synthetic.",
+    "Applicant/title are editable only for the Individual edition; the Mandatory and R&R editions receive those values from their cover form. Read-only annotations do not implement or enforce application ownership.",
+    "The full source declaration and burden statement are retained in the edition-specific layout. The source header burden estimate and detailed statement differ; no revised burden estimate is proposed.",
+    "The original Global-V1.0 FormVersionIdentifier type does not fix a value. The XML target declares the registered edition 1.1 as a default, but the current emitter does not write that scalar default. The XSD target retains the source string type and bounds; this technical mapping choice is reviewable, not a claim that the source XSD fixes the value.",
+    "Candidate structured instruction display is under design review. Instructions are UI content, not new applicant answers; API/submission integration and source-policy decisions are separate.",
+    "FormVersionIdentifier is required XML metadata; its authored edition1.1 default is not currently emitted; it is not an applicant answer or UI field. DAT does not contain a corresponding answer row.",
+    "Instruction display is a review candidate using an explicit Instructions Group; no signing, prefill, API installation or production acceptance is implied."
+  ],
+  "risks": [
+    "Both fresh generated XML examples fail the original XSD because required glob:FormVersionIdentifier is missing. Keep this as a design draft until shared constant/default-element support is reviewed and actual output validates. A structural parity pass does not resolve this output gate.",
+    "SGG integration must populate and protect context-owned values. A library preview and synthetic XML witness do not prove actual signing, prefill or submission.",
+    "This definition-only design does not implement actual cover-form population, legal signing or submission.",
+    "The migration issue currently says no new UI components; the shared instruction-display experiment requires explicit scope/design review."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "ASSURANCES - NON-CONSTRUCTION PROGRAMS",
+      "widget": "Instructions",
+      "help_text": "<p>Public reporting burden for this collection of information is estimated to average 15 minutes per response, including time for reviewing instructions, searching existing data sources, gathering and maintaining the data needed, and completing and reviewing the collection of information. Send comments regarding the burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden, to the Office of Management and Budget, Paperwork Reduction Project (0348-0040), Washington, DC 20503.</p><p><strong>PLEASE DO NOT RETURN YOUR COMPLETED FORM TO THE OFFICE OF MANAGEMENT AND BUDGET. SEND IT TO THE ADDRESS PROVIDED BY THE SPONSORING AGENCY.</strong></p><p><strong>NOTE:</strong> Certain of these assurances may not be applicable to your project or program. If you have questions, please contact the  awarding agency. Further, certain Federal awarding agencies may require applicants to certify to additional assurances. If such is the case, you will be notified.</p><p>As the duly authorized representative of the applicant, I certify that the applicant:</p><ol><li>Has the legal authority to apply for Federal assistance  and the institutional, managerial and financial capability  (including funds sufficient to pay the non-Federal share  of project cost) to ensure proper planning, management  and completion of the project described in this  application.</li><li>Will give the awarding agency, the Comptroller General  of the United States and, if appropriate, the State,  through any authorized representative, access to and  the right to examine all records, books, papers, or  documents related to the award; and will establish a  proper accounting system in accordance with generally  accepted accounting standards or agency directives.</li><li>Will establish safeguards to prohibit employees from  using their positions for a purpose that constitutes or  presents the appearance of personal or organizational  conflict of interest, or personal gain.</li><li>Will initiate and complete the work within the applicable  time frame after receipt of approval of the awarding  agency.</li><li>Will comply with the Intergovernmental Personnel Act of  1970 (42 U.S.C. §§4728-4763) relating to prescribed  standards for merit systems for programs funded under  one of the 19 statutes or regulations specified in  Appendix A of OPM&#x27;s Standards for a Merit System of  Personnel Administration (5 C.F.R. 900, Subpart F).</li><li>Will comply with all Federal statutes relating to  nondiscrimination. These include but are not limited to:  (a) Title VI of the Civil Rights Act of 1964 (P.L. 88-352)  which prohibits discrimination on the basis of race, color  or national origin; (b) Title IX of the Education  Amendments of 1972, as amended (20 U.S.C. §§1681-  1683, and 1685-1686), which prohibits discrimination on  the basis of sex; (c) Section 504 of the Rehabilitation Act of 1973, as amended (29 U.S.C. §794), which  prohibits discrimination on the basis of handicaps; (d)  the Age Discrimination Act of 1975, as amended (42  U.S.C. §§6101-6107), which prohibits discrimination  on the basis of age; (e) the Drug Abuse Office and  Treatment Act of 1972 (P.L. 92-255), as amended,  relating to nondiscrimination on the basis of drug  abuse; (f) the Comprehensive Alcohol Abuse and  Alcoholism Prevention, Treatment and Rehabilitation  Act of 1970 (P.L. 91-616), as amended, relating to  nondiscrimination on the basis of alcohol abuse or  alcoholism; (g) §§523 and 527 of the Public Health  Service Act of 1912 (42 U.S.C. §§290 dd-3 and 290 ee-  3), as amended, relating to confidentiality of alcohol  and drug abuse patient records; (h) Title VIII of the  Civil Rights Act of 1968 (42 U.S.C. §§3601 et seq.), as  amended, relating to nondiscrimination in the sale,  rental or financing of housing; (i) any other  nondiscrimination provisions in the specific statute(s)  under which application for Federal assistance is being  made; and, (j) the requirements of any other  nondiscrimination statute(s) which may apply to the  application.</li><li>Will comply, or has already complied, with the  requirements of Titles II and III of the Uniform  Relocation Assistance and Real Property Acquisition  Policies Act of 1970 (P.L. 91-646) which provide for  fair and equitable treatment of persons displaced or  whose property is acquired as a result of Federal or  federally-assisted programs. These requirements apply  to all interests in real property acquired for project  purposes regardless of Federal participation in  purchases.</li><li>Will comply, as applicable, with provisions of the  Hatch Act (5 U.S.C. §§1501-1508 and 7324-7328)  which limit the political activities of employees whose  principal employment activities are funded in whole or  in part with Federal funds.</li><li>Will comply, as applicable, with the provisions of the Davis-  Bacon Act (40 U.S.C. §§276a to 276a-7), the Copeland Act  (40 U.S.C. §276c and 18 U.S.C. §874), and the Contract  Work Hours and Safety Standards Act (40 U.S.C. §§327-  333), regarding labor standards for federally-assisted  construction subagreements.</li><li>Will comply, if applicable, with flood insurance purchase  requirements of Section 102(a) of the Flood Disaster  Protection Act of 1973 (P.L. 93-234) which requires  recipients in a special flood hazard area to participate in the  program and to purchase flood insurance if the total cost of  insurable construction and acquisition is $10,000 or more.</li><li>Will comply with environmental standards which may be  prescribed pursuant to the following: (a) institution of  environmental quality control measures under the National  Environmental Policy Act of 1969 (P.L. 91-190) and  Executive Order (EO) 11514; (b) notification of violating  facilities pursuant to EO 11738; (c) protection of wetlands  pursuant to EO 11990; (d) evaluation of flood hazards in  floodplains in accordance with EO 11988; (e) assurance of  project consistency with the approved State management  program developed under the Coastal Zone Management  Act of 1972 (16 U.S.C. §§1451 et seq.); (f) conformity of  Federal actions to State (Clean Air) Implementation Plans  under Section 176(c) of the Clean Air Act of 1955, as  amended (42 U.S.C. §§7401 et seq.); (g) protection of  underground sources of drinking water under the Safe  Drinking Water Act of 1974, as amended (P.L. 93-523);  and, (h) protection of endangered species under the  Endangered Species Act of 1973, as amended (P.L. 93-  205).</li><li>Will comply with the Wild and Scenic Rivers Act of  1968 (16 U.S.C. §§1271 et seq.) related to protecting  components or potential components of the national  wild and scenic rivers system.</li><li>Will assist the awarding agency in assuring compliance  with Section 106 of the National Historic Preservation  Act of 1966, as amended (16 U.S.C. §470), EO 11593  (identification and protection of historic properties), and  the Archaeological and Historic Preservation Act of  1974 (16 U.S.C. §§469a-1 et seq.).</li><li>Will comply with P.L. 93-348 regarding the protection of  human subjects involved in research, development, and  related activities supported by this award of assistance.</li><li>Will comply with the Laboratory Animal Welfare Act of  1966 (P.L. 89-544, as amended, 7 U.S.C. §§2131 et  seq.) pertaining to the care, handling, and treatment of  warm blooded animals held for research, teaching, or  other activities supported by this award of assistance.</li><li>Will comply with the Lead-Based Paint Poisoning  Prevention Act (42 U.S.C. §§4801 et seq.) which  prohibits the use of lead-based paint in construction or  rehabilitation of residence structures.</li><li>Will cause to be performed the required financial and  compliance audits in accordance with the Single Audit  Act Amendments of 1996 and OMB Circular No. A-133,  &quot;Audits of States, Local Governments, and Non-Profit  Organizations.&quot;</li><li>Will comply with all applicable requirements of all other  Federal laws, executive orders, regulations, and policies  governing this program.</li><li>Will comply with the requirements of Section 106(g) of the Trafficking Victims Protection Act (TVPA) of 2000, as amended (22 U.S.C. 7104) which prohibits grant award recipients or a sub-recipient from (1) Engaging in severe forms of trafficking in persons during the period of time that the award is in effect (2) Procuring a commercial sex act during the period of time that the award is in effect or (3) Using forced labor in the performance of the award or subawards under the award.</li></ol>",
+      "notes": [
+        "Source DAT fields: 00-3, 00-4, 00-5, 00-6, 00-7, 01-0, 02-0, 03-0, 04-0, 05-0, 06-0, 07-0, 08-0, 09-0, 10-0, 11-0, 12-0, 13-0, 14-0, 15-0, 16-0, 17-0, 18-0, 18-0-1. preserve."
+      ],
+      "children": [],
+      "dat_field": "00-3, 00-4, 00-5, 00-6, 00-7, 01-0, 02-0, 03-0, 04-0, 05-0, 06-0, 07-0, 08-0, 09-0, 10-0, 11-0, 12-0, 13-0, 14-0, 15-0, 16-0, 17-0, 18-0, 18-0-1"
+    },
+    {
+      "kind": "section",
+      "label": "Authorized Representative",
+      "json_path": "authorized_representative",
+      "xml_path": "RRSF424_SF424B:AuthorizedRepresentative",
+      "children": [
+        {
+          "kind": "field",
+          "label": "SIGNATURE OF AUTHORIZED CERTIFYING OFFICIAL",
+          "dat_field": "19-0",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Completed on submission to Grants.gov.",
+          "constraints": "minLength 1, maxLength 144",
+          "json_path": "authorized_representative.signature",
+          "xml_path": "RRSF424_SF424B:AuthorizedRepresentative/RRSF424_SF424B:RepresentativeName",
+          "post_populated": "Submission-owned signature placeholder; completed on submission to Grants.gov."
+        },
+        {
+          "kind": "field",
+          "label": "TITLE",
+          "dat_field": "19-1",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the title of the official certifying that the applicant organization will comply with the requirements set forth in this assurance form. This field is required.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "authorized_representative.title",
+          "xml_path": "RRSF424_SF424B:AuthorizedRepresentative/RRSF424_SF424B:RepresentativeTitle",
+          "pre_populated": "SF424 22-6 AuthorizedRepresentativeTitle\nSF424 R&R 19-6 Title\nSF424 Mandatory 18-5 AuthorizedRepresentativeTitle; non-editable when forward-populated."
+        }
+      ]
+    },
+    {
+      "kind": "field",
+      "label": "APPLICANT ORGANIZATION",
+      "dat_field": "19-2",
+      "required": true,
+      "type": "Text input",
+      "widget": "TextWidget",
+      "help_text": "Enter the name of the applicant organization. This field is required.",
+      "constraints": "minLength 1, maxLength 60",
+      "json_path": "applicant_organization_name",
+      "xml_path": "RRSF424_SF424B:ApplicantOrganizationName",
+      "pre_populated": "SF424 8-a OrganizationName\nSF424 R&R 5-2 OrganizationName\nSF424 Mandatory 7a-1 OrganizationName\n; non-editable when forward-populated."
+    },
+    {
+      "kind": "field",
+      "label": "DATE SUBMITTED",
+      "dat_field": "19-3",
+      "required": true,
+      "type": "Date",
+      "widget": "TextWidget",
+      "help_text": "Completed on submission to Grants.gov.",
+      "constraints": "format date",
+      "json_path": "submitted_date",
+      "xml_path": "RRSF424_SF424B:SubmittedDate",
+      "post_populated": "Submission-owned date; completed on submission to Grants.gov."
+    },
+    {
+      "kind": "section",
+      "label": "Printed form references",
+      "widget": "Instructions",
+      "help_text": "<p>Previous Edition Usable</p><p>Standard Form 424B (Rev. 7-97)</p><p>Prescribed by OMB Circular A-102</p><p>Authorized for Local Reproduction</p><p>Standard Form 424B (Rev. 7-97) Back</p>",
+      "notes": ["Source DAT fields: 08-1, 08-2, 08-3, 08-4, 19-4. preserve."],
+      "children": [],
+      "dat_field": "08-1, 08-2, 08-3, 08-4, 19-4"
+    },
+    {
+      "kind": "section",
+      "label": "Detailed burden statement",
+      "help_text": "SF-424B Assurances – Non-Construction Programs Form (4040-0007)\n\nAccording to the Paperwork Reduction Act of 1995, an agency may not conduct or sponsor, and a person is not required to respond to a collection of information unless it displays a valid OMB control number.  The valid OMB control number for this information collection is 4040-0007.  The time required to complete this information collection is estimated to average 49 minutes per response, including the time to review instructions, search existing data resources, gather the data needed and complete and review the information collection.  If you have comments concerning the accuracy of the time estimate(s) or suggestions for improving this form, please write to:  U.S. Department of Health & Human Services, OS/OCIO/PRA, 200 Independence Ave., S.W., Suite 537-H, Washington D.C. 20201,  Attention: PRA Reports Clearance Officer.\n\nAgency    Total           Average Burden    Total Burden\n               Responses  per response in    Hours\n                                 Hours\n\nUSDA      6202           15/60                   1551\nNARA      145             15/60                   36\nCNCS      10               30/60                   5\nTREAS    191             15/60                   48\nDOI          3848           22/60                  1404\nVA          184              15/60                  46\nDOC        5685            15/60                  1421\nEPA        9098            1.82                    16585\nDHS        150              1                        150\nHHS        978              15/60                  245\nTotal        26491                                    21491\n\n21491 total hrs. x 60 min. = 1289460 total minutes\n\n1289460 / 26491 total responses = 49 minutes per response",
+      "notes": [
+        "Source DAT fields: 00-0. preserve exact plain text; source table legibility requires separate review."
+      ],
+      "children": []
+    }
+  ]
 }
