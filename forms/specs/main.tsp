@@ -5,4 +5,5 @@ import "./forms/nsf-key-person-expanded/index.tsp";
 import "./forms/rr-key-person-expanded/index.tsp";
 import "./forms/rr-key-person/index.tsp";
 import "./forms/performance-sites/index.tsp";
+import "./forms/assurances-for-non-construction-programs-sf-424b-r-r/index.tsp";
 import "./forms/usda-ad-3030/index.tsp";

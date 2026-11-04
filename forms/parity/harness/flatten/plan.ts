@@ -46,6 +46,8 @@ export interface Plan<F extends PlanField = PlanField> {
   /** `MM/DD/YYYY`, as Grants.gov's form listing writes it. */
   expiration_date?: string;
   xsd_url?: string;
+  /** Explicit form root for XSDs that also declare reusable global elements. */
+  xsd_root?: string;
   dat_url?: string;
   children?: PlanNode<F>[];
 }

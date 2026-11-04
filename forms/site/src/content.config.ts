@@ -59,6 +59,7 @@ const formSchema = z.object({
   fid_url: z.url().optional(),
   pdf_url: z.url().optional(),
   xsd_url: z.url().optional(),
+  xsd_root: z.string().optional(),
   dat_url: z.url().optional(),
   apps_count: z.number().optional().default(0),
   status: z.enum([
