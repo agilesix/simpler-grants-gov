@@ -14,6 +14,7 @@ namespace Forms.SF424Individual;
   id: "sf424-individual",
   formName: "Application for Federal Domestic Assistance - Individual",
 })
+@Sgg.sync(#{ xml: "mapping" })
 @GrantsGov.form(#{
   legacyFormId: 668,
   shortFormName: "SF424_Individual",

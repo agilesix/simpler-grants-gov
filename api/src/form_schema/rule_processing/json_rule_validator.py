@@ -1,5 +1,6 @@
 import logging
 import typing
+from datetime import date
 
 from src.api.response import ValidationErrorDetail
 from src.form_schema.rule_processing.json_rule_context import JsonRule, JsonRuleContext
@@ -92,7 +93,32 @@ def validate_attachments(context: JsonRuleContext, json_rule: JsonRule) -> None:
         )
 
 
-VALIDATION_RULES = {"attachment": validate_attachments}
+def validate_date_not_before(context: JsonRuleContext, json_rule: JsonRule) -> None:
+    """Compare two date-only answers in the same object; schema validation owns type/format."""
+    source_field = json_rule.rule.get("source_field")
+    if not isinstance(source_field, str) or not source_field:
+        logger.warning("date_not_before requires source_field", extra=json_rule.get_log_context())
+        return
+    value = get_nested_value(context.json_data, json_rule.path)
+    source = get_nested_value(context.json_data, [*json_rule.path[:-1], source_field])
+    if not isinstance(value, str) or not isinstance(source, str):
+        return
+    try:
+        invalid_order = date.fromisoformat(value) < date.fromisoformat(source)
+    except ValueError:
+        return
+    if invalid_order:
+        context.validation_issues.append(
+            ValidationErrorDetail(
+                type=ValidationErrorType.INVALID_DATE_ORDER,
+                message="End date must be the same as or later than start date",
+                field=build_path_str(json_rule.path),
+                value=value,
+            )
+        )
+
+
+VALIDATION_RULES = {"attachment": validate_attachments, "date_not_before": validate_date_not_before}
 
 
 def handle_validation(context: JsonRuleContext, json_rule: JsonRule) -> None:

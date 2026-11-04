@@ -19,6 +19,7 @@ from .project_abstract_summary import ProjectAbstractSummary_v2_0
 from .project_narrative_attachment import ProjectNarrativeAttachment_v1_2
 from .project_performance_site_location import ProjectPerformanceSiteLocation_v4_0
 from .sf424 import SF424_v4_0
+from .sf424_individual_generated import FORM as SF424Individual_v2_0
 from .sf424_short import SF424Short_v3_0
 from .sf424a import SF424a_v1_0
 from .sf424b import SF424b_v1_1
@@ -30,6 +31,7 @@ from .supplementary_neh_cover_sheet import SupplementaryNEHCoverSheet_v3_0
 logger = logging.getLogger(__name__)
 
 _ALL_FORMS: list[Form] = [
+    SF424Individual_v2_0,
     SF424_v4_0,
     SF424Short_v3_0,
     SF424a_v1_0,
