@@ -24,7 +24,7 @@ enum Namespaces {
 @GrantsGov.xsd("https://apply07.grants.gov/apply/forms/schemas/RRSF424_SF424B-V1.1.xsd")
 @Mapping.from(grantsGovXml, Assurances)
 model Root {
-  // Initialized from the form edition; the source type itself is not a fixed literal.
+  // Source edition metadata; the current XML mapping emitter omits this scalar default.
   @name("FormVersionIdentifier")
   @ns(Namespaces.glob)
   @minLength(1)
