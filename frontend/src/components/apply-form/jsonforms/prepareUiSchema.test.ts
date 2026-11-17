@@ -76,16 +76,9 @@ describe("prepareJsonFormsUiSchema", () => {
     );
   });
 
-  it("warns about each rule inside a list, since it won't be applied", () => {
+  it("does not warn about a rule inside a list, which JSON Forms applies to the entry", () => {
     prepare();
 
-    expect(mockLoggerWarn).toHaveBeenCalledWith(
-      {
-        formId: "form1",
-        formName: "Test",
-        control: "#/properties/contacts -> #/properties/role",
-      },
-      expect.stringContaining("won't be applied"),
-    );
+    expect(mockLoggerWarn).toHaveBeenCalledTimes(1);
   });
 });

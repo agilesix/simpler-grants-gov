@@ -1,8 +1,4 @@
-import {
-  RuleEffect,
-  type ControlElement,
-  type UISchemaElement,
-} from "@jsonforms/core";
+import { type ControlElement, type UISchemaElement } from "@jsonforms/core";
 import { RJSFSchema } from "@rjsf/utils";
 import { validateUiSchema } from "src/utils/applyForm/validateUiSchema";
 
@@ -240,7 +236,7 @@ describe("controlToNodes", () => {
       ]);
     });
 
-    it("leaves out a list nested in the entry, and reports it", () => {
+    it("lists the fields of a list nested in the entry beneath its items, so their warnings match", () => {
       const listControl = list([
         control("#/properties/role"),
         control("#/properties/phones"),
@@ -248,30 +244,17 @@ describe("controlToNodes", () => {
 
       expect(childDefinitions(listControl)).toEqual([
         ["field", "/properties/contacts/items/properties/role"],
+        [
+          "field",
+          "/properties/contacts/items/properties/phones/items/properties/number",
+        ],
       ]);
       expect(
         convertJsonFormsUiSchema(listControl, listSchema).unsupportedControls,
-      ).toEqual(["#/properties/contacts -> #/properties/phones"]);
-    });
-
-    it("reports the rules on the entry's fields, which the field list does not apply", () => {
-      const uiSchema = {
-        type: "Group",
-        elements: [
-          list([
-            control("#/properties/role", {
-              rule: {
-                effect: RuleEffect.ENABLE,
-                condition: { scope: "#/properties/name", schema: {} },
-              },
-            }),
-          ]),
-        ],
-      } as UISchemaElement;
-
+      ).toEqual([]);
       expect(
-        convertJsonFormsUiSchema(uiSchema, listSchema).ignoredListRules,
-      ).toEqual(["#/properties/contacts -> #/properties/role"]);
+        validateUiSchema(controlToNodes(listControl, listSchema)),
+      ).toBeFalsy();
     });
 
     it("follows the nested list's own detail", () => {
