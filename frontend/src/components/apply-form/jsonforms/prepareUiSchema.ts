@@ -37,11 +37,5 @@ export const prepareJsonFormsUiSchema = ({
       "Form has a control that can't be rendered by any widget. It won't be shown, and no answer will be collected for it",
     );
   }
-  for (const control of converted.ignoredListRules) {
-    logger.warn(
-      { formId, formName, control },
-      "Form has a rule on a field inside a list that won't be applied. The field will always be shown and enabled",
-    );
-  }
   return converted.uiSchema;
 };

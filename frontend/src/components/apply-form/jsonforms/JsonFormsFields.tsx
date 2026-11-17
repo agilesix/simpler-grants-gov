@@ -9,7 +9,14 @@ import {
   shapeFormData,
 } from "src/utils/applyForm/applyFormUtils";
 
-import { useCallback, useMemo, useRef, useState, type FormEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
 
 import type { RenderFieldNodeProps } from "src/components/apply-form/FormFields";
 import type { JsonFormsUiSchema } from "./convertUiSchema";
@@ -51,6 +58,12 @@ export const JsonFormsFields = ({
   extraRenderers?: JsonFormsRendererRegistryEntry[];
 }) => {
   const [ruleData, setRuleData] = useState<object>(formData);
+  const container = useRef<HTMLDivElement>(null);
+  const [refreshRequests, setRefreshRequests] = useState(0);
+  const requestRuleDataRefresh = useCallback(
+    () => setRefreshRequests((requests) => requests + 1),
+    [],
+  );
   const allRenderers = useMemo(
     () => [...renderers, ...extraRenderers],
     [extraRenderers],
@@ -66,8 +79,18 @@ export const JsonFormsFields = ({
       formContext,
       isFormLocked,
       print,
+      requestRuleDataRefresh,
     }),
-    [schema, formData, errors, uiSchema, formContext, isFormLocked, print],
+    [
+      schema,
+      formData,
+      errors,
+      uiSchema,
+      formContext,
+      isFormLocked,
+      print,
+      requestRuleDataRefresh,
+    ],
   );
 
   // Most inputs fire both onInput and onChange for one native event; refresh once.
@@ -82,9 +105,17 @@ export const JsonFormsFields = ({
     [schema],
   );
 
+  // A change that fires no input event, such as removing a list entry, asks for a refresh,
+  // which reads the form once it has rendered the change.
+  useEffect(() => {
+    if (!refreshRequests) return;
+    const form = container.current?.closest("form");
+    if (form) setRuleData(shapeFormData(new FormData(form), schema));
+  }, [refreshRequests, schema]);
+
   return (
     <AdapterContext.Provider value={adapterContext}>
-      <div onInput={refreshRuleData} onChange={refreshRuleData}>
+      <div ref={container} onInput={refreshRuleData} onChange={refreshRuleData}>
         <JsonForms
           schema={schema as object}
           uischema={uiSchema}

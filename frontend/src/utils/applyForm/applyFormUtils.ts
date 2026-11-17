@@ -18,7 +18,10 @@ import {
   JSON_SCHEMA_NESTING_DELIMITER,
   VALIDATION_ERROR_NESTING_DELIMITER,
 } from "src/utils/formData/formDataUtils";
-import { isBasicallyAnObject } from "src/utils/generalUtils";
+import {
+  escapeRegExpString,
+  isBasicallyAnObject,
+} from "src/utils/generalUtils";
 
 const nestedWarningsForField = ({
   definition,
@@ -131,21 +134,10 @@ export const findValidationErrors = (
     if (error.field === path) {
       return true;
     }
-    const fieldListMatch = definition?.match(
-      /^\/properties\/([^/]+)\/items\/properties\/(.+)$/,
-    );
-
-    if (!fieldListMatch) {
-      return false;
-    }
-    const [, fieldListName, childDefinitionPath] = fieldListMatch;
-    const childFieldPath = childDefinitionPath.replace(
-      /\/properties\//g,
-      VALIDATION_ERROR_NESTING_DELIMITER,
-    );
-    return new RegExp(
-      `^\\$\\.${fieldListName}\\[(\\d+)\\]\\.${childFieldPath}$`,
-    ).test(error.field);
+    const listFieldPattern = definition
+      ? listFieldWarningPattern(definition)
+      : undefined;
+    return listFieldPattern ? listFieldPattern.test(error.field) : false;
   });
 
   if (directWarnings.length > 0) {
@@ -339,38 +331,51 @@ export function getHtmlFieldForWarning({
   field?: string;
   schema?: SchemaField;
 }): string | undefined {
-  const match = definition
-    ? definition.match(/^\/properties\/([^/]+)\/items\/properties\/(.+)$/)
-    : null;
+  const listFieldPattern = definition
+    ? listFieldWarningPattern(definition)
+    : undefined;
 
-  if (!match) {
+  if (!definition || !listFieldPattern) {
     return getFieldNameForHtml({
       definition,
       schema,
     });
   }
 
-  const [, fieldListName, childDefinitionPath] = match;
-  const childFieldPath = childDefinitionPath.replace(
-    /\/properties\//g,
-    VALIDATION_ERROR_NESTING_DELIMITER,
-  );
-  const childHtmlPath = childFieldPath.replace(
-    /\./g,
-    FORM_DATA_NESTING_DELIMITER,
-  );
-
-  const entryMatch = field?.match(
-    new RegExp(`^\\$\\.${fieldListName}\\[(\\d+)\\]\\.${childFieldPath}$`),
-  );
-
-  if (entryMatch) {
-    const [, entryIndex] = entryMatch;
-    return `${fieldListName}[${entryIndex}]--${childHtmlPath}`;
+  if (field && listFieldPattern.test(field)) {
+    return pointerToFieldName(field);
   }
 
-  return `${fieldListName}[0]--${childHtmlPath}`;
+  // Without an entry-aware path, point at the first entry of each list.
+  return pointerToFieldName(
+    jsonSchemaPointerToPath(definition).replace(/\.items/g, "[0]"),
+  );
 }
+
+/**
+ * Matches the validation paths of a field inside a list, in any entry. Each list level is
+ * an `items` segment in the definition and an index in the path:
+ * `/properties/a/items/properties/b/items/properties/c` matches `$.a[0].b[2].c`.
+ * Returns undefined for a field that isn't in a list.
+ */
+const listFieldWarningPattern = (definition: string): RegExp | undefined => {
+  if (!/^\/properties\/[^/]+\/items\/properties\/.+$/.test(definition)) {
+    return undefined;
+  }
+  const parts = definition.split(JSON_SCHEMA_NESTING_DELIMITER).slice(1);
+  let source = "";
+  for (let index = 0; index < parts.length; index++) {
+    if (parts[index] === "items") {
+      source += "\\[\\d+\\]";
+    } else if (parts[index] === "properties") {
+      index++;
+      source += `\\${VALIDATION_ERROR_NESTING_DELIMITER}${escapeRegExpString(parts[index] ?? "")}`;
+    } else {
+      return undefined;
+    }
+  }
+  return new RegExp(`^\\$${source}$`);
+};
 
 // Finds the parent FieldList label for a child field definition so it can be
 // used in summary text like "First Name is required (Contact People, Entry 2)".

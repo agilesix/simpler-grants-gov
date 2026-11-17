@@ -587,4 +587,50 @@ describe("FieldListWidget", () => {
     expect(childProps).toHaveLength(2);
     childProps.forEach((props) => expect(props.formContext).toBe(formContext));
   });
+
+  it("renders each entry with renderEntry in place of the group definition", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <FieldListWidget
+        id="contacts"
+        key="contacts"
+        schema={{ type: "array", title: "Contacts" }}
+        label="Contacts"
+        value={[{ first_name: "Ada" }]}
+        groupDefinition={[]}
+        rawErrors={[]}
+        name="contacts"
+        renderEntry={({
+          entryIndex,
+          entryValue,
+          entryHeadingId,
+          onFieldChange,
+        }) => (
+          <input
+            aria-label={`entry ${entryIndex + 1}`}
+            aria-describedby={entryHeadingId}
+            value={(entryValue.first_name as string | undefined) ?? ""}
+            onChange={(event) =>
+              onFieldChange(["first_name"], event.target.value)
+            }
+          />
+        )}
+      />,
+    );
+
+    const first = screen.getByRole("textbox", { name: "entry 1" });
+    expect(first).toHaveValue("Ada");
+    expect(first).toHaveAttribute(
+      "aria-describedby",
+      screen.getByRole("heading", { name: /contacts\s+1/i }).id,
+    );
+    expect(screen.queryByTestId("mock-widget")).not.toBeInTheDocument();
+
+    await user.type(first, "!");
+    expect(first).toHaveValue("Ada!");
+
+    await user.click(screen.getByRole("button", { name: /addEntry/i }));
+    expect(screen.getByRole("textbox", { name: "entry 2" })).toHaveValue("");
+  });
 });

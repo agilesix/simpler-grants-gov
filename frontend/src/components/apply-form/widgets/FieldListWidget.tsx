@@ -276,6 +276,7 @@ function FieldListEntry({
   minItemsHeading,
   minItemsHelperText,
   formContext,
+  renderEntry,
 }: {
   entryId: string;
   entryIndex: number;
@@ -292,6 +293,7 @@ function FieldListEntry({
   minItemsHeading?: string;
   minItemsHelperText?: string;
   formContext?: UswdsWidgetProps["formContext"];
+  renderEntry?: FieldListWidgetProps["renderEntry"];
 }) {
   const t = useTranslations("Application.applyForm.fieldListWidget");
   const fieldListId = fieldListPath.replace("$.", "").replace(/\W/g, "-");
@@ -304,6 +306,16 @@ function FieldListEntry({
           {entryLabel} {entryIndex + 1}
         </h4>
       </div>
+
+      {renderEntry?.({
+        entryId,
+        entryIndex,
+        entryValue,
+        entryHeadingId,
+        isInteractionDisabled,
+        onFieldChange: (storagePath, nextValue) =>
+          handleFieldChange({ entryId, storagePath, nextValue }),
+      })}
 
       {groupDefinition.map((groupItem: FieldListGroupItem) => {
         const isRequired = isFieldRequired(
@@ -618,6 +630,7 @@ function FieldListWidget(widgetProps: FieldListWidgetProps) {
             minItemsHeading={resolvedMinItemsHeading}
             minItemsHelperText={resolvedMinItemsHelperText}
             formContext={widgetProps.formContext}
+            renderEntry={widgetProps.renderEntry}
           />
         );
       })}

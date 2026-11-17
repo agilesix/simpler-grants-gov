@@ -1254,6 +1254,21 @@ describe("addPrintWidgetToFields", () => {
       ).toBe("contact_people_test[0]--first_name");
     });
 
+    it("builds an html field with each entry's index for a list inside a list entry", () => {
+      const definition =
+        "/properties/people/items/properties/phones/items/properties/number";
+
+      expect(
+        getHtmlFieldForWarning({
+          definition,
+          field: "$.people[1].phones[2].number",
+        }),
+      ).toBe("people[1]--phones[2]--number");
+      expect(getHtmlFieldForWarning({ definition, field: "$.people" })).toBe(
+        "people[0]--phones[0]--number",
+      );
+    });
+
     it("falls back to standard html field generation for non-FieldList definitions", () => {
       expect(
         getHtmlFieldForWarning({
@@ -1389,6 +1404,57 @@ describe("addPrintWidgetToFields", () => {
           htmlField: "contact_people_test[2]--first_name",
           formatted: "First Name is required",
           fieldListLabel: "Contact People",
+        }),
+      ]);
+    });
+
+    it("matches a warning on a field in a list inside a list entry to that field", () => {
+      const definition =
+        "/properties/people/items/properties/phones/items/properties/number";
+      const formSchema: RJSFSchema = {
+        type: "object",
+        properties: {
+          people: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                phones: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: { number: { type: "string", title: "Number" } },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+      const warnings = [
+        {
+          field: "$.people[0].phones[1].number",
+          message: "'number' is a required property",
+          type: "required",
+          value: null,
+        },
+        {
+          field: "$.people[0].phones",
+          message: "[] should be non-empty",
+          type: "minItems",
+          value: null,
+        },
+      ];
+
+      expect(
+        findValidationErrors(warnings, definition, undefined, formSchema, [
+          { type: "fieldList", name: "people", label: "People", children: [] },
+        ]),
+      ).toEqual([
+        expect.objectContaining({
+          field: "$.people[0].phones[1].number",
+          htmlField: "people[0]--phones[1]--number",
+          fieldListLabel: "People",
         }),
       ]);
     });

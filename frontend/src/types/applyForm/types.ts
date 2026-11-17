@@ -7,7 +7,7 @@ import {
   UIOptionsType,
 } from "@rjsf/utils";
 
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
 export type GeneralRecord = Record<string, unknown>;
 
@@ -167,6 +167,24 @@ export type FieldListWidgetProps = {
   readOnly?: boolean;
   isFormLocked?: boolean;
   formContext?: UswdsWidgetProps["formContext"];
+  /**
+   * Renders an entry's fields, for a renderer that lays out the entry itself; pair it with
+   * an empty `groupDefinition`. The widget still supplies the headings, add and delete.
+   */
+  renderEntry?: (entry: FieldListEntryRenderProps) => ReactNode;
+};
+
+/** What `FieldListWidgetProps.renderEntry` gets for one entry. */
+export type FieldListEntryRenderProps = {
+  /** Stable across adds and deletes, unlike `entryIndex`. */
+  entryId: string;
+  entryIndex: number;
+  entryValue: GeneralRecord;
+  /** Every field in the entry is described by its heading. */
+  entryHeadingId: string;
+  isInteractionDisabled: boolean;
+  /** Records a field's new value at its path within the entry. */
+  onFieldChange: (storagePath: string[], nextValue: unknown) => void;
 };
 
 export type FieldListChildWidgetTypes = Exclude<

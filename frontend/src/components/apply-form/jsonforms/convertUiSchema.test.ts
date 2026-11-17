@@ -273,6 +273,28 @@ describe("controlToNodes", () => {
         convertJsonFormsUiSchema(uiSchema, listSchema).ignoredListRules,
       ).toEqual(["#/properties/contacts -> #/properties/role"]);
     });
+
+    it("follows the nested list's own detail", () => {
+      expect(
+        childDefinitions(
+          list([
+            control("#/properties/phones", {
+              options: {
+                detail: {
+                  type: "VerticalLayout",
+                  elements: [control("#/properties/number")],
+                },
+              },
+            }),
+          ]),
+        ),
+      ).toEqual([
+        [
+          "field",
+          "/properties/contacts/items/properties/phones/items/properties/number",
+        ],
+      ]);
+    });
   });
 });
 

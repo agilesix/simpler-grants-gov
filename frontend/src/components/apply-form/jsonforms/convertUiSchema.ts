@@ -30,8 +30,6 @@ export type ConvertedUiSchema = {
   uiSchema: UiSchema;
   /** Controls a widget can't render, which are skipped. */
   unsupportedControls: string[];
-  /** Rules on fields inside a list, which the field-list widget doesn't apply. */
-  ignoredListRules: string[];
 };
 
 type FieldNode = UiSchemaField | UiSchemaFieldList;
@@ -77,7 +75,6 @@ export const convertJsonFormsUiSchema = (
 ): ConvertedUiSchema => ({
   uiSchema: jsonFormsToUiSchema(uiSchema, schema),
   unsupportedControls: findUnsupportedControls(uiSchema, schema),
-  ignoredListRules: findIgnoredListRules(uiSchema),
 });
 
 /**
@@ -126,7 +123,6 @@ export const controlToNodes = (
     if (!rootProperty) return [];
     const name = rootProperty[1];
     const itemsBase: Definition = `${definition}/items`;
-    const layout = entryLayout(control);
     return [
       {
         type: "fieldList",
@@ -137,12 +133,11 @@ export const controlToNodes = (
           name,
         // The control's help text is about the list on this form, so it wins over the schema's.
         description: options.description ?? fieldSchema.description,
-        children: layout
-          ? entryFields(layout, schema, itemsBase)
-          : leafDefinitions(items, itemsBase).map((childDefinition) => ({
-              type,
-              definition: childDefinition,
-            })),
+        children: entryFields(
+          entryLayout(control, items, options.readonly),
+          schema,
+          itemsBase,
+        ),
       },
     ];
   }
@@ -184,7 +179,7 @@ const findUnsupportedControls = (
   if (isControlElement(uiSchema)) {
     if (!controlToNodes(uiSchema, schema).length) return [uiSchema.scope];
     // A list's entries are laid out by its detail; report a field there no widget renders.
-    const layout = entryLayout(uiSchema);
+    const layout = detailLayout(uiSchema);
     const definition = scopeToDefinition(uiSchema.scope);
     return layout && definition
       ? droppedEntryScopes(layout, schema, `${definition}/items`).map(
@@ -196,27 +191,6 @@ const findUnsupportedControls = (
     ? uiSchema.elements.flatMap((element) =>
         findUnsupportedControls(element, schema),
       )
-    : [];
-};
-
-/**
- * Rules on fields inside a list, which the field-list widget renders without applying, as
- * `<list scope> -> <field scope>`. Logged so a conditionally disabled field that renders
- * enabled is not a silent difference.
- */
-const findIgnoredListRules = (uiSchema: JsonFormsUiSchema): string[] => {
-  const ruled = (element: UISchemaElement): string[] => [
-    ...(element.rule && isControlElement(element) ? [element.scope] : []),
-    ...(isLayout(element) ? element.elements.flatMap(ruled) : []),
-  ];
-  if (isControlElement(uiSchema)) {
-    const layout = entryLayout(uiSchema);
-    return layout
-      ? ruled(layout).map((scope) => `${uiSchema.scope} -> ${scope}`)
-      : [];
-  }
-  return isLayout(uiSchema)
-    ? uiSchema.elements.flatMap(findIgnoredListRules)
     : [];
 };
 
@@ -244,12 +218,12 @@ const groupLabel = (element: UISchemaElement): string | undefined =>
   element.type === "Group" ? (element as GroupLayout).label : undefined;
 
 /**
- * A list entry's fields, in the order its `options.detail` lays them out.
+ * A list entry's fields, in the order its layout lists them.
  *
- * Scopes inside the detail are relative to one entry, so each control is rebased beneath
- * the list's `items` and then read like any other control. A list nested inside the entry
- * has no field-list equivalent and is left out; `findIgnoredListRules` and
- * `findUnsupportedControls` report what this drops.
+ * Scopes inside an entry are relative to the entry, so each control is rebased beneath the
+ * list's `items` and then read like any other control. A list directly inside the entry
+ * contributes its own entry's fields, beneath its `items`, so a warning on one of them is
+ * matched to its field. Groups are flattened: the tree has no section inside a field list.
  */
 const entryFields = (
   element: UISchemaElement,
@@ -258,13 +232,21 @@ const entryFields = (
 ): EntryField[] => {
   if (isControlElement(element)) {
     if (!element.scope.startsWith("#/")) return [];
-    const rebased = {
-      ...element,
-      scope: `#${itemsBase}${element.scope.slice(1)}`,
-    };
-    return controlToNodes(rebased, schema).filter(
-      (node): node is EntryField => node.type !== "fieldList",
-    );
+    const definition: Definition = `${itemsBase}${element.scope.slice(1)}`;
+    const nestedItems = ROOT_PROPERTY.test(element.scope.slice(1))
+      ? itemSchema(schemaAt(schema, definition) ?? {})
+      : undefined;
+    if (nestedItems && isObjectSchema(nestedItems)) {
+      return entryFields(
+        entryLayout(element, nestedItems),
+        schema,
+        `${definition}/items`,
+      );
+    }
+    return controlToNodes(
+      { ...element, scope: `#${definition}` },
+      schema,
+    ).filter((node): node is EntryField => node.type !== "fieldList");
   }
   return isLayout(element)
     ? element.elements.flatMap((child) => entryFields(child, schema, itemsBase))
@@ -289,11 +271,43 @@ const droppedEntryScopes = (
 };
 
 /** A list control's layout for one entry, when the UI schema gives one. */
-const entryLayout = (control: ControlElement): UISchemaElement | undefined => {
+const detailLayout = (control: ControlElement): UISchemaElement | undefined => {
   const detail = (control.options as { detail?: unknown } | undefined)?.detail;
   return detail && typeof detail === "object" && "type" in detail
     ? (detail as UISchemaElement)
     : undefined;
+};
+
+/**
+ * The layout for one entry of a list: the control's `options.detail`, or else a control for
+ * each of the item's properties, read-only when the list is.
+ */
+export const entryLayout = (
+  control: ControlElement,
+  items: RJSFSchema,
+  readonly?: boolean,
+): UISchemaElement =>
+  detailLayout(control) ?? {
+    type: "VerticalLayout",
+    elements: Object.keys(items.properties ?? {}).map((name) => ({
+      type: "Control",
+      scope: `#/properties/${name}`,
+      ...(readonly ? { options: { readonly } } : {}),
+    })),
+  };
+
+/**
+ * The item schema of a list the SGG field-list widget can show: a control on an array of
+ * objects that is a property of the schema `scope` is relative to (the form, or an entry).
+ */
+export const listItemSchema = (
+  control: ControlElement,
+  schema: RJSFSchema,
+): RJSFSchema | undefined => {
+  const definition = scopeToDefinition(control.scope);
+  if (!definition || !ROOT_PROPERTY.test(definition)) return undefined;
+  const items = itemSchema(schemaAt(schema, definition) ?? {});
+  return items && isObjectSchema(items) ? items : undefined;
 };
 
 const isLayout = (element: UISchemaElement): element is Layout =>

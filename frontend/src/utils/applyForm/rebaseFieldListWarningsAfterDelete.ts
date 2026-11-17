@@ -58,9 +58,15 @@ export const rebaseFieldListWarningsAfterDelete = ({
     const nextEntryIndex = entryIndex - 1;
     const nextField = `${fieldListPath}[${nextEntryIndex}].${storageKey}`;
 
-    const nextHtmlField = warning.htmlField
-      ? warning.htmlField.replace(/\[(\d+)\]--/, `[${nextEntryIndex}]--`)
-      : warning.htmlField;
+    // `$.people[0].phones` -> `people[0]--phones[<index>]--`, so a list inside a list entry
+    // shifts its own index rather than the outer entry's.
+    const entryHtmlPrefix = (index: number) =>
+      `${fieldListPath.replace(/^\$\./, "").replace(/\./g, "--")}[${index}]--`;
+    const nextHtmlField = warning.htmlField?.startsWith(
+      entryHtmlPrefix(entryIndex),
+    )
+      ? `${entryHtmlPrefix(nextEntryIndex)}${warning.htmlField.slice(entryHtmlPrefix(entryIndex).length)}`
+      : warning.htmlField?.replace(/\[(\d+)\]--/, `[${nextEntryIndex}]--`);
 
     return [
       {
