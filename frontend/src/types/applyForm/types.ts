@@ -168,22 +168,24 @@ export type FieldListWidgetProps = {
   isFormLocked?: boolean;
   formContext?: UswdsWidgetProps["formContext"];
   /**
-   * Renders an entry's fields, for a renderer that lays out the entry itself; pair it with
-   * an empty `groupDefinition`. The widget still supplies the headings, add and delete.
+   * Optional render function for the contents of each entry. When it is set, the widget
+   * renders the entry heading and the add and delete buttons, and calls this function for
+   * the fields. The JSON Forms renderer uses it so that JSON Forms renders each entry's
+   * layout and applies its rules. Pass an empty `groupDefinition` with it.
    */
   renderEntry?: (entry: FieldListEntryRenderProps) => ReactNode;
 };
 
-/** What `FieldListWidgetProps.renderEntry` gets for one entry. */
+/** Arguments to `FieldListWidgetProps.renderEntry`, describing one entry of the list. */
 export type FieldListEntryRenderProps = {
-  /** Stable across adds and deletes, unlike `entryIndex`. */
+  /** Unique id of the entry. Unlike `entryIndex`, it does not change when entries are added or deleted. */
   entryId: string;
   entryIndex: number;
   entryValue: GeneralRecord;
-  /** Every field in the entry is described by its heading. */
+  /** Id of the entry's heading. Use it in each field's `aria-describedby`. */
   entryHeadingId: string;
   isInteractionDisabled: boolean;
-  /** Records a field's new value at its path within the entry. */
+  /** Updates the entry's value at `storagePath` (relative to the entry) to `nextValue`. */
   onFieldChange: (storagePath: string[], nextValue: unknown) => void;
 };
 

@@ -79,8 +79,8 @@ export type AdapterContextValue = {
 export const AdapterContext = createContext<AdapterContextValue | null>(null);
 
 /**
- * The list entry a control sits in. Its fields read their values from, and report changes
- * to, the field-list widget's copy of the entry, as the widget's own fields do.
+ * The list entry that contains a control. Fields in the entry read their values from the
+ * field-list widget's copy of the entry and send changes to it, like the widget's own fields.
  */
 type ListEntry = FieldListEntryRenderProps & {
   /** The entry's JSON Forms data path, e.g. `contacts.0`. */
@@ -218,8 +218,8 @@ const EntryGroup = ({
 );
 
 /**
- * One field in a list entry, with the name, value, warnings and required marker the
- * field-list widget gives its own fields, e.g. `contacts[1]--address--city`.
+ * Renders one field in a list entry with the same HTML name (e.g. `contacts[1]--address--city`),
+ * value, warnings and required state as a field rendered by the field-list widget itself.
  */
 const renderEntryField = ({
   node,
@@ -297,9 +297,10 @@ const isRequiredInEntry = (
 const NO_GROUP_DEFINITION: FieldListGroupItem[] = [];
 
 /**
- * A list of objects, shown with the SGG field-list widget's headings, add and delete. JSON
- * Forms renders each entry's layout at that entry's path, so rules scoped to the entry apply,
- * labeled groups are sub-sections, and a list inside the entry is a list.
+ * Renders a list of objects with the SGG field-list widget, which provides the headings and
+ * the add and delete buttons. JSON Forms renders each entry's layout at the entry's path, so
+ * rules in the entry are evaluated against that entry, labeled groups are rendered as
+ * sub-sections, and a list inside the entry is rendered as a nested list.
  */
 const AdaptedList = ({
   uischema,
@@ -315,7 +316,7 @@ const AdaptedList = ({
   const value: unknown = entry
     ? get(entry.entryValue, relativeSegments(path, entry.path))
     : get(context.formData, path);
-  // The widget starts with the saved entries, padded to the minimum.
+  // Initial entry count: the number of saved entries, or minItems if that is larger.
   const entryCount = useRef(
     Math.max(Array.isArray(value) ? value.length : 0, schema.minItems ?? 0),
   );

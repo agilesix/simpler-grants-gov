@@ -361,7 +361,7 @@ function FieldListEntry({
           disabled: isInteractionDisabled,
           readOnly: isInteractionDisabled,
           isFormLocked: isInteractionDisabled,
-          // Lets an attachment in an entry hold Save while it uploads, as one outside a list does.
+          // Attachment widgets use the form context to disable Save while a file uploads.
           formContext,
           onChange: (nextValue) => {
             handleFieldChange({
