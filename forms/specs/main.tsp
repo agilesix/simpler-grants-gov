@@ -14,3 +14,4 @@ import "./forms/grants-gov-lobbying/index.tsp";
 import "./forms/cd511/index.tsp";
 import "./forms/fra-f-30/index.tsp";
 import "./forms/usda-ad-3030/index.tsp";
+import "./forms/usda-ad-1047/index.tsp";

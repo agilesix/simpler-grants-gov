@@ -13,6 +13,7 @@ import { DIFF as projectNarrative } from "./project-narrative-attachment-form.ts
 import { DIFF as performanceSites } from "./project-performance-site-location-s.ts";
 import { DIFF as rrKeyPersonExpanded } from "./research-and-related-senior-key-person-profile-expanded.ts";
 import { DIFF as rrKeyPerson } from "./research-related-senior-key-person-profile.ts";
+import { DIFF as ad1047 } from "./usda-ad-1047.ts";
 import { DIFF as ad3030 } from "./usda-ad-3030.ts";
 
 /** Every form the suite checks. A plan with a `spec_id` must be listed here. */
@@ -32,4 +33,5 @@ export const DIFFS: FormDiff[] = [
   cd511,
   fraF30,
   ad3030,
+  ad1047,
 ];
