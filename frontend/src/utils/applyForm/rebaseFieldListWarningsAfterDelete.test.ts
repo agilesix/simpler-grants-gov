@@ -51,4 +51,48 @@ describe("rebaseFieldListWarningsAfterDelete", () => {
       ["$.people[1].phones[1].number", "people[1]--phones[1]--number"],
     ]);
   });
+
+  it("shifts the warnings of a list inside the entries that move up", () => {
+    expect(
+      rebaseFieldListWarningsAfterDelete({
+        rawErrors: [
+          warning(
+            "$.people[2].phones[1].number",
+            "people[2]--phones[1]--number",
+          ),
+        ],
+        fieldListPath: "$.people",
+        deletedEntryIndex: 0,
+      })?.map(({ field, htmlField }) => [field, htmlField]),
+    ).toEqual([
+      ["$.people[1].phones[1].number", "people[1]--phones[1]--number"],
+    ]);
+  });
+
+  it("shifts the warnings of a list inside an object", () => {
+    expect(
+      rebaseFieldListWarningsAfterDelete({
+        rawErrors: [
+          warning(
+            "$.budget.line_items[1].amount",
+            "budget--line_items[1]--amount",
+          ),
+        ],
+        fieldListPath: "$.budget.line_items",
+        deletedEntryIndex: 0,
+      })?.map(({ field, htmlField }) => [field, htmlField]),
+    ).toEqual([
+      ["$.budget.line_items[0].amount", "budget--line_items[0]--amount"],
+    ]);
+  });
+
+  it("keeps a warning on an entry's object pointed at the field it names", () => {
+    expect(
+      rebaseFieldListWarningsAfterDelete({
+        rawErrors: [warning("$.people[2].address", "people[2]--address--city")],
+        fieldListPath: "$.people",
+        deletedEntryIndex: 0,
+      })?.map(({ field, htmlField }) => [field, htmlField]),
+    ).toEqual([["$.people[1].address", "people[1]--address--city"]]);
+  });
 });
