@@ -3,6 +3,7 @@ import { DIFF as laborStandards } from "./assurances-as-to-labor-standards.ts";
 import { DIFF as budgetNarrative } from "./budget-narrative-attachment-form.ts";
 import { DIFF as cd511 } from "./cd511-form.ts";
 import { DIFF as epaKeyContacts } from "./epa-key-contacts.ts";
+import { DIFF as fraF30 } from "./fra-f-30.ts";
 import { DIFF as grantsGovLobbying } from "./grants-gov-lobbying-form.ts";
 import { DIFF as keyContacts } from "./key-contacts.ts";
 import { DIFF as nasaPiAndAor } from "./nasa-pi-and-aor.ts";
@@ -28,4 +29,5 @@ export const DIFFS: FormDiff[] = [
   laborStandards,
   grantsGovLobbying,
   cd511,
+  fraF30,
 ];
