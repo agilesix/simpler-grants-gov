@@ -164,13 +164,12 @@ describe("controlToNodes", () => {
     expect(descriptionOf({})).toEqual(["From the schema."]);
   });
 
-  it("returns nothing for a control a widget can't render", () => {
-    expect(
-      controlToNodes(control("#/properties/nested/properties/people"), schema),
-    ).toEqual([]);
-    expect(controlToNodes(control("#/properties/absent"), schema)).toEqual([]);
-    expect(controlToNodes(control("#"), schema)).toEqual([]);
-  });
+  it.each(["#/properties/absent", "#"])(
+    "skips a control that points to an invalid JSON schema property (%s)",
+    (scope) => {
+      expect(controlToNodes(control(scope), schema)).toEqual([]);
+    },
+  );
 
   describe("on a list with options.detail", () => {
     const listSchema: RJSFSchema = {
@@ -343,18 +342,15 @@ describe("convertJsonFormsUiSchema", () => {
     ).toBeFalsy();
   });
 
-  it("lists every control a widget can't render", () => {
+  it("flags a control that points to an invalid JSON schema property as unsupported", () => {
     const uiSchema = {
       type: "Group",
-      elements: [
-        control("#/properties/title"),
-        control("#/properties/nested/properties/people"),
-      ],
+      elements: [control("#/properties/title"), control("#/properties/absent")],
     } as UISchemaElement;
 
     expect(
       convertJsonFormsUiSchema(uiSchema, schema).unsupportedControls,
-    ).toEqual(["#/properties/nested/properties/people"]);
+    ).toEqual(["#/properties/absent"]);
   });
 });
 
