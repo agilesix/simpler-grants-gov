@@ -72,7 +72,7 @@ export type AdapterContextValue = {
   formContext?: RenderFieldNodeProps["formContext"];
   isFormLocked?: boolean;
   print?: boolean;
-  /** Re-reads the rule data from the form once it next renders, e.g. after an entry is removed. */
+  /** Re-read the rule data from the form after its next render, e.g. after an entry is removed. */
   requestRuleDataRefresh: () => void;
 };
 
@@ -109,7 +109,7 @@ const AdaptedControl = ({ uischema, path, visible, enabled }: ControlProps) => {
   const entry = useContext(ListEntryContext);
   if (!visible) return null;
 
-  // Inside a list entry the scope is relative to the entry, so read the control at its data path.
+  // Read the control at its data path, since inside a list entry its scope is relative to the entry.
   const control = entry
     ? { ...uischema, scope: `#${dataPathToDefinition(path)}` }
     : uischema;
@@ -158,7 +158,7 @@ const AdaptedLayout = ({
   if (!visible) return null;
 
   const layout = uischema as GroupLayout;
-  // Keyed by position alone, so removing an entry doesn't remount the entries after it.
+  // Key by position alone, so removing an entry doesn't remount the entries after it.
   const children = layout.elements.map((element, index) => (
     <JsonFormsDispatch
       key={index}
@@ -191,8 +191,8 @@ const AdaptedLayout = ({
 };
 
 /**
- * A labeled group inside a list entry: a sub-section of the entry, headed one level below the
- * entry's heading. Unlike a form section it has no id, since every entry repeats it.
+ * Render a labeled group inside a list entry as a sub-section, headed one level below the
+ * entry's heading. Leave off the id a form section has, since every entry repeats the group.
  */
 const EntryGroup = ({
   label,
@@ -218,8 +218,8 @@ const EntryGroup = ({
 );
 
 /**
- * Renders one field in a list entry with the same HTML name (e.g. `contacts[1]--address--city`),
- * value, warnings and required state as a field rendered by the field-list widget itself.
+ * Render one field in a list entry with the same HTML name (e.g. `contacts[1]--address--city`),
+ * value, warnings and required state that the field-list widget gives its own fields.
  */
 const renderEntryField = ({
   node,
@@ -281,7 +281,7 @@ const renderEntryField = ({
   });
 };
 
-/** Whether the entry requires a field: every property on its path is required. */
+/** Return whether the entry requires a field, i.e. every property on its path is required. */
 const isRequiredInEntry = (
   itemSchema: RJSFSchema,
   storagePath: string[],
@@ -297,10 +297,10 @@ const isRequiredInEntry = (
 const NO_GROUP_DEFINITION: FieldListGroupItem[] = [];
 
 /**
- * Renders a list of objects with the SGG field-list widget, which provides the headings and
- * the add and delete buttons. JSON Forms renders each entry's layout at the entry's path, so
- * rules in the entry are evaluated against that entry, labeled groups are rendered as
- * sub-sections, and a list inside the entry is rendered as a nested list.
+ * Render a list of objects with the SGG field-list widget, which provides the headings and
+ * the add and delete buttons. Render each entry's layout with JSON Forms at the entry's path,
+ * so rules in the entry apply to that entry, labeled groups become sub-sections, and a list
+ * inside the entry renders as a nested list.
  */
 const AdaptedList = ({
   uischema,
@@ -316,7 +316,7 @@ const AdaptedList = ({
   const value: unknown = entry
     ? get(entry.entryValue, relativeSegments(path, entry.path))
     : get(context.formData, path);
-  // Initial entry count: the number of saved entries, or minItems if that is larger.
+  // Start with the number of saved entries, or minItems if that is larger.
   const entryCount = useRef(
     Math.max(Array.isArray(value) ? value.length : 0, schema.minItems ?? 0),
   );
@@ -343,7 +343,7 @@ const AdaptedList = ({
       schema={{ type: "array", title: label, description }}
       label={label}
       description={description}
-      // The widget reads warnings for the list at `$.<name>`.
+      // Pass the list's validation path as the name, since the widget reads its warnings at `$.<name>`.
       name={listWarningPath.slice(2)}
       minItems={schema.minItems}
       maxItems={schema.maxItems}
@@ -354,7 +354,7 @@ const AdaptedList = ({
       isFormLocked={context.isFormLocked}
       formContext={context.formContext}
       onChange={(nextValue) => {
-        // Rules read entries by index, so re-read them once an entry is added or removed.
+        // Re-read the rule data when an entry is added or removed, since rules read entries by index.
         const count = Array.isArray(nextValue) ? nextValue.length : 0;
         if (count !== entryCount.current) context.requestRuleDataRefresh();
         entryCount.current = count;
@@ -387,7 +387,7 @@ const AdaptedList = ({
 
 const ADAPTER_RANK = 10;
 
-/* Ranked above the adapter, which would otherwise show a list with the field-list widget's own fields. */
+/* Rank above the adapter, which would otherwise show a list with the field-list widget's own fields. */
 const LIST_RANK = 11;
 
 /*
@@ -399,8 +399,8 @@ const SKIP_RANK = 1;
 const SkipControl = () => null;
 
 /*
-  The testers read a control against the schema it's dispatched with: the form's, or an
-  entry's item schema for a control inside a list entry, whose scope is relative to the entry.
+  Read each control against the schema it's dispatched with: the form's, or an entry's item
+  schema for a control inside a list entry, whose scope is relative to the entry.
 */
 export const adaptedControlTester = rankWith(
   ADAPTER_RANK,

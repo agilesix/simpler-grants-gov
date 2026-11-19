@@ -1,22 +1,22 @@
 /*
-  JSON Forms names a value by its data path, with array indexes as segments: `people.0.bio`.
-  The SGG widgets, shapeFormData and the API's validation warnings each use a different
-  format. These functions convert between them.
+  Convert between the formats that name a value. JSON Forms uses a data path with array
+  indexes as segments (`people.0.bio`); the SGG widgets, shapeFormData and the API's
+  validation warnings each use a different format.
 */
 
 const segments = (path: string): string[] => path.split(".").filter(Boolean);
 
 const isIndex = (segment: string): boolean => /^\d+$/.test(segment);
 
-/** `people.0.bio` -> `/properties/people/items/properties/bio`, the value's JSON schema. */
+/** Convert `people.0.bio` to `/properties/people/items/properties/bio`, the value's JSON schema definition. */
 export const dataPathToDefinition = (path: string): string =>
   segments(path)
     .map((segment) => (isIndex(segment) ? "/items" : `/properties/${segment}`))
     .join("");
 
 /**
- * `/properties/budget/properties/line_items` -> `budget.line_items`, the data path of a value
- * that isn't inside a list.
+ * Convert `/properties/budget/properties/line_items` to `budget.line_items`, the data path of a
+ * value that isn't inside a list.
  */
 export const definitionToDataPath = (definition: string): string =>
   definition
@@ -25,8 +25,8 @@ export const definitionToDataPath = (definition: string): string =>
     .join(".");
 
 /**
- * `people.0.bio` -> `people[0]--bio`, the HTML field name, which shapeFormData converts back
- * to `people[0].bio`. Each list level adds its index: `a.0.b.1.c` -> `a[0]--b[1]--c`.
+ * Convert `people.0.bio` to `people[0]--bio`, the HTML field name, which shapeFormData converts
+ * back to `people[0].bio`. Add an index for each list level: `a.0.b.1.c` -> `a[0]--b[1]--c`.
  */
 export const dataPathToHtmlName = (path: string): string =>
   segments(path).reduce(
@@ -39,12 +39,12 @@ export const dataPathToHtmlName = (path: string): string =>
     "",
   );
 
-/** `people.0.bio` -> `$.people[0].bio`, the path format of the API's validation warnings. */
+/** Convert `people.0.bio` to `$.people[0].bio`, the path format of the API's validation warnings. */
 export const dataPathToWarningPath = (path: string): string =>
   `$${segments(path)
     .map((segment) => (isIndex(segment) ? `[${segment}]` : `.${segment}`))
     .join("")}`;
 
-/** The segments of `path` beneath `basePath`: `people.0.name.first` in `people.0` -> `name,first`. */
+/** Return the segments of `path` beneath `basePath`: `people.0.name.first` in `people.0` -> `name,first`. */
 export const relativeSegments = (path: string, basePath: string): string[] =>
   segments(path).slice(segments(basePath).length);

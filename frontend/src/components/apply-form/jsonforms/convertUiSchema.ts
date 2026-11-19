@@ -40,7 +40,8 @@ type EntryField = UiSchemaFieldList["children"][number];
 
 /**
  * A definition with no list in it, e.g. `/properties/budget/properties/line_items`. A list
- * control's scope must match it. A list inside a list entry is scoped relative to the entry.
+ * control's scope must match it, unless the list is inside a list entry, where the scope is
+ * relative to the entry.
  */
 const PROPERTY_PATH = /^(\/properties\/[^/]+)+$/;
 
@@ -284,7 +285,7 @@ const detailLayout = (control: ControlElement): UISchemaElement | undefined => {
 };
 
 /**
- * The layout for one entry of a list: the control's `options.detail`, or else a control for
+ * Return the layout for one entry of a list: the control's `options.detail`, or a control for
  * each of the item's properties, read-only when the list is.
  */
 export const entryLayout = (
@@ -302,8 +303,8 @@ export const entryLayout = (
   };
 
 /**
- * Returns the item schema when `control` is scoped to an array of objects that the SGG
- * field-list widget can render, or undefined otherwise. `schema` is the schema the scope is
+ * Return the item schema when `control` is scoped to an array of objects that the SGG
+ * field-list widget can render. `schema` is the schema the scope is
  * relative to: the form's schema, or a list entry's item schema.
  */
 export const listItemSchema = (

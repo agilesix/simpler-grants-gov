@@ -57,7 +57,7 @@ export const rebaseFieldListWarningsAfterDelete = ({
     }
 
     const nextField = `${fieldListPath}[${entryIndex - 1}].${storageKey}`;
-    // The list's entry index is the same index in the HTML name as in the path,
+    // Replace the same list index in the HTML name as in the path,
     // e.g. the second in both `$.people[0].phones[2].number` and `people[0]--phones[2]--number`.
     const listDepth = fieldListPath.match(/\[\d+\]/g)?.length ?? 0;
 
@@ -73,7 +73,7 @@ export const rebaseFieldListWarningsAfterDelete = ({
   });
 };
 
-/** Replaces the `depth`th list index in a path or HTML name: `a[0]--b[2]`, 1, 1 -> `a[0]--b[1]`. */
+/** Replace the `depth`th list index in a path or HTML name: `a[0]--b[2]`, 1, 1 -> `a[0]--b[1]`. */
 const replaceIndexAt = (name: string, depth: number, index: number): string => {
   let seen = -1;
   return name.replace(/\[\d+\]/g, (match) =>

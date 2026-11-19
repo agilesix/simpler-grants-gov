@@ -361,11 +361,11 @@ const LIST_FIELD_DEFINITION =
   /^((?:\/properties\/[^/]+)+?)\/items\/properties\/.+$/;
 
 /**
- * Matches the validation paths of a field inside a list, in any entry. Each list level is
+ * Build a pattern that matches the validation paths of a field inside a list, in any entry. Each list level is
  * an `items` segment in the definition and an index in the path:
  * `/properties/a/items/properties/b/items/properties/c` matches `$.a[0].b[2].c`, and
  * `/properties/a/properties/b/items/properties/c` matches `$.a.b[0].c`.
- * Returns undefined for a field that isn't in a list.
+ * Return undefined for a field that isn't in a list.
  */
 const listFieldWarningPattern = (definition: string): RegExp | undefined => {
   if (!LIST_FIELD_DEFINITION.test(definition)) {

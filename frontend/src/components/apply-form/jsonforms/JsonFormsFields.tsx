@@ -105,8 +105,8 @@ export const JsonFormsFields = ({
     [schema],
   );
 
-  // A change that fires no input event, such as removing a list entry, asks for a refresh,
-  // which reads the form once it has rendered the change.
+  // Re-read the rule data after the next render when a change fires no input event, such as
+  // removing a list entry.
   useEffect(() => {
     if (!refreshRequests) return;
     const form = container.current?.closest("form");
