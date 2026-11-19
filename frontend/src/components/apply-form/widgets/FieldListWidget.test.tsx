@@ -554,7 +554,7 @@ describe("FieldListWidget", () => {
     expect(markFormDirtyMock).toHaveBeenCalledTimes(1);
   });
 
-  it("passes the form context to each entry's widgets, so an upload there holds Save", () => {
+  it("passes the form context to each entry's widgets, so Save is disabled while an upload there is in progress", () => {
     const formContext = {
       widgetSupport: {
         markFormDirty: jest.fn(),

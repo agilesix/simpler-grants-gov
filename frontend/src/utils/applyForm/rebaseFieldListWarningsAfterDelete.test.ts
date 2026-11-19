@@ -86,7 +86,7 @@ describe("rebaseFieldListWarningsAfterDelete", () => {
     ]);
   });
 
-  it("keeps a warning on an entry's object pointed at the field it names", () => {
+  it("points a warning on an entry's object at the field it names", () => {
     expect(
       rebaseFieldListWarningsAfterDelete({
         rawErrors: [warning("$.people[2].address", "people[2]--address--city")],
