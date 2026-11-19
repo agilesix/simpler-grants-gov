@@ -1,0 +1,31 @@
+{
+  "format": "xml-mapping",
+  "namespaces": {
+    "default": "http://apply.grants.gov/forms/Attestation-V1.0",
+    "Attestation": "http://apply.grants.gov/forms/Attestation-V1.0"
+  },
+  "root": {
+    "Attestation": {
+      "@Attestation:FormVersion": {
+        "$const": "1.0"
+      },
+      "OrganizationName": {
+        "$field": "organization_name"
+      },
+      "ConvictedOfFelony": {
+        "$transform": {
+          "name": "boolean_to_yes_no",
+          "value": {
+            "$field": "convicted_of_felony"
+          }
+        }
+      },
+      "Signature": {
+        "$field": "signature"
+      },
+      "SubmittedDate": {
+        "$field": "submitted_date"
+      }
+    }
+  }
+}
