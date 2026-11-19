@@ -13,3 +13,4 @@ import "./forms/labor-standards/index.tsp";
 import "./forms/grants-gov-lobbying/index.tsp";
 import "./forms/cd511/index.tsp";
 import "./forms/fra-f-30/index.tsp";
+import "./forms/usda-ad-3030/index.tsp";
