@@ -1,6 +1,7 @@
 import type { FormDiff } from "../harness/model.ts";
 import { DIFF as laborStandards } from "./assurances-as-to-labor-standards.ts";
 import { DIFF as budgetNarrative } from "./budget-narrative-attachment-form.ts";
+import { DIFF as cd511 } from "./cd511-form.ts";
 import { DIFF as epaKeyContacts } from "./epa-key-contacts.ts";
 import { DIFF as grantsGovLobbying } from "./grants-gov-lobbying-form.ts";
 import { DIFF as keyContacts } from "./key-contacts.ts";
@@ -26,4 +27,5 @@ export const DIFFS: FormDiff[] = [
   nasaPiAndAor,
   laborStandards,
   grantsGovLobbying,
+  cd511,
 ];

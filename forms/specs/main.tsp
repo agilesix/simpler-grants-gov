@@ -11,3 +11,4 @@ import "./forms/performance-sites/index.tsp";
 import "./forms/nasa-pi-and-aor/index.tsp";
 import "./forms/labor-standards/index.tsp";
 import "./forms/grants-gov-lobbying/index.tsp";
+import "./forms/cd511/index.tsp";

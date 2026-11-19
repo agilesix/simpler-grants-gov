@@ -1,12 +1,208 @@
 {
   "title": "CD511 Form",
   "slug": "cd511-form",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["SF-424", "R&R", "SF-424 Short"],
   "category": "Key Personnel & Contact Forms",
   "apps_count": 9199,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/276",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/CD511-V1.1_F276.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/CD511-V1.1.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/CD511-V1.1_F276.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/CD511-V1.1_F276.xls",
+  "sgg_form_id": "cd511",
+  "spec_id": "cd511",
+  "widgets": ["TextWidget"],
+  "description": "The Department of Commerce's certification regarding lobbying, with the statement for loan guarantees and loan insurance. The applicant names its organization, the award or project, and a contact person; Grants.gov fills in the signature and date.",
+  "notes": [
+    "SGG already has this form (`cd511`). The definition uses its property names and sections, so a draft saved on the existing form reads the same.",
+    "The certification is quoted exactly from the DAT as the descriptions of the first four sections, in the PDF's order. The DAT lists the loan statement's heading before the certification's numbered items.",
+    "Award Number and Project Name are each optional, but one of them is required (`anyOf` in the JSON Schema), as the DAT's business rules and SGG's existing form say. Both may be given. Their help says so, since the form has no rule to show the condition.",
+    "Grants.gov copies the organization, name and title from the SF-424 and doesn't let the applicant edit them. The API has no rule that does that, so the applicant enters them, as on SGG's existing form.",
+    "Signature and Submitted Date are filled in by the API on submission (`gg_post_population` rules `signature` and `current_date`), so the form shows them read-only.",
+    "The form has no OMB number or expiration date.",
+    "Labels are those of SGG's existing form. Standardizing them on the question bank's labels comes later."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "Certification Regarding Lobbying",
+      "children": []
+    },
+    {
+      "kind": "section",
+      "label": "Lobbying",
+      "children": []
+    },
+    {
+      "kind": "section",
+      "label": "Statement for Loan Guarantees and Loan Insurance",
+      "children": []
+    },
+    {
+      "kind": "section",
+      "label": "Acknowledgement",
+      "children": []
+    },
+    {
+      "kind": "section",
+      "label": "1. Applicant Information",
+      "children": [
+        {
+          "kind": "field",
+          "id": "applicant-name",
+          "label": "Name of Applicant",
+          "dat_field": "02-01",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter legal name of applicant, which will undertake the assistance activity.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "applicant_name",
+          "xml_path": "CD511:OrganizationName"
+        },
+        {
+          "kind": "field",
+          "id": "award-number",
+          "label": "Award Number",
+          "dat_field": "02-02",
+          "required": "Conditional (required if Project Name is blank)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the project award number. Required if Project Name is blank.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "award_number",
+          "xml_path": "CD511:AwardNumber"
+        },
+        {
+          "kind": "field",
+          "id": "project-name",
+          "label": "Project Name",
+          "dat_field": "02-03",
+          "required": "Conditional (required if Award Number is blank)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the project. Required if Award Number is blank.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "project_name",
+          "xml_path": "CD511:ProjectName"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "2. Contact Person",
+      "children": [
+        {
+          "kind": "field",
+          "id": "contact-person-prefix",
+          "label": "Prefix",
+          "dat_field": "02-04",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the prefix.",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "contact_person.prefix",
+          "xml_path": "CD511:ContactName/globLib:PrefixName"
+        },
+        {
+          "kind": "field",
+          "id": "contact-person-first-name",
+          "label": "First Name",
+          "dat_field": "02-05",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first name.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "contact_person.first_name",
+          "xml_path": "CD511:ContactName/globLib:FirstName"
+        },
+        {
+          "kind": "field",
+          "id": "contact-person-middle-name",
+          "label": "Middle Name",
+          "dat_field": "02-06",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the middle name.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "contact_person.middle_name",
+          "xml_path": "CD511:ContactName/globLib:MiddleName"
+        },
+        {
+          "kind": "field",
+          "id": "contact-person-last-name",
+          "label": "Last Name",
+          "dat_field": "02-07",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the last name.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "contact_person.last_name",
+          "xml_path": "CD511:ContactName/globLib:LastName"
+        },
+        {
+          "kind": "field",
+          "id": "contact-person-suffix",
+          "label": "Suffix",
+          "dat_field": "02-08",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix.",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "contact_person.suffix",
+          "xml_path": "CD511:ContactName/globLib:SuffixName"
+        },
+        {
+          "kind": "field",
+          "id": "contact-person-title",
+          "label": "Title",
+          "dat_field": "02-09",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the position title.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "contact_person_title",
+          "xml_path": "CD511:Title"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "3. Signature",
+      "children": [
+        {
+          "kind": "field",
+          "id": "signature",
+          "label": "Signature",
+          "dat_field": "02-10",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Text (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "minLength 1, maxLength 144",
+          "post_populated": "signature",
+          "json_path": "signature",
+          "xml_path": "CD511:Signature"
+        },
+        {
+          "kind": "field",
+          "id": "submitted-date",
+          "label": "Submitted Date",
+          "dat_field": "02-11",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Date (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "current_date",
+          "json_path": "submitted_date",
+          "xml_path": "CD511:SubmittedDate"
+        }
+      ]
+    }
+  ]
 }

@@ -1,5 +1,6 @@
 {
   "https://apply07.grants.gov/apply/forms/sample/BudgetNarrativeAttachments_1_2-V1.2_F543.xls": "3432858a55f5b60f82b29072332a849ae7b6aaa096bcb90bd2ac8566ab3dd1c1",
+  "https://apply07.grants.gov/apply/forms/sample/CD511-V1.1_F276.xls": "0910535d9bf55262ae383482e8e18753b142b828fb580b68cf452a5fc6e2ed8e",
   "https://apply07.grants.gov/apply/forms/sample/EPA_KeyContacts_2_0-V2.0_F674.xls": "bc3db7e10eb19bb679020aa11d44d4fd9213331e5814d94568281bd45a3d4d04",
   "https://apply07.grants.gov/apply/forms/sample/GG_LobbyingForm-V1.1_F255.xls": "4489cf1e023991a36a49d4015b323fb87ad152dfa915ef750f0f19c5d5138ba2",
   "https://apply07.grants.gov/apply/forms/sample/Key_Contacts_2_0-V2.0_F683.xls": "c24c38cc9d12f5801147692781ab6c397bcd2aa73b8115957b187233ca165030",
@@ -12,6 +13,7 @@
   "https://apply07.grants.gov/apply/forms/sample/RR_KeyPerson_3_0-V3.0_F772.xls": "5fbeda612d8475a557841532357f23e271d633297c2b5daa28f3d9c9c7579c7a",
   "https://apply07.grants.gov/apply/forms/sample/RR_KeyPersonExpanded_4_0-V4.0_F774.xls": "5e24647ca453b736143af73d2f75aaae41b4ae828e44a83f2dcf5b212f6e79e1",
   "https://apply07.grants.gov/apply/forms/schemas/BudgetNarrativeAttachments_1_2-V1.2.xsd": "33c8bc63905589adae9508ddf08e69c7d8f900b394960f12fdd9b77cbfeb4feb",
+  "https://apply07.grants.gov/apply/forms/schemas/CD511-V1.1.xsd": "f13c05b8e62fe1e7cf0198053f79fdd34efe4b7d10b56974d27a7dd45d013fde",
   "https://apply07.grants.gov/apply/forms/schemas/EPA_KeyContacts_2_0-V2.0.xsd": "157a9c8a21cdc39b4c6b5df94c3745ecd4f174cb390187441de862fb35b50b01",
   "https://apply07.grants.gov/apply/forms/schemas/GG_LobbyingForm-V1.1.xsd": "a41d88b19e240dbb5f9b13815c0426d2396414fc1af8d6ab6a96f35855a0a5f7",
   "https://apply07.grants.gov/apply/forms/schemas/Key_Contacts_2_0-V2.0.xsd": "d361843ac5acaf39aa58a10d87cb36647e2f834052ef5d7cf9370442908296e6",
