@@ -1,12 +1,149 @@
 {
   "title": "USDA AD-3030",
   "slug": "usda-ad-3030",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["SF-424", "R&R"],
-  "category": "Uncategorized",
+  "category": "Certification & Assurance Forms",
   "apps_count": 2117,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/582",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/AD_3030_2_0-V2.0_F582.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/AD_3030_2_0-V2.0.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/AD_3030_2_0-V2.0_F582.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/AD_3030_2_0-V2.0_F582.xls",
+  "spec_id": "usda-ad-3030",
+  "omb_number": "0505-0025",
+  "expiration_date": "09/30/2025",
+  "widgets": ["TextWidget", "TextAreaWidget", "RadioWidget"],
+  "description": "Representations regarding felony conviction and tax delinquent status for corporate applicants. The applicant gives its name, address and the last four digits of its tax ID, and answers two yes/no questions.",
+  "notes": [
+    "Only corporations need to complete this form. Whether a package includes it is up to the agency, so the form doesn't ask.",
+    "The Privacy Act, Paperwork Reduction Act and civil rights statements are quoted exactly as section descriptions. The civil rights statement links its complaint page and email address, as the DAT asks.",
+    "Signature and Date Signed are filled in by the API on submission (`gg_post_population` rules `signature` and `current_date`), so the form shows them read-only.",
+    "Labels are the DAT's, in title case. Standardizing them on the question bank's labels comes later."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "Part A - Applicant",
+      "children": [
+        {
+          "kind": "field",
+          "id": "applicant-name",
+          "label": "1. Applicant's Name",
+          "dat_field": "1-05",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the Applicant's Name. This field is required.",
+          "constraints": "minLength 1, maxLength 140",
+          "json_path": "applicant_name",
+          "xml_path": "AD_3030_2_0:ApplicantName"
+        },
+        {
+          "kind": "field",
+          "id": "applicant-address",
+          "label": "2. Applicant's Address (Including Zip Code)",
+          "dat_field": "1-06",
+          "required": true,
+          "type": "Text area",
+          "widget": "TextAreaWidget",
+          "help_text": "Enter the Applicant's Address including Zip Code. This field is required.",
+          "constraints": "minLength 1, maxLength 300",
+          "json_path": "applicant_address",
+          "xml_path": "AD_3030_2_0:ApplicantAddress"
+        },
+        {
+          "kind": "field",
+          "id": "tax-id-number",
+          "label": "3. Tax ID No. (Last 4 Digits)",
+          "dat_field": "1-07",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the last four digits of the Tax ID Number. This field is required.",
+          "constraints": "minLength 4, maxLength 4, pattern ^[0-9]{4}$",
+          "json_path": "tax_id_number",
+          "xml_path": "AD_3030_2_0:TaxIDNumber"
+        },
+        {
+          "kind": "field",
+          "id": "applicant-felony",
+          "label": "4A. Has the Applicant been convicted of a felony criminal violation under any Federal law in the 24 months preceding the date of application?",
+          "dat_field": "1-08",
+          "required": true,
+          "type": "Radio group (boolean; XML YesNoDataType)",
+          "widget": "RadioWidget",
+          "help_text": "One selection is required.",
+          "constraints": "YesNoDataType enumeration",
+          "json_path": "applicant_felony",
+          "xml_path": "AD_3030_2_0:ApplicantFelony"
+        },
+        {
+          "kind": "field",
+          "id": "unpaid-federal-tax",
+          "label": "4B. Does the Applicant have any unpaid Federal tax liability that has been assessed, for which all judicial and administrative remedies have been exhausted or have lapsed, and that is not being paid in a timely manner pursuant to an agreement with the authority responsible for collecting the tax liability?",
+          "dat_field": "1-09",
+          "required": true,
+          "type": "Radio group (boolean; XML YesNoDataType)",
+          "widget": "RadioWidget",
+          "help_text": "One selection is required.",
+          "constraints": "YesNoDataType enumeration",
+          "json_path": "unpaid_federal_tax",
+          "xml_path": "AD_3030_2_0:UnpaidFederalTax"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "Part B - Signature",
+      "children": [
+        {
+          "kind": "field",
+          "id": "signature",
+          "label": "5A. Applicant's Signature (By)",
+          "dat_field": "1-12",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Text (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "minLength 1, maxLength 144",
+          "post_populated": "signature",
+          "json_path": "signature",
+          "xml_path": "AD_3030_2_0:AORSignature"
+        },
+        {
+          "kind": "field",
+          "id": "title",
+          "label": "5B. Title/Relationship of the Individual if Signing in a Representative Capacity",
+          "dat_field": "1-13",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the position title.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "title",
+          "xml_path": "AD_3030_2_0:Title"
+        },
+        {
+          "kind": "field",
+          "id": "date-signed",
+          "label": "5C. Date Signed (MM-DD-YYYY)",
+          "dat_field": "1-14",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Date (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "current_date",
+          "json_path": "date_signed",
+          "xml_path": "AD_3030_2_0:DateSigned"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "USDA Civil Rights Statement",
+      "children": []
+    }
+  ],
+  "risks": [
+    "reginfo.gov lists OMB control number 0505-0025 as discontinued on 09/30/2025, the expiration date the DAT and PDF give. Grants.gov may retire this form, so confirm it's still in use before it goes to production."
+  ]
 }

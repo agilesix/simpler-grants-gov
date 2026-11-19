@@ -1,12 +1,167 @@
 {
   "title": "Grants.gov Lobbying Form",
   "slug": "grants-gov-lobbying-form",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["SF-424", "R&R", "SF-424 Short", "SF-424 Mandatory"],
   "category": "Disclosure & Lobbying Forms",
   "apps_count": 39941,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/255",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/GG_LobbyingForm-V1.1_F255.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/GG_LobbyingForm-V1.1.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/GG_LobbyingForm-V1.1_F255.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/GG_LobbyingForm-V1.1_F255.xls",
+  "sgg_form_id": "gg_lobbying_form",
+  "spec_id": "grants-gov-lobbying",
+  "omb_number": "4040-0013",
+  "expiration_date": "06/30/2028",
+  "widgets": ["TextWidget"],
+  "description": "The certification regarding lobbying for contracts, grants, loans and cooperative agreements, with the statement for loan guarantees and loan insurance. The applicant names its organization and authorized representative; Grants.gov fills in the signature and date.",
+  "notes": [
+    "SGG already has this form (`gg_lobbying_form`). The definition uses its property names and sections, so a draft saved on the existing form reads the same.",
+    "The certification and the loan statement are quoted exactly from the DAT as the first section's description, with the loan statement's heading in bold.",
+    "Grants.gov copies the organization, name and title from the SF-424. The API has no rule that does that, so the applicant enters them, as on SGG's existing form.",
+    "Signature and Submitted Date are filled in by the API on submission (`gg_post_population` rules `signature` and `current_date`), so the form shows them read-only.",
+    "Labels are those of SGG's existing form. Standardizing them on the question bank's labels comes later."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "1. Certification for Contracts, Grants, Loans, and Cooperative Agreements",
+      "children": []
+    },
+    {
+      "kind": "section",
+      "label": "2. Applicant's Organization",
+      "children": [
+        {
+          "kind": "field",
+          "id": "organization-name",
+          "label": "Applicant's Organization",
+          "dat_field": "5-0",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the legal name of the organization.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "organization_name",
+          "xml_path": "GG_LobbyingForm:ApplicantName"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "3. Authorized Representative",
+      "children": [
+        {
+          "kind": "field",
+          "id": "authorized-representative-prefix",
+          "label": "Prefix",
+          "dat_field": "6-1",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the prefix.",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "authorized_representative_name.prefix",
+          "xml_path": "GG_LobbyingForm:AuthorizedRepresentativeName/globLib:PrefixName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-first-name",
+          "label": "First Name",
+          "dat_field": "6-2",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first name.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "authorized_representative_name.first_name",
+          "xml_path": "GG_LobbyingForm:AuthorizedRepresentativeName/globLib:FirstName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-middle-name",
+          "label": "Middle Name",
+          "dat_field": "6-3",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the middle name.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "authorized_representative_name.middle_name",
+          "xml_path": "GG_LobbyingForm:AuthorizedRepresentativeName/globLib:MiddleName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-last-name",
+          "label": "Last Name",
+          "dat_field": "6-4",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the last name.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "authorized_representative_name.last_name",
+          "xml_path": "GG_LobbyingForm:AuthorizedRepresentativeName/globLib:LastName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-suffix",
+          "label": "Suffix",
+          "dat_field": "6-5",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix.",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "authorized_representative_name.suffix",
+          "xml_path": "GG_LobbyingForm:AuthorizedRepresentativeName/globLib:SuffixName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-title",
+          "label": "Title",
+          "dat_field": "6-6",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the position title.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "authorized_representative_title",
+          "xml_path": "GG_LobbyingForm:AuthorizedRepresentativeTitle"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "4. Signature",
+      "children": [
+        {
+          "kind": "field",
+          "id": "signature",
+          "label": "Signature",
+          "dat_field": "6-7",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Text (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "minLength 1, maxLength 144",
+          "post_populated": "signature",
+          "json_path": "authorized_representative_signature",
+          "xml_path": "GG_LobbyingForm:AuthorizedRepresentativeSignature"
+        },
+        {
+          "kind": "field",
+          "id": "submitted-date",
+          "label": "Date",
+          "dat_field": "6-8",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Date (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "current_date",
+          "json_path": "submitted_date",
+          "xml_path": "GG_LobbyingForm:SubmittedDate"
+        }
+      ]
+    }
+  ]
 }
