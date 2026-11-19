@@ -9,3 +9,4 @@ import "./forms/rr-key-person-expanded/index.tsp";
 import "./forms/rr-key-person/index.tsp";
 import "./forms/performance-sites/index.tsp";
 import "./forms/nasa-pi-and-aor/index.tsp";
+import "./forms/labor-standards/index.tsp";
