@@ -475,6 +475,105 @@ describe("JsonFormsFields lists", () => {
     ).not.toBeInTheDocument();
   });
 
+  describe("inside an object", () => {
+    const budgetSchema: RJSFSchema = {
+      type: "object",
+      properties: {
+        budget: {
+          type: "object",
+          properties: {
+            line_items: {
+              type: "array",
+              title: "Line Item",
+              items: {
+                type: "object",
+                properties: {
+                  amount: { type: "string", title: "Amount", maxLength: 10 },
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+    const budgetUiSchema = {
+      type: "VerticalLayout",
+      elements: [
+        { type: "Control", scope: "#/properties/budget/properties/line_items" },
+      ],
+    } as UISchemaElement;
+    const savedBudget = {
+      budget: { line_items: [{ amount: "10.00" }, { amount: "20.00" }] },
+    };
+
+    it("renders each entry, which saves beneath the object", () => {
+      render(
+        <form data-testid="the-form">
+          <JsonFormsFields
+            errors={null}
+            formData={savedBudget}
+            schema={budgetSchema}
+            uiSchema={budgetUiSchema}
+          />
+        </form>,
+      );
+
+      expect(screen.getByTestId("budget--line_items[1]--amount")).toHaveValue(
+        "20.00",
+      );
+      expect(
+        shapeFormData(
+          new FormData(screen.getByTestId<HTMLFormElement>("the-form")),
+          budgetSchema,
+        ),
+      ).toEqual(savedBudget);
+    });
+
+    it("shows a warning on the entry's field it names", () => {
+      const { uiSchema, unsupportedControls } = convertJsonFormsUiSchema(
+        budgetUiSchema,
+        budgetSchema,
+      );
+      expect(unsupportedControls).toEqual([]);
+      const errors = buildWarningTree(
+        uiSchema,
+        null,
+        [
+          {
+            field: "$.budget.line_items[1].amount",
+            message: "Amount is too long",
+            type: "maxLength",
+            value: null,
+          },
+        ],
+        budgetSchema,
+      );
+      expect(
+        errors.map(({ htmlField, fieldListLabel }) => [
+          htmlField,
+          fieldListLabel,
+        ]),
+      ).toEqual([["budget--line_items[1]--amount", "Line Item"]]);
+
+      render(
+        <JsonFormsFields
+          errors={errors}
+          formData={savedBudget}
+          schema={budgetSchema}
+          uiSchema={budgetUiSchema}
+        />,
+      );
+
+      const [first, second] = entries();
+      expect(
+        within(second).getByText("Amount is too long"),
+      ).toBeInTheDocument();
+      expect(
+        within(first).queryByText("Amount is too long"),
+      ).not.toBeInTheDocument();
+    });
+  });
+
   it("prints each entry's answers", () => {
     render(
       <JsonFormsFields

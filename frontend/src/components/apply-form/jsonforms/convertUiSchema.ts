@@ -14,6 +14,8 @@ import type {
 } from "src/types/applyForm/types";
 import { getByPointer } from "src/utils/formData/formDataUtils";
 
+import { definitionToDataPath } from "./dataPaths";
+
 /*
   Converts a JSON Forms UI schema to the section/field tree that navigation, warnings, print
   and the UI schema validator read.
@@ -36,8 +38,11 @@ type FieldNode = UiSchemaField | UiSchemaFieldList;
 type Definition = `/properties/${string}`;
 type EntryField = UiSchemaFieldList["children"][number];
 
-/** A top-level property, the only place a field list may sit. */
-const ROOT_PROPERTY = /^\/properties\/([^/]+)$/;
+/**
+ * A definition with no list in it, e.g. `/properties/budget/properties/line_items`. A list
+ * control's scope must match it. A list inside a list entry is scoped relative to the entry.
+ */
+const PROPERTY_PATH = /^(\/properties\/[^/]+)+$/;
 
 /**
  * The SGG widgets `options.widget` may name on a field. Any other name is left off the
@@ -96,9 +101,9 @@ const jsonFormsToUiSchema = (
  *
  * A control scoped to a scalar is one field. A control scoped to an object is each of the
  * object's leaves, which is how the SGG UI schema lists a composed question. A control
- * scoped to a top-level array of objects is a field list, whose fields follow the control's
- * `options.detail` when it has one and the item schema otherwise. Anything else returns no
- * nodes, and the control is skipped.
+ * scoped to an array of objects is a field list named by its data path (`budget.line_items`),
+ * whose fields follow the control's `options.detail` when it has one and the item schema
+ * otherwise. Anything else returns no nodes, and the control is skipped.
  */
 export const controlToNodes = (
   control: ControlElement,
@@ -119,9 +124,8 @@ export const controlToNodes = (
 
   const items = itemSchema(fieldSchema);
   if (items && isObjectSchema(items)) {
-    const rootProperty = ROOT_PROPERTY.exec(definition);
-    if (!rootProperty) return [];
-    const name = rootProperty[1];
+    if (!PROPERTY_PATH.test(definition)) return [];
+    const name = definitionToDataPath(definition);
     const itemsBase: Definition = `${definition}/items`;
     return [
       {
@@ -130,6 +134,7 @@ export const controlToNodes = (
         label:
           (typeof control.label === "string" ? control.label : undefined) ??
           fieldSchema.title ??
+          name.split(".").pop() ??
           name,
         // The control's help text is about the list on this form, so it wins over the schema's.
         description: options.description ?? fieldSchema.description,
@@ -221,9 +226,9 @@ const groupLabel = (element: UISchemaElement): string | undefined =>
  * A list entry's fields, in the order its layout lists them.
  *
  * Scopes inside an entry are relative to the entry, so each control is rebased beneath the
- * list's `items` and then read like any other control. A list directly inside the entry
- * contributes its own entry's fields, beneath its `items`, so a warning on one of them is
- * matched to its field. Groups are flattened: the tree has no section inside a field list.
+ * list's `items` and then read like any other control. A list inside the entry contributes
+ * its own entry's fields, beneath its `items`, so a warning on one of them is matched to its
+ * field. Groups are flattened: the tree has no section inside a field list.
  */
 const entryFields = (
   element: UISchemaElement,
@@ -233,7 +238,7 @@ const entryFields = (
   if (isControlElement(element)) {
     if (!element.scope.startsWith("#/")) return [];
     const definition: Definition = `${itemsBase}${element.scope.slice(1)}`;
-    const nestedItems = ROOT_PROPERTY.test(element.scope.slice(1))
+    const nestedItems = PROPERTY_PATH.test(element.scope.slice(1))
       ? itemSchema(schemaAt(schema, definition) ?? {})
       : undefined;
     if (nestedItems && isObjectSchema(nestedItems)) {
@@ -297,15 +302,16 @@ export const entryLayout = (
   };
 
 /**
- * The item schema of a list the SGG field-list widget can show: a control on an array of
- * objects that is a property of the schema `scope` is relative to (the form, or an entry).
+ * Returns the item schema when `control` is scoped to an array of objects that the SGG
+ * field-list widget can render, or undefined otherwise. `schema` is the schema the scope is
+ * relative to: the form's schema, or a list entry's item schema.
  */
 export const listItemSchema = (
   control: ControlElement,
   schema: RJSFSchema,
 ): RJSFSchema | undefined => {
   const definition = scopeToDefinition(control.scope);
-  if (!definition || !ROOT_PROPERTY.test(definition)) return undefined;
+  if (!definition || !PROPERTY_PATH.test(definition)) return undefined;
   const items = itemSchema(schemaAt(schema, definition) ?? {});
   return items && isObjectSchema(items) ? items : undefined;
 };

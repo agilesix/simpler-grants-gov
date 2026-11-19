@@ -23,16 +23,16 @@ In these READMEs, "renderer" means the form-level renderer: the SGG renderer, or
 
 ## How controls map to SGG UI schema nodes
 
-| JSON Forms element                      | SGG UI schema node(s)                                                                             |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| Control on a scalar                     | One `field`                                                                                       |
-| Control with `options.readonly: true`   | One `null` field (rendered disabled)                                                              |
-| Control with `options.widget`           | One `field` with that `widget`, if it names an SGG widget                                         |
-| Control on an object                    | One `field` per leaf of the object                                                                |
-| Control on a top-level array of objects | One `fieldList`, whose fields follow `options.detail` when it's set and the item schema otherwise |
-| List directly inside a list entry       | Its entry's fields, added to the outer `fieldList` beneath both lists' `items`                    |
-| `Group` with a `label`                  | A `section` named with `groupName(label)`                                                         |
-| Any other layout                        | Its children, flattened into the parent                                                           |
+| JSON Forms element                    | SGG UI schema node(s)                                                                                                                                 |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Control on a scalar                   | One `field`                                                                                                                                           |
+| Control with `options.readonly: true` | One `null` field (rendered disabled)                                                                                                                  |
+| Control with `options.widget`         | One `field` with that `widget`, if it names an SGG widget                                                                                             |
+| Control on an object                  | One `field` per leaf of the object                                                                                                                    |
+| Control on an array of objects        | One `fieldList` named by its path (`contacts`, `budget.line_items`), whose fields follow `options.detail` when it's set and the item schema otherwise |
+| List inside a list entry              | Its entry's fields, added to the outer `fieldList` beneath both lists' `items`                                                                        |
+| `Group` with a `label`                | A `section` named with `groupName(label)`                                                                                                             |
+| Any other layout                      | Its children, flattened into the parent                                                                                                               |
 
 ## How widgets are picked
 
@@ -42,24 +42,25 @@ In these READMEs, "renderer" means the form-level renderer: the SGG renderer, or
 | -------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | 1        | `SkipControl`                                                            | Controls that can't be rendered by an existing SGG widget, which are skipped |
 | 10       | The SGG adapter (`AdaptedControl`, `AdaptedLayout`)                      | Everything else                                                              |
-| 11       | `AdaptedList`                                                            | Lists of objects at the top level or directly inside a list entry            |
+| 11       | `AdaptedList`                                                            | Lists of objects, wherever they are in the form                              |
 | Above 11 | Custom JSON Forms widgets, registered in `renderers` or `extraRenderers` | Whatever their tester matches                                                |
 
 See [Adding a new widget](../widgets/README.md#adding-a-new-widget) for an SGG widget, and [Adding a custom JSON Forms widget](#adding-a-custom-json-forms-widget) below.
 
 ## Lists
 
-`AdaptedList` shows a list of objects with the SGG field-list widget, which supplies the entry headings, add and delete, and the minimum and maximum entry counts. The widget hands each entry back through its `renderEntry` prop, and JSON Forms renders the entry's layout (`options.detail`, or a control for each of the item's properties) at that entry's path, e.g. `contacts.0`. So inside an entry:
+`AdaptedList` renders a list of objects with the SGG field-list widget, which provides the entry headings, add and delete, and the minimum and maximum entry counts. The widget calls its `renderEntry` prop for each entry, and JSON Forms renders the entry's layout (`options.detail`, or a control for each of the item's properties) at that entry's path, e.g. `contacts.0`. So inside an entry:
 
 - **Rules apply.** A rule's condition is resolved relative to the entry, so it reads that entry's answers. When an entry is added or removed, the rule data is re-read from the `<form>`.
-- **A labeled group is a sub-section of the entry.** The converted SGG UI schema still flattens it, since a `fieldList` holds only fields.
-- **A list directly inside the entry is a list.** Its fields are named with both indexes, e.g. `contacts[0]--phones[1]--number`, which the save action shapes back into nested arrays, and a warning at `$.contacts[0].phones[1].number` shows on that field.
+- **A labeled group is a sub-section of the entry.** The converted SGG UI schema still flattens it, since a `fieldList` can contain only fields.
+- **A list inside the entry is rendered as a nested list.** Its fields are named with both indexes, e.g. `contacts[0]--phones[1]--number`, which the save action shapes back into nested arrays, and a warning at `$.contacts[0].phones[1].number` shows on that field.
 
-Each field in an entry still renders with an SGG widget, named, valued and marked required the way the field-list widget names its own fields.
+A list inside an object, such as a budget's line items (`budget.line_items`), works the same way, with fields named `budget--line_items[0]--amount`.
+
+Each field in an entry is still rendered by an SGG widget, with the same HTML name, value and required state as a field rendered by the field-list widget itself.
 
 ## Known limitations
 
-- **A list inside an object, outside a list entry, isn't supported.** For example, a budget's line items (`budget.line_items`). The same goes for a list inside an object in an entry (`contacts[].history.jobs`). It's skipped, so the applicant doesn't see it and no answer is collected for it, and the server logs a warning.
 - **The warnings summary names the outermost list and entry** for a field in a nested list.
 
 ## Adding a custom JSON Forms widget

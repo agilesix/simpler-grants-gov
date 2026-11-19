@@ -1,6 +1,7 @@
 /*
   JSON Forms names a value by its data path, with array indexes as segments: `people.0.bio`.
-  The SGG widgets, saving and validation each name it their own way, so these translate.
+  The SGG widgets, shapeFormData and the API's validation warnings each use a different
+  format. These functions convert between them.
 */
 
 const segments = (path: string): string[] => path.split(".").filter(Boolean);
@@ -14,8 +15,18 @@ export const dataPathToDefinition = (path: string): string =>
     .join("");
 
 /**
- * `people.0.bio` -> `people[0]--bio`, the HTML field name the save action shapes back into
- * `people[0].bio`. Each list level adds its index: `a.0.b.1.c` -> `a[0]--b[1]--c`.
+ * `/properties/budget/properties/line_items` -> `budget.line_items`, the data path of a value
+ * that isn't inside a list.
+ */
+export const definitionToDataPath = (definition: string): string =>
+  definition
+    .split("/")
+    .filter((segment) => segment && segment !== "properties")
+    .join(".");
+
+/**
+ * `people.0.bio` -> `people[0]--bio`, the HTML field name, which shapeFormData converts back
+ * to `people[0].bio`. Each list level adds its index: `a.0.b.1.c` -> `a[0]--b[1]--c`.
  */
 export const dataPathToHtmlName = (path: string): string =>
   segments(path).reduce(
@@ -28,7 +39,7 @@ export const dataPathToHtmlName = (path: string): string =>
     "",
   );
 
-/** `people.0.bio` -> `$.people[0].bio`, the path the API reports a validation warning at. */
+/** `people.0.bio` -> `$.people[0].bio`, the path format of the API's validation warnings. */
 export const dataPathToWarningPath = (path: string): string =>
   `$${segments(path)
     .map((segment) => (isIndex(segment) ? `[${segment}]` : `.${segment}`))

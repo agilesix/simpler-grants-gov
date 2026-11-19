@@ -353,13 +353,22 @@ export function getHtmlFieldForWarning({
 }
 
 /**
+ * Matches the definition of a field inside a list, e.g.
+ * `/properties/budget/properties/line_items/items/properties/amount`. The first capture
+ * group is the definition of the outermost list.
+ */
+const LIST_FIELD_DEFINITION =
+  /^((?:\/properties\/[^/]+)+?)\/items\/properties\/.+$/;
+
+/**
  * Matches the validation paths of a field inside a list, in any entry. Each list level is
  * an `items` segment in the definition and an index in the path:
- * `/properties/a/items/properties/b/items/properties/c` matches `$.a[0].b[2].c`.
+ * `/properties/a/items/properties/b/items/properties/c` matches `$.a[0].b[2].c`, and
+ * `/properties/a/properties/b/items/properties/c` matches `$.a.b[0].c`.
  * Returns undefined for a field that isn't in a list.
  */
 const listFieldWarningPattern = (definition: string): RegExp | undefined => {
-  if (!/^\/properties\/[^/]+\/items\/properties\/.+$/.test(definition)) {
+  if (!LIST_FIELD_DEFINITION.test(definition)) {
     return undefined;
   }
   const parts = definition.split(JSON_SCHEMA_NESTING_DELIMITER).slice(1);
@@ -390,15 +399,14 @@ export function getFieldListLabelFromDefinition({
     return undefined;
   }
 
-  const match = definition.match(
-    /^\/properties\/([^/]+)\/items\/properties\/.+$/,
-  );
+  const match = definition.match(LIST_FIELD_DEFINITION);
 
   if (!match) {
     return undefined;
   }
 
-  const [, fieldListName] = match;
+  // The outermost list, named by its path: `contacts`, or `budget.line_items`.
+  const fieldListName = jsonSchemaPointerToPath(match[1]).replace(/^\$\./, "");
 
   const findFieldListLabel = (nodes: UiSchema): string | undefined => {
     for (const node of nodes) {

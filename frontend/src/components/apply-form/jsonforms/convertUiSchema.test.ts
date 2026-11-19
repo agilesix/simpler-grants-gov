@@ -121,6 +121,26 @@ describe("controlToNodes", () => {
     ]);
   });
 
+  it("maps an array of objects inside an object to a field list named by its path", () => {
+    expect(
+      controlToNodes(control("#/properties/nested/properties/people"), schema),
+    ).toEqual([
+      {
+        type: "fieldList",
+        name: "nested.people",
+        label: "people",
+        description: undefined,
+        children: [
+          {
+            type: "field",
+            definition:
+              "/properties/nested/properties/people/items/properties/id",
+          },
+        ],
+      },
+    ]);
+  });
+
   it("describes a field list by the control's description over the schema's", () => {
     const withDescription: RJSFSchema = {
       ...schema,
