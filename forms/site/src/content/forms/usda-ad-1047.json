@@ -1,12 +1,186 @@
 {
   "title": "USDA AD-1047",
   "slug": "usda-ad-1047",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["SF-424", "R&R"],
-  "category": "Key Personnel & Contact Forms",
+  "category": "Certification & Assurance Forms",
   "apps_count": 333,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/545",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/AD_1047-V1.0_F545.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/AD_1047-V1.0.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/AD_1047-V1.0_F545.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/AD_1047-V1.0_F545.xls",
+  "spec_id": "usda-ad-1047",
+  "omb_number": "0505-0027",
+  "expiration_date": "09/30/2025",
+  "widgets": ["TextWidget"],
+  "description": "Certification regarding debarment, suspension, and other responsibility matters for primary covered transactions. The applicant names its organization, the award or project, and its authorized representative; Grants.gov fills in the signature and date.",
+  "notes": [
+    "The Privacy Act and Paperwork Reduction Act statements, the certification, the civil rights statement and the instructions for certification are quoted exactly as section descriptions. The certification's four statements render as a numbered list, and the civil rights statement links its complaint page and email address, as the DAT asks.",
+    "Part B asks an applicant that can't certify to attach an explanation. The form has no attachment field for it, like the paper form; the explanation goes with the application.",
+    "Signature and Submitted Date are filled in by the API on submission (`gg_post_population` rules `signature` and `current_date`), so the form shows them read-only.",
+    "Labels are the DAT's, in title case. Standardizing them on the question bank's labels comes later."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "Certification",
+      "children": [
+        {
+          "kind": "field",
+          "id": "organization-name",
+          "label": "Organization Name",
+          "dat_field": "3-1",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the legal name of the organization.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "organization_name",
+          "xml_path": "AD_1047:OrganizationName"
+        },
+        {
+          "kind": "field",
+          "id": "project-name",
+          "label": "PR/Award Number or Project Name",
+          "dat_field": "3-2",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the PR/Award Number or Project Name. This field is required.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "project_name",
+          "xml_path": "AD_1047:ProjectName"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "Name(s) and Title(s) of Authorized Representative(s)",
+      "children": [
+        {
+          "kind": "field",
+          "id": "authorized-representative-prefix",
+          "label": "Prefix",
+          "dat_field": "4-2",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the prefix.",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "authorized_representative.prefix",
+          "xml_path": "AD_1047:AuthorizedRepresentative/globLib:PrefixName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-first-name",
+          "label": "First Name",
+          "dat_field": "4-3",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the first name.",
+          "constraints": "minLength 1, maxLength 35",
+          "json_path": "authorized_representative.first_name",
+          "xml_path": "AD_1047:AuthorizedRepresentative/globLib:FirstName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-middle-name",
+          "label": "Middle Name",
+          "dat_field": "4-4",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the middle name.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "authorized_representative.middle_name",
+          "xml_path": "AD_1047:AuthorizedRepresentative/globLib:MiddleName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-last-name",
+          "label": "Last Name",
+          "dat_field": "4-5",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the last name.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "authorized_representative.last_name",
+          "xml_path": "AD_1047:AuthorizedRepresentative/globLib:LastName"
+        },
+        {
+          "kind": "field",
+          "id": "authorized-representative-suffix",
+          "label": "Suffix",
+          "dat_field": "4-6",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix.",
+          "constraints": "minLength 1, maxLength 10",
+          "json_path": "authorized_representative.suffix",
+          "xml_path": "AD_1047:AuthorizedRepresentative/globLib:SuffixName"
+        },
+        {
+          "kind": "field",
+          "id": "title",
+          "label": "Title",
+          "dat_field": "4-7",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the position title.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "title",
+          "xml_path": "AD_1047:Title"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "Signature",
+      "children": [
+        {
+          "kind": "field",
+          "id": "signature",
+          "label": "Signature(s)",
+          "dat_field": "5-1",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Text (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "minLength 1, maxLength 144",
+          "post_populated": "signature",
+          "json_path": "signature",
+          "xml_path": "AD_1047:AORSignature"
+        },
+        {
+          "kind": "field",
+          "id": "date-signed",
+          "label": "Date",
+          "dat_field": "5-2",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Date (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "current_date",
+          "json_path": "date_signed",
+          "xml_path": "AD_1047:DateSigned"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "USDA Civil Rights Statement",
+      "children": []
+    },
+    {
+      "kind": "section",
+      "label": "Instructions for Certification",
+      "children": []
+    }
+  ],
+  "risks": [
+    "reginfo.gov lists OMB control number 0505-0027 as discontinued on 09/30/2025, the expiration date the DAT and PDF give. Grants.gov may retire this form, so confirm it's still in use before it goes to production."
+  ]
 }

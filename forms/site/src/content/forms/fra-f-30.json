@@ -1,12 +1,134 @@
 {
   "title": "FRA F 30",
   "slug": "fra-f-30",
-  "status": "backlog",
+  "status": "in_progress",
   "family": ["SF-424", "SF-424 Mandatory"],
-  "category": "Agency-Specific Supplement Forms",
+  "category": "Certification & Assurance Forms",
   "apps_count": 1182,
   "fid_url": "https://www.grants.gov/forms/form-items-description/fid/648",
   "pdf_url": "https://apply07.grants.gov/apply/forms/readonly/FRA-V1.0_F648.pdf",
   "xsd_url": "https://apply07.grants.gov/apply/forms/schemas/FRA-V1.0.xsd",
-  "dat_url": "https://apply07.grants.gov/apply/forms/sample/FRA-V1.0_F648.xls"
+  "dat_url": "https://apply07.grants.gov/apply/forms/sample/FRA-V1.0_F648.xls",
+  "spec_id": "fra-f-30",
+  "omb_number": "2130-0615",
+  "expiration_date": "01/31/2028",
+  "widgets": ["TextWidget", "CheckboxWidget", "FieldListWidget"],
+  "description": "The Federal Railroad Administration's certifications regarding debarment and suspension, a drug-free workplace and lobbying. The applicant lists up to three places of performance, checks two boxes, and gives the certifying official's name and title; Grants.gov fills in the signature and date.",
+  "notes": [
+    "Parts A, B and C, the certifying statement and the burden statement are quoted exactly from the DAT as section descriptions.",
+    "The XSD numbers three place-of-performance elements (`PlaceofPerformance1` to `3`). The form asks for a list of up to three, and the XML mapping writes each item to its numbered element with `Mapping.Item` (`places_of_performance[0]` to `[2]`).",
+    "The list of places renders with the frontend's FieldListControl, one text input per place.",
+    "The two checkboxes use the shared Yes/No question, a boolean the XML mapping writes as `Y: Yes` or `N: No`.",
+    "Part A asks a grantee that can't certify to attach an explanation. The form has no attachment field for it, like the paper form.",
+    "Signature and Submitted Date are filled in by the API on submission (`gg_post_population` rules `signature` and `current_date`), so the form shows them read-only. The XSD wraps the signature and the name and title in `AuthorizedRepresentative`, which only the `xml-mapping` format can write.",
+    "Labels are the DAT's, in title case. Standardizing them on the question bank's labels comes later."
+  ],
+  "children": [
+    {
+      "kind": "section",
+      "label": "Part A: Certification Regarding Debarment, Suspension and Other Responsibility Matters – Primary Covered Transactions (Pursuant to 2 CFR Part 180)",
+      "children": []
+    },
+    {
+      "kind": "section",
+      "label": "Part B: Certification Regarding Drug-Free Workplace Requirements (Pursuant to 49 CFR Part 32)",
+      "children": [
+        {
+          "kind": "field",
+          "id": "places-of-performance",
+          "label": "Place of Performance (Street address, city, county, state, zip code)",
+          "dat_field": "02-B-1-1",
+          "required": false,
+          "type": "List of text inputs",
+          "help_text": "Enter up to three places of performance, one per line.",
+          "constraints": "minLength 1, maxLength 200",
+          "max_items": 3,
+          "json_path": "places_of_performance[]",
+          "xml_path": "FRA:PlaceofPerformance1"
+        },
+        {
+          "kind": "field",
+          "id": "workplaces-not-identified",
+          "label": "Check if there are workplaces on file that are not identified here.",
+          "dat_field": "02-B-2",
+          "required": false,
+          "type": "Checkbox (boolean; XML YesNoDataType)",
+          "widget": "CheckboxWidget",
+          "help_text": "Check if there are workplaces on file that are not identified here.",
+          "constraints": "YesNoDataType enumeration",
+          "json_path": "workplaces_not_identified",
+          "xml_path": "FRA:WorkplacesNotIdentified"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "Part C: Certification Regarding Lobbying (Pursuant to 49 CFR Part 20)",
+      "children": [
+        {
+          "kind": "field",
+          "id": "exceeds-lobbying-threshold",
+          "label": "Check if applicable certification is for the award of a grant or cooperative agreement exceeding $100,000 or a federal loan exceeding $150,000",
+          "dat_field": "03-0-1",
+          "required": false,
+          "type": "Checkbox (boolean; XML YesNoDataType)",
+          "widget": "CheckboxWidget",
+          "help_text": "Check if applicable certification is for the award of a grant or cooperative agreement exceeding $100,000 or a federal loan exceeding $150,000.",
+          "constraints": "YesNoDataType enumeration",
+          "json_path": "exceeds_lobbying_threshold",
+          "xml_path": "FRA:CheckExceeding"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "Authorized Certifying Official",
+      "children": [
+        {
+          "kind": "field",
+          "id": "signature",
+          "label": "Signature of Authorized Certifying Official",
+          "dat_field": "03-2-5-1",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Text (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "minLength 1, maxLength 144",
+          "post_populated": "signature",
+          "json_path": "signature",
+          "xml_path": "FRA:AuthorizedRepresentative/FRA:Signature"
+        },
+        {
+          "kind": "field",
+          "id": "name-and-title",
+          "label": "Typed Name and Title",
+          "dat_field": "03-2-5-2",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name and title of the official certifying that the certifications in Parts A, B, and C (if C is applicable) are true. This field is required.",
+          "constraints": "minLength 1, maxLength 200",
+          "json_path": "name_and_title",
+          "xml_path": "FRA:AuthorizedRepresentative/FRA:NameandTitle"
+        },
+        {
+          "kind": "field",
+          "id": "date-signed",
+          "label": "Date",
+          "dat_field": "03-2-5-3",
+          "required": "No (completed by Grants.gov upon submission)",
+          "type": "Date (read-only)",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "current_date",
+          "json_path": "date_signed",
+          "xml_path": "FRA:DateSigned"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "Paperwork Burden Statement",
+      "children": []
+    }
+  ]
 }
