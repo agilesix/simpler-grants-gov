@@ -42,6 +42,7 @@ from tests.src.form_schema.parity.xml.diffs import (
     rr_key_person_expanded_generated,
     rr_key_person_generated,
     sf424_individual_generated,
+    sf424_short_generated,
 )
 from tests.src.form_schema.parity.xml.harness import flatten_form
 from tests.src.form_schema.parity.xml.harness.compare import (
@@ -80,6 +81,7 @@ DIFFS = [
     phs_398_research_training_program_plan_generated.DIFF,
     nasa_pi_and_aor_generated.DIFF,
     sf424_individual_generated.DIFF,
+    sf424_short_generated.DIFF,
 ]
 
 
