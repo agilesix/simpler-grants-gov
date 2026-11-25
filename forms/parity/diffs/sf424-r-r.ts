@@ -38,7 +38,7 @@ const yesNo = {
 const layout = {
   category: "intentional",
   reason:
-    "The preview groups related answers so applicants can complete them together. The XML mapping retains the source element order.",
+    "The form groups related questions together. The XML follows the XSD's order.",
 } as const;
 
 const byPath = <T extends Recorded>(paths: string[], reason: T) =>
@@ -91,6 +91,20 @@ export const DIFF: FormDiff = {
     },
   },
   dat: {
+    outOfOrder: byPath(
+      [
+        "05-1",
+        "06-0",
+        "08-0",
+        "08-1-6",
+        "08-2",
+        "08-2-3",
+        "18-0",
+        "19-14",
+        "19-15",
+      ],
+      layout,
+    ),
     absentFromPlan: {
       ...byPath(
         [
@@ -165,23 +179,6 @@ export const DIFF: FormDiff = {
         },
       ),
     },
-  },
-  uiSchema: {
-    outOfOrder: byPath(
-      [
-        "applicant.organization.name",
-        "applicant.organization.ein",
-        "application.application_type",
-        "application.revision.type",
-        "application.revision.other_specify",
-        "application.other_agencies.submitted",
-        "application.other_agencies.explanation",
-        "attachments.lobbying_disclosure",
-        "certification.signature",
-        "certification.date_signed",
-      ],
-      layout,
-    ),
   },
   jsonSchemaVsXsd: {
     differingRules: {
