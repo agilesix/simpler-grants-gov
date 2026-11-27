@@ -181,6 +181,26 @@ describe("datFields", () => {
     expect(dat.get("14-1")?.label).toBeUndefined();
   });
 
+  it("keeps a post-populated label the DAT spells Post-populate", () => {
+    const dat = datFields(
+      workbook([
+        [...HEADER, "Field Type"],
+        [
+          "3-1",
+          "* 3. DATE RECEIVED:",
+          "Yes",
+          "DATE",
+          "",
+          1,
+          "Label",
+          "",
+          "Post-populate",
+        ],
+      ]),
+    );
+    expect([...dat.keys()]).toEqual(["3-1"]);
+  });
+
   it("keeps asterisk on required labels", () => {
     const dat = datFields(
       workbook([

@@ -82,7 +82,8 @@ export function datFields(workbook: Uint8Array): Fields {
     const populatedOutput =
       implementation === "label" &&
       fieldType !== -1 &&
-      header(row[fieldType]) === "post-populated";
+      // DATs spell it "Post-Populated", "Post-populated" and "Post-populate".
+      header(row[fieldType]).startsWith("post-populate");
     if (!id || (NOT_INPUTS.has(implementation) && !populatedOutput)) continue;
     // A radio row with no element of its own is one choice of the Radio Group above it.
     const choice =
