@@ -8,6 +8,7 @@ from src.form_schema.forms import (
     SF424a_v1_0,
     SF424b_v1_1,
     SF424d_v1_1,
+    SF424Generated_v4_0,
 )
 from src.services.applications.get_field_from_application import (
     get_project_title_from_application,
@@ -46,6 +47,16 @@ def test_get_project_title_from_application_sf424(
     application = ApplicationFactory.create(competition__competition_forms=[])
     add_form_to_application(
         db_session, application, SF424_v4_0, {"project_title": "my fun project"}
+    )
+    assert get_project_title_from_application(application) == "my fun project"
+
+
+def test_get_project_title_from_application_sf424_generated(
+    db_session, enable_factory_create, load_active_forms
+):
+    application = ApplicationFactory.create(competition__competition_forms=[])
+    add_form_to_application(
+        db_session, application, SF424Generated_v4_0, {"project": {"title": "my fun project"}}
     )
     assert get_project_title_from_application(application) == "my fun project"
 
@@ -121,6 +132,17 @@ def test_get_requested_amount_sf424(db_session, enable_factory_create, load_acti
     application = ApplicationFactory.create(competition__competition_forms=[])
     add_form_to_application(
         db_session, application, SF424_v4_0, {"federal_estimated_funding": "100.12"}
+    )
+    assert get_requested_amount_from_application(application) == Decimal("100.12")
+
+
+def test_get_requested_amount_sf424_generated(db_session, enable_factory_create, load_active_forms):
+    application = ApplicationFactory.create(competition__competition_forms=[])
+    add_form_to_application(
+        db_session,
+        application,
+        SF424Generated_v4_0,
+        {"budget": {"funding_sources": {"federal": "100.12"}}},
     )
     assert get_requested_amount_from_application(application) == Decimal("100.12")
 
