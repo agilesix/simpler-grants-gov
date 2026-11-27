@@ -15,6 +15,7 @@ declare module "@sgg/frontend/types/applyForm/types" {
   };
   export type UiSchema = any;
   export type UiSchemaNode = any;
+  export type SchemaField = any;
   export type UiSchemaField = any;
   export type UiSchemaFieldList = any;
   export type WidgetTypes = string;
