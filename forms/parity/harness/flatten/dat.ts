@@ -117,6 +117,8 @@ export function datFields(workbook: Uint8Array): Fields {
       required:
         required === "yes" ? "yes" : required === "no" ? "no" : undefined,
       ...(unstated.length && { unstated }),
+      ...(FIXED_LISTS.has(implementation) &&
+        String(row[at.max]).trim() && { popupMax: max }),
       rules,
     });
   }

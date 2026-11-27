@@ -64,6 +64,16 @@ describe("datFields", () => {
     expect(dat.get("7-14")?.rules).toEqual({ maxOccurs: 4 });
   });
 
+  it("keeps a Popup's max characters apart from its length", () => {
+    const dat = datFields(
+      workbook([
+        HEADER,
+        ["5a-02", "Prefix:", "No", "LIST", 10, 1, "Popup", ""],
+      ]),
+    );
+    expect(dat.get("5a-02")?.popupMax).toBe(10);
+  });
+
   it("does not read a currency maximum as a text length", () => {
     const dat = datFields(
       workbook([

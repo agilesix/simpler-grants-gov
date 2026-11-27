@@ -110,6 +110,11 @@ export interface FlatField {
    * skips them, since there's nothing to compare the plan's value against.
    */
   unstated?: (Keyword | "label")[];
+  /**
+   * A DAT Popup's max characters. It's the longest code for a fixed list, but a real length
+   * limit where the field also takes free text, as a prefix does.
+   */
+  popupMax?: number;
   rules: Rules;
 }
 

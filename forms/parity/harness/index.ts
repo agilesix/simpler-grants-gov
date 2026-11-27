@@ -180,6 +180,25 @@ function joinThroughPlan(
   return { left, right, xmlPaths };
 }
 
+/**
+ * DAT Popups whose plan field takes free text, with their max characters as `maxLength`. A
+ * Popup that the plan gives a code list keeps no length: its max is the longest code.
+ */
+function withPopupLengths(plan: Fields, dat: Fields): Fields {
+  return new Map(
+    [...dat].map(([path, field]) => {
+      const rules = plan.get(path)?.rules;
+      const freeText = rules && !rules.enum && !rules.enumType;
+      return field.popupMax !== undefined && freeText
+        ? [
+            path,
+            { ...field, rules: { ...field.rules, maxLength: field.popupMax } },
+          ]
+        : [path, field];
+    }),
+  );
+}
+
 /** A dollar amount's pattern: up to N digits, then optional cents. */
 const AMOUNT = /^\^\\d\{1,(\d+)\}\(\[\.\]\\d\{2\}\)\?\$$/;
 
@@ -345,7 +364,10 @@ export async function formPairs(
   const dat = {
     ...pair(
       diff.dat,
-      ...withAsterisk(planFields(plan, "dat_field", planProblems), datSource),
+      ...withAsterisk(
+        planFields(plan, "dat_field", planProblems),
+        withPopupLengths(planFields(plan, "dat_field"), datSource),
+      ),
     ),
     wording: diff.wording,
   };
