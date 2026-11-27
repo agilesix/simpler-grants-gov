@@ -37,8 +37,8 @@ import { xmlFields, type XmlFormat } from "./xml.ts";
  * What each comparison checks, as the tests name it. The DAT is compared on `maxLength`
  * only (see `datFields`); `enum` is compared only between the two artifacts that list values.
  * JSON schema vs XSD compares only fields the plan links, and lets the schema be stricter.
- * Labels compared with the DAT carry the asterisk it prints on a required field (see
- * `withAsterisk`).
+ * Labels compared with the DAT carry an asterisk only where the DAT's Required? column
+ * doesn't already say the field is required (see `withAsterisk`).
  */
 export const SPECS = {
   dat: {
@@ -197,19 +197,34 @@ function indexDisagreements(
 }
 
 /**
- * The plan's labels as the DAT prints them: `* ` before every field the plan requires. Where
- * the asterisk and the plan's requiredness agree, the labels compare as plain text; where
- * they disagree, the label comparison reports it.
+ * The plan and DAT labels with the DAT's asterisk compared only where it says something the
+ * DAT's Required? column doesn't. Where that column says yes, neither label carries a star,
+ * since requiredness is compared on its own. Elsewhere the plan stars every field it requires,
+ * so a star the DAT prints for a conditional field shows up as a label difference.
  */
-const withAsterisk = (fields: Fields): Fields =>
-  new Map(
-    [...fields].map(([path, field]) => [
+// Match the star after an item number too: some DATs print "3. *Research Strategy".
+const DAT_STAR = /^(\d+[a-z]?\.\s*)?\*\s*/;
+
+export const withAsterisk = (plan: Fields, dat: Fields): [Fields, Fields] => {
+  const requiredByDat = (path: string) => dat.get(path)?.required === "yes";
+  const unstarred = new Map(
+    [...dat].map(([path, field]) => [
       path,
-      field.required === "yes" && field.label
+      requiredByDat(path) && field.label
+        ? { ...field, label: field.label.replace(DAT_STAR, "$1") }
+        : field,
+    ]),
+  );
+  const starred = new Map(
+    [...plan].map(([path, field]) => [
+      path,
+      field.required === "yes" && field.label && !requiredByDat(path)
         ? { ...field, label: `* ${field.label}` }
         : field,
     ]),
   );
+  return [starred, unstarred];
+};
 
 /** One form's plan beside each of its other artifacts, flattened and ready to compare. */
 export interface FormPairs {
@@ -257,8 +272,7 @@ export async function formPairs(
   const dat = {
     ...pair(
       diff.dat,
-      withAsterisk(planFields(plan, "dat_field", planProblems)),
-      datSource,
+      ...withAsterisk(planFields(plan, "dat_field", planProblems), datSource),
     ),
     wording: diff.wording,
   };

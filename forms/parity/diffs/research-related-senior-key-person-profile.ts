@@ -8,6 +8,7 @@ import {
   ENTRY_OCCURRENCES,
   entryStar,
   PROFILE_GROUPS,
+  standardLabel,
 } from "./common.ts";
 
 export const DIFF: FormDiff = {
@@ -19,12 +20,8 @@ export const DIFF: FormDiff = {
     differingLabels: {
       "1-15": conditionalStar("State"),
       "1-17": conditionalStar("Zip / Postal Code"),
-      "2-02": entryStar("First Name"),
-      "2-04": entryStar("Last Name"),
-      "2-11": entryStar("Street 1", "Street1"),
-      "2-13": entryStar("City"),
+      "2-11": standardLabel("Street 1", "Street1"),
       "2-15": conditionalStar("State"),
-      "2-16": entryStar("Country"),
       "2-17": conditionalStar("Zip / Postal Code"),
       "2-18": entryStar("Phone Number"),
       "2-20": entryStar("Email", "E-Mail"),

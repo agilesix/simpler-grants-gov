@@ -97,14 +97,6 @@ export const entryStar = (label: string, source = label): Pinned =>
     "The DAT stars this field in every entry. The entries are optional, so the field is required only within an entry the applicant adds, and the plan's label has no star.",
   );
 
-/** A DAT that requires a field but doesn't star its label. */
-export const unstarredRequired = (label: string, source: string): Pinned =>
-  starred(
-    `* ${label}`,
-    source,
-    "The DAT's Required column says Yes, but its label has no star. The plan stars every required field.",
-  );
-
 /** A field the DAT requires, within an optional, repeating entry. */
 export const EACH_ENTRY_REQUIRED: Recorded = {
   category: "upstream",

@@ -162,7 +162,7 @@ export const DIFF: FormDiff = {
   slug: "project-performance-site-location-s",
   dat: {
     differingLabels: {
-      "1-03": standardLabel("* Street 1", "* Street1"),
+      "1-03": standardLabel("Street 1", "Street1"),
       "1-04": standardLabel("Street 2", "Street2"),
       "1-06": standardLabel("County/Parish", "County"),
       "1-07": conditionalStar("State"),

@@ -6,12 +6,6 @@ const optionRow: Recorded = {
     "This row describes a choice within its radio group. The form captures one answer for the group.",
 };
 
-const requiredMarker: Recorded = {
-  category: "intentional",
-  reason:
-    "The parity checker places the required marker before the whole label. The DAT puts it after the field number.",
-};
-
 const optionalDocumentHelp: Pinned = {
   plan: "Attach a PDF. Check the funding opportunity and agency instructions for whether this attachment is required and what page limit applies.",
   source:
@@ -50,16 +44,6 @@ export const DIFF: FormDiff = {
         category: "intentional",
         reason:
           "The label names the plans an applicant uploads, as it does on the Research Plan.",
-      },
-      "3-2": {
-        ...requiredMarker,
-        plan: "* 4. Research Strategy",
-        source: "4. * Research Strategy",
-      },
-      "9-1-1": {
-        ...requiredMarker,
-        plan: "* 20. U.S. Citizen or Non-Citizen National?",
-        source: "20. * U.S. Citizen or Non-Citizen National?",
       },
       "9-3": {
         plan: "Expect permanent resident status by the award start date",

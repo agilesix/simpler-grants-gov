@@ -9,7 +9,7 @@ import {
   entryStar,
   PROFILE_GROUPS,
   SHARED_HELP,
-  unstarredRequired,
+  standardLabel,
 } from "./common.ts";
 
 /** NSF ID's length, which the XSD sets with a pattern. */
@@ -28,7 +28,7 @@ export const DIFF: FormDiff = {
     differingLabels: {
       "1-15": conditionalStar("State"),
       "1-17": conditionalStar("Zip / Postal Code"),
-      "1-28": unstarredRequired(
+      "1-28": standardLabel(
         "Current & Pending Support",
         "Attach Current & Pending (Other) Support",
       ),
@@ -47,7 +47,7 @@ export const DIFF: FormDiff = {
         "Collaborators & Other Affiliations",
         "Attach Collaborators & Other Affiliations",
       ),
-      "2-30": entryStar(
+      "2-30": standardLabel(
         "Synergistic Activities",
         "Attach Synergistic Activities",
       ),

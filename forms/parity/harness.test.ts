@@ -5,6 +5,7 @@
 import { describe, expect, it } from "vitest";
 
 import { comparePair, type PairSpec } from "./harness/compare.ts";
+import { withAsterisk } from "./harness/index.ts";
 import type { Fields, FlatField, Registers, Wording } from "./harness/model.ts";
 
 type Spec = Partial<PairSpec>;
@@ -142,6 +143,27 @@ describe("matches field labels", () => {
       { labels: true },
     );
     expect(result.fieldLabels).toEqual([]);
+  });
+});
+
+describe("withAsterisk", () => {
+  const datLabel = (label: string, required: "yes" | "no") =>
+    withAsterisk(fields({ a: {} }), fields({ a: { label, required } }))[1].get(
+      "a",
+    )?.label;
+
+  it.each([
+    ["* Legal Name", "Legal Name"],
+    ["3. *Research Strategy", "3. Research Strategy"],
+    ["8a. * Legal Name", "8a. Legal Name"],
+  ])("unstars a DAT label whose field is required (%s)", (label, expected) => {
+    expect(datLabel(label, "yes")).toBe(expected);
+  });
+
+  it("keeps the star on a field the DAT marks optional", () => {
+    expect(datLabel("3. *Research Strategy", "no")).toBe(
+      "3. *Research Strategy",
+    );
   });
 });
 

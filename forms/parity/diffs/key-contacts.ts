@@ -120,13 +120,13 @@ export const DIFF: FormDiff = {
   slug: "key-contacts",
   dat: {
     differingLabels: {
-      "7-01": standardLabel("* Project Role", "* Contact 1 Project Role"),
-      "7-10": standardLabel("* Street 1", "* Street1"),
+      "7-01": standardLabel("Project Role", "Contact 1 Project Role"),
+      "7-10": standardLabel("Street 1", "Street1"),
       "7-11": standardLabel("Street 2", "Street2"),
       "7-13": standardLabel("County/Parish", "County"),
       "7-14": conditionalStar("State"),
       "7-17": conditionalStar("Zip / Postal Code"),
-      "7-18": standardLabel("* Phone Number", "* Telephone Number"),
+      "7-18": standardLabel("Phone Number", "Telephone Number"),
       "7-19": standardLabel("Fax Number", "Fax"),
     },
     differingHelp: help,

@@ -12,13 +12,6 @@ export const DIFF: FormDiff = {
         reason:
           "The shared label omits the optional qualifier. The upload remains optional.",
       },
-      "2-1": {
-        plan: "* 2. Program Plan",
-        source: "2. * Program Plan",
-        category: "intentional",
-        reason:
-          "The parity checker prefixes required labels with an asterisk. The DAT puts the asterisk after the field number.",
-      },
     },
     differingRules: {
       "5-1/maxOccurs": {
