@@ -89,6 +89,32 @@ describe("planFields", () => {
     ]);
   });
 
+  it("marks post-populated fields", () => {
+    const fields = planFields(
+      {
+        slug: "test",
+        children: [
+          {
+            kind: "field",
+            label: "Date Signed",
+            required: false,
+            json_path: "date_signed",
+            post_populated: "SGG supplies the current date on submission.",
+          },
+          {
+            kind: "field",
+            label: "Title",
+            required: false,
+            json_path: "title",
+          },
+        ],
+      },
+      "json_path",
+    );
+    expect(fields.get("date_signed")?.postPopulated).toBe(true);
+    expect(fields.get("title")?.postPopulated).toBeUndefined();
+  });
+
   it("flags unreadable requiredness and constraints", () => {
     const problems: { kind: string; path: string }[] = [];
     planFields(plan, "json_path", problems);

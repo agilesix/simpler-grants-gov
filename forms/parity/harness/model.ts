@@ -99,6 +99,11 @@ export interface FlatField {
   label?: string;
   help?: string;
   required?: Requiredness;
+  /**
+   * Set from the plan's `post_populated`. SGG fills the field on submission, so it satisfies
+   * a source that requires it even though the plan leaves it optional for drafts.
+   */
+  postPopulated?: boolean;
   rules: Rules;
 }
 

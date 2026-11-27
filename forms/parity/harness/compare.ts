@@ -185,6 +185,8 @@ function requirednessDiffers(
 ): boolean {
   if (plan.required === undefined || source.required === undefined)
     return false;
+  // SGG fills post-populated fields on submission, so a required source is satisfied.
+  if (plan.postPopulated && source.required === "yes") return false;
   if (mode === "contains")
     return source.required === "yes" && plan.required !== "yes";
   const required = (field: FlatField) => field.required === "yes";

@@ -28,6 +28,8 @@ export interface PlanField extends PlanNodeBase {
   kind: "field";
   required: boolean | string;
   constraints?: string;
+  /** Who fills the field on submission, when the applicant doesn't. */
+  post_populated?: string;
 }
 
 export interface PlanSection<
@@ -152,6 +154,7 @@ export function planFields(
       label: field.label,
       help: field.help_text,
       required,
+      ...(field.post_populated && { postPopulated: true }),
       rules: { ...rules, maxOccurs: maxItems },
     });
   });

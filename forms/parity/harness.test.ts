@@ -267,6 +267,24 @@ describe("matches field constraints", () => {
     expect(kinds(result.fieldConstraints)).toEqual(["requiredness differs"]);
   });
 
+  it("accepts optional post-populated field against required source", () => {
+    const result = compare(
+      { a: { required: "no", postPopulated: true } },
+      { a: { required: "yes" } },
+      equal(),
+    );
+    expect(result.fieldConstraints).toEqual([]);
+  });
+
+  it("flags required post-populated field against optional source", () => {
+    const result = compare(
+      { a: { required: "yes", postPopulated: true } },
+      { a: { required: "no" } },
+      equal(),
+    );
+    expect(kinds(result.fieldConstraints)).toEqual(["requiredness differs"]);
+  });
+
   it("accepts enum values in any order", () => {
     const result = compare(
       { a: { rules: { enum: ["x", "y"] } } },
@@ -369,6 +387,15 @@ describe("matches field constraints", () => {
         "maxLength differs",
         "enum differs",
       ]);
+    });
+
+    it("accepts optional post-populated subject against required source", () => {
+      const result = compare(
+        { a: { required: "no", postPopulated: true } },
+        { a: { required: "yes" } },
+        contains,
+      );
+      expect(result.fieldConstraints).toEqual([]);
     });
 
     it("flags bound subject leaves out", () => {

@@ -76,7 +76,8 @@ recorded difference still exists.
 
 Constraints are requiredness plus the keywords each comparison reads (`SPECS` in
 `harness/index.ts`). Requiredness is always from the form's root, so a field inside an
-optional section is optional. A plan's `Conditional (...)` counts as optional.
+optional section is optional. A plan's `Conditional (...)` counts as optional. A plan field with `post_populated` meets a source that
+requires it: SGG fills it on submission, so the plan and form can leave it optional for drafts.
 
 The DAT is compared on `maxLength` only. Its minimum is 0 for every optional field and 1
 for every required one, so it restates requiredness; the XSD is the authority on

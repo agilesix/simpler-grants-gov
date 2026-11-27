@@ -162,7 +162,13 @@ function joinThroughPlan(
     const xsdField = xsd.get(toXsd[xmlPath]?.to ?? xmlPath);
     const schemaField = schema.get(schemaPath);
     if (!xsdField || !schemaField) continue;
-    left.set(schemaPath, schemaField);
+    // Copy post_populated from the plan so the schema-vs-XSD check skips the same requiredness.
+    left.set(
+      schemaPath,
+      field.post_populated
+        ? { ...schemaField, postPopulated: true }
+        : schemaField,
+    );
     right.set(schemaPath, xsdField);
   }
   return { left, right };
