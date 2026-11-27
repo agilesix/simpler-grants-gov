@@ -66,6 +66,7 @@ Feature: Apply - Application Form Happy Path
       | PHS 398 Career Development Award Supplemental Form |
       | Attachments                        |
       | SF-424 Individual (Generated)      |
+      | SF-424 Short                       |
  
   # Expected happy path form status on the application landing page:
   # "complete"   -> displays "No issues detected"
