@@ -1124,19 +1124,6 @@
             },
             {
               "kind": "field",
-              "id": "authorized-representative-fax",
-              "label": "Fax Number",
-              "type": "Text input",
-              "dat_field": "22-09",
-              "xml_path": "SF424_4_0:AuthorizedRepresentativeFax",
-              "json_path": "contacts.authorized_representative.fax",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the fax Number.",
-              "constraints": "minLength 1, maxLength 25"
-            },
-            {
-              "kind": "field",
               "id": "email",
               "label": "Email",
               "type": "Text input",
@@ -1147,6 +1134,19 @@
               "widget": "TextWidget",
               "help_text": "Enter a valid email Address.",
               "constraints": "maxLength 60, format email"
+            },
+            {
+              "kind": "field",
+              "id": "authorized-representative-fax",
+              "label": "Fax Number",
+              "type": "Text input",
+              "dat_field": "22-09",
+              "xml_path": "SF424_4_0:AuthorizedRepresentativeFax",
+              "json_path": "contacts.authorized_representative.fax",
+              "required": false,
+              "widget": "TextWidget",
+              "help_text": "Enter the fax Number.",
+              "constraints": "minLength 1, maxLength 25"
             },
             {
               "kind": "field",

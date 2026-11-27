@@ -52,13 +52,6 @@ export const DIFF: FormDiff = {
       "6b": fullItemNumber("6b. Project Description", "b. Project Description"),
       "7-2": agreeFootnote("I Agree", "* I AGREE"),
     },
-    outOfOrder: {
-      "5a-09": {
-        category: "intentional",
-        reason:
-          "The form follows the paper's order, which shows Email before Fax Number. The DAT lists Fax Number first.",
-      },
-    },
     differingRules: {
       "5a-02/maxLength": prefixLength,
       "5a-06/maxLength": prefixLength,

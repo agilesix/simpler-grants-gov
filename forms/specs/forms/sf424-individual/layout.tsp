@@ -10,7 +10,7 @@ namespace Forms.SF424Individual;
 // FORM LAYOUT
 // =============================================================================
 
-// One section per numbered paper item, in paper order. Each item's unnumbered title joins
+// One section per numbered paper item, in DAT order. Each item's unnumbered title joins
 // its section. The first section to show part of a field lays the field out; later
 // sections name the rest with `::type`, from the form root.
 @UI.layout(SF424Individual)
@@ -73,11 +73,11 @@ model SF424IndividualLayout {
           @UI.label("Telephone Number (Evening)")
           eveningPhone: SF424IndividualPointOfContact.eveningPhone;
 
-          @UI.label("Email")
-          email: SF424IndividualPointOfContact.email;
-
           @UI.label("Fax Number")
           fax: SF424IndividualPointOfContact.fax;
+
+          @UI.label("Email")
+          email: SF424IndividualPointOfContact.email;
         };
 
         @UI.label("5b. Address")

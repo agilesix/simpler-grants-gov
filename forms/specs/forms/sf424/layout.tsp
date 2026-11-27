@@ -9,7 +9,7 @@ namespace Forms.SF424Regular;
 // FORM LAYOUT
 // =============================================================================
 
-// One section per numbered paper item, in paper order, as the hand-written SGG form has.
+// One section per numbered paper item, in DAT order, as the hand-written SGG form has.
 // Each item's unnumbered companions, such as a title under its number, join its section.
 // The first section to show part of a field lays the field out; later sections name the
 // rest with `::type`, from the form root.
@@ -314,11 +314,11 @@ model SF424Layout {
       @UI.label("Phone Number")
       phone: SF424AuthorizedRepresentative.phone;
 
-      @UI.label("Fax Number")
-      fax: SF424AuthorizedRepresentative.fax;
-
       @UI.label("Email")
       email: SF424AuthorizedRepresentative.email;
+
+      @UI.label("Fax Number")
+      fax: SF424AuthorizedRepresentative.fax;
 
       @UI.label("Signature of Authorized Representative")
       signature: SF424.certification::type.signature;

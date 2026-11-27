@@ -171,13 +171,6 @@ export const DIFF: FormDiff = {
       ),
       "21-1": agreeFootnote("I Agree", "* I AGREE"),
     },
-    outOfOrder: {
-      "22-08": {
-        category: "intentional",
-        reason:
-          "The form follows the paper's order for the authorized representative, which shows Fax Number before Email, as the contact person does. The DAT lists Email first.",
-      },
-    },
     differingRules: {
       "18-g/required": { ...total, plan: "no", source: "yes" },
       "15-1/maxOccurs": { ...attachments, plan: 100, source: 1 },
