@@ -104,6 +104,11 @@ export interface FlatField {
    * a source that requires it even though the plan leaves it optional for drafts.
    */
   postPopulated?: boolean;
+  /**
+   * Keywords this source leaves blank, such as maxLength on a DAT dollar row. The comparison
+   * skips them, since there's nothing to compare the plan's rule against.
+   */
+  unstated?: Keyword[];
   rules: Rules;
 }
 

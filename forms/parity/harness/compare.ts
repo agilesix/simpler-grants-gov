@@ -217,6 +217,7 @@ function ruleDifferences(
       });
     }
     for (const keyword of keywords) {
+      if (source.unstated?.includes(keyword)) continue;
       const a = plan.rules[keyword];
       const b = source.rules[keyword];
       const differs =

@@ -84,7 +84,8 @@ for every required one, so it restates requiredness; the XSD is the authority on
 `minLength`. A DAT row implemented as a `Radio` with no Agency Field Name is one choice of
 the Radio Group above it, not an answer, so it is left out. A DAT list shown as a popup is a fixed code list, so its "max chars" is not a
 length rule. Likewise, a row whose Data Type is `$` uses the maximum column for a
-dollar amount. The XSD comparison checks explicit numeric bounds. For an exact length,
+dollar amount rather than a character limit, so a plan's `maxLength` isn't compared
+against it. The XSD comparison checks explicit numeric bounds. For an exact length,
 write `minLength 12, maxLength 12` in the plan.
 
 The DAT prints `*` before a required field's label. Labels compared with the DAT keep it,

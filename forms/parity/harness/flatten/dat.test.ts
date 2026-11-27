@@ -83,6 +83,25 @@ describe("datFields", () => {
     expect(dat.get("15a-1")?.rules).toEqual({ maxOccurs: 1 });
   });
 
+  it("marks maxLength as unstated on a currency row", () => {
+    const dat = datFields(
+      workbook([
+        HEADER,
+        [
+          "15a-1",
+          "Federal ($):",
+          "Yes",
+          "$",
+          "999999999999.99",
+          1,
+          "Field",
+          "",
+        ],
+      ]),
+    );
+    expect(dat.get("15a-1")?.unstated).toEqual(["maxLength"]);
+  });
+
   it("keeps post-populated label values without treating headings as answers", () => {
     const dat = datFields(
       workbook([

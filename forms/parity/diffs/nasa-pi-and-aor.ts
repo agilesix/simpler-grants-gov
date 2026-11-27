@@ -62,9 +62,7 @@ export const DIFF: FormDiff = {
         source: "A selection is required.",
       },
     },
-    differingRules: {
-      "3-8/maxLength": { ...BUDGET_AMOUNT, plan: 15, source: null },
-    },
+    differingRules: {},
   },
   xsd: {
     differingRules: {

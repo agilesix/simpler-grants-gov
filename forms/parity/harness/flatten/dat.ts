@@ -92,10 +92,11 @@ export function datFields(workbook: Uint8Array): Fields {
     if (choice) continue;
     const rules: Rules = {};
     const max = Number(row[at.max]);
-    // A "$" row uses the maximum column for a dollar amount.
+    // A "$" row uses the maximum column for a dollar amount, not a character limit.
     // The XSD comparison checks explicit numeric bounds.
+    const dollars = header(row[at.dataType]) === "$";
     if (
-      header(row[at.dataType]) !== "$" &&
+      !dollars &&
       String(row[at.max]).trim() &&
       !FIXED_LISTS.has(implementation)
     )
@@ -109,6 +110,7 @@ export function datFields(workbook: Uint8Array): Fields {
       help: String(row[at.help]).trim() || undefined,
       required:
         required === "yes" ? "yes" : required === "no" ? "no" : undefined,
+      ...(dollars && { unstated: ["maxLength" as const] }),
       rules,
     });
   }

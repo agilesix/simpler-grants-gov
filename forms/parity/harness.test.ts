@@ -285,6 +285,15 @@ describe("matches field constraints", () => {
     expect(kinds(result.fieldConstraints)).toEqual(["requiredness differs"]);
   });
 
+  it("ignores a rule the source leaves unstated", () => {
+    const result = compare(
+      { a: { rules: { maxLength: 15 } } },
+      { a: { unstated: ["maxLength"] } },
+      equal("maxLength"),
+    );
+    expect(result.fieldConstraints).toEqual([]);
+  });
+
   it("accepts enum values in any order", () => {
     const result = compare(
       { a: { rules: { enum: ["x", "y"] } } },
