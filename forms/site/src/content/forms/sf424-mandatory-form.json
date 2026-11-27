@@ -36,7 +36,8 @@
     "Changing Country can leave both State and Province in an answer. The XSD allows only one, so that answer fails XSD validation. The fix belongs in the shared address question, for every form that uses it.",
     "The attachment IDs in the preview's sample data aren't real uploaded files.",
     "The state review choices show the XSD's codes (StateReviewAvailable, StateReviewNotSelected, and StateReviewNotNeeded) in the preview. The install PR adds the DAT's wording as display labels in SGG.",
-    "The DAT's burden statement cites OMB 4040-0002, but the form information and the PDF header say 4040-0020. The form uses 4040-0020."
+    "The DAT's burden statement cites OMB 4040-0002, but the form information and the PDF header say 4040-0020. The form uses 4040-0020.",
+    "The definition declares the DAT 14a/14b not-before rule on the funding period end date, but the SGG emitter does not emit it yet, so the API accepts an end date before the start date (#13582)."
   ],
   "children": [
     {

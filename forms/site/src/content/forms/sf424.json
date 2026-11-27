@@ -29,7 +29,7 @@
   ],
   "risks": [
     "Amounts use the shared budget questions, which follow the XSD: no negative amounts, at most 12 digits before the decimal point (13 for the total), and exactly two after it when present. The existing form accepted a leading minus and up to 14 characters.",
-    "The definition declares the DAT 12 not-before rule on the project end date, but the SGG emitter does not emit it yet, so the API accepts an end date before the start date."
+    "The definition declares the DAT 17-a/17-b not-before rule on the project end date, but the SGG emitter does not emit it yet, so the API accepts an end date before the start date (#13582)."
   ],
   "children": [
     {

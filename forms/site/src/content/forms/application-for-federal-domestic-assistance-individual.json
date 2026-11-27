@@ -35,7 +35,7 @@
   ],
   "risks": [
     "Citizenship labels and DAT conditional rules disagree; the explicit-DAT candidate and rationale require source-owner review.",
-    "The library declares the start/end date relation. The API also needs date_not_before rule support from the separate shared-support PR before this rule works in SGG.",
+    "The definition declares the DAT 6c-2/6c-3 not-before rule on the project end date, but the SGG emitter does not emit it yet, so the API accepts an end date before the start date (#13582).",
     "Grantor1/training submissions, completed external PDFs and production acceptance are separate evidence gates; local checks do not satisfy them.",
     "Changing Country can leave both State and Province in an answer. GlobalLibrary permits only one, so that answer fails XSD validation. The shared Address/retention behavior needs a reviewed fix before API submission; this form does not clear answers or change XML handling."
   ],

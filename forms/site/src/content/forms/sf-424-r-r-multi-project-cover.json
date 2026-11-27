@@ -22,7 +22,7 @@
   "notes": [
     "Every element is optional: the XSD gives each element minOccurs=\"0\", and the DAT marks every field Required = No. Resolution: the form requires nothing, and an empty form is valid.",
     "Conditional requirements: the DAT drops R&R's rules that require the Federal Identifier (renewal, continuation, revision), the Previous Grants.gov Tracking ID (changed/corrected), the Other revision explanation, the other agencies, the Other applicant type, the state review date, and a US State and ZIP. It keeps the gray-outs. Resolution: those fields are enabled by the same conditions as on R&R but never required.",
-    "Rules that still apply to an answer that is given: a US ZIP needs nine characters (DAT 05-5g, 05-6m, 14-10g, 19-10g), the end date cannot be before the start date (DAT 13-1, 13-2), the congressional district uses the DAT's format, the UEI is 12 characters, and the XSD lengths.",
+    "Rules that still apply to an answer that is given: a US ZIP needs nine characters (DAT 05-5g, 05-6m, 14-10g, 19-10g), the congressional district uses the DAT's format, the UEI is 12 characters, and the XSD lengths.",
     "GrantsTrackingNumber: the XSD renames R&R's GGTrackingID and keeps its 13 to 15 character type. DAT 04-2 keeps the label \"Previous Grants.gov Tracking ID\" and asks for the previous Grants.gov tracking number, so it is the same concept, at application.previous_tracking_id.",
     "Corrected New applications: DAT 01-1 and 04-0 say a changed/corrected New application enters its Grants.gov tracking number in the Federal Identifier, and other types keep their existing identifier. The help for Type of Submission and Federal Identifier says so.",
     "Pre-population: DAT 05-1, 09-0, 10-1, and 10-2 list the UEI, agency name, and assistance listing as applicant-entered fields, where R&R pre-populates them. Resolution: the form pre-populates them read-only, like every SF-424 variant, since a component shares its package's opportunity and applicant.",
@@ -42,7 +42,8 @@
     "It reuses the SF-424 (R&R) form's models, made optional, so a change to R&R's questions changes this form too",
     "With nothing required, an applicant can submit an empty component cover; the agency's multi-project instructions decide which answers a component needs",
     "The RevisionCode checkboxes map to combined enum values (AC, AD, BC, BD, E) with valid combinations enforced; this requires custom validation logic",
-    "The form has 3 file attachment fields (SFLLL, Pre-application, Cover Letter) that all use AttachedFileDataType"
+    "The form has 3 file attachment fields (SFLLL, Pre-application, Cover Letter) that all use AttachedFileDataType",
+    "The project end date reuses R&R's not-before rule (DAT 13-1, 13-2), but the SGG emitter does not emit it yet, so the API accepts an end date before the start date (#13582)."
   ],
   "children": [
     {
