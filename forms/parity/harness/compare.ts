@@ -19,6 +19,11 @@ export interface Pair {
   wording?: Wording;
   plan: Fields;
   source: Fields;
+  /**
+   * Find the record another comparison keeps for this difference. Form-vs-XSD comparisons
+   * use it to accept what plan vs XSD records, since the form matches the plan.
+   */
+  recordedElsewhere?: (d: Discrepancy) => Recorded | undefined;
 }
 
 /** Plan path -> source path. A declared rename beats an identity match. */
@@ -120,6 +125,11 @@ function textDifferences(
   const { kind, register } = TEXT[attribute];
   const found: Discrepancy[] = [];
   for (const [path, target] of matchFields(pair)) {
+    if (
+      attribute === "label" &&
+      pair.source.get(target)!.unstated?.includes("label")
+    )
+      continue;
     const plan = normalize(pair.plan.get(path)![attribute]);
     const source = normalize(pair.source.get(target)![attribute]);
     if (plan.toLowerCase() === source.toLowerCase()) continue;
@@ -185,6 +195,8 @@ function requirednessDiffers(
 ): boolean {
   if (plan.required === undefined || source.required === undefined)
     return false;
+  // SGG fills post-populated fields on submission, so a required source is satisfied.
+  if (plan.postPopulated && source.required === "yes") return false;
   if (mode === "contains")
     return source.required === "yes" && plan.required !== "yes";
   const required = (field: FlatField) => field.required === "yes";
@@ -215,6 +227,7 @@ function ruleDifferences(
       });
     }
     for (const keyword of keywords) {
+      if (source.unstated?.includes(keyword)) continue;
       const a = plan.rules[keyword];
       const b = source.rules[keyword];
       const differs =
@@ -271,7 +284,8 @@ function settle(pair: Pair, found: readonly Discrepancy[]): Settled {
         : undefined;
   const entryFor = (d: Discrepancy) =>
     (d.recordAs && registers[d.recordAs.register]?.[d.recordAs.key]) ??
-    wholesale(d);
+    wholesale(d) ??
+    pair.recordedElsewhere?.(d);
   const accepted: Accepted[] = [];
   const unexpected: Discrepancy[] = [];
   for (const d of found) {

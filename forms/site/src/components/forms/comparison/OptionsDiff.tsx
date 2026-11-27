@@ -16,15 +16,15 @@ function Chips({ title, values }: { title: string; values: string[] }) {
   );
 }
 
-/** Only the option values the form and the XSD do not share, rather than both full lists. */
+/** Only the option values the plan and the form don't share, rather than both full lists. */
 export default function OptionsDiff({ options }: Props) {
   return (
     <div className="options-diff">
       <Chips
-        title="Missing from Form (compared with the XSD)"
+        title="Missing from Form (compared with the plan)"
         values={options.missing}
       />
-      <Chips title="Extra in Form (not in the XSD)" values={options.extra} />
+      <Chips title="Extra in Form (not in the plan)" values={options.extra} />
     </div>
   );
 }

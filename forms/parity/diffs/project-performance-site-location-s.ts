@@ -5,7 +5,6 @@ import {
   entryStar,
   SHARED_HELP,
   standardLabel,
-  YES_NO_BOOLEAN,
 } from "./common.ts";
 
 const ORGANIZATION_HELP: Recorded = {
@@ -162,7 +161,7 @@ export const DIFF: FormDiff = {
   slug: "project-performance-site-location-s",
   dat: {
     differingLabels: {
-      "1-03": standardLabel("* Street 1", "* Street1"),
+      "1-03": standardLabel("Street 1", "Street1"),
       "1-04": standardLabel("Street 2", "Street2"),
       "1-06": standardLabel("County/Parish", "County"),
       "1-07": conditionalStar("State"),
@@ -206,20 +205,6 @@ export const DIFF: FormDiff = {
         plan: "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$",
         source: null,
         ...DISTRICT_PATTERN,
-      },
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "primary_site.submitting_as_individual/enum": {
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-        ...YES_NO_BOOLEAN,
-      },
-      "additional_sites[].submitting_as_individual/enum": {
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-        ...YES_NO_BOOLEAN,
       },
     },
   },

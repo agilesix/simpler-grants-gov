@@ -64,6 +64,16 @@ describe("datFields", () => {
     expect(dat.get("7-14")?.rules).toEqual({ maxOccurs: 4 });
   });
 
+  it("keeps a Popup's max characters apart from its length", () => {
+    const dat = datFields(
+      workbook([
+        HEADER,
+        ["5a-02", "Prefix:", "No", "LIST", 10, 1, "Popup", ""],
+      ]),
+    );
+    expect(dat.get("5a-02")?.popupMax).toBe(10);
+  });
+
   it("does not read a currency maximum as a text length", () => {
     const dat = datFields(
       workbook([
@@ -81,6 +91,25 @@ describe("datFields", () => {
       ]),
     );
     expect(dat.get("15a-1")?.rules).toEqual({ maxOccurs: 1 });
+  });
+
+  it("marks maxLength as unstated on a currency row", () => {
+    const dat = datFields(
+      workbook([
+        HEADER,
+        [
+          "15a-1",
+          "Federal ($):",
+          "Yes",
+          "$",
+          "999999999999.99",
+          1,
+          "Field",
+          "",
+        ],
+      ]),
+    );
+    expect(dat.get("15a-1")?.unstated).toEqual(["maxLength"]);
   });
 
   it("keeps post-populated label values without treating headings as answers", () => {
@@ -115,6 +144,61 @@ describe("datFields", () => {
     expect([...dat.keys()]).toEqual(["7-4", "7-5"]);
     expect(dat.get("7-4")?.rules.maxLength).toBe(144);
     expect(dat.get("7-5")?.required).toBe("yes");
+  });
+
+  it("skips radio choices that have no element of their own", () => {
+    const dat = datFields(
+      workbook([
+        [...HEADER, "Agency Field Name"],
+        [
+          "20-0",
+          "* Delinquent On Federal Debt?",
+          "Yes",
+          "LIST",
+          "",
+          1,
+          "Radio Group",
+          "",
+          "DelinquentFederalDebt",
+        ],
+        ["20-1", "Yes", "No", "", "", 1, "Radio", "", ""],
+        ["20-2", "No", "No", "", "", 1, "Radio", "", ""],
+        ["21-1", "Other", "No", "", "", 1, "Radio", "", "OtherChoice"],
+      ]),
+    );
+    expect([...dat.keys()]).toEqual(["20-0", "21-1"]);
+  });
+
+  it("marks the label as unstated when it's blank", () => {
+    const dat = datFields(
+      workbook([
+        HEADER,
+        ["14-0", "14. Areas Affected:", "", "", "", "", "Label", ""],
+        ["14-1", "", "No", "FILE", "", 1, "Single_File", "Attach a file."],
+      ]),
+    );
+    expect(dat.get("14-1")).toMatchObject({ unstated: ["label"] });
+    expect(dat.get("14-1")?.label).toBeUndefined();
+  });
+
+  it("keeps a post-populated label the DAT spells Post-populate", () => {
+    const dat = datFields(
+      workbook([
+        [...HEADER, "Field Type"],
+        [
+          "3-1",
+          "* 3. DATE RECEIVED:",
+          "Yes",
+          "DATE",
+          "",
+          1,
+          "Label",
+          "",
+          "Post-populate",
+        ],
+      ]),
+    );
+    expect([...dat.keys()]).toEqual(["3-1"]);
   });
 
   it("keeps asterisk on required labels", () => {

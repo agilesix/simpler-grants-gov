@@ -1,16 +1,4 @@
-import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-
-const optionRow: Recorded = {
-  category: "intentional",
-  reason:
-    "This row describes a choice within its radio group. The form captures one answer for the group.",
-};
-
-const requiredMarker: Recorded = {
-  category: "intentional",
-  reason:
-    "The parity checker places the required marker before the whole label. The DAT puts it after the field number.",
-};
+import type { FormDiff, Pinned } from "../harness/model.ts";
 
 const optionalDocumentHelp: Pinned = {
   plan: "Attach a PDF. Check the funding opportunity and agency instructions for whether this attachment is required and what page limit applies.",
@@ -24,25 +12,10 @@ const optionalDocumentHelp: Pinned = {
 const sharedResearchHelp =
   "Attach PDF formatted file. A page limit is typically enforced for this attachment. See funding opportunity announcement and agency-specific instructions for additional guidance.";
 
-const yesNoTransform: Pinned = {
-  plan: null,
-  source: ["Y: Yes", "N: No"],
-  category: "intentional",
-  reason:
-    "The response uses a boolean. XML maps it through boolean_to_yes_no to the source values.",
-};
-
 export const DIFF: FormDiff = {
   slug: "phs-398-career-development-award-supplemental-form",
   xml: "xml-mapping",
   dat: {
-    absentFromPlan: {
-      "9-1-1a": optionRow,
-      "9-1-1b": optionRow,
-      "9-2-1a": optionRow,
-      "9-2-1b": optionRow,
-      "9-2-1c": optionRow,
-    },
     differingLabels: {
       "7-4": {
         plan: "16. Resource Sharing Plan(s)",
@@ -50,16 +23,6 @@ export const DIFF: FormDiff = {
         category: "intentional",
         reason:
           "The label names the plans an applicant uploads, as it does on the Research Plan.",
-      },
-      "3-2": {
-        ...requiredMarker,
-        plan: "* 4. Research Strategy",
-        source: "4. * Research Strategy",
-      },
-      "9-1-1": {
-        ...requiredMarker,
-        plan: "* 20. U.S. Citizen or Non-Citizen National?",
-        source: "20. * U.S. Citizen or Non-Citizen National?",
       },
       "9-3": {
         plan: "Expect permanent resident status by the award start date",
@@ -112,12 +75,6 @@ export const DIFF: FormDiff = {
         reason:
           "The form follows the DAT help's limit of 10 Appendix files. The XSD allows 100.",
       },
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "is_us_citizen_or_national/enum": yesNoTransform,
-      "permanent_resident_by_award/enum": yesNoTransform,
     },
   },
 };

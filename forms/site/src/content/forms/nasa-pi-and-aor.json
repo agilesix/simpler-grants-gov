@@ -221,9 +221,9 @@
           "type": "Radio group (boolean; XML YesNoDataType)",
           "widget": "RadioWidget",
           "help_text": "Select Yes or No.",
-          "constraints": "YesNoDataType enumeration",
           "json_path": "principal_investigator.us_government_participation",
-          "xml_path": "Nasa_PIandAORSupplementalDataSheet:PrincipalInvestigatorName/Nasa_PIandAORSupplementalDataSheet:USGovernmentParticipation"
+          "xml_path": "Nasa_PIandAORSupplementalDataSheet:PrincipalInvestigatorName/Nasa_PIandAORSupplementalDataSheet:USGovernmentParticipation",
+          "constraints": "YesNoDataType enumeration"
         },
         {
           "kind": "field",
@@ -260,9 +260,9 @@
           "type": "Radio group (boolean; XML YesNoDataType)",
           "widget": "RadioWidget",
           "help_text": "Select Yes or No.",
-          "constraints": "YesNoDataType enumeration",
           "json_path": "principal_investigator.international_participation",
-          "xml_path": "Nasa_PIandAORSupplementalDataSheet:PrincipalInvestigatorName/Nasa_PIandAORSupplementalDataSheet:InternationalParticipation"
+          "xml_path": "Nasa_PIandAORSupplementalDataSheet:PrincipalInvestigatorName/Nasa_PIandAORSupplementalDataSheet:InternationalParticipation",
+          "constraints": "YesNoDataType enumeration"
         }
       ]
     }

@@ -12,13 +12,6 @@ export const DIFF: FormDiff = {
         reason:
           "The shared label makes the renewal condition in the DAT instructions visible.",
       },
-      "2-2": {
-        plan: "* 3. Research Strategy",
-        source: "3. *Research Strategy",
-        category: "intentional",
-        reason:
-          "The renderer puts the asterisk in front of the whole label, so it appears before the number.",
-      },
     },
     differingRules: {
       "4-1/maxOccurs": {

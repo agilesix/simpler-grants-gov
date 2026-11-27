@@ -59,6 +59,7 @@ export function datFields(workbook: Uint8Array): Fields {
   if (start === -1) throw new Error('no "Field #" header row in the DAT');
   const names = rows[start].map(header);
   const fieldType = names.indexOf("field type");
+  const agencyField = names.indexOf("agency field name");
   const column = (name: keyof typeof COLUMNS) => {
     const index = names.indexOf(COLUMNS[name]);
     if (index === -1)
@@ -81,14 +82,22 @@ export function datFields(workbook: Uint8Array): Fields {
     const populatedOutput =
       implementation === "label" &&
       fieldType !== -1 &&
-      header(row[fieldType]) === "post-populated";
+      // DATs spell it "Post-Populated", "Post-populated" and "Post-populate".
+      header(row[fieldType]).startsWith("post-populate");
     if (!id || (NOT_INPUTS.has(implementation) && !populatedOutput)) continue;
+    // A radio row with no element of its own is one choice of the Radio Group above it.
+    const choice =
+      implementation === "radio" &&
+      agencyField !== -1 &&
+      !String(row[agencyField]).trim();
+    if (choice) continue;
     const rules: Rules = {};
     const max = Number(row[at.max]);
-    // A "$" row uses the maximum column for a dollar amount.
+    // A "$" row uses the maximum column for a dollar amount, not a character limit.
     // The XSD comparison checks explicit numeric bounds.
+    const dollars = header(row[at.dataType]) === "$";
     if (
-      header(row[at.dataType]) !== "$" &&
+      !dollars &&
       String(row[at.max]).trim() &&
       !FIXED_LISTS.has(implementation)
     )
@@ -96,12 +105,21 @@ export function datFields(workbook: Uint8Array): Fields {
     const maxOccurs = occurrences(row[at.maxOccurs]);
     if (maxOccurs !== undefined) rules.maxOccurs = maxOccurs;
     const required = header(row[at.required]);
+    // Some DATs leave the label blank and put the question's text on the Label row above.
+    const text = label(String(row[at.label]));
+    const unstated = [
+      ...(dollars ? (["maxLength"] as const) : []),
+      ...(text ? [] : (["label"] as const)),
+    ];
     fields.set(id, {
       order: fields.size,
-      label: label(String(row[at.label])),
+      label: text || undefined,
       help: String(row[at.help]).trim() || undefined,
       required:
         required === "yes" ? "yes" : required === "no" ? "no" : undefined,
+      ...(unstated.length && { unstated }),
+      ...(FIXED_LISTS.has(implementation) &&
+        String(row[at.max]).trim() && { popupMax: max }),
       rules,
     });
   }

@@ -99,6 +99,22 @@ export interface FlatField {
   label?: string;
   help?: string;
   required?: Requiredness;
+  /**
+   * Set from the plan's `post_populated`. SGG fills the field on submission, so it satisfies
+   * a source that requires it even though the plan leaves it optional for drafts.
+   */
+  postPopulated?: boolean;
+  /**
+   * Keywords, or the label, that this source leaves blank: maxLength on a DAT dollar row, or
+   * the label on a DAT row that prints its question on the Label row above. The comparison
+   * skips them, since there's nothing to compare the plan's value against.
+   */
+  unstated?: (Keyword | "label")[];
+  /**
+   * A DAT Popup's max characters. It's the longest code for a fixed list, but a real length
+   * limit where the field also takes free text, as a prefix does.
+   */
+  popupMax?: number;
   rules: Rules;
 }
 

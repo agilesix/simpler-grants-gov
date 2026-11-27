@@ -97,14 +97,6 @@ export const entryStar = (label: string, source = label): Pinned =>
     "The DAT stars this field in every entry. The entries are optional, so the field is required only within an entry the applicant adds, and the plan's label has no star.",
   );
 
-/** A DAT that requires a field but doesn't star its label. */
-export const unstarredRequired = (label: string, source: string): Pinned =>
-  starred(
-    `* ${label}`,
-    source,
-    "The DAT's Required column says Yes, but its label has no star. The plan stars every required field.",
-  );
-
 /** A field the DAT requires, within an optional, repeating entry. */
 export const EACH_ENTRY_REQUIRED: Recorded = {
   category: "upstream",
@@ -156,25 +148,11 @@ export const emailMinLength = (paths: string[]): Record<string, Pinned> =>
     paths.map((path) => [`${path}/minLength`, EMAIL_MIN_LENGTH]),
   );
 
-/** Yes/No answers, which the form stores as booleans. */
-export const YES_NO_BOOLEAN: Recorded = {
-  category: "intentional",
-  reason:
-    "The form stores this answer as a boolean. The XML mapping's boolean_to_yes_no transform writes the XSD's “Y: Yes” or “N: No”.",
-};
-
-/** The DAT's Yes and No radio buttons, which the plan lists as one answer. */
-export const RADIO_OPTIONS: Recorded = {
+/** The I Agree checkbox, which the DAT requires checking and the XSD lets be No. */
+export const MUST_AGREE: Recorded = {
   category: "upstream",
   reason:
-    "The DAT lists each radio button as a field of its own. The plan lists the question once, with a Yes/No answer.",
-};
-
-/** Dollar amounts, which the form stores as strings. */
-export const BUDGET_AMOUNT: Recorded = {
-  category: "intentional",
-  reason:
-    "globLib:BudgetAmountDataType is a decimal from 0 to 999999999999.99. The form stores the amount as a string of up to 12 digits with optional cents, as the API's budget forms do, so no amount is rounded. The XML mapping's currency_format transform writes it with two decimal places.",
+    "The DAT requires checking I Agree, so the plan accepts only Y: Yes. globLib:YesNoDataType also allows N: No.",
 };
 
 // =============================================================================

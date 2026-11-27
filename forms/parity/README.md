@@ -49,7 +49,8 @@ checks ask whether what we built does what the plan says, so the artifact is the
 | XML            | JSON schema vs XSD          | JSON schema       | occurrences, constraints (the schema may be stricter)         | the plan's link         |
 
 Labels and help text are compared ignoring whitespace and case, so a DAT's "Enter the
-Middle Name." matches the question bank's "Enter the middle name.".
+Middle Name." matches the question bank's "Enter the middle name.". Some DAT rows leave
+the label blank and print the question on the Label row above, so the label check skips them.
 
 The XML mapping comparisons run only for a form with emitted rules, i.e. one whose XSD
 TypeSpec model names it with `@Mapping.from` in the `grantsGovXml` mapping. Plan vs XML mapping matches each field by its
@@ -76,19 +77,34 @@ recorded difference still exists.
 
 Constraints are requiredness plus the keywords each comparison reads (`SPECS` in
 `harness/index.ts`). Requiredness is always from the form's root, so a field inside an
-optional section is optional. A plan's `Conditional (...)` counts as optional.
+optional section is optional. A plan's `Conditional (...)` counts as optional. A plan field with `post_populated` meets a source that
+requires it: SGG fills it on submission, so the plan and form can leave it optional for drafts.
+
+Forms store a dollar amount as a string whose pattern allows up to N digits and optional
+cents (`^\d{1,12}([.]\d{2})?$`). Where the XSD's element is a number, the XSD comparisons read
+that pattern as the range it allows (0 to 999999999999.99) and compare the range, so the
+string's pattern and length aren't reported against a number.
 
 The DAT is compared on `maxLength` only. Its minimum is 0 for every optional field and 1
 for every required one, so it restates requiredness; the XSD is the authority on
-`minLength`. A DAT list shown as a popup is a fixed code list, so its "max chars" is not a
-length rule. Likewise, a row whose Data Type is `$` uses the maximum column for a
-dollar amount. The XSD comparison checks explicit numeric bounds. For an exact length,
+`minLength`. A DAT row implemented as a `Radio` with no Agency Field Name is one choice of
+the Radio Group above it, not an answer, so it is left out. A DAT Popup's "max chars" is the longest code when its list is fixed,
+so it's compared as a length only where the plan's field takes free text and names no code
+list, as a prefix with suggested values does. Likewise, a row whose Data Type is `$` uses the maximum column for a
+dollar amount rather than a character limit, so a plan's `maxLength` isn't compared
+against it. The XSD comparison checks explicit numeric bounds. For an exact length,
 write `minLength 12, maxLength 12` in the plan.
 
 The DAT prints `*` before a required field's label. Labels compared with the DAT keep it,
 and the plan's label gets one wherever the plan says the field is required, so a label only
 differs on the asterisk where the DAT and the plan disagree about requiredness (a DAT `*`
 on a field the plan makes conditional, for example).
+
+A plan field for a list that the DAT and XSD split into one row or element per entry
+(SF-424's three applicant types, for example) names each of them in `source_bindings`.
+The DAT, XSD and XML mapping comparisons check each bound row or element as a field of its
+own, with the list's label, help and rules. The first `min_items` are required when the list
+is, and the rest are optional.
 
 Occurrences are how many times a field can appear in one form: `max_items` on a plan
 node (a field's own, else its nearest repeating section's; 1 by default), the DAT's Maximum
@@ -98,6 +114,17 @@ requiredness, like its minimum characters.
 
 Everything else is compared for equality, except JSON schema vs XSD: there the compiled
 schema must accept nothing the XSD rejects, but may be stricter.
+
+The form matches the plan, so a difference between the form and the XSD is the plan's
+difference from the XSD. The JSON schema vs XSD and XML mapping vs XSD comparisons accept a
+difference that plan vs XSD records for the same field and rule (a code list's values against
+its type's name), so it's recorded once, in the form's `xsd` register.
+
+The form states a code list's values, not its XSD type's name, so a plan field that names a
+code list (`StateCodeDataType enumeration`) is compared with the form by that list's values,
+read from the XSD element the plan links. The form stores Yes/No answers as booleans, which
+the harness reads as `YesNoDataType`'s codes (`Y: Yes`, `N: No`), so the plan names
+`YesNoDataType` for them. A checkbox that must be checked reads as `Y: Yes` alone.
 
 For enumerations whose values contain commas, use a JSON string array in the plan
 constraint, for example `enum ["Application", "Other, specify"]`. Values remain whole;

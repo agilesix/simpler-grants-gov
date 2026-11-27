@@ -19,6 +19,10 @@ export class AmbiguousComposition extends Error {}
 
 const ANNOTATIONS = new Set(["title", "description", "examples", "$comment"]);
 
+// Every allOf branch applies, so the combined bound is the strictest one.
+const LOWER_BOUNDS = new Set(["minLength", "minimum", "minItems"]);
+const UPPER_BOUNDS = new Set(["maxLength", "maximum", "maxItems"]);
+
 /**
  * Folds unconditional `allOf` branches into the node: `properties` merge per property and
  * `required` lists union. A branch with `if` is conditional and is left alone.
@@ -39,6 +43,10 @@ export function mergeAllOf(node: Json, at: Path = ""): Json {
         merged.required = [...new Set([...(merged.required ?? []), ...value])];
       } else if (!(key in merged)) {
         merged[key] = value;
+      } else if (LOWER_BOUNDS.has(key) && typeof value === "number") {
+        merged[key] = Math.max(merged[key] as number, value);
+      } else if (UPPER_BOUNDS.has(key) && typeof value === "number") {
+        merged[key] = Math.min(merged[key] as number, value);
       } else if (
         !ANNOTATIONS.has(key) &&
         JSON.stringify(merged[key]) !== JSON.stringify(value)
@@ -63,10 +71,19 @@ function rulesOf(node: Json): Rules {
     if (typeof node[keyword] === "number") rules[keyword] = node[keyword];
   if (typeof node.pattern === "string") rules.pattern = node.pattern;
   if (typeof node.format === "string") rules.format = node.format;
-  if ("const" in node) rules.enum = [String(node.const)];
+  if (node.type === "boolean" || typeof node.const === "boolean")
+    rules.enum = yesNo(node.const);
+  else if ("const" in node) rules.enum = [String(node.const)];
   else if (Array.isArray(node.enum)) rules.enum = node.enum.map(String);
   return rules;
 }
+
+/**
+ * A boolean's values as globLib:YesNoDataType's codes. Forms store Yes/No answers as booleans,
+ * and the XML mapping writes Y: Yes or N: No, so compare them as the same list.
+ */
+const yesNo = (only: unknown): string[] =>
+  only === true ? ["Y: Yes"] : only === false ? ["N: No"] : ["Y: Yes", "N: No"];
 
 const isObject = (node: Json) =>
   node.type === "object" || node.properties !== undefined;

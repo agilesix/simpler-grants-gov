@@ -5,6 +5,7 @@
 import { describe, expect, it } from "vitest";
 
 import { comparePair, type PairSpec } from "./harness/compare.ts";
+import { withAsterisk } from "./harness/index.ts";
 import type { Fields, FlatField, Registers, Wording } from "./harness/model.ts";
 
 type Spec = Partial<PairSpec>;
@@ -143,6 +144,36 @@ describe("matches field labels", () => {
     );
     expect(result.fieldLabels).toEqual([]);
   });
+
+  it("ignores a label the source leaves unstated", () => {
+    const result = compare(
+      { a: { label: "Areas Affected" } },
+      { a: { unstated: ["label"] } },
+      { labels: true },
+    );
+    expect(result.fieldLabels).toEqual([]);
+  });
+});
+
+describe("withAsterisk", () => {
+  const datLabel = (label: string, required: "yes" | "no") =>
+    withAsterisk(fields({ a: {} }), fields({ a: { label, required } }))[1].get(
+      "a",
+    )?.label;
+
+  it.each([
+    ["* Legal Name", "Legal Name"],
+    ["3. *Research Strategy", "3. Research Strategy"],
+    ["8a. * Legal Name", "8a. Legal Name"],
+  ])("unstars a DAT label whose field is required (%s)", (label, expected) => {
+    expect(datLabel(label, "yes")).toBe(expected);
+  });
+
+  it("keeps the star on a field the DAT marks optional", () => {
+    expect(datLabel("3. *Research Strategy", "no")).toBe(
+      "3. *Research Strategy",
+    );
+  });
 });
 
 describe("matches help text", () => {
@@ -243,6 +274,33 @@ describe("matches field constraints", () => {
       equal(),
     );
     expect(kinds(result.fieldConstraints)).toEqual(["requiredness differs"]);
+  });
+
+  it("accepts optional post-populated field against required source", () => {
+    const result = compare(
+      { a: { required: "no", postPopulated: true } },
+      { a: { required: "yes" } },
+      equal(),
+    );
+    expect(result.fieldConstraints).toEqual([]);
+  });
+
+  it("flags required post-populated field against optional source", () => {
+    const result = compare(
+      { a: { required: "yes", postPopulated: true } },
+      { a: { required: "no" } },
+      equal(),
+    );
+    expect(kinds(result.fieldConstraints)).toEqual(["requiredness differs"]);
+  });
+
+  it("ignores a rule the source leaves unstated", () => {
+    const result = compare(
+      { a: { rules: { maxLength: 15 } } },
+      { a: { unstated: ["maxLength"] } },
+      equal("maxLength"),
+    );
+    expect(result.fieldConstraints).toEqual([]);
   });
 
   it("accepts enum values in any order", () => {
@@ -349,6 +407,15 @@ describe("matches field constraints", () => {
       ]);
     });
 
+    it("accepts optional post-populated subject against required source", () => {
+      const result = compare(
+        { a: { required: "no", postPopulated: true } },
+        { a: { required: "yes" } },
+        contains,
+      );
+      expect(result.fieldConstraints).toEqual([]);
+    });
+
     it("flags bound subject leaves out", () => {
       const result = compare(
         { a: {} },
@@ -409,6 +476,30 @@ describe("matches field occurrences", () => {
       );
       expect(paths(result.fieldOccurrences)).toEqual(["a"]);
     });
+  });
+});
+
+describe("accepts what another comparison records", () => {
+  const pair = (recorded: boolean) => ({
+    registers: {},
+    plan: fields({ a: { rules: { maxLength: 30 } } }),
+    source: fields({ a: { rules: { maxLength: 20 } } }),
+    recordedElsewhere: () => (recorded ? WHY : undefined),
+  });
+  const spec = {
+    subject: "plan",
+    constraints: { keywords: ["maxLength"], mode: "equal" },
+  } as const;
+
+  it("accepts difference the other comparison records", () => {
+    const result = comparePair(pair(true), spec);
+    expect(result.fieldConstraints).toEqual([]);
+    expect(kinds(result.recorded)).toEqual(["maxLength differs"]);
+  });
+
+  it("flags difference neither comparison records", () => {
+    const result = comparePair(pair(false), spec);
+    expect(kinds(result.fieldConstraints)).toEqual(["maxLength differs"]);
   });
 });
 

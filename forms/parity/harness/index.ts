@@ -30,6 +30,8 @@ import {
   type Discrepancy,
   type Fields,
   type FormDiff,
+  type Recorded,
+  type Registers,
 } from "./model.ts";
 import { xmlFields, type XmlFormat } from "./xml.ts";
 
@@ -37,8 +39,8 @@ import { xmlFields, type XmlFormat } from "./xml.ts";
  * What each comparison checks, as the tests name it. The DAT is compared on `maxLength`
  * only (see `datFields`); `enum` is compared only between the two artifacts that list values.
  * JSON schema vs XSD compares only fields the plan links, and lets the schema be stricter.
- * Labels compared with the DAT carry the asterisk it prints on a required field (see
- * `withAsterisk`).
+ * Labels compared with the DAT carry an asterisk only where the DAT's Required? column
+ * doesn't already say the field is required (see `withAsterisk`).
  */
 export const SPECS = {
   dat: {
@@ -74,6 +76,7 @@ export const SPECS = {
         "format",
         "minimum",
         "maximum",
+        "enum",
       ],
       mode: "equal",
     },
@@ -155,6 +158,8 @@ function joinThroughPlan(
   const toXsd = diff.xsd?.renamed ?? {};
   const left: Fields = new Map();
   const right: Fields = new Map();
+  /** Schema path -> the plan's XSD path, which plan-vs-XSD records are keyed by. */
+  const xmlPaths = new Map<string, string>();
   for (const { field } of walkFields(plan.children)) {
     if (!field.json_path || !field.xml_path) continue;
     const schemaPath = toSchema[field.json_path]?.to ?? field.json_path;
@@ -162,18 +167,105 @@ function joinThroughPlan(
     const xsdField = xsd.get(toXsd[xmlPath]?.to ?? xmlPath);
     const schemaField = schema.get(schemaPath);
     if (!xsdField || !schemaField) continue;
-    left.set(schemaPath, schemaField);
+    // Copy post_populated from the plan so the schema-vs-XSD check skips the same requiredness.
+    left.set(
+      schemaPath,
+      field.post_populated
+        ? { ...schemaField, postPopulated: true }
+        : schemaField,
+    );
     right.set(schemaPath, xsdField);
+    xmlPaths.set(schemaPath, xmlPath);
   }
-  return { left, right };
+  return { left, right, xmlPaths };
 }
+
+/**
+ * DAT Popups whose plan field takes free text, with their max characters as `maxLength`. A
+ * Popup that the plan gives a code list keeps no length: its max is the longest code.
+ */
+function withPopupLengths(plan: Fields, dat: Fields): Fields {
+  return new Map(
+    [...dat].map(([path, field]) => {
+      const rules = plan.get(path)?.rules;
+      const freeText = rules && !rules.enum && !rules.enumType;
+      return field.popupMax !== undefined && freeText
+        ? [
+            path,
+            { ...field, rules: { ...field.rules, maxLength: field.popupMax } },
+          ]
+        : [path, field];
+    }),
+  );
+}
+
+/** A dollar amount's pattern: up to N digits, then optional cents. */
+const AMOUNT = /^\^\\d\{1,(\d+)\}\(\[\.\]\\d\{2\}\)\?\$$/;
+
+/**
+ * Amounts stored as strings, with the numeric range their pattern allows in place of the
+ * pattern and length, where the XSD's element is a number. Compare an amount's range with
+ * the XSD instead of a string pattern the XSD has no counterpart for.
+ */
+function asAmounts(fields: Fields, xsd: Fields): Fields {
+  return new Map(
+    [...fields].map(([path, field]) => {
+      const digits = AMOUNT.exec(String(field.rules.pattern ?? ""))?.[1];
+      const element = xsd.get(path)?.rules;
+      const numeric =
+        element?.minimum !== undefined || element?.maximum !== undefined;
+      if (!digits || !numeric) return [path, field];
+      const rules = { ...field.rules };
+      delete rules.pattern;
+      delete rules.maxLength;
+      rules.minimum = 0;
+      rules.maximum = Number(`${"9".repeat(Number(digits))}.99`);
+      return [path, { ...field, rules }];
+    }),
+  );
+}
+
+/**
+ * Plan fields that name an XSD code list (`StateCodeDataType enumeration`), with that list's
+ * values as their `enum`. The form states values, not the type's name, so compare those.
+ */
+function withListedValues(plan: Plan, fields: Fields, xsd: Fields): Fields {
+  for (const { field } of walkFields(plan.children)) {
+    const flat = field.json_path && fields.get(field.json_path);
+    const element = field.xml_path ?? field.source_bindings?.xml?.[0]?.path;
+    if (!flat || !element || !flat.rules.enumType || flat.rules.enum) continue;
+    const listed = xsd.get(fromXmlPath(element))?.rules;
+    if (listed?.enumType === flat.rules.enumType && listed.enum)
+      flat.rules.enum = listed.enum;
+  }
+  return fields;
+}
+
+/**
+ * The plan-vs-XSD record for a difference, if there is one. The form matches the plan, so the
+ * form's difference from the XSD is the plan's difference, with the same reason.
+ */
+const xsdRecord = (
+  diff: FormDiff,
+  register: keyof Registers,
+  key: string,
+): Recorded | undefined => {
+  const entry =
+    register === "renamed" ? undefined : diff.xsd?.[register]?.[key];
+  // Drop the pinned values: they're the plan's and the XSD's, and plan vs XSD checks them.
+  return entry && { category: entry.category, reason: entry.reason };
+};
 
 /** The plan's links from a JSON path to an element, keyed as `xmlTransformFields` keys them. */
 function planLinks(plan: Plan): Fields {
   const links: Fields = new Map();
   walkFields(plan.children).forEach(({ field }, order) => {
-    if (field.json_path && field.xml_path)
-      links.set(link(field.json_path, fromXmlPath(field.xml_path)), {
+    if (!field.json_path) return;
+    const elements = field.xml_path
+      ? [field.xml_path]
+      : (field.source_bindings?.xml ?? []).map((binding) => binding.path);
+    for (const element of elements)
+      links.set(link(field.json_path, fromXmlPath(element)), {
         order,
         rules: {},
       });
@@ -197,19 +289,34 @@ function indexDisagreements(
 }
 
 /**
- * The plan's labels as the DAT prints them: `* ` before every field the plan requires. Where
- * the asterisk and the plan's requiredness agree, the labels compare as plain text; where
- * they disagree, the label comparison reports it.
+ * The plan and DAT labels with the DAT's asterisk compared only where it says something the
+ * DAT's Required? column doesn't. Where that column says yes, neither label carries a star,
+ * since requiredness is compared on its own. Elsewhere the plan stars every field it requires,
+ * so a star the DAT prints for a conditional field shows up as a label difference.
  */
-const withAsterisk = (fields: Fields): Fields =>
-  new Map(
-    [...fields].map(([path, field]) => [
+// Match the star after an item number too: some DATs print "3. *Research Strategy".
+const DAT_STAR = /^(\d+[a-z]?\.\s*)?\*\s*/;
+
+export const withAsterisk = (plan: Fields, dat: Fields): [Fields, Fields] => {
+  const requiredByDat = (path: string) => dat.get(path)?.required === "yes";
+  const unstarred = new Map(
+    [...dat].map(([path, field]) => [
       path,
-      field.required === "yes" && field.label
+      requiredByDat(path) && field.label
+        ? { ...field, label: field.label.replace(DAT_STAR, "$1") }
+        : field,
+    ]),
+  );
+  const starred = new Map(
+    [...plan].map(([path, field]) => [
+      path,
+      field.required === "yes" && field.label && !requiredByDat(path)
         ? { ...field, label: `* ${field.label}` }
         : field,
     ]),
   );
+  return [starred, unstarred];
+};
 
 /** One form's plan beside each of its other artifacts, flattened and ready to compare. */
 export interface FormPairs {
@@ -257,17 +364,27 @@ export async function formPairs(
   const dat = {
     ...pair(
       diff.dat,
-      withAsterisk(planFields(plan, "dat_field", planProblems)),
-      datSource,
+      ...withAsterisk(
+        planFields(plan, "dat_field", planProblems),
+        withPopupLengths(planFields(plan, "dat_field"), datSource),
+      ),
     ),
     wording: diff.wording,
   };
-  const xsd = pair(diff.xsd, planFields(plan, "xml_path"), xsdSource);
+  const xsd = pair(
+    diff.xsd,
+    asAmounts(planFields(plan, "xml_path"), xsdSource),
+    xsdSource,
+  );
   if (!plan.spec_id) return { plan, planProblems, dat, xsd };
 
   const specId = plan.spec_id;
   const schema = jsonSchemaFields(await loadFormSchema(specId));
-  const jsonPlan = planFields(plan, "json_path");
+  const jsonPlan = withListedValues(
+    plan,
+    planFields(plan, "json_path"),
+    xsdSource,
+  );
   const joined = joinThroughPlan(diff, plan, schema, xsdSource);
   const mapped = xmlFields(specId, options.xml ?? diff.xml);
   return {
@@ -283,7 +400,24 @@ export async function formPairs(
         jsonPlan,
         uiSchemaFields(loadUiSchema(specId), schema),
       ),
-      jsonSchemaVsXsd: pair(diff.jsonSchemaVsXsd, joined.left, joined.right),
+      jsonSchemaVsXsd: {
+        ...pair(
+          diff.jsonSchemaVsXsd,
+          asAmounts(joined.left, joined.right),
+          joined.right,
+        ),
+        recordedElsewhere: (d) => {
+          const key = d.recordAs?.key ?? "";
+          const at = key.lastIndexOf("/");
+          const xmlPath = joined.xmlPaths.get(key.slice(0, at));
+          // Plan vs XSD compares a code list by its type's name, not its values.
+          const keyword =
+            key.slice(at + 1) === "enum" ? "enumType" : key.slice(at + 1);
+          return xmlPath && d.recordAs
+            ? xsdRecord(diff, d.recordAs.register, `${xmlPath}/${keyword}`)
+            : undefined;
+        },
+      },
       indexLeaves: new Set(indexLeaves(loadIndex(specId))),
       xmlMapping: mapped && {
         plan: pair(diff.xmlMapping, planLinks(plan), mapped.byLink),
@@ -292,7 +426,11 @@ export async function formPairs(
           mapped.byJsonPath,
           schema,
         ),
-        xsd: pair(diff.xmlMappingVsXsd, mapped.byXmlPath, xsdSource),
+        xsd: {
+          ...pair(diff.xmlMappingVsXsd, mapped.byXmlPath, xsdSource),
+          recordedElsewhere: (d) =>
+            d.recordAs && xsdRecord(diff, d.recordAs.register, d.recordAs.key),
+        },
       },
     },
   };

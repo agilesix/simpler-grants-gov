@@ -89,6 +89,32 @@ describe("planFields", () => {
     ]);
   });
 
+  it("marks post-populated fields", () => {
+    const fields = planFields(
+      {
+        slug: "test",
+        children: [
+          {
+            kind: "field",
+            label: "Date Signed",
+            required: false,
+            json_path: "date_signed",
+            post_populated: "SGG supplies the current date on submission.",
+          },
+          {
+            kind: "field",
+            label: "Title",
+            required: false,
+            json_path: "title",
+          },
+        ],
+      },
+      "json_path",
+    );
+    expect(fields.get("date_signed")?.postPopulated).toBe(true);
+    expect(fields.get("title")?.postPopulated).toBeUndefined();
+  });
+
   it("flags unreadable requiredness and constraints", () => {
     const problems: { kind: string; path: string }[] = [];
     planFields(plan, "json_path", problems);
@@ -96,6 +122,53 @@ describe("planFields", () => {
       "required unreadable: odd",
       "constraints unreadable: odd",
     ]);
+  });
+
+  describe("source_bindings", () => {
+    const list: Plan = {
+      slug: "test",
+      children: [
+        {
+          kind: "field",
+          label: "Type of Applicant",
+          required: true,
+          json_path: "types[]",
+          min_items: 1,
+          max_items: 2,
+          constraints: "ApplicantTypeCodeDataType enumeration",
+          source_bindings: {
+            dat: [
+              { kind: "slot", path: "9-0", index: 0 },
+              { kind: "slot", path: "9-1", index: 1 },
+            ],
+            xml: [
+              { kind: "slot", path: "Form:Type1", index: 0 },
+              { kind: "slot", path: "Form:Type2", index: 1 },
+            ],
+          },
+        },
+      ],
+    };
+
+    it("lists each bound row or element once, requiring the first min_items", () => {
+      const fields = planFields(list, "xml_path");
+      expect([...fields.keys()]).toEqual(["Type1", "Type2"]);
+      expect(fields.get("Type1")).toMatchObject({
+        required: "yes",
+        rules: { enumType: "ApplicantTypeCodeDataType", maxOccurs: 1 },
+      });
+      expect(fields.get("Type2")?.required).toBe("no");
+    });
+
+    it("keys bound DAT rows by Field #", () => {
+      expect([...planFields(list, "dat_field").keys()]).toEqual(["9-0", "9-1"]);
+    });
+
+    it("keeps the list whole by JSON path", () => {
+      expect(
+        planFields(list, "json_path").get("types[]")?.rules.maxOccurs,
+      ).toBe(2);
+    });
   });
 
   describe("max_items", () => {

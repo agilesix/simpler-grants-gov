@@ -6,9 +6,9 @@ export const DIFF: FormDiff = {
   dat: {
     differingLabels: {
       "5": {
-        plan: "* Project Abstract File",
+        plan: "Project Abstract File",
         source:
-          "* Please click the add attachment button to complete this entry.",
+          "Please click the add attachment button to complete this entry.",
         category: "intentional",
         reason:
           "Keep the existing SGG label, which names the file the applicant needs to upload.",

@@ -21,6 +21,15 @@ interface PlanNodeBase {
   max_items?: MaxItems;
 }
 
+/** One source element or DAT row that holds one entry of a list field. */
+export interface SourceBinding {
+  kind: "slot";
+  /** The DAT `Field #` or the XSD element path. */
+  path: string;
+  /** Which entry of the list it holds, from 0. */
+  index: number;
+}
+
 /** The parts of a plan field the suite reads. */
 export interface PlanField extends PlanNodeBase {
   /** Stable plan identity for review links; independent of JSON/XML paths and position. */
@@ -28,6 +37,10 @@ export interface PlanField extends PlanNodeBase {
   kind: "field";
   required: boolean | string;
   constraints?: string;
+  /** Who fills the field on submission, when the applicant doesn't. */
+  post_populated?: string;
+  /** For a list the source splits into one row or element per entry, where each entry goes. */
+  source_bindings?: { dat?: SourceBinding[]; xml?: SourceBinding[] };
 }
 
 export interface PlanSection<
@@ -52,16 +65,23 @@ export interface Plan<F extends PlanField = PlanField> {
 
 /**
  * Every field under `nodes`, depth first in plan order, with how many times it can occur: its
- * own `max_items`, else its nearest repeating ancestor's, else 1.
+ * own `max_items`, else its nearest repeating ancestor's, else 1. `entryItems` leaves out the
+ * field's own `max_items`: how many times one entry of a list field can occur.
  */
 export function walkFields<F extends PlanField>(
   nodes: PlanNode<F>[] = [],
   inherited: MaxItems = 1,
-): { field: F; maxItems: MaxItems }[] {
+): { field: F; maxItems: MaxItems; entryItems: MaxItems }[] {
   return nodes.flatMap((node) =>
     node.kind === "section"
       ? walkFields(node.children, node.max_items ?? inherited)
-      : [{ field: node, maxItems: node.max_items ?? inherited }],
+      : [
+          {
+            field: node,
+            maxItems: node.max_items ?? inherited,
+            entryItems: inherited,
+          },
+        ],
   );
 }
 
@@ -130,30 +150,55 @@ export function planFields(
   problems: Discrepancy[] = [],
 ): Fields {
   const fields: Fields = new Map();
-  walkFields(plan.children).forEach(({ field, maxItems }, order) => {
-    const id = field[key];
-    if (!id) return;
-    const required = readRequired(field.required);
-    if (required === undefined)
-      problems.push({
-        kind: "required unreadable",
-        path: id,
-        detail: String(field.required),
-      });
-    const rules = field.constraints ? readConstraints(field.constraints) : {};
-    if (rules === undefined)
-      problems.push({
-        kind: "constraints unreadable",
-        path: id,
-        detail: field.constraints,
-      });
-    fields.set(key === "xml_path" ? fromXmlPath(id) : id, {
-      order,
-      label: field.label,
-      help: field.help_text,
-      required,
-      rules: { ...rules, maxOccurs: maxItems },
-    });
-  });
+  const at = (path: string) => (key === "xml_path" ? fromXmlPath(path) : path);
+  walkFields(plan.children).forEach(
+    ({ field, maxItems, entryItems }, order) => {
+      const id = field[key];
+      const bindings =
+        key === "json_path"
+          ? undefined
+          : field.source_bindings?.[key === "dat_field" ? "dat" : "xml"];
+      if (!id && !bindings?.length) return;
+      const required = readRequired(field.required);
+      if (required === undefined)
+        problems.push({
+          kind: "required unreadable",
+          path: id ?? field.label,
+          detail: String(field.required),
+        });
+      const rules = field.constraints ? readConstraints(field.constraints) : {};
+      if (rules === undefined)
+        problems.push({
+          kind: "constraints unreadable",
+          path: id ?? field.label,
+          detail: field.constraints,
+        });
+      const common = {
+        order,
+        label: field.label,
+        help: field.help_text,
+        ...(field.post_populated && { postPopulated: true }),
+      };
+      if (id) {
+        fields.set(at(id), {
+          ...common,
+          required,
+          rules: { ...rules, maxOccurs: maxItems },
+        });
+        return;
+      }
+      // A list the source splits by entry: each row or element holds one entry. The first
+      // `min_items` entries are required when the list is.
+      for (const binding of bindings!)
+        fields.set(at(binding.path), {
+          ...common,
+          required:
+            required === "yes" && binding.index >= (field.min_items ?? 1)
+              ? "no"
+              : required,
+          rules: { ...rules, maxOccurs: entryItems },
+        });
+    },
+  );
   return fields;
 }

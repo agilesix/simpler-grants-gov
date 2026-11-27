@@ -442,9 +442,6 @@ export const DIFF: FormDiff = {
     ),
     differingRules: emailMinLength(XSD_ROLES.map((role) => `${role}/Email`)),
   },
-  jsonSchemaVsXsd: {
-    differingRules: emailMinLength(ROLES.map((role) => `${role}.email`)),
-  },
   jsonSchema: {
     absentFromPlan: notAsked(
       (role, field) => `${ROLES[role]}.address.${field.toLowerCase()}`,

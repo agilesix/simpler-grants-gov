@@ -54,7 +54,7 @@ export interface Cell {
   plan?: string | null;
   /** The recorded reason for a difference, or why the attribute is not compared. */
   reason?: string;
-  /** For options that differ: values the source lists that the form does not, and the reverse. */
+  /** For the form's options: values the plan lists that the form doesn't, and the reverse. */
   options?: { missing: string[]; extra: string[] };
 }
 
@@ -155,7 +155,7 @@ const NOT_COMPARED: Partial<
       "The DAT is compared on maximum length only, not on patterns or formats.",
     range: "The DAT is compared on maximum length only, not on numeric ranges.",
     options:
-      "The DAT's list of values is not compared. The XSD's code list is, and the form's values are compared with it.",
+      "The DAT's list of values is not compared. The plan's code list is compared with the XSD by its type's name, and with the form by its values.",
   },
   xsd: {
     label: "The XSD has no labels.",
@@ -284,19 +284,22 @@ const RANK: Status[] = [
 /** The status and reason the harness's findings give one cell. */
 function judge(
   sides: readonly (Side | undefined)[],
-  key: (side: Side) => string | undefined,
+  key: (side: Side) => string | string[] | undefined,
   attribute: Attribute,
 ): { status: Status; reason?: string } {
   const accepted: Accepted[] = [];
   let unexpected = false;
   let compared = false;
   for (const s of sides) {
-    const path = s && key(s);
-    if (!s || !path || !compares(s.spec, attribute)) continue;
+    // A list the source splits by entry has one path per row or element.
+    const paths = s ? [key(s) ?? []].flat() : [];
+    if (!s || !paths.length || !compares(s.spec, attribute)) continue;
     compared = true;
-    const found = s.found.get(`${path}#${attribute}`);
-    accepted.push(...(found?.accepted ?? []));
-    unexpected ||= Boolean(found?.unexpected.length);
+    for (const path of paths) {
+      const found = s.found.get(`${path}#${attribute}`);
+      accepted.push(...(found?.accepted ?? []));
+      unexpected ||= Boolean(found?.unexpected.length);
+    }
   }
   if (unexpected)
     return {
@@ -317,14 +320,30 @@ function judge(
 // Building the comparison
 // ---------------------------------------------------------------------------------------
 
-/** How each source finds a plan field, and what the sheet calls the key. */
+/**
+ * How each source finds a plan field, and what the sheet calls the key. A list the DAT and
+ * XSD split into one row or element per entry has one key per entry, from `source_bindings`.
+ */
 const KEYS: Record<
   Source,
-  { key: (field: PlanField) => string | undefined; name: string }
+  { keys: (field: PlanField) => string[]; name: string }
 > = {
-  dat: { key: (f) => f.dat_field, name: "DAT field number" },
-  xsd: { key: (f) => f.xml_path && fromXmlPath(f.xml_path), name: "XSD path" },
-  form: { key: (f) => f.json_path, name: "JSON path" },
+  dat: {
+    keys: (f) =>
+      f.dat_field
+        ? [f.dat_field]
+        : (f.source_bindings?.dat ?? []).map((b) => b.path),
+    name: "DAT field number",
+  },
+  xsd: {
+    keys: (f) =>
+      (f.xml_path
+        ? [f.xml_path]
+        : (f.source_bindings?.xml ?? []).map((b) => b.path)
+      ).map(fromXmlPath),
+    name: "XSD path",
+  },
+  form: { keys: (f) => (f.json_path ? [f.json_path] : []), name: "JSON path" },
 };
 
 const SOURCE_NAMES: Record<Source, string> = {
@@ -360,12 +379,15 @@ interface Sides {
   xsd: Side;
   jsonSchema?: Side;
   uiSchema?: Side;
-  jsonSchemaVsXsd?: Side;
   /** Absent for a form with no emitted XML transform. */
   xml?: { plan: Side; jsonSchema: Side; xsd: Side };
 }
 
-/** The pairs that judge each source's cells for an attribute. */
+/**
+ * The pair that judges each source's cells for an attribute. Every column compares the plan
+ * with one source, so the form's cells use only the plan-vs-form comparisons. Differences
+ * between the form and the XSD are the plan's, and show in the XSD column.
+ */
 function sidesFor(
   sides: Sides,
   source: Source,
@@ -377,16 +399,10 @@ function sidesFor(
     case "help":
     case "position":
       return [sides.uiSchema];
-    case "options":
-      return [sides.jsonSchemaVsXsd];
-    case "matchedBy":
-      return [sides.jsonSchema];
     case "xmlMapping":
-      return sides.xml
-        ? [sides.xml.plan, sides.xml.jsonSchema, sides.xml.xsd]
-        : [];
+      return [sides.xml?.plan];
     default:
-      return [sides.jsonSchema, sides.jsonSchemaVsXsd];
+      return [sides.jsonSchema];
   }
 }
 
@@ -396,8 +412,12 @@ function buildField<F extends PlanField>(
   sides: Sides,
   labels: Record<Source, Map<string, string>>,
 ): FieldComparison<F> {
+  const bound = Object.fromEntries(
+    SOURCES.map((source) => [source, KEYS[source].keys(field)]),
+  ) as Record<Source, string[]>;
+  /** The first key per source, which the sheet shows values for. */
   const keys = Object.fromEntries(
-    SOURCES.map((source) => [source, KEYS[source].key(field)]),
+    SOURCES.map((source) => [source, bound[source][0]]),
   ) as Record<Source, string | undefined>;
   const planSide = (source: Source) =>
     source === "form" ? sides.jsonSchema : sides[source];
@@ -423,13 +443,6 @@ function buildField<F extends PlanField>(
     xsd: { rules: xsdField, text: xsdField },
     form: { rules: formRules, text: formUi },
   };
-  const joinedXsd = keys.form
-    ? sides.jsonSchemaVsXsd?.pair.source.get(
-        sides.jsonSchemaVsXsd.matched.get(
-          sides.jsonSchema?.matched.get(keys.form) ?? keys.form,
-        ) ?? "",
-      )
-    : undefined;
   /** The compiled schema's path for the field, which the XML rules read. */
   const schemaPath =
     keys.form && (sides.jsonSchema?.matched.get(keys.form) ?? keys.form);
@@ -471,9 +484,11 @@ function buildField<F extends PlanField>(
     const { rules, text } = flat[source];
     switch (attribute) {
       case "matchedBy": {
-        const key = keys[source];
         const s = planSide(source);
-        return (key && s?.matched.get(key)) || null;
+        const matched = bound[source].flatMap(
+          (key) => s?.matched.get(key) ?? [],
+        );
+        return matched.length ? matched.join(", ") : null;
       }
       case "label":
         return text?.label ?? null;
@@ -523,14 +538,11 @@ function buildField<F extends PlanField>(
       case "position":
         return planPosition("dat") ?? planPosition("form");
       case "xmlMapping":
-        return keys.xsd ?? null;
+        return bound.xsd.length ? bound.xsd.join(", ") : null;
     }
   };
 
-  /**
-   * Whether the form's XML rules write the field to the element the plan links it to. The
-   * three XML comparisons judge it together, so a link they all miss counts once.
-   */
+  /** Whether the form's XML rules write the field to the element the plan links it to. */
   const xmlCell = (source: Source): Cell => {
     const cellValue = value("xmlMapping", source);
     const never = NOT_COMPARED[source]?.xmlMapping;
@@ -548,15 +560,12 @@ function buildField<F extends PlanField>(
         value: cellValue,
         reason: `The plan gives no ${keys.form ? KEYS.xsd.name : KEYS.form.name} for this field, so it links it to no element.`,
       };
-    const xsdPath = sides.xsd.matched.get(keys.xsd) ?? keys.xsd;
-    const pathFor = (s: Side) =>
-      s === sides.xml!.plan
-        ? link(keys.form!, keys.xsd!)
-        : s === sides.xml!.jsonSchema
-          ? schemaPath
-          : xsdPath;
     return {
-      ...judge(sidesFor(sides, source, "xmlMapping"), pathFor, "xmlMapping"),
+      ...judge(
+        sidesFor(sides, source, "xmlMapping"),
+        () => bound.xsd.map((element) => link(keys.form!, element)),
+        "xmlMapping",
+      ),
       value: cellValue,
     };
   };
@@ -568,7 +577,8 @@ function buildField<F extends PlanField>(
     const name = SOURCE_NAMES[source];
     const cellValue = value(attribute, source);
     const extra: Partial<Cell> = {};
-    if (attribute === "matchedBy") extra.plan = key ?? null;
+    if (attribute === "matchedBy")
+      extra.plan = bound[source].length ? bound[source].join(", ") : null;
     if (attribute === "position" && source !== "dat")
       extra.plan = planPosition(source);
 
@@ -603,13 +613,9 @@ function buildField<F extends PlanField>(
         reason: `The ${name} has no field matching this one.`,
       };
 
-    const pathFor = (side: Side) =>
-      side === sides.jsonSchemaVsXsd
-        ? (sides.jsonSchema?.matched.get(key) ?? undefined)
-        : key;
     const judged = judge(
       sidesFor(sides, source, attribute),
-      pathFor,
+      () => bound[source],
       attribute,
     );
 
@@ -620,7 +626,7 @@ function buildField<F extends PlanField>(
         ...extra,
         reason:
           source === "form" && attribute === "options"
-            ? "The plan gives no XSD path, so the form's values have no code list to compare with."
+            ? "The plan lists no values for this field, so the form's values aren't compared."
             : `The ${name} is not compared on this.`,
       };
     if (
@@ -649,9 +655,10 @@ function buildField<F extends PlanField>(
     }
     if (attribute === "options" && source === "form") {
       const formValues = listOf(formRules?.rules.enum) ?? [];
-      const xsdValues = listOf(joinedXsd?.rules.enum) ?? [];
-      const missing = xsdValues.filter((v) => !formValues.includes(v));
-      const extraValues = formValues.filter((v) => !xsdValues.includes(v));
+      const planValues =
+        listOf(sides.jsonSchema?.pair.plan.get(key)?.rules.enum) ?? [];
+      const missing = planValues.filter((v) => !formValues.includes(v));
+      const extraValues = formValues.filter((v) => !planValues.includes(v));
       if (missing.length || extraValues.length)
         extra.options = { missing, extra: extraValues };
     }
@@ -704,8 +711,6 @@ export async function compareForm<F extends PlanField>(
     xsd: side(pairs.xsd, SPECS.xsd),
     jsonSchema: compiled && side(compiled.jsonSchema, SPECS.jsonSchema),
     uiSchema: compiled && side(compiled.uiSchema, SPECS.uiSchema),
-    jsonSchemaVsXsd:
-      compiled && side(compiled.jsonSchemaVsXsd, SPECS.jsonSchemaVsXsd),
   };
   const mapping = compiled?.xmlMapping;
   // Every XML comparison shows on one row: the field's XML mapping.
@@ -724,10 +729,9 @@ export async function compareForm<F extends PlanField>(
     SOURCES.map((source) => [
       source,
       new Map(
-        all.flatMap((f) => {
-          const key = KEYS[source].key(f);
-          return key ? [[key, f.label] as const] : [];
-        }),
+        all.flatMap((f) =>
+          KEYS[source].keys(f).map((key) => [key, f.label] as const),
+        ),
       ),
     ]),
   ) as Record<Source, Map<string, string>>;
