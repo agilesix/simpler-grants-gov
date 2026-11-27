@@ -1,4 +1,4 @@
-# Shared happy path feature for all 16 grant application forms.
+# Shared happy path feature for the grant application forms.
 # Each form-specific spec file references this feature file.
  
 Feature: Apply - Application Form Happy Path
@@ -65,6 +65,7 @@ Feature: Apply - Application Form Happy Path
       | PHS 398 Research Training Program Plan |
       | PHS 398 Career Development Award Supplemental Form |
       | Attachments                        |
+      | SF-424 Individual (Generated)      |
  
   # Expected happy path form status on the application landing page:
   # "complete"   -> displays "No issues detected"
