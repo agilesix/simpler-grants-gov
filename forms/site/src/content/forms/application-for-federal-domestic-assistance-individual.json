@@ -399,7 +399,8 @@
               "help_text": "Select Yes or No.",
               "json_path": "applicant.person.citizenship.is_us_citizen",
               "xml_path": "SF424_Individual_2_0:citizenship",
-              "id": "is-us-citizen"
+              "id": "is-us-citizen",
+              "constraints": "YesNoDataType enumeration"
             },
             {
               "kind": "field",
@@ -533,7 +534,7 @@
           "type": "Checkbox",
           "widget": "CheckboxWidget",
           "help_text": "Check to select. This field is required.",
-          "constraints": "enum [\"true\"]",
+          "constraints": "enum [\"Y: Yes\"]",
           "json_path": "certification.agree",
           "xml_path": "SF424_Individual_2_0:ApplicationCertification",
           "id": "agree"

@@ -1,5 +1,5 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import { BUDGET_AMOUNT, EMAIL_MIN_LENGTH, SHARED_HELP } from "./common.ts";
+import { EMAIL_MIN_LENGTH, MUST_AGREE, SHARED_HELP } from "./common.ts";
 
 const groupedFields: Recorded = {
   category: "intentional",
@@ -23,20 +23,6 @@ const nonemptyExplanation: Pinned = {
     "The XSD accepts an empty string. When the DAT asks for an explanation, the form requires at least one character, because an empty explanation doesn't explain anything.",
 };
 
-const yesNoType: Pinned = {
-  plan: null,
-  source: "YesNoDataType",
-  category: "intentional",
-  reason:
-    'The form stores a true or false answer, and the XML mapping writes it as the XSD\'s "Y: Yes" or "N: No".',
-};
-
-const certification: Pinned = {
-  ...yesNoType,
-  reason:
-    'DAT 18 requires checking "I Agree", so the form only accepts true, and the XML mapping writes it as "Y: Yes".',
-};
-
 const nonemptyIdentifier: Pinned = {
   plan: 1,
   source: 0,
@@ -56,28 +42,7 @@ const congressionalDistrict = (
     "globLib:CongressionalDistrictDataType allows 1 to 6 characters with no pattern. The shared question requires the DAT's format: two state characters, a hyphen and three district characters (CA-005, 00-000).",
 });
 
-/** `differingRules` entries for an amount the XSD bounds as a number and the form as a string. */
-const budgetBounds = (paths: string[]): Record<string, Pinned> =>
-  Object.fromEntries(
-    paths.flatMap((path) => [
-      [`${path}/minimum`, { ...BUDGET_AMOUNT, plan: null, source: 0 }],
-      [
-        `${path}/maximum`,
-        { ...BUDGET_AMOUNT, plan: null, source: 999999999999.99 },
-      ],
-    ]),
-  );
-
 const CONGRESSIONAL_DISTRICT_PATTERN = "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$";
-
-const AMOUNT_PATTERN = "^\\d{1,12}([.]\\d{2})?$";
-
-/** XSD entries for an amount the form stores as a string. */
-const budgetAmountXsd = (path: string): Record<string, Pinned> => ({
-  [`${path}/maxLength`]: { ...BUDGET_AMOUNT, plan: 15, source: null },
-  [`${path}/pattern`]: { ...BUDGET_AMOUNT, plan: AMOUNT_PATTERN, source: null },
-  ...budgetBounds([path]),
-});
 
 export const DIFF: FormDiff = {
   slug: "sf424-mandatory-form",
@@ -124,7 +89,6 @@ export const DIFF: FormDiff = {
     differingRules: {
       "TypeOfSubmissionOtherDescription/minLength": nonemptyExplanation,
       "FrequencyOtherDescription/minLength": nonemptyExplanation,
-      "ConsolidatedRequest/enumType": yesNoType,
       "ConsolidatedRequestExplanation/minLength": nonemptyExplanation,
       "ApplicantID/minLength": nonemptyIdentifier,
       "StateApplicationID/minLength": nonemptyIdentifier,
@@ -145,12 +109,13 @@ export const DIFF: FormDiff = {
         null,
         CONGRESSIONAL_DISTRICT_PATTERN,
       ),
-      ...budgetAmountXsd("EstimatedFundingFederal"),
-      ...budgetAmountXsd("EstimatedFundingMatch"),
       "ContactEmail/minLength": EMAIL_MIN_LENGTH,
-      "DelinquentOnFederalDebt/enumType": yesNoType,
       "DelinquentFederalDebtExplanation/minLength": nonemptyExplanation,
-      "ApplicationCertification/enumType": certification,
+      "ApplicationCertification/enumType": {
+        ...MUST_AGREE,
+        plan: null,
+        source: "YesNoDataType",
+      },
       "AuthorizedRepresentativeEmail/minLength": EMAIL_MIN_LENGTH,
     },
   },

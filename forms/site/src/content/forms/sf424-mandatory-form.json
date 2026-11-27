@@ -103,7 +103,7 @@
           "type": "Radio group",
           "widget": "RadioWidget",
           "help_text": "Indicate if the submission is a consolidated application/plan/funding request.",
-          "constraints": "",
+          "constraints": "YesNoDataType enumeration",
           "json_path": "application.consolidated_request.answer",
           "xml_path": "SF424_Mandatory_3_0:ConsolidatedRequest",
           "id": "consolidated-request"
@@ -805,7 +805,7 @@
           "type": "Radio group",
           "widget": "RadioWidget",
           "help_text": "This question applies to the applicant organization, not the person who signs as the authorized representative.  This field is required.",
-          "constraints": "",
+          "constraints": "YesNoDataType enumeration",
           "json_path": "applicant.delinquent_federal_debt.answer",
           "xml_path": "SF424_Mandatory_3_0:DelinquentOnFederalDebt",
           "id": "is-delinquent"
@@ -837,7 +837,7 @@
           "type": "Checkbox",
           "widget": "CheckboxWidget",
           "help_text": "Check to select. This field is required.",
-          "constraints": "enum [\"true\"]",
+          "constraints": "enum [\"Y: Yes\"]",
           "json_path": "certification.agree",
           "xml_path": "SF424_Mandatory_3_0:ApplicationCertification",
           "id": "agree"

@@ -1,15 +1,10 @@
 import type { FormDiff } from "../harness/model.ts";
-import { BANK_WORDING } from "./common.ts";
+import { BANK_WORDING, MUST_AGREE } from "./common.ts";
 
 const email = {
   category: "intentional",
   reason:
     "The email format already rejects empty values in the form schema. The XSD states a separate minimum length of one.",
-} as const;
-const bool = {
-  category: "intentional",
-  reason:
-    "The form stores a Boolean. The authored XML transform writes the source Yes/No enumeration.",
 } as const;
 const zipState = {
   category: "upstream",
@@ -107,11 +102,6 @@ export const DIFF: FormDiff = {
         plan: null,
         source: 1,
       },
-      "SameAsProjectDirector/enumType": {
-        ...bool,
-        plan: null,
-        source: "YesNoDataType",
-      },
       "ContactPersonGroup/Name/FirstName/required": {
         ...shortContact,
         plan: "yes",
@@ -154,7 +144,7 @@ export const DIFF: FormDiff = {
       },
       "ContactPersonGroup/Email/minLength": { ...email, plan: null, source: 1 },
       "ApplicationCertification/enumType": {
-        ...bool,
+        ...MUST_AGREE,
         plan: null,
         source: "YesNoDataType",
       },

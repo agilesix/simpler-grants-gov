@@ -200,7 +200,8 @@
           "type": "Radio group (Yes, No)",
           "widget": "RadioWidget",
           "json_path": "application.other_agencies.submitted",
-          "xml_path": "RR_SF424_Multi_Project_Cover_4_0:ApplicationType/RR_SF424_Multi_Project_Cover_4_0:isOtherAgencySubmission"
+          "xml_path": "RR_SF424_Multi_Project_Cover_4_0:ApplicationType/RR_SF424_Multi_Project_Cover_4_0:isOtherAgencySubmission",
+          "constraints": "YesNoDataType enumeration"
         },
         {
           "kind": "field",
@@ -663,7 +664,8 @@
               "widget": "RadioWidget",
               "help_text": "Select Yes if women own at least 51% of the business and control and operate it.",
               "json_path": "applicant.type.small_business.women_owned",
-              "xml_path": "RR_SF424_Multi_Project_Cover_4_0:ApplicantType/RR_SF424_Multi_Project_Cover_4_0:SmallBusinessOrganizationType/RR_SF424_Multi_Project_Cover_4_0:isWomenOwned"
+              "xml_path": "RR_SF424_Multi_Project_Cover_4_0:ApplicantType/RR_SF424_Multi_Project_Cover_4_0:SmallBusinessOrganizationType/RR_SF424_Multi_Project_Cover_4_0:isWomenOwned",
+              "constraints": "YesNoDataType enumeration"
             },
             {
               "kind": "field",
@@ -675,7 +677,8 @@
               "widget": "RadioWidget",
               "help_text": "Select Yes if the U.S. Small Business Administration has determined that the business qualifies under section 8(a) of the Small Business Act.",
               "json_path": "applicant.type.small_business.socially_disadvantaged",
-              "xml_path": "RR_SF424_Multi_Project_Cover_4_0:ApplicantType/RR_SF424_Multi_Project_Cover_4_0:SmallBusinessOrganizationType/RR_SF424_Multi_Project_Cover_4_0:isSociallyEconomicallyDisadvantaged"
+              "xml_path": "RR_SF424_Multi_Project_Cover_4_0:ApplicantType/RR_SF424_Multi_Project_Cover_4_0:SmallBusinessOrganizationType/RR_SF424_Multi_Project_Cover_4_0:isSociallyEconomicallyDisadvantaged",
+              "constraints": "YesNoDataType enumeration"
             }
           ]
         }
@@ -1156,7 +1159,7 @@
           "type": "Checkbox",
           "widget": "CheckboxWidget",
           "help_text": "Check \"I agree\" to provide the required certifications and assurances.",
-          "constraints": "enum [\"true\"]",
+          "constraints": "enum [\"Y: Yes\"]",
           "json_path": "certification.agree",
           "xml_path": "RR_SF424_Multi_Project_Cover_4_0:TrustAgree"
         },

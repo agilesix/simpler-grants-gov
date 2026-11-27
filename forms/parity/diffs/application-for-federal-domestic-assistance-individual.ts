@@ -1,4 +1,4 @@
-import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
+import type { FormDiff, Recorded } from "../harness/model.ts";
 import {
   agreeFootnote,
   BANK_WORDING,
@@ -8,16 +8,7 @@ import {
   MUST_AGREE,
   numberInSection,
   SHARED_HELP,
-  YES_NO_BOOLEAN,
 } from "./common.ts";
-
-const prefixLength: Pinned = {
-  plan: 10,
-  source: null,
-  category: "gap",
-  reason:
-    "The prefix entry allows up to 10 characters, but our DAT reader drops that limit because the spreadsheet calls the control a Popup. The form still enforces 10. The shared DAT reader needs to retain limits on free-text Popup fields; that reader fix is not included here.",
-};
 
 const citizenshipHelp: Recorded = {
   category: "intentional",
@@ -52,10 +43,6 @@ export const DIFF: FormDiff = {
       "6b": fullItemNumber("6b. Project Description", "b. Project Description"),
       "7-2": agreeFootnote("I Agree", "* I AGREE"),
     },
-    differingRules: {
-      "5a-02/maxLength": prefixLength,
-      "5a-06/maxLength": prefixLength,
-    },
     differingHelp: {
       "5c-2": {
         plan: "Select Yes or No.",
@@ -86,11 +73,6 @@ export const DIFF: FormDiff = {
   },
   xsd: {
     differingRules: {
-      "citizenship/enumType": {
-        ...YES_NO_BOOLEAN,
-        plan: null,
-        source: "YesNoDataType",
-      },
       "ApplicationCertification/enumType": {
         ...MUST_AGREE,
         plan: null,

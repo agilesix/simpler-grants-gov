@@ -685,7 +685,8 @@
           "xml_path": "SF424_Short_3_0:SameAsProjectDirector",
           "json_path": "contacts.point_of_contact.same_as_project_director",
           "required": false,
-          "widget": "CheckboxWidget"
+          "widget": "CheckboxWidget",
+          "constraints": "YesNoDataType enumeration"
         },
         {
           "kind": "section",
@@ -937,7 +938,7 @@
           "required": true,
           "widget": "CheckboxWidget",
           "help_text": "Check to select. This field is required.",
-          "constraints": "enum [\"true\"]"
+          "constraints": "enum [\"Y: Yes\"]"
         }
       ]
     },

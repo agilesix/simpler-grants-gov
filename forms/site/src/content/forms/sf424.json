@@ -993,7 +993,8 @@
           "json_path": "applicant.delinquent_federal_debt.answer",
           "required": true,
           "widget": "RadioWidget",
-          "help_text": "If 'Yes,' provide explanation in attachment."
+          "help_text": "If 'Yes,' provide explanation in attachment.",
+          "constraints": "YesNoDataType enumeration"
         },
         {
           "kind": "field",
@@ -1025,7 +1026,7 @@
           "required": true,
           "widget": "CheckboxWidget",
           "help_text": "Check to select. This field is required.",
-          "constraints": "enum [\"true\"]"
+          "constraints": "enum [\"Y: Yes\"]"
         },
         {
           "kind": "section",

@@ -1,5 +1,5 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import { EMAIL_MIN_LENGTH, MUST_AGREE, YES_NO_BOOLEAN } from "./common.ts";
+import { EMAIL_MIN_LENGTH, MUST_AGREE } from "./common.ts";
 
 const revisionRows = {
   category: "intentional",
@@ -10,11 +10,6 @@ const importedEin = {
   category: "upstream",
   reason:
     "OptionalOrganizationType has an optional EIN element. DAT 06-0 collects EIN/TIN once, at the root EmployerID.",
-} as const;
-const amount = {
-  category: "intentional",
-  reason:
-    "The form uses the shared BudgetTotalAmount question for globLib:BudgetTotalAmountDataType. It stores an exact decimal string, and its pattern allows 0 through 9999999999999.99 with exactly two decimal places when cents are given.",
 } as const;
 const district = {
   category: "intentional",
@@ -41,14 +36,6 @@ const byRule = (paths: string[], rules: Record<string, Pinned>) =>
   );
 
 const ein = byPath(["ApplicantInfo/OrganizationInfo/EIN"], importedEin);
-const fundingXml = [
-  "EstimatedProjectFunding/TotalEstimatedAmount",
-  "EstimatedProjectFunding/TotalNonfedrequested",
-  "EstimatedProjectFunding/TotalfedNonfedrequested",
-  "EstimatedProjectFunding/EstimatedProgramIncome",
-];
-const amountPattern = "^\\d{1,13}([.]\\d{2})?$";
-
 export const DIFF: FormDiff = {
   slug: "sf-424-r-r-multi-project-cover",
   xml: "xml-mapping",
@@ -98,18 +85,6 @@ export const DIFF: FormDiff = {
         ],
         { minLength: EMAIL_MIN_LENGTH },
       ),
-      "ApplicationType/isOtherAgencySubmission/enumType": {
-        ...YES_NO_BOOLEAN,
-        plan: null,
-        source: "YesNoDataType",
-      },
-      "ApplicantType/SmallBusinessOrganizationType/isWomenOwned/enumType": {
-        ...YES_NO_BOOLEAN,
-        plan: null,
-        source: "YesNoDataType",
-      },
-      "ApplicantType/SmallBusinessOrganizationType/isSociallyEconomicallyDisadvantaged/enumType":
-        { ...YES_NO_BOOLEAN, plan: null, source: "YesNoDataType" },
       "TrustAgree/enumType": {
         ...MUST_AGREE,
         plan: null,
@@ -122,12 +97,6 @@ export const DIFF: FormDiff = {
           plan: "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$",
           source: null,
         },
-      }),
-      ...byRule(fundingXml, {
-        maxLength: { ...amount, plan: 16, source: null },
-        pattern: { ...amount, plan: amountPattern, source: null },
-        minimum: { ...amount, plan: null, source: 0 },
-        maximum: { ...amount, plan: null, source: 9999999999999.99 },
       }),
     },
   },
