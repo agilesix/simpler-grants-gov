@@ -182,7 +182,7 @@
           "required": true,
           "type": "Text input",
           "widget": "TextWidget",
-          "help_text": "Enter the organization's Unique Entity Identifier (UEI) from SAM.gov.",
+          "help_text": "UEI of the applicant organization. This field is pre-populated from the Application cover sheet.",
           "constraints": "minLength 12, maxLength 12",
           "pre_populated": "SGG supplies this value from the uei provider.",
           "json_path": "applicant.organization.uei",

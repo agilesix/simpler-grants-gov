@@ -6,6 +6,7 @@ import "#forms/sf424-r-r/fragments.tsp";
 import "#questions/application/index.tsp";
 import "#questions/certification/index.tsp";
 import "#questions/organization/applicant-type.tsp";
+import "#questions/organization/index.tsp";
 import "#questions/person/index.tsp";
 import "#questions/project/index.tsp";
 import "#questions/types/address.tsp";
@@ -108,11 +109,24 @@ model MultiProjectApplicant {
   >>;
 }
 
-// `OptionalOrganizationType`: R&R's organization with every element optional.
+// `OptionalOrganizationType`: R&R's organization with every element optional. Redeclare
+// UEI for DAT 05-1's help, since a doc comment does not reach a copied property.
 model MultiProjectOrganization {
-  ...OptionalProperties<OmitProperties<
+  ...OptionalProperties<PickProperties<
     Forms.SF424Research.ResearchOrganization,
-    "address"
+    "name"
+  >>;
+
+  /** Enter the UEI of the applicant organization. */
+  @UI.label("SAM UEI")
+  @UI.readOnly
+  @Meta.role(ResponseRole.systemValue)
+  @Sgg.prePopulate(Sgg.PrePopulationRule.uei)
+  uei?: Questions.Organizations.OrgUei;
+
+  ...OptionalProperties<PickProperties<
+    Forms.SF424Research.ResearchOrganization,
+    "ein" | "department" | "division"
   >>;
   address?: MultiProjectAddress;
 }

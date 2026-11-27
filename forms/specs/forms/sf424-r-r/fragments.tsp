@@ -164,6 +164,7 @@ model ResearchOrganization {
   @UI.label("Legal Organization Name")
   name: Questions.Organizations.OrgName;
 
+  /** UEI of the applicant organization. This field is pre-populated from the Application cover sheet. */
   @UI.label("SAM UEI")
   @UI.readOnly
   @Meta.role(ResponseRole.systemValue)
