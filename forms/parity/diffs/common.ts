@@ -155,13 +155,6 @@ export const YES_NO_BOOLEAN: Recorded = {
     "The form stores this answer as a boolean. The XML mapping's boolean_to_yes_no transform writes the XSD's “Y: Yes” or “N: No”.",
 };
 
-/** The DAT's Yes and No radio buttons, which the plan lists as one answer. */
-export const RADIO_OPTIONS: Recorded = {
-  category: "upstream",
-  reason:
-    "The DAT lists each radio button as a field of its own. The plan lists the question once, with a Yes/No answer.",
-};
-
 /** Dollar amounts, which the form stores as strings. */
 export const BUDGET_AMOUNT: Recorded = {
   category: "intentional",

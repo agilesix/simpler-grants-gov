@@ -81,7 +81,8 @@ requires it: SGG fills it on submission, so the plan and form can leave it optio
 
 The DAT is compared on `maxLength` only. Its minimum is 0 for every optional field and 1
 for every required one, so it restates requiredness; the XSD is the authority on
-`minLength`. A DAT list shown as a popup is a fixed code list, so its "max chars" is not a
+`minLength`. A DAT row implemented as a `Radio` with no Agency Field Name is one choice of
+the Radio Group above it, not an answer, so it is left out. A DAT list shown as a popup is a fixed code list, so its "max chars" is not a
 length rule. Likewise, a row whose Data Type is `$` uses the maximum column for a
 dollar amount. The XSD comparison checks explicit numeric bounds. For an exact length,
 write `minLength 12, maxLength 12` in the plan.

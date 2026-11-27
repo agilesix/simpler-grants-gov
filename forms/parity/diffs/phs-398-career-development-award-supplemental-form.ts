@@ -1,10 +1,4 @@
-import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-
-const optionRow: Recorded = {
-  category: "intentional",
-  reason:
-    "This row describes a choice within its radio group. The form captures one answer for the group.",
-};
+import type { FormDiff, Pinned } from "../harness/model.ts";
 
 const optionalDocumentHelp: Pinned = {
   plan: "Attach a PDF. Check the funding opportunity and agency instructions for whether this attachment is required and what page limit applies.",
@@ -30,13 +24,6 @@ export const DIFF: FormDiff = {
   slug: "phs-398-career-development-award-supplemental-form",
   xml: "xml-mapping",
   dat: {
-    absentFromPlan: {
-      "9-1-1a": optionRow,
-      "9-1-1b": optionRow,
-      "9-2-1a": optionRow,
-      "9-2-1b": optionRow,
-      "9-2-1c": optionRow,
-    },
     differingLabels: {
       "7-4": {
         plan: "16. Resource Sharing Plan(s)",

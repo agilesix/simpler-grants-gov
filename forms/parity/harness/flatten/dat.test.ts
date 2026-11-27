@@ -117,6 +117,29 @@ describe("datFields", () => {
     expect(dat.get("7-5")?.required).toBe("yes");
   });
 
+  it("skips radio choices that have no element of their own", () => {
+    const dat = datFields(
+      workbook([
+        [...HEADER, "Agency Field Name"],
+        [
+          "20-0",
+          "* Delinquent On Federal Debt?",
+          "Yes",
+          "LIST",
+          "",
+          1,
+          "Radio Group",
+          "",
+          "DelinquentFederalDebt",
+        ],
+        ["20-1", "Yes", "No", "", "", 1, "Radio", "", ""],
+        ["20-2", "No", "No", "", "", 1, "Radio", "", ""],
+        ["21-1", "Other", "No", "", "", 1, "Radio", "", "OtherChoice"],
+      ]),
+    );
+    expect([...dat.keys()]).toEqual(["20-0", "21-1"]);
+  });
+
   it("keeps asterisk on required labels", () => {
     const dat = datFields(
       workbook([

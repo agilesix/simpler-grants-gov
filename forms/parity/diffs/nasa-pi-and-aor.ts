@@ -3,7 +3,6 @@ import {
   BUDGET_AMOUNT,
   conditionalStar,
   PREPOPULATED_HELP,
-  RADIO_OPTIONS,
   SHARED_HELP,
   YES_NO_BOOLEAN,
 } from "./common.ts";
@@ -39,12 +38,7 @@ const AMOUNT_PATTERN = "^\\d{1,12}([.]\\d{2})?$";
 export const DIFF: FormDiff = {
   slug: "nasa-pi-and-aor",
   dat: {
-    absentFromPlan: {
-      "3-6-1": RADIO_OPTIONS,
-      "3-6-2": RADIO_OPTIONS,
-      "3-9-1": RADIO_OPTIONS,
-      "3-9-2": RADIO_OPTIONS,
-    },
+    absentFromPlan: {},
     differingLabels: {
       "3-7": conditionalStar("If yes, Select U.S. Government agency"),
     },

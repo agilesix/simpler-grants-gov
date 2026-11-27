@@ -59,6 +59,7 @@ export function datFields(workbook: Uint8Array): Fields {
   if (start === -1) throw new Error('no "Field #" header row in the DAT');
   const names = rows[start].map(header);
   const fieldType = names.indexOf("field type");
+  const agencyField = names.indexOf("agency field name");
   const column = (name: keyof typeof COLUMNS) => {
     const index = names.indexOf(COLUMNS[name]);
     if (index === -1)
@@ -83,6 +84,12 @@ export function datFields(workbook: Uint8Array): Fields {
       fieldType !== -1 &&
       header(row[fieldType]) === "post-populated";
     if (!id || (NOT_INPUTS.has(implementation) && !populatedOutput)) continue;
+    // A radio row with no element of its own is one choice of the Radio Group above it.
+    const choice =
+      implementation === "radio" &&
+      agencyField !== -1 &&
+      !String(row[agencyField]).trim();
+    if (choice) continue;
     const rules: Rules = {};
     const max = Number(row[at.max]);
     // A "$" row uses the maximum column for a dollar amount.
