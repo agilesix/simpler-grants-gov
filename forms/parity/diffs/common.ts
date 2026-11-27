@@ -81,6 +81,43 @@ const starred = (
     : reason,
 });
 
+// =============================================================================
+// ITEM NUMBERS
+// =============================================================================
+
+/** A label whose item number is in its section's title, such as "3. Date Received". */
+export const numberInSection = (
+  plan: string,
+  source: string,
+  also?: string,
+): Pinned => ({
+  plan,
+  source,
+  category: "intentional",
+  reason: `The item number is in the section header, not the question text.${also ? ` ${also}` : ""}`,
+});
+
+/** A lettered label written with its full item number, such as "8a. Legal Name". */
+export const fullItemNumber = (
+  plan: string,
+  source: string,
+  also?: string,
+): Pinned => ({
+  plan,
+  source,
+  category: "intentional",
+  reason: `The label includes the item number with the letter (8a, not a.), so it makes sense on its own in the error list. The DAT prints the number only on the item's heading.${also ? ` ${also}` : ""}`,
+});
+
+/** The DAT's I Agree label, whose "**" points to the footnote about the certifications list. */
+export const agreeFootnote = (plan: string, source: string): Pinned => ({
+  plan,
+  source,
+  category: "intentional",
+  reason:
+    "The DAT's ** points to the footnote about the list of certifications. The form prints that footnote in the certification statement, so the label leaves the marker off.",
+});
+
 /** A DAT that stars a field its Required column marks optional, because a condition requires it. */
 export const conditionalStar = (label: string, source = label): Pinned =>
   starred(
@@ -147,6 +184,13 @@ export const emailMinLength = (paths: string[]): Record<string, Pinned> =>
   Object.fromEntries(
     paths.map((path) => [`${path}/minLength`, EMAIL_MIN_LENGTH]),
   );
+
+/** Congressional districts, whose format the DAT states and the XSD doesn't. */
+export const DISTRICT_FORMAT: Recorded = {
+  category: "upstream",
+  reason:
+    "The DAT's help gives the format: two characters, a hyphen, and three characters, such as CA-005 or 00-000. globLib:CongressionalDistrictDataType allows any 1 to 6 characters. The shared congressional district question follows the DAT.",
+};
 
 /** The I Agree checkbox, which the DAT requires checking and the XSD lets be No. */
 export const MUST_AGREE: Recorded = {
