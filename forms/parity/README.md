@@ -80,6 +80,11 @@ Constraints are requiredness plus the keywords each comparison reads (`SPECS` in
 optional section is optional. A plan's `Conditional (...)` counts as optional. A plan field with `post_populated` meets a source that
 requires it: SGG fills it on submission, so the plan and form can leave it optional for drafts.
 
+Forms store a dollar amount as a string whose pattern allows up to N digits and optional
+cents (`^\d{1,12}([.]\d{2})?$`). Where the XSD's element is a number, the XSD comparisons read
+that pattern as the range it allows (0 to 999999999999.99) and compare the range, so the
+string's pattern and length aren't reported against a number.
+
 The DAT is compared on `maxLength` only. Its minimum is 0 for every optional field and 1
 for every required one, so it restates requiredness; the XSD is the authority on
 `minLength`. A DAT row implemented as a `Radio` with no Agency Field Name is one choice of

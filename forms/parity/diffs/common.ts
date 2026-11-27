@@ -155,13 +155,6 @@ export const MUST_AGREE: Recorded = {
     "The DAT requires checking I Agree, so the plan accepts only Y: Yes. globLib:YesNoDataType also allows N: No.",
 };
 
-/** Dollar amounts, which the form stores as strings. */
-export const BUDGET_AMOUNT: Recorded = {
-  category: "intentional",
-  reason:
-    "globLib:BudgetAmountDataType is a decimal from 0 to 999999999999.99. The form stores the amount as a string of up to 12 digits with optional cents, as the API's budget forms do, so no amount is rounded. The XML mapping's currency_format transform writes it with two decimal places.",
-};
-
 // =============================================================================
 // ATTACHMENTS
 // =============================================================================

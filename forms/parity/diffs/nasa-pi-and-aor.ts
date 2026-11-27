@@ -1,10 +1,5 @@
 import type { FormDiff, Pinned } from "../harness/model.ts";
-import {
-  BUDGET_AMOUNT,
-  conditionalStar,
-  PREPOPULATED_HELP,
-  SHARED_HELP,
-} from "./common.ts";
+import { conditionalStar, PREPOPULATED_HELP, SHARED_HELP } from "./common.ts";
 
 const PREPOPULATED = "Pre-populated from the SF 424 (R&R).";
 
@@ -30,9 +25,6 @@ const USERNAME_MIN_LENGTH: Pinned = {
   reason:
     "The XSD sets UserName's minLength to 0, which allows any string. The form states no minimum.",
 };
-
-const AMOUNT = "PrincipalInvestigatorName/FederalAgencyDollar";
-const AMOUNT_PATTERN = "^\\d{1,12}([.]\\d{2})?$";
 
 export const DIFF: FormDiff = {
   slug: "nasa-pi-and-aor",
@@ -66,18 +58,6 @@ export const DIFF: FormDiff = {
   xsd: {
     differingRules: {
       "AuthorizedRepresentativeName/UserName/minLength": USERNAME_MIN_LENGTH,
-      [`${AMOUNT}/maxLength`]: { ...BUDGET_AMOUNT, plan: 15, source: null },
-      [`${AMOUNT}/pattern`]: {
-        ...BUDGET_AMOUNT,
-        plan: AMOUNT_PATTERN,
-        source: null,
-      },
-      [`${AMOUNT}/minimum`]: { ...BUDGET_AMOUNT, plan: null, source: 0 },
-      [`${AMOUNT}/maximum`]: {
-        ...BUDGET_AMOUNT,
-        plan: null,
-        source: 999999999999.99,
-      },
     },
   },
 };

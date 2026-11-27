@@ -180,6 +180,32 @@ function joinThroughPlan(
   return { left, right, xmlPaths };
 }
 
+/** A dollar amount's pattern: up to N digits, then optional cents. */
+const AMOUNT = /^\^\\d\{1,(\d+)\}\(\[\.\]\\d\{2\}\)\?\$$/;
+
+/**
+ * Amounts stored as strings, with the numeric range their pattern allows in place of the
+ * pattern and length, where the XSD's element is a number. Compare an amount's range with
+ * the XSD instead of a string pattern the XSD has no counterpart for.
+ */
+function asAmounts(fields: Fields, xsd: Fields): Fields {
+  return new Map(
+    [...fields].map(([path, field]) => {
+      const digits = AMOUNT.exec(String(field.rules.pattern ?? ""))?.[1];
+      const element = xsd.get(path)?.rules;
+      const numeric =
+        element?.minimum !== undefined || element?.maximum !== undefined;
+      if (!digits || !numeric) return [path, field];
+      const rules = { ...field.rules };
+      delete rules.pattern;
+      delete rules.maxLength;
+      rules.minimum = 0;
+      rules.maximum = Number(`${"9".repeat(Number(digits))}.99`);
+      return [path, { ...field, rules }];
+    }),
+  );
+}
+
 /**
  * Plan fields that name an XSD code list (`StateCodeDataType enumeration`), with that list's
  * values as their `enum`. The form states values, not the type's name, so compare those.
@@ -323,7 +349,11 @@ export async function formPairs(
     ),
     wording: diff.wording,
   };
-  const xsd = pair(diff.xsd, planFields(plan, "xml_path"), xsdSource);
+  const xsd = pair(
+    diff.xsd,
+    asAmounts(planFields(plan, "xml_path"), xsdSource),
+    xsdSource,
+  );
   if (!plan.spec_id) return { plan, planProblems, dat, xsd };
 
   const specId = plan.spec_id;
@@ -349,7 +379,11 @@ export async function formPairs(
         uiSchemaFields(loadUiSchema(specId), schema),
       ),
       jsonSchemaVsXsd: {
-        ...pair(diff.jsonSchemaVsXsd, joined.left, joined.right),
+        ...pair(
+          diff.jsonSchemaVsXsd,
+          asAmounts(joined.left, joined.right),
+          joined.right,
+        ),
         recordedElsewhere: (d) => {
           const key = d.recordAs?.key ?? "";
           const at = key.lastIndexOf("/");
