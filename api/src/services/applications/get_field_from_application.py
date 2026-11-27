@@ -5,7 +5,12 @@ from decimal import Decimal
 from typing import Any
 
 from src.db.models.competition_models import Application
-from src.form_schema.forms import ProjectAbstractSummary_v2_0, SF424_v4_0, SF424a_v1_0
+from src.form_schema.forms import (
+    ProjectAbstractSummary_v2_0,
+    SF424_v4_0,
+    SF424a_v1_0,
+    SF424Generated_v4_0,
+)
 from src.services.applications.application_validation import is_form_required
 from src.util.decimal_util import convert_monetary_field, quantize_decimal
 from src.util.dict_util import get_nested_value
@@ -60,6 +65,7 @@ def get_field_from_application(application: Application, form_fields: list[FormF
 
 PROJECT_TITLE_FORM_FIELDS = [
     FormField(form_id=SF424_v4_0.form_id, field="project_title"),
+    FormField(form_id=SF424Generated_v4_0.form_id, field="project.title"),
     FormField(form_id=ProjectAbstractSummary_v2_0.form_id, field="project_title"),
 ]
 
@@ -83,6 +89,7 @@ def get_project_title_from_application(application: Application) -> str | None:
 
 REQUESTED_AMOUNT_FORM_FIELDS = [
     FormField(form_id=SF424_v4_0.form_id, field="federal_estimated_funding"),
+    FormField(form_id=SF424Generated_v4_0.form_id, field="budget.funding_sources.federal"),
     FormField(
         form_id=SF424a_v1_0.form_id, field="total_budget_summary.federal_new_or_revised_amount"
     ),
