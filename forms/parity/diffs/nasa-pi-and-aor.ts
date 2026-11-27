@@ -66,6 +66,16 @@ export const DIFF: FormDiff = {
   },
   xsd: {
     differingRules: {
+      "PrincipalInvestigatorName/USGovernmentParticipation/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      "PrincipalInvestigatorName/InternationalParticipation/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
       "AuthorizedRepresentativeName/UserName/minLength": USERNAME_MIN_LENGTH,
       [`${AMOUNT}/maxLength`]: { ...BUDGET_AMOUNT, plan: 15, source: null },
       [`${AMOUNT}/pattern`]: {

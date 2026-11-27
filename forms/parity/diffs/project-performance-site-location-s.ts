@@ -197,6 +197,16 @@ export const DIFF: FormDiff = {
   },
   xsd: {
     differingRules: {
+      "PrimarySite/Individual/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      "OtherSite/Individual/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
       "PrimarySite/CongressionalDistrictProgramProject/pattern": {
         plan: "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$",
         source: null,

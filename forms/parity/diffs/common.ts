@@ -155,6 +155,13 @@ export const YES_NO_BOOLEAN: Recorded = {
     "The form stores this answer as a boolean. The XML mapping's boolean_to_yes_no transform writes the XSD's “Y: Yes” or “N: No”.",
 };
 
+/** The I Agree checkbox, which must be checked, where the XSD allows Yes or No. */
+export const MUST_AGREE: Recorded = {
+  category: "intentional",
+  reason:
+    "The form requires checking I Agree, as the DAT does, so it accepts only true. The XML mapping writes Y: Yes.",
+};
+
 /** Dollar amounts, which the form stores as strings. */
 export const BUDGET_AMOUNT: Recorded = {
   category: "intentional",

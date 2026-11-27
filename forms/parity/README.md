@@ -109,6 +109,11 @@ requiredness, like its minimum characters.
 Everything else is compared for equality, except JSON schema vs XSD: there the compiled
 schema must accept nothing the XSD rejects, but may be stricter.
 
+The form states a code list's values, not its XSD type's name, so a plan field that names a
+code list (`StateCodeDataType enumeration`) is compared with the form by that list's values,
+read from the XSD element the plan links. A Yes/No answer the form stores as a boolean names
+no code list in the plan.
+
 For enumerations whose values contain commas, use a JSON string array in the plan
 constraint, for example `enum ["Application", "Other, specify"]`. Values remain whole;
 malformed, empty or non-string arrays are not accepted as readable constraints.

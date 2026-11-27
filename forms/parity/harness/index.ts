@@ -74,6 +74,7 @@ export const SPECS = {
         "format",
         "minimum",
         "maximum",
+        "enum",
       ],
       mode: "equal",
     },
@@ -172,6 +173,22 @@ function joinThroughPlan(
     right.set(schemaPath, xsdField);
   }
   return { left, right };
+}
+
+/**
+ * Plan fields that name an XSD code list (`StateCodeDataType enumeration`), with that list's
+ * values as their `enum`. The form states values, not the type's name, so compare those.
+ */
+function withListedValues(plan: Plan, fields: Fields, xsd: Fields): Fields {
+  for (const { field } of walkFields(plan.children)) {
+    const flat = field.json_path && fields.get(field.json_path);
+    const element = field.xml_path ?? field.source_bindings?.xml?.[0]?.path;
+    if (!flat || !element || !flat.rules.enumType || flat.rules.enum) continue;
+    const listed = xsd.get(fromXmlPath(element))?.rules;
+    if (listed?.enumType === flat.rules.enumType && listed.enum)
+      flat.rules.enum = listed.enum;
+  }
+  return fields;
 }
 
 /** The plan's links from a JSON path to an element, keyed as `xmlTransformFields` keys them. */
@@ -291,7 +308,11 @@ export async function formPairs(
 
   const specId = plan.spec_id;
   const schema = jsonSchemaFields(await loadFormSchema(specId));
-  const jsonPlan = planFields(plan, "json_path");
+  const jsonPlan = withListedValues(
+    plan,
+    planFields(plan, "json_path"),
+    xsdSource,
+  );
   const joined = joinThroughPlan(diff, plan, schema, xsdSource);
   const mapped = xmlFields(specId, options.xml ?? diff.xml);
   return {

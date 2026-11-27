@@ -31,8 +31,7 @@
           "widget": "CheckboxWidget",
           "json_path": "primary_site.submitting_as_individual",
           "xml_path": "PrimarySite/Individual",
-          "dat_field": "1-0",
-          "constraints": "YesNoDataType enumeration"
+          "dat_field": "1-0"
         },
         {
           "kind": "field",
@@ -195,8 +194,7 @@
           "widget": "CheckboxWidget",
           "json_path": "additional_sites[].submitting_as_individual",
           "xml_path": "OtherSite/Individual",
-          "dat_field": "2-01",
-          "constraints": "YesNoDataType enumeration"
+          "dat_field": "2-01"
         },
         {
           "kind": "field",
