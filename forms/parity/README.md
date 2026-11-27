@@ -92,6 +92,12 @@ and the plan's label gets one wherever the plan says the field is required, so a
 differs on the asterisk where the DAT and the plan disagree about requiredness (a DAT `*`
 on a field the plan makes conditional, for example).
 
+A plan field for a list that the DAT and XSD split into one row or element per entry
+(SF-424's three applicant types, for example) names each of them in `source_bindings`.
+The DAT, XSD and XML mapping comparisons check each bound row or element as a field of its
+own, with the list's label, help and rules. The first `min_items` are required when the list
+is, and the rest are optional.
+
 Occurrences are how many times a field can appear in one form: `max_items` on a plan
 node (a field's own, else its nearest repeating section's; 1 by default), the DAT's Maximum
 Occurrences, the product of `maxOccurs` above an XSD element, and the product of `maxItems`

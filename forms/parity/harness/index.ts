@@ -178,8 +178,12 @@ function joinThroughPlan(
 function planLinks(plan: Plan): Fields {
   const links: Fields = new Map();
   walkFields(plan.children).forEach(({ field }, order) => {
-    if (field.json_path && field.xml_path)
-      links.set(link(field.json_path, fromXmlPath(field.xml_path)), {
+    if (!field.json_path) return;
+    const elements = field.xml_path
+      ? [field.xml_path]
+      : (field.source_bindings?.xml ?? []).map((binding) => binding.path);
+    for (const element of elements)
+      links.set(link(field.json_path, fromXmlPath(element)), {
         order,
         rules: {},
       });

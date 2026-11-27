@@ -32,6 +32,13 @@ const nodeBase = z.object({
   max_items: maxItems.optional(),
 });
 
+/** One DAT row or XSD element that stores one entry of a list field. */
+const sourceBinding = z.object({
+  kind: z.literal("slot"),
+  path: z.string(),
+  index: z.number().int().nonnegative(),
+});
+
 const fieldNode = nodeBase.extend({
   /** Stable review-link identity. Keep it when the field moves or its answer path changes. */
   id: z
@@ -44,6 +51,14 @@ const fieldNode = nodeBase.extend({
   constraints: z.string().optional(),
   pre_populated: z.string().optional(),
   post_populated: z.string().optional(),
+  /** For a list the DAT and XSD split into one row or element per entry, where each entry goes. */
+  source_bindings: z
+    .object({
+      at: z.string().optional(),
+      dat: z.array(sourceBinding).optional(),
+      xml: z.array(sourceBinding).optional(),
+    })
+    .optional(),
 });
 
 /** A group of nodes, laid out the way the form groups them. */

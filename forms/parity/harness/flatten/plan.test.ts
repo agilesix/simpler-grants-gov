@@ -124,6 +124,53 @@ describe("planFields", () => {
     ]);
   });
 
+  describe("source_bindings", () => {
+    const list: Plan = {
+      slug: "test",
+      children: [
+        {
+          kind: "field",
+          label: "Type of Applicant",
+          required: true,
+          json_path: "types[]",
+          min_items: 1,
+          max_items: 2,
+          constraints: "ApplicantTypeCodeDataType enumeration",
+          source_bindings: {
+            dat: [
+              { kind: "slot", path: "9-0", index: 0 },
+              { kind: "slot", path: "9-1", index: 1 },
+            ],
+            xml: [
+              { kind: "slot", path: "Form:Type1", index: 0 },
+              { kind: "slot", path: "Form:Type2", index: 1 },
+            ],
+          },
+        },
+      ],
+    };
+
+    it("lists each bound row or element once, requiring the first min_items", () => {
+      const fields = planFields(list, "xml_path");
+      expect([...fields.keys()]).toEqual(["Type1", "Type2"]);
+      expect(fields.get("Type1")).toMatchObject({
+        required: "yes",
+        rules: { enumType: "ApplicantTypeCodeDataType", maxOccurs: 1 },
+      });
+      expect(fields.get("Type2")?.required).toBe("no");
+    });
+
+    it("keys bound DAT rows by Field #", () => {
+      expect([...planFields(list, "dat_field").keys()]).toEqual(["9-0", "9-1"]);
+    });
+
+    it("keeps the list whole by JSON path", () => {
+      expect(
+        planFields(list, "json_path").get("types[]")?.rules.maxOccurs,
+      ).toBe(2);
+    });
+  });
+
   describe("max_items", () => {
     const repeating: Plan = {
       slug: "test",
