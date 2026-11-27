@@ -29,11 +29,6 @@ const shortRole = {
   reason:
     "The DAT and maintained SGG require the project director’s title, phone and email. The shared XSD type permits omission.",
 } as const;
-const shortDateDat = {
-  category: "upstream",
-  reason:
-    "DAT row 3-1 shows the received date as a label, not a field. The XSD requires the element, so the plan keeps the field, which Grants.gov completes on submission.",
-} as const;
 const url = {
   category: "intentional",
   reason:
@@ -63,9 +58,6 @@ export const DIFF: FormDiff = {
   xml: "xml-mapping",
   wording: BANK_WORDING,
   dat: {
-    absentFromSource: {
-      "3-1": shortDateDat,
-    },
     differingLabels: {
       "1": numberInSection(
         "Name of Federal Agency",
