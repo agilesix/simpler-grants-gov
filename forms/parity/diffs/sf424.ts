@@ -1,31 +1,13 @@
 import type { FormDiff, Pinned } from "../harness/model.ts";
-import { BANK_WORDING } from "./common.ts";
+import {
+  agreeFootnote,
+  BANK_WORDING,
+  conditionalStar,
+  DISTRICT_FORMAT,
+  fullItemNumber,
+  numberInSection,
+} from "./common.ts";
 
-const choice = {
-  category: "upstream",
-  reason:
-    "This DAT row describes one choice of an existing answer. It does not have a separate answer or XML value.",
-} as const;
-const datSlots = {
-  category: "intentional",
-  reason:
-    "The maintained SGG form collects one ordered list of up to three types. The plan lists the three numbered DAT slots in source_bindings.",
-} as const;
-const xsdSlots = {
-  category: "intentional",
-  reason:
-    "The plan represents the three named XSD elements as one ordered list. It retains each element in source_bindings.",
-} as const;
-const mappedSlots = {
-  category: "intentional",
-  reason:
-    "The plan lists the applicant types once, as one ordered list. The XML mapping writes each item to its numbered element.",
-} as const;
-const draft = {
-  category: "intentional",
-  reason:
-    "This submission field is optional in a draft. SGG fills it at submission and the source requires it in final XML.",
-} as const;
 const total = {
   category: "intentional",
   reason:
@@ -36,20 +18,19 @@ const money = {
   reason:
     "The shared budget questions store an amount as a string, as the API's budget forms do, so no amount is rounded. Their pattern admits only nonnegative amounts within the XSD's digits instead of stating a numeric range. The existing form also accepted a leading minus and up to 14 characters.",
 } as const;
-const moneyDat = {
+const TYPE_LIST =
+  'The form asks for up to three types in one list, so the label leaves off the DAT\'s entry number and its "Select Applicant Type" prompt.';
+/** DAT 09-1 and 09-2, the second and third applicant types. */
+const typeListLabel = (source: string): Pinned => ({
+  plan: "Type of Applicant",
+  source,
   category: "intentional",
-  reason:
-    "The string length comes from the shared budget question: the XSD's digits, a decimal point, and two decimal places. The DAT column states a monetary maximum instead of a string length.",
-} as const;
-const district = {
-  category: "intentional",
-  reason:
-    "The shared congressional district question requires the format the DAT's help describes: two characters, a hyphen, and three characters. The XSD's type allows any 1–6 characters.",
-} as const;
+  reason: TYPE_LIST,
+});
 const attachments = {
-  category: "intentional",
+  category: "upstream",
   reason:
-    "The DAT lists one attachment container. The original XSD and maintained SGG form allow up to 100 files within that container.",
+    "The DAT allows one attachment container. The XSD allows up to 100 files in it, and the plan follows the XSD, as the maintained SGG form does.",
 } as const;
 const regularContact = {
   category: "upstream",
@@ -85,17 +66,6 @@ const TOTAL_PATTERN = "^\\d{1,13}([.]\\d{2})?$";
 const AMOUNT_MAX = 999999999999.99;
 const TOTAL_MAX = 9999999999999.99;
 
-/** Each amount's rules against the DAT, keyed by DAT row. */
-const datAmounts = (): Record<string, Pinned> => ({
-  ...Object.fromEntries(
-    AMOUNTS.map(([, , row]) => [
-      `${row}/maxLength`,
-      { ...moneyDat, plan: 15, source: null },
-    ]),
-  ),
-  "18-g/maxLength": { ...moneyDat, plan: 16, source: null },
-});
-
 /** Each amount's rules against the XSD, keyed by element. */
 const xsdAmounts = (): Record<string, Pinned> => {
   const rules = (
@@ -117,29 +87,90 @@ const xsdAmounts = (): Record<string, Pinned> => {
   ]);
 };
 
-/** Each amount's numeric range against the XSD, keyed by JSON path. */
-const schemaAmounts = (): Record<string, Pinned> =>
-  Object.fromEntries(
-    [
-      ...AMOUNTS.map(([key]) => [key, AMOUNT_MAX] as const),
-      ["total", TOTAL_MAX] as const,
-    ].flatMap(([key, max]) => [
-      [
-        `budget.funding_sources.${key}/minimum`,
-        { ...money, plan: null, source: 0 },
-      ],
-      [
-        `budget.funding_sources.${key}/maximum`,
-        { ...money, plan: null, source: max },
-      ],
-    ]),
-  );
-
 export const DIFF: FormDiff = {
   slug: "sf424",
   xml: "xml-mapping",
   wording: BANK_WORDING,
   dat: {
+    differingLabels: {
+      "01-0": numberInSection("Type of Submission", "1. Type of Submission"),
+      "02-0": numberInSection("Type of Application", "2. Type of Application"),
+      "02-04": conditionalStar(
+        "If Revision, select appropriate letter(s)",
+        "If Revision, select appropriate letter(s)",
+      ),
+      "02-05": conditionalStar("Other (specify)", "Other (Specify)"),
+      "03-0": numberInSection("Date Received", "3. Date Received"),
+      "04-0": numberInSection(
+        "Applicant Identifier",
+        "4. Applicant Identifier",
+      ),
+      "06-1": numberInSection(
+        "Date Received by State",
+        "6. Date Received by State",
+      ),
+      "07-0": numberInSection(
+        "State Application Identifier",
+        "7. State Application Identifier",
+      ),
+      "08-a": fullItemNumber("8a. Legal Name", "a. Legal Name"),
+      "08-b": fullItemNumber(
+        "8b. Employer/Taxpayer Identification Number (EIN/TIN)",
+        "b. Employer/Taxpayer Identification Number (EIN/TIN)",
+      ),
+      "08-c": fullItemNumber("8c. UEI", "c. UEI"),
+      "08-d5": conditionalStar("State", "State"),
+      "08-d8": conditionalStar("Zip / Postal Code", "Zip / Postal Code"),
+      "09-0": numberInSection(
+        "Type of Applicant",
+        "9. Type of Applicant 1: Select Applicant Type",
+        TYPE_LIST,
+      ),
+      "09-1": typeListLabel("Type of Applicant 2: Select Applicant Type"),
+      "09-2": typeListLabel("Type of Applicant 3: Select Applicant Type"),
+      "09-3": conditionalStar("Other (specify)", "Other (specify)"),
+      "10-0": numberInSection(
+        "Name of Federal Agency",
+        "10. Name of Federal Agency",
+      ),
+      "11-0": numberInSection(
+        "Assistance Listing Number",
+        "11. Assistance Listing Number",
+      ),
+      "12-0": numberInSection(
+        "Funding Opportunity Number",
+        "12. Funding Opportunity Number",
+      ),
+      "13-0": numberInSection(
+        "Competition Identification Number",
+        "13. Competition Identification Number",
+      ),
+      "15-0": numberInSection(
+        "Descriptive Title of Applicant's Project",
+        "15. Descriptive Title of Applicant's Project",
+      ),
+      "16-a": fullItemNumber("16a. Applicant", "a. Applicant"),
+      "16-b": fullItemNumber("16b. Program/Project", "b. Program/Project"),
+      "17-a": fullItemNumber("17a. Start Date", "a. Start Date"),
+      "17-b": fullItemNumber("17b. End Date", "b. End Date"),
+      "18-a": fullItemNumber("18a. Federal", "a. Federal"),
+      "18-b": fullItemNumber("18b. Applicant", "b. Applicant"),
+      "18-c": fullItemNumber("18c. State", "c. State"),
+      "18-d": fullItemNumber("18d. Local", "d. Local"),
+      "18-e": fullItemNumber("18e. Other", "e. Other"),
+      "18-f": fullItemNumber("18f. Program Income", "f. Program Income"),
+      "18-g": fullItemNumber("18g. Total", "g. TOTAL"),
+      "19-0": numberInSection(
+        "Is Application Subject to Review By State Under Executive Order 12372 Process?",
+        "19. Is Application Subject to Review By State Under Executive Order 12372 Process?",
+      ),
+      "20-0": numberInSection(
+        "Is the Applicant Delinquent On Any Federal Debt?",
+        '20. Is the Applicant Delinquent On Any Federal Debt? (If "Yes," provide explanation in attachment.)',
+        "The form puts the DAT's \"(If Yes, provide explanation in attachment.)\" in the question's help.",
+      ),
+      "21-1": agreeFootnote("I Agree", "* I AGREE"),
+    },
     outOfOrder: {
       "22-08": {
         category: "intentional",
@@ -147,39 +178,13 @@ export const DIFF: FormDiff = {
           "The form follows the paper's order for the authorized representative, which shows Fax Number before Email, as the contact person does. The DAT lists Email first.",
       },
     },
-    absentFromPlan: {
-      "01-1": choice,
-      "01-2": choice,
-      "01-3": choice,
-      "02-01": choice,
-      "02-02": choice,
-      "02-03": choice,
-      "09-0": datSlots,
-      "09-1": datSlots,
-      "09-2": datSlots,
-      "19-a": choice,
-      "19-b": choice,
-      "19-c": choice,
-      "20-1": choice,
-      "20-2": choice,
-    },
     differingRules: {
-      "03-0/required": { ...draft, plan: "no", source: "yes" },
-      ...datAmounts(),
       "18-g/required": { ...total, plan: "no", source: "yes" },
-      "22-10/required": { ...draft, plan: "no", source: "yes" },
-      "22-11/required": { ...draft, plan: "no", source: "yes" },
       "15-1/maxOccurs": { ...attachments, plan: 100, source: 1 },
     },
   },
   xsd: {
-    absentFromPlan: {
-      ApplicantTypeCode1: xsdSlots,
-      ApplicantTypeCode2: xsdSlots,
-      ApplicantTypeCode3: xsdSlots,
-    },
     differingRules: {
-      "DateReceived/required": { ...draft, plan: "no", source: "yes" },
       "StateApplicationID/minLength": {
         plan: 1,
         source: 0,
@@ -199,22 +204,22 @@ export const DIFF: FormDiff = {
       },
       "Email/minLength": { ...email, plan: null, source: 1 },
       "CongressionalDistrictApplicant/minLength": {
-        ...district,
+        ...DISTRICT_FORMAT,
         plan: 6,
         source: 1,
       },
       "CongressionalDistrictApplicant/pattern": {
-        ...district,
+        ...DISTRICT_FORMAT,
         plan: "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$",
         source: null,
       },
       "CongressionalDistrictProgramProject/minLength": {
-        ...district,
+        ...DISTRICT_FORMAT,
         plan: 6,
         source: 1,
       },
       "CongressionalDistrictProgramProject/pattern": {
-        ...district,
+        ...DISTRICT_FORMAT,
         plan: "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$",
         source: null,
       },
@@ -235,60 +240,6 @@ export const DIFF: FormDiff = {
         plan: null,
         source: 1,
       },
-      "AORSignature/required": { ...draft, plan: "no", source: "yes" },
-      "DateSigned/required": { ...draft, plan: "no", source: "yes" },
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "application.date_received/required": {
-        ...draft,
-        plan: "no",
-        source: "yes",
-      },
-      "contacts.point_of_contact.email/minLength": {
-        ...email,
-        plan: null,
-        source: 1,
-      },
-      ...schemaAmounts(),
-      "budget.funding_sources.total/required": {
-        ...total,
-        plan: "no",
-        source: "yes",
-      },
-      "applicant.delinquent_federal_debt.answer/enum": {
-        ...bool,
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-      },
-      "certification.agree/enum": {
-        ...agree,
-        plan: ["true"],
-        source: ["Y: Yes", "N: No"],
-      },
-      "contacts.authorized_representative.email/minLength": {
-        ...email,
-        plan: null,
-        source: 1,
-      },
-      "certification.signature/required": {
-        ...draft,
-        plan: "no",
-        source: "yes",
-      },
-      "certification.date_signed/required": {
-        ...draft,
-        plan: "no",
-        source: "yes",
-      },
-    },
-  },
-  xmlMapping: {
-    absentFromPlan: {
-      "applicant.type.codes[] -> ApplicantTypeCode1": mappedSlots,
-      "applicant.type.codes[] -> ApplicantTypeCode2": mappedSlots,
-      "applicant.type.codes[] -> ApplicantTypeCode3": mappedSlots,
     },
   },
 };

@@ -1,24 +1,5 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import {
-  BUDGET_AMOUNT,
-  EMAIL_MIN_LENGTH,
-  emailMinLength,
-  SHARED_HELP,
-} from "./common.ts";
-
-const postPopulation: Pinned = {
-  plan: "no",
-  source: "yes",
-  category: "intentional",
-  reason:
-    "SGG fills this in when the application is submitted, so the applicant doesn't enter it. The XML still requires it.",
-};
-
-const radioChoice: Recorded = {
-  category: "upstream",
-  reason:
-    "The DAT lists each choice of a question on its own row. The form asks one question with all of the DAT's choices.",
-};
+import { BUDGET_AMOUNT, EMAIL_MIN_LENGTH, SHARED_HELP } from "./common.ts";
 
 const groupedFields: Recorded = {
   category: "intentional",
@@ -48,11 +29,6 @@ const yesNoType: Pinned = {
   category: "intentional",
   reason:
     'The form stores a true or false answer, and the XML mapping writes it as the XSD\'s "Y: Yes" or "N: No".',
-};
-
-const yesNoEnum: Pinned = {
-  ...yesNoType,
-  source: ["Y: Yes", "N: No"],
 };
 
 const certification: Pinned = {
@@ -119,26 +95,7 @@ export const DIFF: FormDiff = {
     },
   },
   dat: {
-    absentFromPlan: {
-      "01a-2": radioChoice,
-      "01a-3": radioChoice,
-      "01a-4": radioChoice,
-      "01a-5": radioChoice,
-      "01b-2": radioChoice,
-      "01b-3": radioChoice,
-      "01b-4": radioChoice,
-      "01c-2": radioChoice,
-      "01c-3": radioChoice,
-      "01d-2": radioChoice,
-      "01d-3": radioChoice,
-      "01d-4": radioChoice,
-      "01d-5": radioChoice,
-      "16-2": radioChoice,
-      "16-4": radioChoice,
-      "16-5": radioChoice,
-      "17-2": radioChoice,
-      "17-3": radioChoice,
-    },
+    absentFromPlan: {},
     outOfOrder: {
       "05-1": groupedFields,
       "08a-1": groupedFields,
@@ -146,9 +103,6 @@ export const DIFF: FormDiff = {
       "08b-3": groupedFields,
     },
     differingRules: {
-      "02-1/required": postPopulation,
-      "18-10/required": postPopulation,
-      "18-11/required": postPopulation,
       "18-12/maxOccurs": {
         plan: 100,
         source: 1,
@@ -156,8 +110,6 @@ export const DIFF: FormDiff = {
         reason:
           "DAT 18-12 counts one attachment row, but its XSD type accepts up to 100 files. The form counts the files.",
       },
-      "15a-1/maxLength": { ...BUDGET_AMOUNT, plan: 15, source: null },
-      "15b-1/maxLength": { ...BUDGET_AMOUNT, plan: 15, source: null },
     },
     differingHelp: {
       "07d-9": {
@@ -174,7 +126,6 @@ export const DIFF: FormDiff = {
       "FrequencyOtherDescription/minLength": nonemptyExplanation,
       "ConsolidatedRequest/enumType": yesNoType,
       "ConsolidatedRequestExplanation/minLength": nonemptyExplanation,
-      "ReceivedDate/required": postPopulation,
       "ApplicantID/minLength": nonemptyIdentifier,
       "StateApplicationID/minLength": nonemptyIdentifier,
       "Organization/OrganizationName/required": organizationRequired,
@@ -201,30 +152,6 @@ export const DIFF: FormDiff = {
       "DelinquentFederalDebtExplanation/minLength": nonemptyExplanation,
       "ApplicationCertification/enumType": certification,
       "AuthorizedRepresentativeEmail/minLength": EMAIL_MIN_LENGTH,
-      "AuthorizedRepresentativeSignature/required": postPopulation,
-      "AuthorizedRepresentativeSignatureDate/required": postPopulation,
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "application.consolidated_request.answer/enum": yesNoEnum,
-      "application.date_received/required": postPopulation,
-      "applicant.delinquent_federal_debt.answer/enum": yesNoEnum,
-      ...emailMinLength([
-        "contacts.point_of_contact.email",
-        "contacts.authorized_representative.email",
-      ]),
-      ...budgetBounds([
-        "budget.funding_sources.federal",
-        "budget.funding_sources.match",
-      ]),
-      "certification.agree/enum": {
-        ...certification,
-        plan: ["true"],
-        source: ["Y: Yes", "N: No"],
-      },
-      "certification.signature/required": postPopulation,
-      "certification.date_signed/required": postPopulation,
     },
   },
 };

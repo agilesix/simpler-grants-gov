@@ -151,7 +151,7 @@
           "constraints": "format date",
           "json_path": "application.date_received",
           "xml_path": "SF424_Mandatory_3_0:ReceivedDate",
-          "post_populated": "Completed by Grants.gov upon successful submission",
+          "post_populated": "SGG supplies the current date on submission.",
           "id": "received-date"
         },
         {
@@ -837,7 +837,7 @@
           "type": "Checkbox",
           "widget": "CheckboxWidget",
           "help_text": "Check to select. This field is required.",
-          "constraints": "",
+          "constraints": "enum [\"true\"]",
           "json_path": "certification.agree",
           "xml_path": "SF424_Mandatory_3_0:ApplicationCertification",
           "id": "agree"
@@ -990,7 +990,7 @@
           "constraints": "minLength 1, maxLength 144",
           "json_path": "certification.signature",
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeSignature",
-          "post_populated": "Completed by Grants.gov upon successful submission",
+          "post_populated": "SGG supplies the signature on submission.",
           "id": "signature"
         },
         {
@@ -1004,7 +1004,7 @@
           "constraints": "format date",
           "json_path": "certification.date_signed",
           "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeSignatureDate",
-          "post_populated": "Completed by Grants.gov upon successful submission",
+          "post_populated": "SGG supplies the current date on submission.",
           "id": "date-signed"
         }
       ]

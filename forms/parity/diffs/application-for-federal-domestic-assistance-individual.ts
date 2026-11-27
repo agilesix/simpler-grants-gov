@@ -1,20 +1,15 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import { BANK_WORDING, EMAIL_MIN_LENGTH, SHARED_HELP } from "./common.ts";
-
-/** Draft answers do not require values the API supplies only at submission. */
-const postPopulation: Pinned = {
-  plan: "no",
-  source: "yes",
-  category: "intentional",
-  reason:
-    "A saved draft can omit this value because the applicant does not enter it. The API supplies it on submission, and final XML requires it. This library definition declares that ownership; API population and signing are checked separately.",
-};
-
-const radioChoice: Recorded = {
-  category: "upstream",
-  reason:
-    "This DAT row is one option of U.S. Citizenship (5c-2), not another answer. The plan keeps one Boolean and maps it to the source Yes/No value.",
-};
+import {
+  agreeFootnote,
+  BANK_WORDING,
+  DISTRICT_FORMAT,
+  EMAIL_MIN_LENGTH,
+  fullItemNumber,
+  MUST_AGREE,
+  numberInSection,
+  SHARED_HELP,
+  YES_NO_BOOLEAN,
+} from "./common.ts";
 
 const prefixLength: Pinned = {
   plan: 10,
@@ -24,16 +19,10 @@ const prefixLength: Pinned = {
     "The prefix entry allows up to 10 characters, but our DAT reader drops that limit because the spreadsheet calls the control a Popup. The form still enforces 10. The shared DAT reader needs to retain limits on free-text Popup fields; that reader fix is not included here.",
 };
 
-const districtFormat: Recorded = {
+const citizenshipHelp: Recorded = {
   category: "intentional",
   reason:
-    "The XSD allows 1 to 6 characters with no pattern. The shared congressional district question requires the DAT's format: two characters, a hyphen and three characters, such as CA-005 or 00-000.",
-};
-
-const citizenshipLabels: Recorded = {
-  category: "upstream",
-  reason:
-    "The DAT says No requires country and residency date, but the labels distinguish foreign nationals from permanent residents. It is unclear whether both groups must answer. This form follows the explicit No rule and keeps the alien number optional; the source owner still needs to confirm that interpretation.",
+    "The form's help drops \"from the provided list\" and the date format, since the country dropdown and date picker show both. The DAT's business rules require this field when U.S. Citizenship is No.",
 };
 
 export const DIFF: FormDiff = {
@@ -41,6 +30,28 @@ export const DIFF: FormDiff = {
   xml: "xml-mapping",
   wording: BANK_WORDING,
   dat: {
+    differingLabels: {
+      "1": numberInSection(
+        "Name of Federal Agency",
+        "1. NAME OF FEDERAL AGENCY",
+      ),
+      "2-1": numberInSection(
+        "Assistance Listing Number",
+        "2. ASSISTANCE LISTING NUMBER",
+      ),
+      "3-1": numberInSection("Date Received", "3. DATE RECEIVED"),
+      "4-1": numberInSection(
+        "Funding Opportunity Number",
+        "4. FUNDING OPPORTUNITY NUMBER",
+      ),
+      "5d": fullItemNumber(
+        "5d. Congressional District of Applicant",
+        "d. Congressional District of Applicant",
+      ),
+      "6a": fullItemNumber("6a. Project Title", "a. Project Title"),
+      "6b": fullItemNumber("6b. Project Description", "b. Project Description"),
+      "7-2": agreeFootnote("I Agree", "* I AGREE"),
+    },
     outOfOrder: {
       "5a-09": {
         category: "intentional",
@@ -48,11 +59,7 @@ export const DIFF: FormDiff = {
           "The form follows the paper's order, which shows Email before Fax Number. The DAT lists Fax Number first.",
       },
     },
-    absentFromPlan: { "5c-3": radioChoice, "5c-4": radioChoice },
     differingRules: {
-      "3-1/required": postPopulation,
-      "7-4/required": postPopulation,
-      "7-5/required": postPopulation,
       "5a-02/maxLength": prefixLength,
       "5a-06/maxLength": prefixLength,
     },
@@ -71,13 +78,13 @@ export const DIFF: FormDiff = {
           "Enter the nine-digit Postal Code (e.g., ZIP code). This field is required if the country is the United States.",
       },
       "5c-7": {
-        ...citizenshipLabels,
+        ...citizenshipHelp,
         plan: "Select the country. This field is required if the applicant is not a U.S. citizen.",
         source:
           "Select the Country from the provided list.  This field is required if the applicant is not a U.S. Citizen.",
       },
       "5c-8": {
-        ...citizenshipLabels,
+        ...citizenshipHelp,
         plan: "Enter the start date of the most recent residency in the U.S. This field is required if the applicant is not a U.S. citizen.",
         source:
           "Enter the start date of the most recent residency in the U.S. Enter in the format MM/DD/YYYY.  This field is required if the applicant is not a U.S. Citizen.",
@@ -86,41 +93,26 @@ export const DIFF: FormDiff = {
   },
   xsd: {
     differingRules: {
-      "Date_Received/required": postPopulation,
-      "AORSignature/required": postPopulation,
-      "AORDate/required": postPopulation,
+      "citizenship/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      "ApplicationCertification/enumType": {
+        ...MUST_AGREE,
+        plan: null,
+        source: "YesNoDataType",
+      },
       "AuthorizedRepresentativeEmail/minLength": EMAIL_MIN_LENGTH,
       "CongressionalDistrictApplicant/minLength": {
         plan: 6,
         source: 1,
-        ...districtFormat,
+        ...DISTRICT_FORMAT,
       },
       "CongressionalDistrictApplicant/pattern": {
         plan: "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$",
         source: null,
-        ...districtFormat,
-      },
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "application.date_received/required": postPopulation,
-      "certification.signature/required": postPopulation,
-      "certification.date_signed/required": postPopulation,
-      "contacts.point_of_contact.email/minLength": EMAIL_MIN_LENGTH,
-      "applicant.person.citizenship.is_us_citizen/enum": {
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-        category: "intentional",
-        reason:
-          "The answer is Boolean; the existing boolean_to_yes_no transform writes the XSD's exact Yes/No codes. XML tests exercise both values.",
-      },
-      "certification.agree/enum": {
-        plan: ["true"],
-        source: ["Y: Yes", "N: No"],
-        category: "intentional",
-        reason:
-          "The DAT requires checking I Agree, so false is not a valid certification. The existing transform writes the affirmative Yes code.",
+        ...DISTRICT_FORMAT,
       },
     },
   },

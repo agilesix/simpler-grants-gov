@@ -1,10 +1,14 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import { EMAIL_MIN_LENGTH } from "./common.ts";
+import {
+  BANK_WORDING,
+  DISTRICT_FORMAT,
+  EMAIL_MIN_LENGTH,
+  fullItemNumber,
+  MUST_AGREE,
+  numberInSection,
+  YES_NO_BOOLEAN,
+} from "./common.ts";
 
-const choiceRow = {
-  category: "intentional",
-  reason: "These DAT rows are choices for a single answer in the plan.",
-} as const;
 const revisionRows = {
   category: "intentional",
   reason:
@@ -15,25 +19,10 @@ const importedEin = {
   reason:
     "The imported organization type has an optional EIN element. DAT 06-0 collects EIN/TIN once, at the required root EmployerID.",
 } as const;
-const draftSignature = {
-  category: "intentional",
-  reason:
-    "The signing service supplies this value at submission. The draft can omit it and the final XML requires it.",
-} as const;
 const amount = {
   category: "intentional",
   reason:
     "The form uses the shared BudgetTotalAmount question for globLib:BudgetTotalAmountDataType. It stores an exact decimal string, and its pattern allows 0 through 9999999999999.99 with exactly two decimal places when cents are given.",
-} as const;
-const district = {
-  category: "intentional",
-  reason:
-    "The form uses the shared congressional district question, which requires the DAT's format: two state characters, a hyphen and three characters (MA-007, MD-all, 00-000). globLib:CongressionalDistrictDataType allows 1 to 6 characters with no pattern.",
-} as const;
-const yesNo = {
-  category: "intentional",
-  reason:
-    "The form stores a boolean. The XML mapping writes the exact source Yes/No value.",
 } as const;
 const byPath = <T extends Recorded>(paths: string[], reason: T) =>
   Object.fromEntries(paths.map((path) => [path, reason]));
@@ -48,18 +37,6 @@ const byRule = (paths: string[], rules: Record<string, Pinned>) =>
     ),
   );
 
-const emails = [
-  "contacts.point_of_contact.email",
-  "contacts.project_director.email",
-  "contacts.authorized_representative.email",
-];
-const funding = [
-  "budget.funding_sources.federal",
-  "budget.funding_sources.non_federal",
-  "budget.funding_sources.total",
-  "budget.funding_sources.program_income",
-];
-const signing = ["certification.signature", "certification.date_signed"];
 const ein = byPath(["ApplicantInfo/OrganizationInfo/EIN"], importedEin);
 const fundingXml = [
   "EstimatedProjectFunding/TotalEstimatedAmount",
@@ -72,55 +49,116 @@ const amountPattern = "^\\d{1,13}([.]\\d{2})?$";
 export const DIFF: FormDiff = {
   slug: "sf424-r-r",
   xml: "xml-mapping",
-  wording: {
-    labels: {
-      category: "intentional",
-      reason:
-        "The plan matches the bank and form labels used in the preview. The DAT retains the numbered source labels.",
-    },
-    help: {
-      category: "intentional",
-      reason:
-        "The plan uses shared bank help and concise form-specific instructions. The DAT comparison retains the original wording.",
-    },
-  },
+  wording: BANK_WORDING,
   dat: {
-    absentFromPlan: {
-      ...byPath(
-        [
-          "01-1",
-          "01-2",
-          "01-3",
-          "08-0-1",
-          "08-0-2",
-          "08-0-3",
-          "08-0-4",
-          "08-0-5",
-          "08-2-1",
-          "08-2-2",
-          "16-2",
-          "16-5",
-          "16-6",
-        ],
-        choiceRow,
+    differingLabels: {
+      "01-0": numberInSection("Type of Submission", "1. TYPE OF SUBMISSION"),
+      "02-0": numberInSection("Date Submitted", "2. DATE SUBMITTED"),
+      "03-0": numberInSection(
+        "Date Received by State",
+        "3. DATE RECEIVED BY STATE",
       ),
+      "04-0": fullItemNumber(
+        "4a. Federal Identifier",
+        "4. a. Federal Identifier",
+      ),
+      "04-1": fullItemNumber(
+        "4b. Agency Routing Identifier",
+        "b. Agency Routing Identifier",
+      ),
+      "04-2": fullItemNumber(
+        "4c. Previous Grants.gov Tracking ID",
+        "c. Previous Grants.gov Tracking ID",
+      ),
+      "06-0": numberInSection(
+        "Employer Identification (EIN) or (TIN)",
+        "6. EMPLOYER IDENTIFICATION (EIN) or (TIN)",
+      ),
+      "07-0": numberInSection("Type of Applicant", "7. TYPE OF APPLICANT"),
+      "08-0": numberInSection("Type of Application", "8. TYPE OF APPLICATION"),
+      "09-0": numberInSection(
+        "Name of Federal Agency",
+        "9. NAME OF FEDERAL AGENCY",
+      ),
+      "10-1": numberInSection(
+        "Assistance Listing Number",
+        "10. ASSISTANCE LISTING NUMBER",
+      ),
+      "11-0": numberInSection(
+        "Descriptive Title of Applicant's Project",
+        "11. DESCRIPTIVE TITLE OF APPLICANT'S PROJECT",
+      ),
+      "15-1": fullItemNumber(
+        "15a. Total Federal Funds Requested",
+        "a. Total Federal Funds Requested",
+      ),
+      "15-2": fullItemNumber(
+        "15b. Total Non-Federal Funds",
+        "b. Total Non-Federal Funds",
+      ),
+      "15-3": fullItemNumber(
+        "15c. Total Federal & Non-Federal Funds",
+        "c. Total Federal & Non-Federal Funds",
+      ),
+      "15-4": fullItemNumber(
+        "15d. Estimated Program Income",
+        "d. Estimated Program Income",
+      ),
+      "16-0": numberInSection(
+        "Is Application Subject to Review by State Executive Order 12372 Process?",
+        "16. IS APPLICATION SUBJECT TO REVIEW BY STATE EXECUTIVE ORDER 12372 PROCESS?",
+      ),
+      "18-0": numberInSection(
+        "SF-LLL or Other Explanatory Documentation",
+        "18. SFLLL (Disclosure of Lobbying Activities) or other Explanatory Documentation",
+        "The header has the full title, so the field uses the short name.",
+      ),
+      "20-0": numberInSection("Pre-application", "20. Pre-application"),
+      "21-0": numberInSection(
+        "Cover Letter Attachment",
+        "21. Cover Letter Attachment",
+      ),
+    },
+    absentFromPlan: {
       ...byPath(
         ["08-1-1", "08-1-2", "08-1-3", "08-1-4", "08-1-5"],
         revisionRows,
       ),
     },
     absentFromSource: { "08-1-1 through 08-1-5": revisionRows },
-    differingRules: byRule(["15-1", "15-2", "15-3", "15-4"], {
-      maxLength: { ...amount, plan: 16, source: null },
-    }),
   },
   xsd: {
     absentFromPlan: ein,
     differingRules: {
+      "ApplicantType/SmallBusinessOrganizationType/isWomenOwned/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      "ApplicantType/SmallBusinessOrganizationType/isSociallyEconomicallyDisadvantaged/enumType":
+        { ...YES_NO_BOOLEAN, plan: null, source: "YesNoDataType" },
+      "ApplicationType/isOtherAgencySubmission/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      "TrustAgree/enumType": {
+        ...MUST_AGREE,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      ...byRule(
+        [
+          "ApplicantInfo/ContactPersonInfo/Email",
+          "PDPIContactInfo/Email",
+          "AORInfo/Email",
+        ],
+        { minLength: EMAIL_MIN_LENGTH },
+      ),
       ...byRule(["CongressionalDistrict/ApplicantCongressionalDistrict"], {
-        minLength: { ...district, plan: 6, source: 1 },
+        minLength: { ...DISTRICT_FORMAT, plan: 6, source: 1 },
         pattern: {
-          ...district,
+          ...DISTRICT_FORMAT,
           plan: "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$",
           source: null,
         },
@@ -133,59 +171,4 @@ export const DIFF: FormDiff = {
       }),
     },
   },
-  jsonSchema: {
-    differingRules: {
-      ...byRule(emails, {
-        minLength: { ...EMAIL_MIN_LENGTH, plan: 1, source: null },
-        format: { ...EMAIL_MIN_LENGTH, plan: null, source: "email" },
-      }),
-      ...byRule(signing, {
-        required: { ...draftSignature, plan: "yes", source: "no" },
-      }),
-      ...byRule(
-        [
-          "attachments.lobbying_disclosure",
-          "attachments.pre_application",
-          "attachments.cover_letter",
-        ],
-        {
-          format: {
-            category: "intentional",
-            reason:
-              "The JSON answer holds the uploaded file's UUID. The XML mapping writes its attachment descriptor.",
-            plan: null,
-            source: "uuid",
-          },
-        },
-      ),
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      ...byRule(emails, { minLength: EMAIL_MIN_LENGTH }),
-      ...byRule(funding, {
-        minimum: { ...amount, plan: null, source: 0 },
-        maximum: { ...amount, plan: null, source: 9999999999999.99 },
-      }),
-      ...byRule(signing, {
-        required: { ...draftSignature, plan: "no", source: "yes" },
-      }),
-      ...byRule(
-        [
-          "applicant.type.small_business.women_owned",
-          "applicant.type.small_business.socially_disadvantaged",
-          "application.other_agencies.submitted",
-        ],
-        { enum: { ...yesNo, plan: null, source: ["Y: Yes", "N: No"] } },
-      ),
-      "certification.agree/enum": {
-        ...yesNo,
-        reason:
-          "Submitting the certification requires agreement. The XML mapping writes Y: Yes.",
-        plan: ["true"],
-        source: ["Y: Yes", "N: No"],
-      },
-    },
-  },
-  xmlMappingVsXsd: { absentFromPlan: ein },
 };

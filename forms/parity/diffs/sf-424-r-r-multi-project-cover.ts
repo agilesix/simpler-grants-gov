@@ -1,10 +1,6 @@
 import type { FormDiff, Pinned, Recorded } from "../harness/model.ts";
-import { EMAIL_MIN_LENGTH } from "./common.ts";
+import { EMAIL_MIN_LENGTH, MUST_AGREE, YES_NO_BOOLEAN } from "./common.ts";
 
-const choiceRow = {
-  category: "intentional",
-  reason: "These DAT rows are choices for a single answer in the plan.",
-} as const;
 const revisionRows = {
   category: "intentional",
   reason:
@@ -25,11 +21,6 @@ const district = {
   reason:
     "The form uses the shared congressional district question, which requires the DAT's format: two state characters, a hyphen and three characters (MA-007, MD-all, 00-000). globLib:CongressionalDistrictDataType allows 1 to 6 characters with no pattern.",
 } as const;
-const yesNo = {
-  category: "intentional",
-  reason:
-    "The form stores a boolean. The XML mapping writes the exact source Yes/No value.",
-} as const;
 const layout = {
   category: "intentional",
   reason:
@@ -49,17 +40,6 @@ const byRule = (paths: string[], rules: Record<string, Pinned>) =>
     ),
   );
 
-const emails = [
-  "contacts.point_of_contact.email",
-  "contacts.project_director.email",
-  "contacts.authorized_representative.email",
-];
-const funding = [
-  "budget.funding_sources.federal",
-  "budget.funding_sources.non_federal",
-  "budget.funding_sources.total",
-  "budget.funding_sources.program_income",
-];
 const ein = byPath(["ApplicantInfo/OrganizationInfo/EIN"], importedEin);
 const fundingXml = [
   "EstimatedProjectFunding/TotalEstimatedAmount",
@@ -101,36 +81,40 @@ export const DIFF: FormDiff = {
     ),
     absentFromPlan: {
       ...byPath(
-        [
-          "01-1",
-          "01-2",
-          "01-3",
-          "08-0-1",
-          "08-0-2",
-          "08-0-3",
-          "08-0-4",
-          "08-0-5",
-          "08-2-1",
-          "08-2-2",
-          "16-2",
-          "16-5",
-          "16-6",
-        ],
-        choiceRow,
-      ),
-      ...byPath(
         ["08-1-1", "08-1-2", "08-1-3", "08-1-4", "08-1-5"],
         revisionRows,
       ),
     },
     absentFromSource: { "08-1-1 through 08-1-5": revisionRows },
-    differingRules: byRule(["15-1", "15-2", "15-3", "15-4"], {
-      maxLength: { ...amount, plan: 16, source: null },
-    }),
   },
   xsd: {
     absentFromPlan: ein,
     differingRules: {
+      ...byRule(
+        [
+          "ApplicantInfo/ContactPersonInfo/Email",
+          "PDPIContactInfo/Email",
+          "AORInfo/Email",
+        ],
+        { minLength: EMAIL_MIN_LENGTH },
+      ),
+      "ApplicationType/isOtherAgencySubmission/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      "ApplicantType/SmallBusinessOrganizationType/isWomenOwned/enumType": {
+        ...YES_NO_BOOLEAN,
+        plan: null,
+        source: "YesNoDataType",
+      },
+      "ApplicantType/SmallBusinessOrganizationType/isSociallyEconomicallyDisadvantaged/enumType":
+        { ...YES_NO_BOOLEAN, plan: null, source: "YesNoDataType" },
+      "TrustAgree/enumType": {
+        ...MUST_AGREE,
+        plan: null,
+        source: "YesNoDataType",
+      },
       ...byRule(["CongressionalDistrict/ApplicantCongressionalDistrict"], {
         minLength: { ...district, plan: 6, source: 1 },
         pattern: {
@@ -147,53 +131,4 @@ export const DIFF: FormDiff = {
       }),
     },
   },
-  jsonSchema: {
-    differingRules: {
-      ...byRule(emails, {
-        minLength: { ...EMAIL_MIN_LENGTH, plan: 1, source: null },
-        format: { ...EMAIL_MIN_LENGTH, plan: null, source: "email" },
-      }),
-      ...byRule(
-        [
-          "attachments.lobbying_disclosure",
-          "attachments.pre_application",
-          "attachments.cover_letter",
-        ],
-        {
-          format: {
-            category: "intentional",
-            reason:
-              "The JSON answer holds the uploaded file's UUID. The XML mapping writes its attachment descriptor.",
-            plan: null,
-            source: "uuid",
-          },
-        },
-      ),
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      ...byRule(emails, { minLength: EMAIL_MIN_LENGTH }),
-      ...byRule(funding, {
-        minimum: { ...amount, plan: null, source: 0 },
-        maximum: { ...amount, plan: null, source: 9999999999999.99 },
-      }),
-      ...byRule(
-        [
-          "applicant.type.small_business.women_owned",
-          "applicant.type.small_business.socially_disadvantaged",
-          "application.other_agencies.submitted",
-        ],
-        { enum: { ...yesNo, plan: null, source: ["Y: Yes", "N: No"] } },
-      ),
-      "certification.agree/enum": {
-        ...yesNo,
-        reason:
-          "Checking I agree records agreement, and leaving it unchecked omits TrustAgree. The XML mapping writes Y: Yes.",
-        plan: ["true"],
-        source: ["Y: Yes", "N: No"],
-      },
-    },
-  },
-  xmlMappingVsXsd: { absentFromPlan: ein },
 };

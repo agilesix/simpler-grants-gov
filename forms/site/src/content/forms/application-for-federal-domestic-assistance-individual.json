@@ -109,7 +109,7 @@
           "constraints": "format date",
           "json_path": "application.date_received",
           "xml_path": "SF424_Individual_2_0:Date_Received",
-          "post_populated": "Completed by Grants.gov upon submission.",
+          "post_populated": "SGG supplies the current date on submission.",
           "id": "date-received"
         }
       ]
@@ -397,7 +397,6 @@
               "type": "Radio (Yes/No)",
               "widget": "RadioWidget",
               "help_text": "Select Yes or No.",
-              "constraints": "YesNoDataType enumeration",
               "json_path": "applicant.person.citizenship.is_us_citizen",
               "xml_path": "SF424_Individual_2_0:citizenship",
               "id": "is-us-citizen"
@@ -534,7 +533,7 @@
           "type": "Checkbox",
           "widget": "CheckboxWidget",
           "help_text": "Check to select. This field is required.",
-          "constraints": "YesNoDataType enumeration",
+          "constraints": "enum [\"true\"]",
           "json_path": "certification.agree",
           "xml_path": "SF424_Individual_2_0:ApplicationCertification",
           "id": "agree"
@@ -550,7 +549,7 @@
           "constraints": "minLength 1, maxLength 144",
           "json_path": "certification.signature",
           "xml_path": "SF424_Individual_2_0:AORSignature",
-          "post_populated": "Completed by Grants.gov upon submission.",
+          "post_populated": "SGG supplies the signature on submission.",
           "id": "signature"
         },
         {
@@ -564,7 +563,7 @@
           "constraints": "format date",
           "json_path": "certification.date_signed",
           "xml_path": "SF424_Individual_2_0:AORDate",
-          "post_populated": "Completed by Grants.gov upon submission.",
+          "post_populated": "SGG supplies the current date on submission.",
           "id": "date-signed"
         }
       ]

@@ -552,7 +552,7 @@
               "type": "Text input",
               "widget": "TextWidget",
               "help_text": "Enter the email address.",
-              "constraints": "minLength 1, maxLength 60",
+              "constraints": "maxLength 60, format email",
               "json_path": "contacts.point_of_contact.email",
               "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Email"
             }
@@ -621,7 +621,6 @@
               "type": "Radio group",
               "widget": "RadioWidget",
               "help_text": "Select Yes if women own at least 51% of the business and control and operate it.",
-              "constraints": "YesNoDataType",
               "json_path": "applicant.type.small_business.women_owned",
               "xml_path": "RR_SF424_5_0:ApplicantType/RR_SF424_5_0:SmallBusinessOrganizationType/RR_SF424_5_0:isWomenOwned"
             },
@@ -634,7 +633,6 @@
               "type": "Radio group",
               "widget": "RadioWidget",
               "help_text": "Select Yes if the U.S. Small Business Administration has determined that the business qualifies under section 8(a) of the Small Business Act.",
-              "constraints": "YesNoDataType",
               "json_path": "applicant.type.small_business.socially_disadvantaged",
               "xml_path": "RR_SF424_5_0:ApplicantType/RR_SF424_5_0:SmallBusinessOrganizationType/RR_SF424_5_0:isSociallyEconomicallyDisadvantaged"
             }
@@ -692,7 +690,6 @@
           "required": true,
           "type": "Radio group (Yes, No)",
           "widget": "RadioWidget",
-          "constraints": "YesNoDataType",
           "json_path": "application.other_agencies.submitted",
           "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:isOtherAgencySubmission"
         },
@@ -1095,7 +1092,7 @@
           "type": "Text input",
           "widget": "TextWidget",
           "help_text": "Enter the email address.",
-          "constraints": "minLength 1, maxLength 60",
+          "constraints": "maxLength 60, format email",
           "json_path": "contacts.project_director.email",
           "xml_path": "RR_SF424_5_0:PDPIContactInfo/RR_SF424_5_0:Email"
         }
@@ -1204,7 +1201,7 @@
           "type": "Checkbox",
           "widget": "CheckboxWidget",
           "help_text": "Check \"I agree\" to provide the required certifications and assurances. This field is required.",
-          "constraints": "YesNoDataType",
+          "constraints": "enum [\"true\"]",
           "json_path": "certification.agree",
           "xml_path": "RR_SF424_5_0:TrustAgree"
         }
@@ -1224,7 +1221,8 @@
           "widget": "ApplicationAttachmentWidget",
           "help_text": "Attach a file.",
           "json_path": "attachments.lobbying_disclosure",
-          "xml_path": "RR_SF424_5_0:SFLLLAttachment"
+          "xml_path": "RR_SF424_5_0:SFLLLAttachment",
+          "constraints": "format uuid"
         }
       ]
     },
@@ -1488,7 +1486,7 @@
           "type": "Text input",
           "widget": "TextWidget",
           "help_text": "Enter the email address.",
-          "constraints": "minLength 1, maxLength 60",
+          "constraints": "maxLength 60, format email",
           "json_path": "contacts.authorized_representative.email",
           "xml_path": "RR_SF424_5_0:AORInfo/RR_SF424_5_0:Email"
         },
@@ -1497,7 +1495,7 @@
           "id": "aor-signature",
           "label": "Signature of Authorized Representative",
           "dat_field": "19-14",
-          "required": true,
+          "required": false,
           "type": "System-populated text on submission",
           "widget": "TextWidget",
           "help_text": "Completed by Grants.gov upon submission.",
@@ -1511,12 +1509,12 @@
           "id": "aor-signed-date",
           "label": "Date Signed",
           "dat_field": "19-15",
-          "required": true,
+          "required": false,
           "type": "System-populated date on submission",
           "widget": "TextWidget",
           "help_text": "Completed by Grants.gov upon submission.",
           "constraints": "format date",
-          "post_populated": "system-generated on submission",
+          "post_populated": "SGG supplies the current date on submission.",
           "json_path": "certification.date_signed",
           "xml_path": "RR_SF424_5_0:AOR_SignedDate"
         }
@@ -1536,7 +1534,8 @@
           "widget": "ApplicationAttachmentWidget",
           "help_text": "Attach a file.",
           "json_path": "attachments.pre_application",
-          "xml_path": "RR_SF424_5_0:PreApplicationAttachment"
+          "xml_path": "RR_SF424_5_0:PreApplicationAttachment",
+          "constraints": "format uuid"
         }
       ]
     },
@@ -1554,7 +1553,8 @@
           "widget": "ApplicationAttachmentWidget",
           "help_text": "Attach a file.",
           "json_path": "attachments.cover_letter",
-          "xml_path": "RR_SF424_5_0:CoverLetterAttachment"
+          "xml_path": "RR_SF424_5_0:CoverLetterAttachment",
+          "constraints": "format uuid"
         }
       ]
     }

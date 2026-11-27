@@ -46,7 +46,8 @@
           "json_path": "application.submission_type",
           "required": true,
           "widget": "RadioWidget",
-          "help_text": "Select one type of submission in accordance with agency instructions."
+          "help_text": "Select one type of submission in accordance with agency instructions.",
+          "constraints": "enum [\"Preapplication\", \"Application\", \"Changed/Corrected Application\"]"
         }
       ]
     },
@@ -64,7 +65,8 @@
           "json_path": "application.application_type",
           "required": true,
           "widget": "RadioWidget",
-          "help_text": "Select one type of application in accordance with agency instructions."
+          "help_text": "Select one type of application in accordance with agency instructions.",
+          "constraints": "enum [\"New\", \"Continuation\", \"Revision\"]"
         },
         {
           "kind": "field",
@@ -76,7 +78,8 @@
           "json_path": "application.revision.type",
           "required": false,
           "widget": "TextWidget",
-          "help_text": "Select a revision type from the list provided. A selection is required if Type of Application is Revision."
+          "help_text": "Select a revision type from the list provided. A selection is required if Type of Application is Revision.",
+          "constraints": "enum [\"A: Increase Award\", \"B: Decrease Award\", \"C: Increase Duration\", \"D: Decrease Duration\", \"E: Other (specify)\", \"AC: Increase Award, Increase Duration\", \"AD: Increase Award, Decrease Duration\", \"BC: Decrease Award, Increase Duration\", \"BD: Decrease Award, Decrease Duration\"]"
         },
         {
           "kind": "field",
@@ -958,7 +961,8 @@
           "json_path": "application.state_review.status",
           "required": true,
           "widget": "RadioWidget",
-          "help_text": "One selection is required."
+          "help_text": "One selection is required.",
+          "constraints": "enum [\"a. This application was made available to the State under the Executive Order 12372 Process for review on\", \"b. Program is subject to E.O. 12372 but has not been selected by the State for review.\", \"c. Program is not covered by E.O. 12372.\"]"
         },
         {
           "kind": "field",
@@ -1020,7 +1024,8 @@
           "json_path": "certification.agree",
           "required": true,
           "widget": "CheckboxWidget",
-          "help_text": "Check to select. This field is required."
+          "help_text": "Check to select. This field is required.",
+          "constraints": "enum [\"true\"]"
         },
         {
           "kind": "section",

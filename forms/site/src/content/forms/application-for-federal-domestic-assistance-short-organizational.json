@@ -936,7 +936,8 @@
           "json_path": "certification.agree",
           "required": true,
           "widget": "CheckboxWidget",
-          "help_text": "Check to select. This field is required."
+          "help_text": "Check to select. This field is required.",
+          "constraints": "enum [\"true\"]"
         }
       ]
     },
