@@ -116,8 +116,9 @@ its type's name), so it's recorded once, in the form's `xsd` register.
 
 The form states a code list's values, not its XSD type's name, so a plan field that names a
 code list (`StateCodeDataType enumeration`) is compared with the form by that list's values,
-read from the XSD element the plan links. A Yes/No answer the form stores as a boolean names
-no code list in the plan.
+read from the XSD element the plan links. The form stores Yes/No answers as booleans, which
+the harness reads as `YesNoDataType`'s codes (`Y: Yes`, `N: No`), so the plan names
+`YesNoDataType` for them. A checkbox that must be checked reads as `Y: Yes` alone.
 
 For enumerations whose values contain commas, use a JSON string array in the plan
 constraint, for example `enum ["Application", "Other, specify"]`. Values remain whole;

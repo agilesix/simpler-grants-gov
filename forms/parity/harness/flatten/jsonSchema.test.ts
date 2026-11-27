@@ -93,6 +93,18 @@ describe("jsonSchemaFields", () => {
     });
   });
 
+  it("reads a boolean as the Yes/No codes", () => {
+    const fields = jsonSchemaFields({
+      type: "object",
+      properties: {
+        answer: { type: "boolean" },
+        agree: { type: "boolean", const: true },
+      },
+    });
+    expect(fields.get("answer")?.rules.enum).toEqual(["Y: Yes", "N: No"]);
+    expect(fields.get("agree")?.rules.enum).toEqual(["Y: Yes"]);
+  });
+
   it("reads maxItems around field as maxOccurs", () => {
     expect(
       ["items[].name", "note"].map((p) => flat.get(p)?.rules.maxOccurs),

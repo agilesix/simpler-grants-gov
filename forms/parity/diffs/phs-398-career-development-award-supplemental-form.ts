@@ -12,14 +12,6 @@ const optionalDocumentHelp: Pinned = {
 const sharedResearchHelp =
   "Attach PDF formatted file. A page limit is typically enforced for this attachment. See funding opportunity announcement and agency-specific instructions for additional guidance.";
 
-const yesNoTransform: Pinned = {
-  plan: null,
-  source: ["Y: Yes", "N: No"],
-  category: "intentional",
-  reason:
-    "The response uses a boolean. XML maps it through boolean_to_yes_no to the source values.",
-};
-
 export const DIFF: FormDiff = {
   slug: "phs-398-career-development-award-supplemental-form",
   xml: "xml-mapping",
@@ -83,12 +75,6 @@ export const DIFF: FormDiff = {
         reason:
           "The form follows the DAT help's limit of 10 Appendix files. The XSD allows 100.",
       },
-    },
-  },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "is_us_citizen_or_national/enum": yesNoTransform,
-      "permanent_resident_by_award/enum": yesNoTransform,
     },
   },
 };

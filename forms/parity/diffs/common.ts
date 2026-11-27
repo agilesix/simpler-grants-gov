@@ -148,18 +148,11 @@ export const emailMinLength = (paths: string[]): Record<string, Pinned> =>
     paths.map((path) => [`${path}/minLength`, EMAIL_MIN_LENGTH]),
   );
 
-/** Yes/No answers, which the form stores as booleans. */
-export const YES_NO_BOOLEAN: Recorded = {
-  category: "intentional",
-  reason:
-    "The form stores this answer as a boolean. The XML mapping's boolean_to_yes_no transform writes the XSD's “Y: Yes” or “N: No”.",
-};
-
-/** The I Agree checkbox, which must be checked, where the XSD allows Yes or No. */
+/** The I Agree checkbox, which the DAT requires checking and the XSD lets be No. */
 export const MUST_AGREE: Recorded = {
-  category: "intentional",
+  category: "upstream",
   reason:
-    "The form requires checking I Agree, as the DAT does, so it accepts only true. The XML mapping writes Y: Yes.",
+    "The DAT requires checking I Agree, so the plan accepts only Y: Yes. globLib:YesNoDataType also allows N: No.",
 };
 
 /** Dollar amounts, which the form stores as strings. */

@@ -71,10 +71,19 @@ function rulesOf(node: Json): Rules {
     if (typeof node[keyword] === "number") rules[keyword] = node[keyword];
   if (typeof node.pattern === "string") rules.pattern = node.pattern;
   if (typeof node.format === "string") rules.format = node.format;
-  if ("const" in node) rules.enum = [String(node.const)];
+  if (node.type === "boolean" || typeof node.const === "boolean")
+    rules.enum = yesNo(node.const);
+  else if ("const" in node) rules.enum = [String(node.const)];
   else if (Array.isArray(node.enum)) rules.enum = node.enum.map(String);
   return rules;
 }
+
+/**
+ * A boolean's values as globLib:YesNoDataType's codes. Forms store Yes/No answers as booleans,
+ * and the XML mapping writes Y: Yes or N: No, so compare them as the same list.
+ */
+const yesNo = (only: unknown): string[] =>
+  only === true ? ["Y: Yes"] : only === false ? ["N: No"] : ["Y: Yes", "N: No"];
 
 const isObject = (node: Json) =>
   node.type === "object" || node.properties !== undefined;
