@@ -26,7 +26,7 @@ model MandatoryLayout {
     @UI.label("1a. Type of Submission")
     submissionType: MandatoryApplication.submissionType;
 
-    @UI.label("Other (specify)")
+    @UI.label("Type of Submission - Other (specify)")
     submissionTypeOther: MandatoryApplication.submissionTypeOther;
 
     @UI.flatten
@@ -35,7 +35,7 @@ model MandatoryLayout {
       @UI.label("1b. Frequency")
       code: MandatoryFrequency.code;
 
-      @UI.label("Other (specify)")
+      @UI.label("Frequency - Other (specify)")
       other: MandatoryFrequency.other;
     };
 

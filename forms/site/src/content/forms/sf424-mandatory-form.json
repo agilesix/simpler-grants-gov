@@ -58,7 +58,7 @@
         },
         {
           "kind": "field",
-          "label": "Other (specify)",
+          "label": "Type of Submission - Other (specify)",
           "dat_field": "01a-6",
           "required": "Conditional (required when its controlling answer enables this field)",
           "type": "Textarea",
@@ -84,7 +84,7 @@
         },
         {
           "kind": "field",
-          "label": "Other (specify)",
+          "label": "Frequency - Other (specify)",
           "dat_field": "01b-5",
           "required": "Conditional (required when its controlling answer enables this field)",
           "type": "Textarea",

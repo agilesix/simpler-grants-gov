@@ -53,6 +53,15 @@ const congressionalDistrict = (
 
 const CONGRESSIONAL_DISTRICT_PATTERN = "^[A-Z0-9]{2}-[A-Za-z0-9]{3}$";
 
+/** Item 1 has two "Other (specify)" fields, so each label names the answer it explains. */
+const otherWithParent = (plan: string, source: string): Pinned => ({
+  plan,
+  source,
+  category: "intentional",
+  reason:
+    'Item 1 asks two "Other (specify)" questions, so the label names the answer it explains. Otherwise the error list and its links show two identical labels.',
+});
+
 export const DIFF: FormDiff = {
   slug: "sf424-mandatory-form",
   xml: "xml-mapping",
@@ -70,7 +79,15 @@ export const DIFF: FormDiff = {
         "1a. Type of Submission",
         "1.a. Type of Submission",
       ),
+      "01a-6": otherWithParent(
+        "Type of Submission - Other (specify)",
+        "Other (specify)",
+      ),
       "01b-1": itemOneNumber("1b. Frequency", "1.b. Frequency"),
+      "01b-5": otherWithParent(
+        "Frequency - Other (specify)",
+        "Other (specify)",
+      ),
       "01c-1": itemOneNumber(
         "1c. Consolidated Application/Plan/Funding Request?",
         "1.c. Consolidated Application/Plan/Funding Request?",
