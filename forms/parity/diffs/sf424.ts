@@ -140,6 +140,13 @@ export const DIFF: FormDiff = {
   xml: "xml-mapping",
   wording: BANK_WORDING,
   dat: {
+    outOfOrder: {
+      "22-08": {
+        category: "intentional",
+        reason:
+          "The form follows the paper's order for the authorized representative, which shows Fax Number before Email, as the contact person does. The DAT lists Email first.",
+      },
+    },
     absentFromPlan: {
       "01-1": choice,
       "01-2": choice,

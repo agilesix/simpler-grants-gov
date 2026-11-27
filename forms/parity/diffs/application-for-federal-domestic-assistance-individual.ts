@@ -42,10 +42,10 @@ export const DIFF: FormDiff = {
   wording: BANK_WORDING,
   dat: {
     outOfOrder: {
-      "3-1": {
+      "5a-09": {
         category: "intentional",
         reason:
-          "Date Received belongs to the application, so it follows the complete Opportunity Information section on screen. The XML-shaped mapping preserves the official XML sequence.",
+          "The form follows the paper's order, which shows Email before Fax Number. The DAT lists Fax Number first.",
       },
     },
     absentFromPlan: { "5c-3": radioChoice, "5c-4": radioChoice },

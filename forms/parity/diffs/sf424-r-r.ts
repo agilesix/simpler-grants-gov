@@ -35,12 +35,6 @@ const yesNo = {
   reason:
     "The form stores a boolean. The XML mapping writes the exact source Yes/No value.",
 } as const;
-const layout = {
-  category: "intentional",
-  reason:
-    "The form groups related questions together. The XML follows the XSD's order.",
-} as const;
-
 const byPath = <T extends Recorded>(paths: string[], reason: T) =>
   Object.fromEntries(paths.map((path) => [path, reason]));
 
@@ -91,20 +85,6 @@ export const DIFF: FormDiff = {
     },
   },
   dat: {
-    outOfOrder: byPath(
-      [
-        "05-1",
-        "06-0",
-        "08-0",
-        "08-1-6",
-        "08-2",
-        "08-2-3",
-        "18-0",
-        "19-14",
-        "19-15",
-      ],
-      layout,
-    ),
     absentFromPlan: {
       ...byPath(
         [

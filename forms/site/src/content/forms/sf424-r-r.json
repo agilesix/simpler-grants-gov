@@ -44,7 +44,7 @@
   "children": [
     {
       "kind": "section",
-      "label": "Submission and Application",
+      "label": "1. Type of Submission",
       "children": [
         {
           "kind": "field",
@@ -58,7 +58,13 @@
           "constraints": "SubmissionTypeDataType enumeration",
           "json_path": "application.submission_type",
           "xml_path": "RR_SF424_5_0:SubmissionTypeCode"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "2. Date Submitted",
+      "children": [
         {
           "kind": "field",
           "id": "submitted-date",
@@ -84,7 +90,13 @@
           "constraints": "minLength 1, maxLength 30",
           "json_path": "application.applicant_id",
           "xml_path": "RR_SF424_5_0:ApplicantID"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "3. Date Received by State",
+      "children": [
         {
           "kind": "field",
           "id": "state-received-date",
@@ -110,11 +122,17 @@
           "constraints": "minLength 1, maxLength 30",
           "json_path": "application.state.application_id",
           "xml_path": "RR_SF424_5_0:StateID"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "4. Federal Identifiers",
+      "children": [
         {
           "kind": "field",
           "id": "federal-id",
-          "label": "Federal Identifier",
+          "label": "4a. Federal Identifier",
           "dat_field": "04-0",
           "required": "Conditional (required if ApplicationTypeCode = Renewal, Continuation, or Revision)",
           "type": "Text input",
@@ -127,7 +145,7 @@
         {
           "kind": "field",
           "id": "agency-routing-number",
-          "label": "Agency Routing Identifier",
+          "label": "4b. Agency Routing Identifier",
           "dat_field": "04-1",
           "required": false,
           "type": "Text input",
@@ -140,7 +158,7 @@
         {
           "kind": "field",
           "id": "gg-tracking-id",
-          "label": "Previous Grants.gov Tracking ID",
+          "label": "4c. Previous Grants.gov Tracking ID",
           "dat_field": "04-2",
           "required": "Conditional (required if SubmissionTypeCode = Changed/Corrected Application)",
           "type": "Text input",
@@ -149,93 +167,17 @@
           "constraints": "minLength 13, maxLength 15",
           "json_path": "application.previous_tracking_id",
           "xml_path": "RR_SF424_5_0:GGTrackingID"
-        },
-        {
-          "kind": "field",
-          "id": "application-type-code",
-          "label": "Type of Application",
-          "dat_field": "08-0",
-          "required": true,
-          "type": "Radio group (New, Resubmission, Renewal, Continuation, Revision)",
-          "widget": "RadioWidget",
-          "constraints": "ApplicationTypeCodeDataType enumeration",
-          "json_path": "application.application_type",
-          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:ApplicationTypeCode"
-        },
-        {
-          "kind": "field",
-          "id": "revision-code",
-          "label": "Revision Type",
-          "dat_field": "08-1-1 through 08-1-5",
-          "required": "Conditional (enabled when ApplicationTypeCode = Revision)",
-          "type": "Single selection (A, B, C, D, E, AC, AD, BC, BD)",
-          "widget": "SelectWidget",
-          "help_text": "A increases the award, B decreases the award, C increases the duration, and D decreases the duration. Choose AC, AD, BC, or BD if both change. Choose E for Other.",
-          "constraints": "RevisionTypeCodeDataType enumeration",
-          "json_path": "application.revision.type",
-          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:RevisionCode"
-        },
-        {
-          "kind": "field",
-          "id": "revision-code-other-explanation",
-          "label": "Other Revision Explanation",
-          "dat_field": "08-1-6",
-          "required": "Conditional (required if RevisionCode = E)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Explain the revision if you selected E, Other.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "application.revision.other_specify",
-          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:RevisionCodeOtherExplanation"
-        },
-        {
-          "kind": "field",
-          "id": "is-other-agency-submission",
-          "label": "Is this application being submitted to other agencies?",
-          "dat_field": "08-2",
-          "required": true,
-          "type": "Radio group (Yes, No)",
-          "widget": "RadioWidget",
-          "constraints": "YesNoDataType",
-          "json_path": "application.other_agencies.submitted",
-          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:isOtherAgencySubmission"
-        },
-        {
-          "kind": "field",
-          "id": "other-agency-submission-explanation",
-          "label": "Which other agencies?",
-          "dat_field": "08-2-3",
-          "required": "Conditional (required if isOtherAgencySubmission = Yes)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of the other agency.",
-          "constraints": "minLength 1, maxLength 20",
-          "json_path": "application.other_agencies.explanation",
-          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:OtherAgencySubmissionExplanation"
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Applicant Organization",
+      "label": "5. Applicant Information",
       "children": [
         {
           "kind": "field",
-          "id": "organization-info-organization-name",
-          "label": "Legal Organization Name",
-          "dat_field": "05-2",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the legal name of the organization.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "applicant.organization.name",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:OrganizationInfo/globLib:OrganizationName"
-        },
-        {
-          "kind": "field",
           "id": "sam-uei",
-          "label": "SAM UEI",
+          "label": "UEI",
           "dat_field": "05-1",
           "required": true,
           "type": "Text input",
@@ -248,8 +190,21 @@
         },
         {
           "kind": "field",
+          "id": "organization-info-organization-name",
+          "label": "Legal Name",
+          "dat_field": "05-2",
+          "required": true,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the legal name of the organization.",
+          "constraints": "minLength 1, maxLength 60",
+          "json_path": "applicant.organization.name",
+          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:OrganizationInfo/globLib:OrganizationName"
+        },
+        {
+          "kind": "field",
           "id": "organization-info-department",
-          "label": "Department",
+          "label": "Department Name",
           "dat_field": "05-3",
           "required": false,
           "type": "Text input",
@@ -262,7 +217,7 @@
         {
           "kind": "field",
           "id": "organization-info-division",
-          "label": "Division",
+          "label": "Division Name",
           "dat_field": "05-4",
           "required": false,
           "type": "Text input",
@@ -377,9 +332,242 @@
           "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:OrganizationInfo/globLib:Address/globLib:ZipPostalCode"
         },
         {
+          "kind": "section",
+          "label": "Person to Be Contacted on Matters Involving This Application",
+          "children": [
+            {
+              "kind": "field",
+              "id": "contact-person-name-prefix",
+              "label": "Prefix",
+              "dat_field": "05-6a",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the prefix.",
+              "constraints": "minLength 1, maxLength 10",
+              "json_path": "contacts.point_of_contact.name.prefix",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:PrefixName"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-name-first-name",
+              "label": "First Name",
+              "dat_field": "05-6b",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the first name.",
+              "constraints": "minLength 1, maxLength 35",
+              "json_path": "contacts.point_of_contact.name.first_name",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:FirstName"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-name-middle-name",
+              "label": "Middle Name",
+              "dat_field": "05-6c",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the middle name.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.point_of_contact.name.middle_name",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:MiddleName"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-name-last-name",
+              "label": "Last Name",
+              "dat_field": "05-6d",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the last name.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "contacts.point_of_contact.name.last_name",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:LastName"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-name-suffix",
+              "label": "Suffix",
+              "dat_field": "05-6e",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the suffix.",
+              "constraints": "minLength 1, maxLength 10",
+              "json_path": "contacts.point_of_contact.name.suffix",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:SuffixName"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-title",
+              "label": "Title",
+              "dat_field": "05-6f",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "contacts.point_of_contact.title",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Title"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-street1",
+              "label": "Street 1",
+              "dat_field": "05-6g",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the first line of the street address.",
+              "constraints": "minLength 1, maxLength 55",
+              "json_path": "contacts.point_of_contact.address.street1",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Street1"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-street2",
+              "label": "Street 2",
+              "dat_field": "05-6h",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the second line of the street address.",
+              "constraints": "minLength 1, maxLength 55",
+              "json_path": "contacts.point_of_contact.address.street2",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Street2"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-city",
+              "label": "City",
+              "dat_field": "05-6i",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the city.",
+              "constraints": "minLength 1, maxLength 35",
+              "json_path": "contacts.point_of_contact.address.city",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:City"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-county",
+              "label": "County/Parish",
+              "dat_field": "05-6j",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the county or parish.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "contacts.point_of_contact.address.county",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:County"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-state",
+              "label": "State",
+              "dat_field": "05-6k",
+              "required": "Conditional (required when Country = \"USA: UNITED STATES\")",
+              "type": "Dropdown (state code list)",
+              "widget": "SelectWidget",
+              "help_text": "Select the state. This field is required if the country is the United States.",
+              "constraints": "StateCodeDataTypeV3",
+              "json_path": "contacts.point_of_contact.address.state",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:State"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-province",
+              "label": "Province",
+              "dat_field": "05-6l",
+              "required": "Conditional (active when Country != \"USA: UNITED STATES\")",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the province.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "contacts.point_of_contact.address.province",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Province"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-country",
+              "label": "Country",
+              "dat_field": "05-6m",
+              "required": true,
+              "type": "Dropdown (country code list)",
+              "widget": "SelectWidget",
+              "help_text": "Select the country.",
+              "constraints": "CountryCodeDataTypeV3",
+              "json_path": "contacts.point_of_contact.address.country",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Country"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-address-zip-code",
+              "label": "Zip / Postal Code",
+              "dat_field": "05-6n",
+              "required": "Conditional (required when Country = \"USA: UNITED STATES\"; if US, minLength 9)",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "contacts.point_of_contact.address.zip_code",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:ZipPostalCode"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-phone",
+              "label": "Phone Number",
+              "dat_field": "05-7",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the phone number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.point_of_contact.phone",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Phone"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-fax",
+              "label": "Fax Number",
+              "dat_field": "05-8",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the fax number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.point_of_contact.fax",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Fax"
+            },
+            {
+              "kind": "field",
+              "id": "contact-person-email",
+              "label": "Email",
+              "dat_field": "05-9",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the email address.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "contacts.point_of_contact.email",
+              "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Email"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "6. Employer Identification (EIN) or (TIN)",
+      "children": [
+        {
           "kind": "field",
           "id": "employer-id",
-          "label": "Employer Identification Number (EIN/TIN)",
+          "label": "Employer Identification (EIN) or (TIN)",
           "dat_field": "06-0",
           "required": true,
           "type": "Text input",
@@ -393,234 +581,7 @@
     },
     {
       "kind": "section",
-      "label": "Applicant Contact",
-      "children": [
-        {
-          "kind": "field",
-          "id": "contact-person-name-prefix",
-          "label": "Prefix",
-          "dat_field": "05-6a",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the prefix.",
-          "constraints": "minLength 1, maxLength 10",
-          "json_path": "contacts.point_of_contact.name.prefix",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:PrefixName"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-name-first-name",
-          "label": "First Name",
-          "dat_field": "05-6b",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the first name.",
-          "constraints": "minLength 1, maxLength 35",
-          "json_path": "contacts.point_of_contact.name.first_name",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:FirstName"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-name-middle-name",
-          "label": "Middle Name",
-          "dat_field": "05-6c",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the middle name.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.point_of_contact.name.middle_name",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:MiddleName"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-name-last-name",
-          "label": "Last Name",
-          "dat_field": "05-6d",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the last name.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "contacts.point_of_contact.name.last_name",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:LastName"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-name-suffix",
-          "label": "Suffix",
-          "dat_field": "05-6e",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the suffix.",
-          "constraints": "minLength 1, maxLength 10",
-          "json_path": "contacts.point_of_contact.name.suffix",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Name/globLib:SuffixName"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-title",
-          "label": "Title",
-          "dat_field": "05-6f",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "contacts.point_of_contact.title",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Title"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-street1",
-          "label": "Street 1",
-          "dat_field": "05-6g",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the first line of the street address.",
-          "constraints": "minLength 1, maxLength 55",
-          "json_path": "contacts.point_of_contact.address.street1",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Street1"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-street2",
-          "label": "Street 2",
-          "dat_field": "05-6h",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the second line of the street address.",
-          "constraints": "minLength 1, maxLength 55",
-          "json_path": "contacts.point_of_contact.address.street2",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Street2"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-city",
-          "label": "City",
-          "dat_field": "05-6i",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the city.",
-          "constraints": "minLength 1, maxLength 35",
-          "json_path": "contacts.point_of_contact.address.city",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:City"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-county",
-          "label": "County/Parish",
-          "dat_field": "05-6j",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the county or parish.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "contacts.point_of_contact.address.county",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:County"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-state",
-          "label": "State",
-          "dat_field": "05-6k",
-          "required": "Conditional (required when Country = \"USA: UNITED STATES\")",
-          "type": "Dropdown (state code list)",
-          "widget": "SelectWidget",
-          "help_text": "Select the state. This field is required if the country is the United States.",
-          "constraints": "StateCodeDataTypeV3",
-          "json_path": "contacts.point_of_contact.address.state",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:State"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-province",
-          "label": "Province",
-          "dat_field": "05-6l",
-          "required": "Conditional (active when Country != \"USA: UNITED STATES\")",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the province.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "contacts.point_of_contact.address.province",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Province"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-country",
-          "label": "Country",
-          "dat_field": "05-6m",
-          "required": true,
-          "type": "Dropdown (country code list)",
-          "widget": "SelectWidget",
-          "help_text": "Select the country.",
-          "constraints": "CountryCodeDataTypeV3",
-          "json_path": "contacts.point_of_contact.address.country",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:Country"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-address-zip-code",
-          "label": "Zip / Postal Code",
-          "dat_field": "05-6n",
-          "required": "Conditional (required when Country = \"USA: UNITED STATES\"; if US, minLength 9)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "contacts.point_of_contact.address.zip_code",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Address/globLib:ZipPostalCode"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-phone",
-          "label": "Phone Number",
-          "dat_field": "05-7",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the phone number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.point_of_contact.phone",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Phone"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-fax",
-          "label": "Fax Number",
-          "dat_field": "05-8",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the fax number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.point_of_contact.fax",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Fax"
-        },
-        {
-          "kind": "field",
-          "id": "contact-person-email",
-          "label": "Email",
-          "dat_field": "05-9",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the email address.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "contacts.point_of_contact.email",
-          "xml_path": "RR_SF424_5_0:ApplicantInfo/RR_SF424_5_0:ContactPersonInfo/RR_SF424_5_0:Email"
-        }
-      ]
-    },
-    {
-      "kind": "section",
-      "label": "Type of Applicant",
+      "label": "7. Type of Applicant",
       "children": [
         {
           "kind": "field",
@@ -638,7 +599,7 @@
         {
           "kind": "field",
           "id": "applicant-type-code-other-explanation",
-          "label": "Other Applicant Type",
+          "label": "Other (specify)",
           "dat_field": "07-1",
           "required": "Conditional (required if ApplicantTypeCode = \"Other\")",
           "type": "Text input",
@@ -683,7 +644,76 @@
     },
     {
       "kind": "section",
-      "label": "Opportunity",
+      "label": "8. Type of Application",
+      "children": [
+        {
+          "kind": "field",
+          "id": "application-type-code",
+          "label": "Type of Application",
+          "dat_field": "08-0",
+          "required": true,
+          "type": "Radio group (New, Resubmission, Renewal, Continuation, Revision)",
+          "widget": "RadioWidget",
+          "constraints": "ApplicationTypeCodeDataType enumeration",
+          "json_path": "application.application_type",
+          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:ApplicationTypeCode"
+        },
+        {
+          "kind": "field",
+          "id": "revision-code",
+          "label": "If Revision, Type of Revision",
+          "dat_field": "08-1-1 through 08-1-5",
+          "required": "Conditional (enabled when ApplicationTypeCode = Revision)",
+          "type": "Single selection (A, B, C, D, E, AC, AD, BC, BD)",
+          "widget": "SelectWidget",
+          "help_text": "A increases the award, B decreases the award, C increases the duration, and D decreases the duration. Choose AC, AD, BC, or BD if both change. Choose E for Other.",
+          "constraints": "RevisionTypeCodeDataType enumeration",
+          "json_path": "application.revision.type",
+          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:RevisionCode"
+        },
+        {
+          "kind": "field",
+          "id": "revision-code-other-explanation",
+          "label": "Other (specify)",
+          "dat_field": "08-1-6",
+          "required": "Conditional (required if RevisionCode = E)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Explain the revision if you selected E, Other.",
+          "constraints": "minLength 1, maxLength 45",
+          "json_path": "application.revision.other_specify",
+          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:RevisionCodeOtherExplanation"
+        },
+        {
+          "kind": "field",
+          "id": "is-other-agency-submission",
+          "label": "Is this application being submitted to other agencies?",
+          "dat_field": "08-2",
+          "required": true,
+          "type": "Radio group (Yes, No)",
+          "widget": "RadioWidget",
+          "constraints": "YesNoDataType",
+          "json_path": "application.other_agencies.submitted",
+          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:isOtherAgencySubmission"
+        },
+        {
+          "kind": "field",
+          "id": "other-agency-submission-explanation",
+          "label": "What other agencies?",
+          "dat_field": "08-2-3",
+          "required": "Conditional (required if isOtherAgencySubmission = Yes)",
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the name of the other agency.",
+          "constraints": "minLength 1, maxLength 20",
+          "json_path": "application.other_agencies.explanation",
+          "xml_path": "RR_SF424_5_0:ApplicationType/RR_SF424_5_0:OtherAgencySubmissionExplanation"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "9. Name of Federal Agency",
       "children": [
         {
           "kind": "field",
@@ -698,7 +728,13 @@
           "pre_populated": "from the opportunity package",
           "json_path": "opportunity.agency_name",
           "xml_path": "RR_SF424_5_0:FederalAgencyName"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "10. Assistance Listing",
+      "children": [
         {
           "kind": "field",
           "id": "cfda-number",
@@ -731,12 +767,12 @@
     },
     {
       "kind": "section",
-      "label": "Proposed Project",
+      "label": "11. Descriptive Title of Applicant's Project",
       "children": [
         {
           "kind": "field",
           "id": "project-title",
-          "label": "Project Title",
+          "label": "Descriptive Title of Applicant's Project",
           "dat_field": "11-0",
           "required": true,
           "type": "Text input",
@@ -745,7 +781,13 @@
           "constraints": "minLength 1, maxLength 200",
           "json_path": "project.title",
           "xml_path": "RR_SF424_5_0:ProjectTitle"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "12. Proposed Project",
+      "children": [
         {
           "kind": "field",
           "id": "start-date",
@@ -762,7 +804,7 @@
         {
           "kind": "field",
           "id": "end-date",
-          "label": "End Date",
+          "label": "Ending Date",
           "dat_field": "12-2",
           "required": true,
           "type": "Date input",
@@ -771,7 +813,13 @@
           "constraints": "format date",
           "json_path": "project.timeline.end_date",
           "xml_path": "RR_SF424_5_0:ProposedProjectPeriod/RR_SF424_5_0:ProposedEndDate"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "13. Congressional District of Applicant",
+      "children": [
         {
           "kind": "field",
           "id": "applicant",
@@ -789,7 +837,7 @@
     },
     {
       "kind": "section",
-      "label": "Project Director / Principal Investigator",
+      "label": "14. Project Director/Principal Investigator Contact Information",
       "children": [
         {
           "kind": "field",
@@ -885,7 +933,7 @@
         {
           "kind": "field",
           "id": "pdpi-contact-info-department",
-          "label": "Department",
+          "label": "Department Name",
           "dat_field": "14-08",
           "required": false,
           "type": "Text input",
@@ -898,7 +946,7 @@
         {
           "kind": "field",
           "id": "pdpi-contact-info-division",
-          "label": "Division",
+          "label": "Division Name",
           "dat_field": "14-09",
           "required": false,
           "type": "Text input",
@@ -1055,12 +1103,12 @@
     },
     {
       "kind": "section",
-      "label": "Estimated Project Funding",
+      "label": "15. Estimated Project Funding",
       "children": [
         {
           "kind": "field",
           "id": "total-estimated-amount",
-          "label": "Total Federal Funds Requested",
+          "label": "15a. Total Federal Funds Requested",
           "dat_field": "15-1",
           "required": true,
           "type": "Currency input",
@@ -1073,7 +1121,7 @@
         {
           "kind": "field",
           "id": "total-nonfed-requested",
-          "label": "Total Non-Federal Funds",
+          "label": "15b. Total Non-Federal Funds",
           "dat_field": "15-2",
           "required": true,
           "type": "Currency input",
@@ -1086,7 +1134,7 @@
         {
           "kind": "field",
           "id": "total-fed-nonfed-requested",
-          "label": "Total Federal and Non-Federal Funds",
+          "label": "15c. Total Federal & Non-Federal Funds",
           "dat_field": "15-3",
           "required": true,
           "type": "Currency input",
@@ -1099,7 +1147,7 @@
         {
           "kind": "field",
           "id": "estimated-program-income",
-          "label": "Estimated Program Income",
+          "label": "15d. Estimated Program Income",
           "dat_field": "15-4",
           "required": true,
           "type": "Currency input",
@@ -1113,12 +1161,12 @@
     },
     {
       "kind": "section",
-      "label": "State Review",
+      "label": "16. State Review",
       "children": [
         {
           "kind": "field",
           "id": "state-review-code-type",
-          "label": "Is this application subject to state review under Executive Order 12372?",
+          "label": "Is Application Subject to Review by State Executive Order 12372 Process?",
           "dat_field": "16-0",
           "required": true,
           "type": "Radio group",
@@ -1131,7 +1179,7 @@
         {
           "kind": "field",
           "id": "state-review-date",
-          "label": "Date Submitted for State Review",
+          "label": "Date",
           "dat_field": "16-3",
           "required": "Conditional (required when StateReviewCodeType = \"Y: Yes\")",
           "type": "Date input",
@@ -1145,7 +1193,7 @@
     },
     {
       "kind": "section",
-      "label": "Certification",
+      "label": "17. Certification",
       "children": [
         {
           "kind": "field",
@@ -1159,40 +1207,30 @@
           "constraints": "YesNoDataType",
           "json_path": "certification.agree",
           "xml_path": "RR_SF424_5_0:TrustAgree"
-        },
-        {
-          "kind": "field",
-          "id": "aor-signature",
-          "label": "Signature of Authorized Representative",
-          "dat_field": "19-14",
-          "required": true,
-          "type": "System-populated text on submission",
-          "widget": "TextWidget",
-          "help_text": "Completed by Grants.gov upon submission.",
-          "constraints": "minLength 1, maxLength 144",
-          "json_path": "certification.signature",
-          "xml_path": "RR_SF424_5_0:AOR_Signature",
-          "post_populated": "SGG supplies the signature on submission."
-        },
-        {
-          "kind": "field",
-          "id": "aor-signed-date",
-          "label": "Date Signed",
-          "dat_field": "19-15",
-          "required": true,
-          "type": "System-populated date on submission",
-          "widget": "TextWidget",
-          "help_text": "Completed by Grants.gov upon submission.",
-          "constraints": "format date",
-          "post_populated": "system-generated on submission",
-          "json_path": "certification.date_signed",
-          "xml_path": "RR_SF424_5_0:AOR_SignedDate"
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Authorized Organization Representative",
+      "label": "18. SF-LLL (Disclosure of Lobbying Activities) or Other Explanatory Documentation",
+      "children": [
+        {
+          "kind": "field",
+          "id": "sflll-attachment",
+          "label": "SF-LLL or Other Explanatory Documentation",
+          "dat_field": "18-0",
+          "required": false,
+          "type": "File attachment",
+          "widget": "ApplicationAttachmentWidget",
+          "help_text": "Attach a file.",
+          "json_path": "attachments.lobbying_disclosure",
+          "xml_path": "RR_SF424_5_0:SFLLLAttachment"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "19. Authorized Representative",
       "children": [
         {
           "kind": "field",
@@ -1288,7 +1326,7 @@
         {
           "kind": "field",
           "id": "aor-info-department",
-          "label": "Department",
+          "label": "Department Name",
           "dat_field": "19-08",
           "required": false,
           "type": "Text input",
@@ -1301,7 +1339,7 @@
         {
           "kind": "field",
           "id": "aor-info-division",
-          "label": "Division",
+          "label": "Division Name",
           "dat_field": "19-09",
           "required": false,
           "type": "Text input",
@@ -1453,29 +1491,45 @@
           "constraints": "minLength 1, maxLength 60",
           "json_path": "contacts.authorized_representative.email",
           "xml_path": "RR_SF424_5_0:AORInfo/RR_SF424_5_0:Email"
+        },
+        {
+          "kind": "field",
+          "id": "aor-signature",
+          "label": "Signature of Authorized Representative",
+          "dat_field": "19-14",
+          "required": true,
+          "type": "System-populated text on submission",
+          "widget": "TextWidget",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "minLength 1, maxLength 144",
+          "json_path": "certification.signature",
+          "xml_path": "RR_SF424_5_0:AOR_Signature",
+          "post_populated": "SGG supplies the signature on submission."
+        },
+        {
+          "kind": "field",
+          "id": "aor-signed-date",
+          "label": "Date Signed",
+          "dat_field": "19-15",
+          "required": true,
+          "type": "System-populated date on submission",
+          "widget": "TextWidget",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "system-generated on submission",
+          "json_path": "certification.date_signed",
+          "xml_path": "RR_SF424_5_0:AOR_SignedDate"
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Supporting Files",
+      "label": "20. Pre-application",
       "children": [
         {
           "kind": "field",
-          "id": "sflll-attachment",
-          "label": "SF-LLL or Other Explanatory Documentation",
-          "dat_field": "18-0",
-          "required": false,
-          "type": "File attachment",
-          "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a file.",
-          "json_path": "attachments.lobbying_disclosure",
-          "xml_path": "RR_SF424_5_0:SFLLLAttachment"
-        },
-        {
-          "kind": "field",
           "id": "pre-application-attachment",
-          "label": "Pre-Application",
+          "label": "Pre-application",
           "dat_field": "20-0",
           "required": false,
           "type": "File attachment",
@@ -1483,11 +1537,17 @@
           "help_text": "Attach a file.",
           "json_path": "attachments.pre_application",
           "xml_path": "RR_SF424_5_0:PreApplicationAttachment"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "21. Cover Letter Attachment",
+      "children": [
         {
           "kind": "field",
           "id": "cover-letter-attachment",
-          "label": "Cover Letter",
+          "label": "Cover Letter Attachment",
           "dat_field": "21-0",
           "required": false,
           "type": "File attachment",
