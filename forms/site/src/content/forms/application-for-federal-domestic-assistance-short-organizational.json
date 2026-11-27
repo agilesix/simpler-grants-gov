@@ -36,7 +36,7 @@
   "children": [
     {
       "kind": "section",
-      "label": "Opportunity information",
+      "label": "1. Name of Federal Agency",
       "children": [
         {
           "kind": "field",
@@ -51,7 +51,13 @@
           "help_text": "Pre-populated from the Application cover sheet.",
           "constraints": "minLength 1, maxLength 60",
           "pre_populated": "SGG supplies this value from the agency name provider."
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "2. Assistance Listing",
+      "children": [
         {
           "kind": "field",
           "id": "assistance-listing-number",
@@ -79,7 +85,33 @@
           "help_text": "Pre-populated from the application cover sheet.",
           "constraints": "minLength 1, maxLength 120",
           "pre_populated": "SGG supplies this value from the assistance listing program title provider."
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "3. Date Received",
+      "children": [
+        {
+          "kind": "field",
+          "id": "date-received",
+          "label": "Date Received",
+          "type": "Date input",
+          "dat_field": "3-1",
+          "xml_path": "SF424_Short_3_0:DateReceived",
+          "json_path": "application.date_received",
+          "required": "Conditional (post-populated upon submission; absent in a draft)",
+          "widget": "TextWidget",
+          "help_text": "Completed by Grants.gov upon submission.",
+          "constraints": "format date",
+          "post_populated": "SGG supplies the current date on submission."
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "4. Funding Opportunity",
+      "children": [
         {
           "kind": "field",
           "id": "funding-opportunity-number",
@@ -112,32 +144,12 @@
     },
     {
       "kind": "section",
-      "label": "Application information",
-      "children": [
-        {
-          "kind": "field",
-          "id": "date-received",
-          "label": "Date Received",
-          "type": "Date input",
-          "dat_field": "3-1",
-          "xml_path": "SF424_Short_3_0:DateReceived",
-          "json_path": "application.date_received",
-          "required": "Conditional (post-populated upon submission; absent in a draft)",
-          "widget": "TextWidget",
-          "help_text": "Completed by Grants.gov upon submission.",
-          "constraints": "format date",
-          "post_populated": "SGG supplies the current date on submission."
-        }
-      ]
-    },
-    {
-      "kind": "section",
-      "label": "Applicant organization",
+      "label": "5. Applicant Information",
       "children": [
         {
           "kind": "field",
           "id": "legal-name",
-          "label": "Legal Name",
+          "label": "5a. Legal Name",
           "type": "Text input",
           "dat_field": "5a-1",
           "xml_path": "SF424_Short_3_0:OrganizationName",
@@ -149,7 +161,7 @@
         },
         {
           "kind": "section",
-          "label": "Applicant address",
+          "label": "5b. Address",
           "children": [
             {
               "kind": "field",
@@ -260,7 +272,7 @@
         {
           "kind": "field",
           "id": "web-address",
-          "label": "Web Address",
+          "label": "5c. Web Address",
           "type": "Text input",
           "dat_field": "5c-2",
           "xml_path": "SF424_Short_3_0:ApplicantWebAddress",
@@ -273,7 +285,7 @@
         {
           "kind": "field",
           "id": "applicant-type-1",
-          "label": "Type of Applicant",
+          "label": "5d. Type of Applicant",
           "type": "Ordered applicant-type choices",
           "json_path": "applicant.type.codes[]",
           "required": true,
@@ -323,7 +335,7 @@
         {
           "kind": "field",
           "id": "applicant-type-other",
-          "label": "Type of Applicant Other Explanation",
+          "label": "Other (specify)",
           "type": "Text input",
           "dat_field": "5d-4",
           "xml_path": "SF424_Short_3_0:ApplicantTypeOtherSpecify",
@@ -336,7 +348,7 @@
         {
           "kind": "field",
           "id": "ein",
-          "label": "EIN/TIN",
+          "label": "5e. Employer/Taxpayer Identification Number (EIN/TIN)",
           "type": "Text input",
           "dat_field": "5e-1",
           "xml_path": "SF424_Short_3_0:EmployerTaxpayerIdentificationNumber",
@@ -349,7 +361,7 @@
         {
           "kind": "field",
           "id": "uei",
-          "label": "UEI",
+          "label": "5f. UEI",
           "type": "Text input",
           "dat_field": "5f-1",
           "xml_path": "SF424_Short_3_0:SAMUEI",
@@ -363,7 +375,7 @@
         {
           "kind": "field",
           "id": "congressional-district",
-          "label": "Congressional District of Applicant",
+          "label": "5g. Congressional District of Applicant",
           "type": "Text input",
           "dat_field": "5g-1",
           "xml_path": "SF424_Short_3_0:CongressionalDistrictApplicant",
@@ -377,12 +389,12 @@
     },
     {
       "kind": "section",
-      "label": "Project information",
+      "label": "6. Project Information",
       "children": [
         {
           "kind": "field",
           "id": "project-title",
-          "label": "Project Title",
+          "label": "6a. Project Title",
           "type": "Text input",
           "dat_field": "6a-1",
           "xml_path": "SF424_Short_3_0:ProjectTitle",
@@ -395,7 +407,7 @@
         {
           "kind": "field",
           "id": "description",
-          "label": "Project Description",
+          "label": "6b. Project Description",
           "type": "Text area",
           "dat_field": "6b-1",
           "xml_path": "SF424_Short_3_0:ProjectDescription",
@@ -406,107 +418,107 @@
           "constraints": "minLength 1, maxLength 1000"
         },
         {
-          "kind": "field",
-          "id": "start-date",
-          "label": "Start Date",
-          "type": "Date input",
-          "dat_field": "6c-2",
-          "xml_path": "SF424_Short_3_0:ProjectStartDate",
-          "json_path": "project.timeline.start_date",
-          "required": true,
-          "widget": "TextWidget",
-          "help_text": "Enter the date in the format MM/DD/YYYY.",
-          "constraints": "format date"
-        },
-        {
-          "kind": "field",
-          "id": "end-date",
-          "label": "End Date",
-          "type": "Date input",
-          "dat_field": "6c-3",
-          "xml_path": "SF424_Short_3_0:ProjectEndDate",
-          "json_path": "project.timeline.end_date",
-          "required": true,
-          "widget": "TextWidget",
-          "help_text": "Enter the date in the format MM/DD/YYYY.",
-          "constraints": "format date"
+          "kind": "section",
+          "label": "6c. Proposed Project",
+          "children": [
+            {
+              "kind": "field",
+              "id": "start-date",
+              "label": "Start Date",
+              "type": "Date input",
+              "dat_field": "6c-2",
+              "xml_path": "SF424_Short_3_0:ProjectStartDate",
+              "json_path": "project.timeline.start_date",
+              "required": true,
+              "widget": "TextWidget",
+              "help_text": "Enter the date in the format MM/DD/YYYY.",
+              "constraints": "format date"
+            },
+            {
+              "kind": "field",
+              "id": "end-date",
+              "label": "End Date",
+              "type": "Date input",
+              "dat_field": "6c-3",
+              "xml_path": "SF424_Short_3_0:ProjectEndDate",
+              "json_path": "project.timeline.end_date",
+              "required": true,
+              "widget": "TextWidget",
+              "help_text": "Enter the date in the format MM/DD/YYYY.",
+              "constraints": "format date"
+            }
+          ]
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Project Director",
+      "label": "7. Project Director",
       "children": [
         {
-          "kind": "section",
-          "label": "Name",
-          "children": [
-            {
-              "kind": "field",
-              "id": "project-director-name-prefix",
-              "label": "Prefix",
-              "type": "Text input",
-              "dat_field": "7-03",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:PrefixName",
-              "json_path": "contacts.project_director.name.prefix",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the prefix.",
-              "constraints": "minLength 1, maxLength 10"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-name-first-name",
-              "label": "First Name",
-              "type": "Text input",
-              "dat_field": "7-04",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:FirstName",
-              "json_path": "contacts.project_director.name.first_name",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the first name.",
-              "constraints": "minLength 1, maxLength 35"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-name-middle-name",
-              "label": "Middle Name",
-              "type": "Text input",
-              "dat_field": "7-05",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:MiddleName",
-              "json_path": "contacts.project_director.name.middle_name",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the middle name.",
-              "constraints": "minLength 1, maxLength 25"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-name-last-name",
-              "label": "Last Name",
-              "type": "Text input",
-              "dat_field": "7-06",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:LastName",
-              "json_path": "contacts.project_director.name.last_name",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the last name.",
-              "constraints": "minLength 1, maxLength 60"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-name-suffix",
-              "label": "Suffix",
-              "type": "Text input",
-              "dat_field": "7-07",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:SuffixName",
-              "json_path": "contacts.project_director.name.suffix",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the suffix.",
-              "constraints": "minLength 1, maxLength 10"
-            }
-          ]
+          "kind": "field",
+          "id": "project-director-name-prefix",
+          "label": "Prefix",
+          "type": "Text input",
+          "dat_field": "7-03",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:PrefixName",
+          "json_path": "contacts.project_director.name.prefix",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the prefix.",
+          "constraints": "minLength 1, maxLength 10"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-name-first-name",
+          "label": "First Name",
+          "type": "Text input",
+          "dat_field": "7-04",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:FirstName",
+          "json_path": "contacts.project_director.name.first_name",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the first name.",
+          "constraints": "minLength 1, maxLength 35"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-name-middle-name",
+          "label": "Middle Name",
+          "type": "Text input",
+          "dat_field": "7-05",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:MiddleName",
+          "json_path": "contacts.project_director.name.middle_name",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the middle name.",
+          "constraints": "minLength 1, maxLength 25"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-name-last-name",
+          "label": "Last Name",
+          "type": "Text input",
+          "dat_field": "7-06",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:LastName",
+          "json_path": "contacts.project_director.name.last_name",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the last name.",
+          "constraints": "minLength 1, maxLength 60"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-name-suffix",
+          "label": "Suffix",
+          "type": "Text input",
+          "dat_field": "7-07",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Name/globLib:SuffixName",
+          "json_path": "contacts.project_director.name.suffix",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix.",
+          "constraints": "minLength 1, maxLength 10"
         },
         {
           "kind": "field",
@@ -522,114 +534,17 @@
           "constraints": "minLength 1, maxLength 45"
         },
         {
-          "kind": "section",
-          "label": "Address",
-          "children": [
-            {
-              "kind": "field",
-              "id": "project-director-address-street1",
-              "label": "Street 1",
-              "type": "Text input",
-              "dat_field": "7-12",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Street1",
-              "json_path": "contacts.project_director.address.street1",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the first line of the street address.",
-              "constraints": "minLength 1, maxLength 55"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-address-street2",
-              "label": "Street 2",
-              "type": "Text input",
-              "dat_field": "7-13",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Street2",
-              "json_path": "contacts.project_director.address.street2",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the second line of the street address.",
-              "constraints": "minLength 1, maxLength 55"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-address-city",
-              "label": "City",
-              "type": "Text input",
-              "dat_field": "7-14",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:City",
-              "json_path": "contacts.project_director.address.city",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the city.",
-              "constraints": "minLength 1, maxLength 35"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-address-county",
-              "label": "County/Parish",
-              "type": "Text input",
-              "dat_field": "7-15",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:County",
-              "json_path": "contacts.project_director.address.county",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the county or parish.",
-              "constraints": "minLength 1, maxLength 30"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-address-state",
-              "label": "State",
-              "type": "Dropdown (state code list)",
-              "dat_field": "7-16",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:State",
-              "json_path": "contacts.project_director.address.state",
-              "required": "Conditional (when Country = \"USA: UNITED STATES\")",
-              "widget": "SelectWidget",
-              "help_text": "Select the state. This field is required if the country is the United States.",
-              "constraints": "StateCodeDataTypeV3 enumeration"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-address-province",
-              "label": "Province",
-              "type": "Text input",
-              "dat_field": "7-17",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Province",
-              "json_path": "contacts.project_director.address.province",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the province.",
-              "constraints": "minLength 1, maxLength 30"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-address-country",
-              "label": "Country",
-              "type": "Dropdown (country code list)",
-              "dat_field": "7-18",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Country",
-              "json_path": "contacts.project_director.address.country",
-              "required": true,
-              "widget": "SelectWidget",
-              "help_text": "Select the country.",
-              "constraints": "CountryCodeDataTypeV3 enumeration"
-            },
-            {
-              "kind": "field",
-              "id": "project-director-address-zip-code",
-              "label": "Zip / Postal Code",
-              "type": "Text input",
-              "dat_field": "7-19",
-              "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:ZipPostalCode",
-              "json_path": "contacts.project_director.address.zip_code",
-              "required": "Conditional (when Country is USA)",
-              "widget": "TextWidget",
-              "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
-              "constraints": "minLength 1, maxLength 30"
-            }
-          ]
+          "kind": "field",
+          "id": "project-director-email",
+          "label": "Email",
+          "type": "Text input",
+          "dat_field": "7-09",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Email",
+          "json_path": "contacts.project_director.email",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the email address.",
+          "constraints": "maxLength 60, format email"
         },
         {
           "kind": "field",
@@ -659,105 +574,191 @@
         },
         {
           "kind": "field",
-          "id": "project-director-email",
-          "label": "Email",
+          "id": "project-director-address-street1",
+          "label": "Street 1",
           "type": "Text input",
-          "dat_field": "7-09",
-          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Email",
-          "json_path": "contacts.project_director.email",
+          "dat_field": "7-12",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Street1",
+          "json_path": "contacts.project_director.address.street1",
           "required": true,
           "widget": "TextWidget",
-          "help_text": "Enter the email address.",
-          "constraints": "maxLength 60, format email"
+          "help_text": "Enter the first line of the street address.",
+          "constraints": "minLength 1, maxLength 55"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-address-street2",
+          "label": "Street 2",
+          "type": "Text input",
+          "dat_field": "7-13",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Street2",
+          "json_path": "contacts.project_director.address.street2",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the street address.",
+          "constraints": "minLength 1, maxLength 55"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-address-city",
+          "label": "City",
+          "type": "Text input",
+          "dat_field": "7-14",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:City",
+          "json_path": "contacts.project_director.address.city",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the city.",
+          "constraints": "minLength 1, maxLength 35"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-address-county",
+          "label": "County/Parish",
+          "type": "Text input",
+          "dat_field": "7-15",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:County",
+          "json_path": "contacts.project_director.address.county",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the county or parish.",
+          "constraints": "minLength 1, maxLength 30"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-address-state",
+          "label": "State",
+          "type": "Dropdown (state code list)",
+          "dat_field": "7-16",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:State",
+          "json_path": "contacts.project_director.address.state",
+          "required": "Conditional (when Country = \"USA: UNITED STATES\")",
+          "widget": "SelectWidget",
+          "help_text": "Select the state. This field is required if the country is the United States.",
+          "constraints": "StateCodeDataTypeV3 enumeration"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-address-province",
+          "label": "Province",
+          "type": "Text input",
+          "dat_field": "7-17",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Province",
+          "json_path": "contacts.project_director.address.province",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the province.",
+          "constraints": "minLength 1, maxLength 30"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-address-country",
+          "label": "Country",
+          "type": "Dropdown (country code list)",
+          "dat_field": "7-18",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:Country",
+          "json_path": "contacts.project_director.address.country",
+          "required": true,
+          "widget": "SelectWidget",
+          "help_text": "Select the country.",
+          "constraints": "CountryCodeDataTypeV3 enumeration"
+        },
+        {
+          "kind": "field",
+          "id": "project-director-address-zip-code",
+          "label": "Zip / Postal Code",
+          "type": "Text input",
+          "dat_field": "7-19",
+          "xml_path": "SF424_Short_3_0:ProjectDirectorGroup/globLib:Address/globLib:ZipPostalCode",
+          "json_path": "contacts.project_director.address.zip_code",
+          "required": "Conditional (when Country is USA)",
+          "widget": "TextWidget",
+          "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
+          "constraints": "minLength 1, maxLength 30"
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Primary Contact / Grants Administrator",
+      "label": "8. Primary Contact/Grants Administrator",
       "children": [
         {
           "kind": "field",
           "id": "same-as-project-director",
-          "label": "Same as Project Director (if checked, fill in information same as Project Director above)",
+          "label": "Same as Project Director",
           "type": "Checkbox",
           "dat_field": "8-02",
           "xml_path": "SF424_Short_3_0:SameAsProjectDirector",
           "json_path": "contacts.point_of_contact.same_as_project_director",
           "required": false,
           "widget": "CheckboxWidget",
-          "constraints": "YesNoDataType enumeration"
+          "constraints": "YesNoDataType enumeration",
+          "help_text": "If checked, enter the Project Director's details from item 7 again here."
         },
         {
-          "kind": "section",
-          "label": "Name",
-          "children": [
-            {
-              "kind": "field",
-              "id": "primary-contact-name-prefix",
-              "label": "Prefix",
-              "type": "Text input",
-              "dat_field": "8-04",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:PrefixName",
-              "json_path": "contacts.point_of_contact.name.prefix",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the prefix.",
-              "constraints": "minLength 1, maxLength 10"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-name-first-name",
-              "label": "First Name",
-              "type": "Text input",
-              "dat_field": "8-05",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:FirstName",
-              "json_path": "contacts.point_of_contact.name.first_name",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the first name.",
-              "constraints": "minLength 1, maxLength 35"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-name-middle-name",
-              "label": "Middle Name",
-              "type": "Text input",
-              "dat_field": "8-06",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:MiddleName",
-              "json_path": "contacts.point_of_contact.name.middle_name",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the middle name.",
-              "constraints": "minLength 1, maxLength 25"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-name-last-name",
-              "label": "Last Name",
-              "type": "Text input",
-              "dat_field": "8-07",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:LastName",
-              "json_path": "contacts.point_of_contact.name.last_name",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the last name.",
-              "constraints": "minLength 1, maxLength 60"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-name-suffix",
-              "label": "Suffix",
-              "type": "Text input",
-              "dat_field": "8-08",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:SuffixName",
-              "json_path": "contacts.point_of_contact.name.suffix",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the suffix.",
-              "constraints": "minLength 1, maxLength 10"
-            }
-          ]
+          "kind": "field",
+          "id": "primary-contact-name-prefix",
+          "label": "Prefix",
+          "type": "Text input",
+          "dat_field": "8-04",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:PrefixName",
+          "json_path": "contacts.point_of_contact.name.prefix",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the prefix.",
+          "constraints": "minLength 1, maxLength 10"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-name-first-name",
+          "label": "First Name",
+          "type": "Text input",
+          "dat_field": "8-05",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:FirstName",
+          "json_path": "contacts.point_of_contact.name.first_name",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the first name.",
+          "constraints": "minLength 1, maxLength 35"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-name-middle-name",
+          "label": "Middle Name",
+          "type": "Text input",
+          "dat_field": "8-06",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:MiddleName",
+          "json_path": "contacts.point_of_contact.name.middle_name",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the middle name.",
+          "constraints": "minLength 1, maxLength 25"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-name-last-name",
+          "label": "Last Name",
+          "type": "Text input",
+          "dat_field": "8-07",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:LastName",
+          "json_path": "contacts.point_of_contact.name.last_name",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the last name.",
+          "constraints": "minLength 1, maxLength 60"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-name-suffix",
+          "label": "Suffix",
+          "type": "Text input",
+          "dat_field": "8-08",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Name/globLib:SuffixName",
+          "json_path": "contacts.point_of_contact.name.suffix",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the suffix.",
+          "constraints": "minLength 1, maxLength 10"
         },
         {
           "kind": "field",
@@ -773,114 +774,17 @@
           "constraints": "minLength 1, maxLength 45"
         },
         {
-          "kind": "section",
-          "label": "Address",
-          "children": [
-            {
-              "kind": "field",
-              "id": "primary-contact-address-street1",
-              "label": "Street 1",
-              "type": "Text input",
-              "dat_field": "8-13",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Street1",
-              "json_path": "contacts.point_of_contact.address.street1",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the first line of the street address.",
-              "constraints": "minLength 1, maxLength 55"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-address-street2",
-              "label": "Street 2",
-              "type": "Text input",
-              "dat_field": "8-14",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Street2",
-              "json_path": "contacts.point_of_contact.address.street2",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the second line of the street address.",
-              "constraints": "minLength 1, maxLength 55"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-address-city",
-              "label": "City",
-              "type": "Text input",
-              "dat_field": "8-15",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:City",
-              "json_path": "contacts.point_of_contact.address.city",
-              "required": true,
-              "widget": "TextWidget",
-              "help_text": "Enter the city.",
-              "constraints": "minLength 1, maxLength 35"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-address-county",
-              "label": "County/Parish",
-              "type": "Text input",
-              "dat_field": "8-16",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:County",
-              "json_path": "contacts.point_of_contact.address.county",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the county or parish.",
-              "constraints": "minLength 1, maxLength 30"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-address-state",
-              "label": "State",
-              "type": "Dropdown (state code list)",
-              "dat_field": "8-17",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:State",
-              "json_path": "contacts.point_of_contact.address.state",
-              "required": "Conditional (when Country = \"USA: UNITED STATES\")",
-              "widget": "SelectWidget",
-              "help_text": "Select the state. This field is required if the country is the United States.",
-              "constraints": "StateCodeDataTypeV3 enumeration"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-address-province",
-              "label": "Province",
-              "type": "Text input",
-              "dat_field": "8-18",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Province",
-              "json_path": "contacts.point_of_contact.address.province",
-              "required": false,
-              "widget": "TextWidget",
-              "help_text": "Enter the province.",
-              "constraints": "minLength 1, maxLength 30"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-address-country",
-              "label": "Country",
-              "type": "Dropdown (country code list)",
-              "dat_field": "8-19",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Country",
-              "json_path": "contacts.point_of_contact.address.country",
-              "required": true,
-              "widget": "SelectWidget",
-              "help_text": "Select the country.",
-              "constraints": "CountryCodeDataTypeV3 enumeration"
-            },
-            {
-              "kind": "field",
-              "id": "primary-contact-address-zip-code",
-              "label": "Zip / Postal Code",
-              "type": "Text input",
-              "dat_field": "8-20",
-              "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:ZipPostalCode",
-              "json_path": "contacts.point_of_contact.address.zip_code",
-              "required": "Conditional (when Country is USA)",
-              "widget": "TextWidget",
-              "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
-              "constraints": "minLength 1, maxLength 30"
-            }
-          ]
+          "kind": "field",
+          "id": "primary-contact-email",
+          "label": "Email",
+          "type": "Text input",
+          "dat_field": "8-10",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Email",
+          "json_path": "contacts.point_of_contact.email",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the email address.",
+          "constraints": "maxLength 60, format email"
         },
         {
           "kind": "field",
@@ -910,22 +814,113 @@
         },
         {
           "kind": "field",
-          "id": "primary-contact-email",
-          "label": "Email",
+          "id": "primary-contact-address-street1",
+          "label": "Street 1",
           "type": "Text input",
-          "dat_field": "8-10",
-          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Email",
-          "json_path": "contacts.point_of_contact.email",
+          "dat_field": "8-13",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Street1",
+          "json_path": "contacts.point_of_contact.address.street1",
           "required": true,
           "widget": "TextWidget",
-          "help_text": "Enter the email address.",
-          "constraints": "maxLength 60, format email"
+          "help_text": "Enter the first line of the street address.",
+          "constraints": "minLength 1, maxLength 55"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-address-street2",
+          "label": "Street 2",
+          "type": "Text input",
+          "dat_field": "8-14",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Street2",
+          "json_path": "contacts.point_of_contact.address.street2",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the second line of the street address.",
+          "constraints": "minLength 1, maxLength 55"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-address-city",
+          "label": "City",
+          "type": "Text input",
+          "dat_field": "8-15",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:City",
+          "json_path": "contacts.point_of_contact.address.city",
+          "required": true,
+          "widget": "TextWidget",
+          "help_text": "Enter the city.",
+          "constraints": "minLength 1, maxLength 35"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-address-county",
+          "label": "County/Parish",
+          "type": "Text input",
+          "dat_field": "8-16",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:County",
+          "json_path": "contacts.point_of_contact.address.county",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the county or parish.",
+          "constraints": "minLength 1, maxLength 30"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-address-state",
+          "label": "State",
+          "type": "Dropdown (state code list)",
+          "dat_field": "8-17",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:State",
+          "json_path": "contacts.point_of_contact.address.state",
+          "required": "Conditional (when Country = \"USA: UNITED STATES\")",
+          "widget": "SelectWidget",
+          "help_text": "Select the state. This field is required if the country is the United States.",
+          "constraints": "StateCodeDataTypeV3 enumeration"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-address-province",
+          "label": "Province",
+          "type": "Text input",
+          "dat_field": "8-18",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Province",
+          "json_path": "contacts.point_of_contact.address.province",
+          "required": false,
+          "widget": "TextWidget",
+          "help_text": "Enter the province.",
+          "constraints": "minLength 1, maxLength 30"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-address-country",
+          "label": "Country",
+          "type": "Dropdown (country code list)",
+          "dat_field": "8-19",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:Country",
+          "json_path": "contacts.point_of_contact.address.country",
+          "required": true,
+          "widget": "SelectWidget",
+          "help_text": "Select the country.",
+          "constraints": "CountryCodeDataTypeV3 enumeration"
+        },
+        {
+          "kind": "field",
+          "id": "primary-contact-address-zip-code",
+          "label": "Zip / Postal Code",
+          "type": "Text input",
+          "dat_field": "8-20",
+          "xml_path": "SF424_Short_3_0:ContactPersonGroup/globLib:Address/globLib:ZipPostalCode",
+          "json_path": "contacts.point_of_contact.address.zip_code",
+          "required": "Conditional (when Country is USA)",
+          "widget": "TextWidget",
+          "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
+          "constraints": "minLength 1, maxLength 30"
         }
       ]
     },
     {
       "kind": "section",
-      "label": "Certification",
+      "label": "9. Authorized Representative",
       "children": [
         {
           "kind": "field",
@@ -939,13 +934,7 @@
           "widget": "CheckboxWidget",
           "help_text": "Check to select. This field is required.",
           "constraints": "enum [\"Y: Yes\"]"
-        }
-      ]
-    },
-    {
-      "kind": "section",
-      "label": "Authorized Representative",
-      "children": [
+        },
         {
           "kind": "field",
           "id": "authorized-representative-name-prefix",
@@ -1066,7 +1055,7 @@
         {
           "kind": "field",
           "id": "signature",
-          "label": "Signature",
+          "label": "Signature of Authorized Representative",
           "type": "Text input",
           "dat_field": "9-14",
           "xml_path": "SF424_Short_3_0:AuthorizedRepresentativeSignature",

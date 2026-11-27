@@ -98,12 +98,15 @@ export const numberInSection = (
 });
 
 /** A lettered label written with its full item number, such as "8a. Legal Name". */
-export const fullItemNumber = (plan: string, source: string): Pinned => ({
+export const fullItemNumber = (
+  plan: string,
+  source: string,
+  also?: string,
+): Pinned => ({
   plan,
   source,
   category: "intentional",
-  reason:
-    "The label includes the item number with the letter (8a, not a.), so it makes sense on its own in the error list. The DAT prints the number only on the item's heading.",
+  reason: `The label includes the item number with the letter (8a, not a.), so it makes sense on its own in the error list. The DAT prints the number only on the item's heading.${also ? ` ${also}` : ""}`,
 });
 
 /** The DAT's I Agree label, whose "**" points to the footnote about the certifications list. */

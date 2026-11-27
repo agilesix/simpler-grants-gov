@@ -41,11 +41,11 @@
   "children": [
     {
       "kind": "section",
-      "label": "Submission Information",
+      "label": "1. Type of Submission",
       "children": [
         {
           "kind": "field",
-          "label": "Type of Submission",
+          "label": "1a. Type of Submission",
           "dat_field": "01a-1",
           "required": true,
           "type": "Dropdown",
@@ -58,7 +58,7 @@
         },
         {
           "kind": "field",
-          "label": "Type of Submission - Other (specify)",
+          "label": "Other (specify)",
           "dat_field": "01a-6",
           "required": "Conditional (required when its controlling answer enables this field)",
           "type": "Textarea",
@@ -71,7 +71,7 @@
         },
         {
           "kind": "field",
-          "label": "Frequency",
+          "label": "1b. Frequency",
           "dat_field": "01b-1",
           "required": true,
           "type": "Dropdown",
@@ -84,7 +84,7 @@
         },
         {
           "kind": "field",
-          "label": "Frequency - Other (specify)",
+          "label": "Other (specify)",
           "dat_field": "01b-5",
           "required": "Conditional (required when its controlling answer enables this field)",
           "type": "Textarea",
@@ -97,7 +97,7 @@
         },
         {
           "kind": "field",
-          "label": "Consolidated Application/Plan/Funding Request?",
+          "label": "1c. Consolidated Application/Plan/Funding Request?",
           "dat_field": "01c-1",
           "required": false,
           "type": "Radio group",
@@ -110,7 +110,7 @@
         },
         {
           "kind": "field",
-          "label": "Consolidated Request Explanation",
+          "label": "Consolidated Application/Plan/Funding Request Explanation",
           "dat_field": "01c-5",
           "required": "Conditional (required when its controlling answer enables this field)",
           "type": "Textarea",
@@ -123,7 +123,7 @@
         },
         {
           "kind": "field",
-          "label": "Version",
+          "label": "1d. Version",
           "dat_field": "01d-1",
           "required": true,
           "type": "Dropdown",
@@ -138,7 +138,7 @@
     },
     {
       "kind": "section",
-      "label": "Dates",
+      "label": "2. Date Received",
       "children": [
         {
           "kind": "field",
@@ -153,7 +153,64 @@
           "xml_path": "SF424_Mandatory_3_0:ReceivedDate",
           "post_populated": "SGG supplies the current date on submission.",
           "id": "received-date"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "3. Applicant Identifier",
+      "children": [
+        {
+          "kind": "field",
+          "label": "Applicant Identifier",
+          "dat_field": "03-1",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "If you wish to use a unique identification number for your own purposes, enter it here.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "application.applicant_id",
+          "xml_path": "SF424_Mandatory_3_0:ApplicantID",
+          "id": "applicant-id"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "4. Federal Identifiers",
+      "children": [
+        {
+          "kind": "field",
+          "label": "4a. Federal Entity Identifier",
+          "dat_field": "04a-1",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the number assigned to your organization by the Federal agency.",
+          "constraints": "minLength 1, maxLength 30",
+          "json_path": "application.federal_entity_identifier",
+          "xml_path": "SF424_Mandatory_3_0:FederalEntityID",
+          "id": "federal-entity-id"
         },
+        {
+          "kind": "field",
+          "label": "4b. Federal Award Identifier",
+          "dat_field": "04b-1",
+          "required": false,
+          "type": "Text input",
+          "widget": "TextWidget",
+          "help_text": "Enter the award number previously assigned by the Federal agency, if any.",
+          "constraints": "minLength 1, maxLength 25",
+          "json_path": "application.federal_award_identifier",
+          "xml_path": "SF424_Mandatory_3_0:FederalAwardID",
+          "id": "federal-award-id"
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "5. Date Received by State",
+      "children": [
         {
           "kind": "field",
           "label": "Date Received by State",
@@ -171,47 +228,8 @@
     },
     {
       "kind": "section",
-      "label": "Identifiers",
+      "label": "6. State Application Identifier",
       "children": [
-        {
-          "kind": "field",
-          "label": "Applicant Identifier",
-          "dat_field": "03-1",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "If you wish to use a unique identification number for your own purposes, enter it here.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "application.applicant_id",
-          "xml_path": "SF424_Mandatory_3_0:ApplicantID",
-          "id": "applicant-id"
-        },
-        {
-          "kind": "field",
-          "label": "Federal Entity Identifier",
-          "dat_field": "04a-1",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the number assigned to your organization by the Federal agency.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "application.federal_entity_identifier",
-          "xml_path": "SF424_Mandatory_3_0:FederalEntityID",
-          "id": "federal-entity-id"
-        },
-        {
-          "kind": "field",
-          "label": "Federal Award Identifier",
-          "dat_field": "04b-1",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the award number previously assigned by the Federal agency, if any.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "application.federal_award_identifier",
-          "xml_path": "SF424_Mandatory_3_0:FederalAwardID",
-          "id": "federal-award-id"
-        },
         {
           "kind": "field",
           "label": "State Application Identifier",
@@ -229,11 +247,11 @@
     },
     {
       "kind": "section",
-      "label": "Applicant Organization",
+      "label": "7. Applicant Information",
       "children": [
         {
           "kind": "field",
-          "label": "Legal Name",
+          "label": "7a. Legal Name",
           "dat_field": "07a-1",
           "required": true,
           "type": "Text input",
@@ -246,7 +264,7 @@
         },
         {
           "kind": "field",
-          "label": "EIN/TIN",
+          "label": "7b. Employer/Taxpayer Identification Number (EIN/TIN)",
           "dat_field": "07b-1",
           "required": true,
           "type": "Text input",
@@ -259,7 +277,7 @@
         },
         {
           "kind": "field",
-          "label": "UEI",
+          "label": "7c. UEI",
           "dat_field": "07c-1",
           "required": true,
           "type": "Text input",
@@ -272,138 +290,292 @@
           "id": "uei"
         },
         {
-          "kind": "field",
-          "label": "Street 1",
-          "dat_field": "07d-2",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the first line of the street address.",
-          "constraints": "minLength 1, maxLength 55",
-          "json_path": "applicant.organization.address.street1",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Street1",
-          "id": "street1"
+          "kind": "section",
+          "label": "7d. Address",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Street 1",
+              "dat_field": "07d-2",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the first line of the street address.",
+              "constraints": "minLength 1, maxLength 55",
+              "json_path": "applicant.organization.address.street1",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Street1",
+              "id": "street1"
+            },
+            {
+              "kind": "field",
+              "label": "Street 2",
+              "dat_field": "07d-3",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the second line of the street address.",
+              "constraints": "minLength 1, maxLength 55",
+              "json_path": "applicant.organization.address.street2",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Street2",
+              "id": "street2"
+            },
+            {
+              "kind": "field",
+              "label": "City",
+              "dat_field": "07d-4",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the city.",
+              "constraints": "minLength 1, maxLength 35",
+              "json_path": "applicant.organization.address.city",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:City",
+              "id": "city"
+            },
+            {
+              "kind": "field",
+              "label": "County/Parish",
+              "dat_field": "07d-5",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the county or parish.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "applicant.organization.address.county",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:County",
+              "id": "county"
+            },
+            {
+              "kind": "field",
+              "label": "State",
+              "dat_field": "07d-6",
+              "required": "No (conditionally required when Country = USA)",
+              "type": "Dropdown",
+              "widget": "SelectWidget",
+              "help_text": "Select the state. This field is required if the country is the United States.",
+              "constraints": "StateCodeDataTypeV3",
+              "json_path": "applicant.organization.address.state",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:State",
+              "id": "state"
+            },
+            {
+              "kind": "field",
+              "label": "Province",
+              "dat_field": "07d-7",
+              "required": "No (enabled when Country != USA)",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the province.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "applicant.organization.address.province",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Province",
+              "id": "province"
+            },
+            {
+              "kind": "field",
+              "label": "Country",
+              "dat_field": "07d-8",
+              "required": true,
+              "type": "Dropdown",
+              "widget": "SelectWidget",
+              "help_text": "Select the country.",
+              "constraints": "CountryCodeDataTypeV3",
+              "json_path": "applicant.organization.address.country",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Country",
+              "id": "country"
+            },
+            {
+              "kind": "field",
+              "label": "Zip / Postal Code",
+              "dat_field": "07d-9",
+              "required": "No (conditionally required when Country = USA per DAT)",
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "applicant.organization.address.zip_code",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:ZipPostalCode",
+              "id": "zip-code"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "Street 2",
-          "dat_field": "07d-3",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the second line of the street address.",
-          "constraints": "minLength 1, maxLength 55",
-          "json_path": "applicant.organization.address.street2",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Street2",
-          "id": "street2"
+          "kind": "section",
+          "label": "7e. Organizational Unit",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Department Name",
+              "dat_field": "07e-2",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of primary organizational department, service, laboratory, or equivalent level within the organization which will undertake the assistance activity.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "applicant.organization.department",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:DepartmentName",
+              "id": "department"
+            },
+            {
+              "kind": "field",
+              "label": "Division Name",
+              "dat_field": "07e-3",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity.",
+              "constraints": "minLength 1, maxLength 30",
+              "json_path": "applicant.organization.division",
+              "xml_path": "SF424_Mandatory_3_0:Organization/globLib:DivisionName",
+              "id": "division"
+            }
+          ]
         },
         {
-          "kind": "field",
-          "label": "City",
-          "dat_field": "07d-4",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the city.",
-          "constraints": "minLength 1, maxLength 35",
-          "json_path": "applicant.organization.address.city",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:City",
-          "id": "city"
-        },
+          "kind": "section",
+          "label": "7f. Contact Person",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Prefix",
+              "dat_field": "07f-02",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the prefix.",
+              "constraints": "minLength 1, maxLength 10",
+              "json_path": "contacts.point_of_contact.name.prefix",
+              "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:PrefixName",
+              "id": "contact-name-prefix"
+            },
+            {
+              "kind": "field",
+              "label": "First Name",
+              "dat_field": "07f-03",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the first name.",
+              "constraints": "minLength 1, maxLength 35",
+              "json_path": "contacts.point_of_contact.name.first_name",
+              "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:FirstName",
+              "id": "contact-name-first-name"
+            },
+            {
+              "kind": "field",
+              "label": "Middle Name",
+              "dat_field": "07f-04",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the middle name.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.point_of_contact.name.middle_name",
+              "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:MiddleName",
+              "id": "contact-name-middle-name"
+            },
+            {
+              "kind": "field",
+              "label": "Last Name",
+              "dat_field": "07f-05",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the last name.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "contacts.point_of_contact.name.last_name",
+              "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:LastName",
+              "id": "contact-name-last-name"
+            },
+            {
+              "kind": "field",
+              "label": "Suffix",
+              "dat_field": "07f-06",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the suffix.",
+              "constraints": "minLength 1, maxLength 10",
+              "json_path": "contacts.point_of_contact.name.suffix",
+              "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:SuffixName",
+              "id": "contact-name-suffix"
+            },
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "07f-07",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "contacts.point_of_contact.title",
+              "xml_path": "SF424_Mandatory_3_0:ContactTitle",
+              "id": "contact-title"
+            },
+            {
+              "kind": "field",
+              "label": "Organizational Affiliation",
+              "dat_field": "07f-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the organization the person is affiliated with.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "contacts.point_of_contact.organization.name",
+              "xml_path": "SF424_Mandatory_3_0:ContactOrganizationalAffiliation",
+              "id": "contact-organizational-affiliation"
+            },
+            {
+              "kind": "field",
+              "label": "Phone Number",
+              "dat_field": "07f-09",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the daytime telephone number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.point_of_contact.phone",
+              "xml_path": "SF424_Mandatory_3_0:ContactPhoneNumber",
+              "id": "contact-phone"
+            },
+            {
+              "kind": "field",
+              "label": "Fax Number",
+              "dat_field": "07f-10",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the fax number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.point_of_contact.fax",
+              "xml_path": "SF424_Mandatory_3_0:ContactFax",
+              "id": "contact-fax"
+            },
+            {
+              "kind": "field",
+              "label": "Email",
+              "dat_field": "07f-11",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter a valid email address.",
+              "constraints": "maxLength 60, format email",
+              "json_path": "contacts.point_of_contact.email",
+              "xml_path": "SF424_Mandatory_3_0:ContactEmail",
+              "id": "contact-email"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "8. Type of Applicant",
+      "children": [
         {
           "kind": "field",
-          "label": "County/Parish",
-          "dat_field": "07d-5",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the county or parish.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.organization.address.county",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:County",
-          "id": "county"
-        },
-        {
-          "kind": "field",
-          "label": "State",
-          "dat_field": "07d-6",
-          "required": "No (conditionally required when Country = USA)",
-          "type": "Dropdown",
-          "widget": "SelectWidget",
-          "help_text": "Select the state. This field is required if the country is the United States.",
-          "constraints": "StateCodeDataTypeV3",
-          "json_path": "applicant.organization.address.state",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:State",
-          "id": "state"
-        },
-        {
-          "kind": "field",
-          "label": "Province",
-          "dat_field": "07d-7",
-          "required": "No (enabled when Country != USA)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the province.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.organization.address.province",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Province",
-          "id": "province"
-        },
-        {
-          "kind": "field",
-          "label": "Country",
-          "dat_field": "07d-8",
-          "required": true,
-          "type": "Dropdown",
-          "widget": "SelectWidget",
-          "help_text": "Select the country.",
-          "constraints": "CountryCodeDataTypeV3",
-          "json_path": "applicant.organization.address.country",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:Country",
-          "id": "country"
-        },
-        {
-          "kind": "field",
-          "label": "Zip / Postal Code",
-          "dat_field": "07d-9",
-          "required": "No (conditionally required when Country = USA per DAT)",
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the zip / postal code. A US ZIP code needs all nine digits (ZIP+4), and is required.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.organization.address.zip_code",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:Address/globLib:ZipPostalCode",
-          "id": "zip-code"
-        },
-        {
-          "kind": "field",
-          "label": "Department Name",
-          "dat_field": "07e-2",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of primary organizational department, service, laboratory, or equivalent level within the organization which will undertake the assistance activity.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.organization.department",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:DepartmentName",
-          "id": "department"
-        },
-        {
-          "kind": "field",
-          "label": "Division Name",
-          "dat_field": "07e-3",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the name of primary organizational division, office, or major subdivision which will undertake the assistance activity.",
-          "constraints": "minLength 1, maxLength 30",
-          "json_path": "applicant.organization.division",
-          "xml_path": "SF424_Mandatory_3_0:Organization/globLib:DivisionName",
-          "id": "division"
-        },
-        {
-          "kind": "field",
-          "label": "Type of Applicant",
+          "label": "8a. Type of Applicant",
           "dat_field": "08a-1",
           "required": true,
           "type": "Dropdown",
@@ -429,7 +601,7 @@
         },
         {
           "kind": "field",
-          "label": "Additional Description",
+          "label": "8b. Additional Description",
           "dat_field": "08b-3",
           "required": false,
           "type": "Textarea",
@@ -444,143 +616,7 @@
     },
     {
       "kind": "section",
-      "label": "Contact Person",
-      "children": [
-        {
-          "kind": "field",
-          "label": "Prefix",
-          "dat_field": "07f-02",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the prefix.",
-          "constraints": "minLength 1, maxLength 10",
-          "json_path": "contacts.point_of_contact.name.prefix",
-          "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:PrefixName",
-          "id": "contact-name-prefix"
-        },
-        {
-          "kind": "field",
-          "label": "First Name",
-          "dat_field": "07f-03",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the first name.",
-          "constraints": "minLength 1, maxLength 35",
-          "json_path": "contacts.point_of_contact.name.first_name",
-          "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:FirstName",
-          "id": "contact-name-first-name"
-        },
-        {
-          "kind": "field",
-          "label": "Middle Name",
-          "dat_field": "07f-04",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the middle name.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.point_of_contact.name.middle_name",
-          "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:MiddleName",
-          "id": "contact-name-middle-name"
-        },
-        {
-          "kind": "field",
-          "label": "Last Name",
-          "dat_field": "07f-05",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the last name.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "contacts.point_of_contact.name.last_name",
-          "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:LastName",
-          "id": "contact-name-last-name"
-        },
-        {
-          "kind": "field",
-          "label": "Suffix",
-          "dat_field": "07f-06",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the suffix.",
-          "constraints": "minLength 1, maxLength 10",
-          "json_path": "contacts.point_of_contact.name.suffix",
-          "xml_path": "SF424_Mandatory_3_0:ContactName/globLib:SuffixName",
-          "id": "contact-name-suffix"
-        },
-        {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "07f-07",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "contacts.point_of_contact.title",
-          "xml_path": "SF424_Mandatory_3_0:ContactTitle",
-          "id": "contact-title"
-        },
-        {
-          "kind": "field",
-          "label": "Organizational Affiliation",
-          "dat_field": "07f-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the organization the person is affiliated with.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "contacts.point_of_contact.organization.name",
-          "xml_path": "SF424_Mandatory_3_0:ContactOrganizationalAffiliation",
-          "id": "contact-organizational-affiliation"
-        },
-        {
-          "kind": "field",
-          "label": "Phone Number",
-          "dat_field": "07f-09",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the daytime telephone number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.point_of_contact.phone",
-          "xml_path": "SF424_Mandatory_3_0:ContactPhoneNumber",
-          "id": "contact-phone"
-        },
-        {
-          "kind": "field",
-          "label": "Fax Number",
-          "dat_field": "07f-10",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the fax number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.point_of_contact.fax",
-          "xml_path": "SF424_Mandatory_3_0:ContactFax",
-          "id": "contact-fax"
-        },
-        {
-          "kind": "field",
-          "label": "Email",
-          "dat_field": "07f-11",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter a valid email address.",
-          "constraints": "maxLength 60, format email",
-          "json_path": "contacts.point_of_contact.email",
-          "xml_path": "SF424_Mandatory_3_0:ContactEmail",
-          "id": "contact-email"
-        }
-      ]
-    },
-    {
-      "kind": "section",
-      "label": "Agency and Program Information",
+      "label": "9. Name of Federal Agency",
       "children": [
         {
           "kind": "field",
@@ -595,7 +631,13 @@
           "json_path": "opportunity.agency_name",
           "xml_path": "SF424_Mandatory_3_0:AgencyName",
           "id": "name"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "10. Assistance Listing",
+      "children": [
         {
           "kind": "field",
           "label": "Assistance Listing Number",
@@ -628,7 +670,7 @@
     },
     {
       "kind": "section",
-      "label": "Project Information",
+      "label": "11. Descriptive Title of Applicant's Project",
       "children": [
         {
           "kind": "field",
@@ -642,7 +684,13 @@
           "json_path": "project.title",
           "xml_path": "SF424_Mandatory_3_0:DescriptiveProjectTitle",
           "id": "project-title"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "12. Areas Affected by Funding",
+      "children": [
         {
           "kind": "field",
           "label": "Areas Affected by Funding",
@@ -660,11 +708,11 @@
     },
     {
       "kind": "section",
-      "label": "Congressional Districts",
+      "label": "13. Congressional Districts Of",
       "children": [
         {
           "kind": "field",
-          "label": "Applicant Congressional District",
+          "label": "13a. Applicant",
           "dat_field": "13a-1",
           "required": true,
           "type": "Text input",
@@ -677,7 +725,7 @@
         },
         {
           "kind": "field",
-          "label": "Program/Project Congressional District",
+          "label": "13b. Program/Project",
           "dat_field": "13b-1",
           "required": false,
           "type": "Text input",
@@ -690,12 +738,12 @@
         },
         {
           "kind": "field",
-          "label": "Additional Congressional Districts Attachment",
+          "label": "Additional Program/Project Congressional Districts",
           "dat_field": "13-c2",
           "required": false,
           "type": "File attachment",
           "widget": "ApplicationAttachmentWidget",
-          "help_text": "Attach a file listing additional congressional districts.",
+          "help_text": "Attach an additional list of Program/Project Congressional Districts if needed.",
           "constraints": "format uuid",
           "json_path": "project.additional_congressional_districts",
           "xml_path": "SF424_Mandatory_3_0:AdditionalCongressionalDistricts",
@@ -705,11 +753,11 @@
     },
     {
       "kind": "section",
-      "label": "Funding Period and Estimated Funding",
+      "label": "14. Funding Period",
       "children": [
         {
           "kind": "field",
-          "label": "Funding Period Start Date",
+          "label": "14a. Start Date",
           "dat_field": "14a-1",
           "required": true,
           "type": "Date input",
@@ -722,7 +770,7 @@
         },
         {
           "kind": "field",
-          "label": "Funding Period End Date",
+          "label": "14b. End Date",
           "dat_field": "14b-1",
           "required": true,
           "type": "Date input",
@@ -732,10 +780,16 @@
           "json_path": "budget.funding_period.end_date",
           "xml_path": "SF424_Mandatory_3_0:FundingPeriodEndDate",
           "id": "end-date"
-        },
+        }
+      ]
+    },
+    {
+      "kind": "section",
+      "label": "15. Estimated Funding",
+      "children": [
         {
           "kind": "field",
-          "label": "Estimated Funding - Federal",
+          "label": "15a. Federal",
           "dat_field": "15a-1",
           "required": true,
           "type": "Text input (dollar amount)",
@@ -748,7 +802,7 @@
         },
         {
           "kind": "field",
-          "label": "Estimated Funding - Match",
+          "label": "15b. Match",
           "dat_field": "15b-1",
           "required": false,
           "type": "Text input (dollar amount)",
@@ -763,11 +817,11 @@
     },
     {
       "kind": "section",
-      "label": "State Review",
+      "label": "16. Is Submission Subject to Review by State Under Executive Order 12372 Process?",
       "children": [
         {
           "kind": "field",
-          "label": "Is Submission Subject to Review by State Under Executive Order 12372?",
+          "label": "Is Submission Subject to Review by State Under Executive Order 12372 Process?",
           "dat_field": "16-1",
           "required": true,
           "type": "Dropdown",
@@ -780,7 +834,7 @@
         },
         {
           "kind": "field",
-          "label": "State Review Available Date",
+          "label": "State Review Date",
           "dat_field": "16-3",
           "required": "Conditional (required when its controlling answer enables this field)",
           "type": "Date input",
@@ -795,7 +849,7 @@
     },
     {
       "kind": "section",
-      "label": "Federal Debt",
+      "label": "17. Is the Applicant Delinquent on Any Federal Debt?",
       "children": [
         {
           "kind": "field",
@@ -812,7 +866,7 @@
         },
         {
           "kind": "field",
-          "label": "Federal Debt Delinquency Explanation",
+          "label": "Applicant Federal Debt Delinquency Explanation",
           "dat_field": "17-5",
           "required": "Conditional (required when its controlling answer enables this field)",
           "type": "Textarea",
@@ -827,11 +881,11 @@
     },
     {
       "kind": "section",
-      "label": "Certification",
+      "label": "18. Certification",
       "children": [
         {
           "kind": "field",
-          "label": "Application Certification (I Agree)",
+          "label": "I Agree",
           "dat_field": "18-02",
           "required": true,
           "type": "Checkbox",
@@ -841,178 +895,171 @@
           "json_path": "certification.agree",
           "xml_path": "SF424_Mandatory_3_0:ApplicationCertification",
           "id": "agree"
-        }
-      ],
-      "help_text": "18. By signing this application, I certify (1) to the statements contained in the list of certifications** and (2) that the statements herein are true, complete and accurate to the best of my knowledge. I also provide the required assurances** and agree to comply with any resulting terms if I accept an award. I am aware that any false, fictitious, or fraudulent statements or claims may subject me to criminal, civil, or administrative penalties. (U.S. Code, Title 18, Section 1001)\n\n** This list of certifications and assurances, or an internet site where you may obtain this list, is contained in the announcement or agency specific instructions."
-    },
-    {
-      "kind": "section",
-      "label": "Authorized Representative",
-      "children": [
-        {
-          "kind": "field",
-          "label": "Prefix",
-          "dat_field": "18-03a",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the prefix.",
-          "constraints": "minLength 1, maxLength 10",
-          "json_path": "contacts.authorized_representative.name.prefix",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:PrefixName",
-          "id": "authorized-representative-name-prefix"
         },
         {
-          "kind": "field",
-          "label": "First Name",
-          "dat_field": "18-03b",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the first name.",
-          "constraints": "minLength 1, maxLength 35",
-          "json_path": "contacts.authorized_representative.name.first_name",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:FirstName",
-          "id": "authorized-representative-name-first-name"
+          "kind": "section",
+          "label": "Authorized Representative",
+          "children": [
+            {
+              "kind": "field",
+              "label": "Prefix",
+              "dat_field": "18-03a",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the prefix.",
+              "constraints": "minLength 1, maxLength 10",
+              "json_path": "contacts.authorized_representative.name.prefix",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:PrefixName",
+              "id": "authorized-representative-name-prefix"
+            },
+            {
+              "kind": "field",
+              "label": "First Name",
+              "dat_field": "18-03b",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the first name.",
+              "constraints": "minLength 1, maxLength 35",
+              "json_path": "contacts.authorized_representative.name.first_name",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:FirstName",
+              "id": "authorized-representative-name-first-name"
+            },
+            {
+              "kind": "field",
+              "label": "Middle Name",
+              "dat_field": "18-03c",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the middle name.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.authorized_representative.name.middle_name",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:MiddleName",
+              "id": "authorized-representative-name-middle-name"
+            },
+            {
+              "kind": "field",
+              "label": "Last Name",
+              "dat_field": "18-03d",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the last name.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "contacts.authorized_representative.name.last_name",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:LastName",
+              "id": "authorized-representative-name-last-name"
+            },
+            {
+              "kind": "field",
+              "label": "Suffix",
+              "dat_field": "18-03e",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the suffix.",
+              "constraints": "minLength 1, maxLength 10",
+              "json_path": "contacts.authorized_representative.name.suffix",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:SuffixName",
+              "id": "authorized-representative-name-suffix"
+            },
+            {
+              "kind": "field",
+              "label": "Title",
+              "dat_field": "18-05",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the position title.",
+              "constraints": "minLength 1, maxLength 45",
+              "json_path": "contacts.authorized_representative.title",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeTitle",
+              "id": "authorized-representative-title"
+            },
+            {
+              "kind": "field",
+              "label": "Organizational Affiliation",
+              "dat_field": "18-06",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the organization the person is affiliated with.",
+              "constraints": "minLength 1, maxLength 60",
+              "json_path": "contacts.authorized_representative.organization.name",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeOrganizationalAffiliation",
+              "id": "authorized-representative-organizational-affiliation"
+            },
+            {
+              "kind": "field",
+              "label": "Phone Number",
+              "dat_field": "18-07",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the daytime telephone number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.authorized_representative.phone",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativePhoneNumber",
+              "id": "authorized-representative-phone"
+            },
+            {
+              "kind": "field",
+              "label": "Fax Number",
+              "dat_field": "18-08",
+              "required": false,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter the fax number.",
+              "constraints": "minLength 1, maxLength 25",
+              "json_path": "contacts.authorized_representative.fax",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeFax",
+              "id": "authorized-representative-fax"
+            },
+            {
+              "kind": "field",
+              "label": "Email",
+              "dat_field": "18-09",
+              "required": true,
+              "type": "Text input",
+              "widget": "TextWidget",
+              "help_text": "Enter a valid email address.",
+              "constraints": "maxLength 60, format email",
+              "json_path": "contacts.authorized_representative.email",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeEmail",
+              "id": "authorized-representative-email"
+            },
+            {
+              "kind": "field",
+              "label": "Signature of Authorized Representative",
+              "dat_field": "18-10",
+              "required": false,
+              "type": "Text input (read-only, system-generated)",
+              "widget": "TextWidget",
+              "help_text": "Completed by Grants.gov upon submission.",
+              "constraints": "minLength 1, maxLength 144",
+              "json_path": "certification.signature",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeSignature",
+              "post_populated": "SGG supplies the signature on submission.",
+              "id": "signature"
+            },
+            {
+              "kind": "field",
+              "label": "Date Signed",
+              "dat_field": "18-11",
+              "required": false,
+              "type": "Date input (read-only, system-generated)",
+              "widget": "TextWidget",
+              "help_text": "Completed by Grants.gov upon submission.",
+              "constraints": "format date",
+              "json_path": "certification.date_signed",
+              "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeSignatureDate",
+              "post_populated": "SGG supplies the current date on submission.",
+              "id": "date-signed"
+            }
+          ]
         },
-        {
-          "kind": "field",
-          "label": "Middle Name",
-          "dat_field": "18-03c",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the middle name.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.authorized_representative.name.middle_name",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:MiddleName",
-          "id": "authorized-representative-name-middle-name"
-        },
-        {
-          "kind": "field",
-          "label": "Last Name",
-          "dat_field": "18-03d",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the last name.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "contacts.authorized_representative.name.last_name",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:LastName",
-          "id": "authorized-representative-name-last-name"
-        },
-        {
-          "kind": "field",
-          "label": "Suffix",
-          "dat_field": "18-03e",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the suffix.",
-          "constraints": "minLength 1, maxLength 10",
-          "json_path": "contacts.authorized_representative.name.suffix",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeName/globLib:SuffixName",
-          "id": "authorized-representative-name-suffix"
-        },
-        {
-          "kind": "field",
-          "label": "Title",
-          "dat_field": "18-05",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the position title.",
-          "constraints": "minLength 1, maxLength 45",
-          "json_path": "contacts.authorized_representative.title",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeTitle",
-          "id": "authorized-representative-title"
-        },
-        {
-          "kind": "field",
-          "label": "Organizational Affiliation",
-          "dat_field": "18-06",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the organization the person is affiliated with.",
-          "constraints": "minLength 1, maxLength 60",
-          "json_path": "contacts.authorized_representative.organization.name",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeOrganizationalAffiliation",
-          "id": "authorized-representative-organizational-affiliation"
-        },
-        {
-          "kind": "field",
-          "label": "Phone Number",
-          "dat_field": "18-07",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the daytime telephone number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.authorized_representative.phone",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativePhoneNumber",
-          "id": "authorized-representative-phone"
-        },
-        {
-          "kind": "field",
-          "label": "Fax Number",
-          "dat_field": "18-08",
-          "required": false,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter the fax number.",
-          "constraints": "minLength 1, maxLength 25",
-          "json_path": "contacts.authorized_representative.fax",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeFax",
-          "id": "authorized-representative-fax"
-        },
-        {
-          "kind": "field",
-          "label": "Email",
-          "dat_field": "18-09",
-          "required": true,
-          "type": "Text input",
-          "widget": "TextWidget",
-          "help_text": "Enter a valid email address.",
-          "constraints": "maxLength 60, format email",
-          "json_path": "contacts.authorized_representative.email",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeEmail",
-          "id": "authorized-representative-email"
-        },
-        {
-          "kind": "field",
-          "label": "Signature of Authorized Representative",
-          "dat_field": "18-10",
-          "required": false,
-          "type": "Text input (read-only, system-generated)",
-          "widget": "TextWidget",
-          "help_text": "Completed by Grants.gov upon submission.",
-          "constraints": "minLength 1, maxLength 144",
-          "json_path": "certification.signature",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeSignature",
-          "post_populated": "SGG supplies the signature on submission.",
-          "id": "signature"
-        },
-        {
-          "kind": "field",
-          "label": "Date Signed",
-          "dat_field": "18-11",
-          "required": false,
-          "type": "Date input (read-only, system-generated)",
-          "widget": "TextWidget",
-          "help_text": "Completed by Grants.gov upon submission.",
-          "constraints": "format date",
-          "json_path": "certification.date_signed",
-          "xml_path": "SF424_Mandatory_3_0:AuthorizedRepresentativeSignatureDate",
-          "post_populated": "SGG supplies the current date on submission.",
-          "id": "date-signed"
-        }
-      ]
-    },
-    {
-      "kind": "section",
-      "label": "Attachments",
-      "children": [
         {
           "kind": "field",
           "label": "Supporting Documents",
