@@ -30,6 +30,8 @@ import {
   type Discrepancy,
   type Fields,
   type FormDiff,
+  type Recorded,
+  type Registers,
 } from "./model.ts";
 import { xmlFields, type XmlFormat } from "./xml.ts";
 
@@ -156,6 +158,8 @@ function joinThroughPlan(
   const toXsd = diff.xsd?.renamed ?? {};
   const left: Fields = new Map();
   const right: Fields = new Map();
+  /** Schema path -> the plan's XSD path, which plan-vs-XSD records are keyed by. */
+  const xmlPaths = new Map<string, string>();
   for (const { field } of walkFields(plan.children)) {
     if (!field.json_path || !field.xml_path) continue;
     const schemaPath = toSchema[field.json_path]?.to ?? field.json_path;
@@ -171,8 +175,9 @@ function joinThroughPlan(
         : schemaField,
     );
     right.set(schemaPath, xsdField);
+    xmlPaths.set(schemaPath, xmlPath);
   }
-  return { left, right };
+  return { left, right, xmlPaths };
 }
 
 /**
@@ -190,6 +195,21 @@ function withListedValues(plan: Plan, fields: Fields, xsd: Fields): Fields {
   }
   return fields;
 }
+
+/**
+ * The plan-vs-XSD record for a difference, if there is one. The form matches the plan, so the
+ * form's difference from the XSD is the plan's difference, with the same reason.
+ */
+const xsdRecord = (
+  diff: FormDiff,
+  register: keyof Registers,
+  key: string,
+): Recorded | undefined => {
+  const entry =
+    register === "renamed" ? undefined : diff.xsd?.[register]?.[key];
+  // Drop the pinned values: they're the plan's and the XSD's, and plan vs XSD checks them.
+  return entry && { category: entry.category, reason: entry.reason };
+};
 
 /** The plan's links from a JSON path to an element, keyed as `xmlTransformFields` keys them. */
 function planLinks(plan: Plan): Fields {
@@ -328,7 +348,20 @@ export async function formPairs(
         jsonPlan,
         uiSchemaFields(loadUiSchema(specId), schema),
       ),
-      jsonSchemaVsXsd: pair(diff.jsonSchemaVsXsd, joined.left, joined.right),
+      jsonSchemaVsXsd: {
+        ...pair(diff.jsonSchemaVsXsd, joined.left, joined.right),
+        recordedElsewhere: (d) => {
+          const key = d.recordAs?.key ?? "";
+          const at = key.lastIndexOf("/");
+          const xmlPath = joined.xmlPaths.get(key.slice(0, at));
+          // Plan vs XSD compares a code list by its type's name, not its values.
+          const keyword =
+            key.slice(at + 1) === "enum" ? "enumType" : key.slice(at + 1);
+          return xmlPath && d.recordAs
+            ? xsdRecord(diff, d.recordAs.register, `${xmlPath}/${keyword}`)
+            : undefined;
+        },
+      },
       indexLeaves: new Set(indexLeaves(loadIndex(specId))),
       xmlMapping: mapped && {
         plan: pair(diff.xmlMapping, planLinks(plan), mapped.byLink),
@@ -337,7 +370,11 @@ export async function formPairs(
           mapped.byJsonPath,
           schema,
         ),
-        xsd: pair(diff.xmlMappingVsXsd, mapped.byXmlPath, xsdSource),
+        xsd: {
+          ...pair(diff.xmlMappingVsXsd, mapped.byXmlPath, xsdSource),
+          recordedElsewhere: (d) =>
+            d.recordAs && xsdRecord(diff, d.recordAs.register, d.recordAs.key),
+        },
       },
     },
   };

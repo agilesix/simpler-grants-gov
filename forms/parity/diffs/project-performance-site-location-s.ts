@@ -219,18 +219,4 @@ export const DIFF: FormDiff = {
       },
     },
   },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "primary_site.submitting_as_individual/enum": {
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-        ...YES_NO_BOOLEAN,
-      },
-      "additional_sites[].submitting_as_individual/enum": {
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-        ...YES_NO_BOOLEAN,
-      },
-    },
-  },
 };

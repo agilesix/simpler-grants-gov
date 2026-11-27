@@ -91,30 +91,4 @@ export const DIFF: FormDiff = {
       },
     },
   },
-  jsonSchemaVsXsd: {
-    differingRules: {
-      "authorized_representative.nspires_username/minLength":
-        USERNAME_MIN_LENGTH,
-      "principal_investigator.us_government_participation/enum": {
-        ...YES_NO_BOOLEAN,
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-      },
-      "principal_investigator.international_participation/enum": {
-        ...YES_NO_BOOLEAN,
-        plan: null,
-        source: ["Y: Yes", "N: No"],
-      },
-      "principal_investigator.federal_agency_dollar/minimum": {
-        ...BUDGET_AMOUNT,
-        plan: null,
-        source: 0,
-      },
-      "principal_investigator.federal_agency_dollar/maximum": {
-        ...BUDGET_AMOUNT,
-        plan: null,
-        source: 999999999999.99,
-      },
-    },
-  },
 };

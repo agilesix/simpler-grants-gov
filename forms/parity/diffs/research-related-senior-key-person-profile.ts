@@ -83,10 +83,4 @@ export const DIFF: FormDiff = {
       "KeyPerson/Profile/Email",
     ]),
   },
-  jsonSchemaVsXsd: {
-    differingRules: emailMinLength([
-      "principal_investigator.email",
-      "senior_key_persons[].email",
-    ]),
-  },
 };

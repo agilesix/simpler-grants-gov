@@ -109,6 +109,11 @@ requiredness, like its minimum characters.
 Everything else is compared for equality, except JSON schema vs XSD: there the compiled
 schema must accept nothing the XSD rejects, but may be stricter.
 
+The form matches the plan, so a difference between the form and the XSD is the plan's
+difference from the XSD. The JSON schema vs XSD and XML mapping vs XSD comparisons accept a
+difference that plan vs XSD records for the same field and rule (a code list's values against
+its type's name), so it's recorded once, in the form's `xsd` register.
+
 The form states a code list's values, not its XSD type's name, so a plan field that names a
 code list (`StateCodeDataType enumeration`) is compared with the form by that list's values,
 read from the XSD element the plan links. A Yes/No answer the form stores as a boolean names

@@ -19,6 +19,11 @@ export interface Pair {
   wording?: Wording;
   plan: Fields;
   source: Fields;
+  /**
+   * Find the record another comparison keeps for this difference. Form-vs-XSD comparisons
+   * use it to accept what plan vs XSD records, since the form matches the plan.
+   */
+  recordedElsewhere?: (d: Discrepancy) => Recorded | undefined;
 }
 
 /** Plan path -> source path. A declared rename beats an identity match. */
@@ -279,7 +284,8 @@ function settle(pair: Pair, found: readonly Discrepancy[]): Settled {
         : undefined;
   const entryFor = (d: Discrepancy) =>
     (d.recordAs && registers[d.recordAs.register]?.[d.recordAs.key]) ??
-    wholesale(d);
+    wholesale(d) ??
+    pair.recordedElsewhere?.(d);
   const accepted: Accepted[] = [];
   const unexpected: Discrepancy[] = [];
   for (const d of found) {

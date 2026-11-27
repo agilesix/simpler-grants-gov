@@ -479,6 +479,30 @@ describe("matches field occurrences", () => {
   });
 });
 
+describe("accepts what another comparison records", () => {
+  const pair = (recorded: boolean) => ({
+    registers: {},
+    plan: fields({ a: { rules: { maxLength: 30 } } }),
+    source: fields({ a: { rules: { maxLength: 20 } } }),
+    recordedElsewhere: () => (recorded ? WHY : undefined),
+  });
+  const spec = {
+    subject: "plan",
+    constraints: { keywords: ["maxLength"], mode: "equal" },
+  } as const;
+
+  it("accepts difference the other comparison records", () => {
+    const result = comparePair(pair(true), spec);
+    expect(result.fieldConstraints).toEqual([]);
+    expect(kinds(result.recorded)).toEqual(["maxLength differs"]);
+  });
+
+  it("flags difference neither comparison records", () => {
+    const result = comparePair(pair(false), spec);
+    expect(kinds(result.fieldConstraints)).toEqual(["maxLength differs"]);
+  });
+});
+
 describe("recorded differences still exist", () => {
   it("flags entry matching no difference", () => {
     const result = compare(

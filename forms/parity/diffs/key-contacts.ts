@@ -133,5 +133,4 @@ export const DIFF: FormDiff = {
     outOfOrder: { "7-08": ROLE_FIRST, "7-09": ROLE_FIRST },
   },
   xsd: { differingRules: emailMinLength(["RoleOnProject/ContactEmail"]) },
-  jsonSchemaVsXsd: { differingRules: emailMinLength(["key_contacts[].email"]) },
 };
