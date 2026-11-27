@@ -39,6 +39,7 @@ from src.form_schema.forms import (
     SF424IndividualGenerated_v2_0,
     SF424MandatoryGenerated_v3_0,
     SF424RRGenerated_v5_0,
+    SF424RRMultiProjectCoverGenerated_v4_0,
     SF424Short_v3_0,
     SF424ShortGenerated_v3_0,
     SFLLL_v2_0,
@@ -310,6 +311,11 @@ def sf424_mandatory_generated_v3_0():
 @pytest.fixture(scope="session")
 def sf424_r_r_generated_v5_0():
     return setup_resolved_form(SF424RRGenerated_v5_0)
+
+
+@pytest.fixture(scope="session")
+def sf424_r_r_multi_project_cover_generated_v4_0():
+    return setup_resolved_form(SF424RRMultiProjectCoverGenerated_v4_0)
 
 
 @pytest.fixture(scope="session")
