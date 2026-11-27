@@ -49,7 +49,8 @@ checks ask whether what we built does what the plan says, so the artifact is the
 | XML            | JSON schema vs XSD          | JSON schema       | occurrences, constraints (the schema may be stricter)         | the plan's link         |
 
 Labels and help text are compared ignoring whitespace and case, so a DAT's "Enter the
-Middle Name." matches the question bank's "Enter the middle name.".
+Middle Name." matches the question bank's "Enter the middle name.". Some DAT rows leave
+the label blank and print the question on the Label row above, so the label check skips them.
 
 The XML mapping comparisons run only for a form with emitted rules, i.e. one whose XSD
 TypeSpec model names it with `@Mapping.from` in the `grantsGovXml` mapping. Plan vs XML mapping matches each field by its

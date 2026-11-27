@@ -104,13 +104,19 @@ export function datFields(workbook: Uint8Array): Fields {
     const maxOccurs = occurrences(row[at.maxOccurs]);
     if (maxOccurs !== undefined) rules.maxOccurs = maxOccurs;
     const required = header(row[at.required]);
+    // Some DATs leave the label blank and put the question's text on the Label row above.
+    const text = label(String(row[at.label]));
+    const unstated = [
+      ...(dollars ? (["maxLength"] as const) : []),
+      ...(text ? [] : (["label"] as const)),
+    ];
     fields.set(id, {
       order: fields.size,
-      label: label(String(row[at.label])),
+      label: text || undefined,
       help: String(row[at.help]).trim() || undefined,
       required:
         required === "yes" ? "yes" : required === "no" ? "no" : undefined,
-      ...(dollars && { unstated: ["maxLength" as const] }),
+      ...(unstated.length && { unstated }),
       rules,
     });
   }

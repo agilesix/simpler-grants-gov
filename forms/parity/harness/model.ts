@@ -105,10 +105,11 @@ export interface FlatField {
    */
   postPopulated?: boolean;
   /**
-   * Keywords this source leaves blank, such as maxLength on a DAT dollar row. The comparison
-   * skips them, since there's nothing to compare the plan's rule against.
+   * Keywords, or the label, that this source leaves blank: maxLength on a DAT dollar row, or
+   * the label on a DAT row that prints its question on the Label row above. The comparison
+   * skips them, since there's nothing to compare the plan's value against.
    */
-  unstated?: Keyword[];
+  unstated?: (Keyword | "label")[];
   rules: Rules;
 }
 

@@ -159,6 +159,18 @@ describe("datFields", () => {
     expect([...dat.keys()]).toEqual(["20-0", "21-1"]);
   });
 
+  it("marks the label as unstated when it's blank", () => {
+    const dat = datFields(
+      workbook([
+        HEADER,
+        ["14-0", "14. Areas Affected:", "", "", "", "", "Label", ""],
+        ["14-1", "", "No", "FILE", "", 1, "Single_File", "Attach a file."],
+      ]),
+    );
+    expect(dat.get("14-1")).toMatchObject({ unstated: ["label"] });
+    expect(dat.get("14-1")?.label).toBeUndefined();
+  });
+
   it("keeps asterisk on required labels", () => {
     const dat = datFields(
       workbook([

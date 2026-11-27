@@ -144,6 +144,15 @@ describe("matches field labels", () => {
     );
     expect(result.fieldLabels).toEqual([]);
   });
+
+  it("ignores a label the source leaves unstated", () => {
+    const result = compare(
+      { a: { label: "Areas Affected" } },
+      { a: { unstated: ["label"] } },
+      { labels: true },
+    );
+    expect(result.fieldLabels).toEqual([]);
+  });
 });
 
 describe("withAsterisk", () => {

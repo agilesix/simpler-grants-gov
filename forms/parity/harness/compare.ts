@@ -120,6 +120,11 @@ function textDifferences(
   const { kind, register } = TEXT[attribute];
   const found: Discrepancy[] = [];
   for (const [path, target] of matchFields(pair)) {
+    if (
+      attribute === "label" &&
+      pair.source.get(target)!.unstated?.includes("label")
+    )
+      continue;
     const plan = normalize(pair.plan.get(path)![attribute]);
     const source = normalize(pair.source.get(target)![attribute]);
     if (plan.toLowerCase() === source.toLowerCase()) continue;
